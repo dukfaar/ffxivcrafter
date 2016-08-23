@@ -2,18 +2,24 @@
 
 angular.module('mean.system').controller('HeaderController', ['$scope', '$rootScope', 'Menus', 'MeanUser', '$state',
   function($scope, $rootScope, Menus, MeanUser, $state) {
-    
+
     var vm = this;
 
     vm.menus = {};
     vm.hdrvars = {
       authenticated: MeanUser.loggedin,
-      user: MeanUser.user, 
+      user: MeanUser.user,
       isAdmin: MeanUser.isAdmin
     };
 
     // Default hard coded menu items for main menu
-    var defaultMainMenu = [];
+    var defaultMainMenu = [
+      {
+        'title':'ItemList',
+        'link':'item list',
+        'roles':['anonymous']
+      }
+    ];
 
     // Query menus added by modules. Only returns menus that user is allowed to see.
     function queryMenu(name, defaultMenu) {
