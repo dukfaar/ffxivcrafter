@@ -18,6 +18,11 @@ angular.module('mean.system').controller('HeaderController', ['$scope', '$rootSc
         'title':'ItemList',
         'link':'item list',
         'roles':['anonymous']
+      },
+      {
+        'title':'RecipeList',
+        'link':'recipe list',
+        'roles':['anonymous']
       }
     ];
 

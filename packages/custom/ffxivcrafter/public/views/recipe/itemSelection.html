@@ -1,0 +1,8 @@
+<md-dialog layout-padding>
+  {{selectItem}}
+  <md-list ng-controller="ItemController">
+    <md-list-item ng-repeat="item in itemList" ng-click="selectItem(item)">
+      {{item.name}}
+    </md-list-item>
+  </md-item-list>
+</md-dialog>

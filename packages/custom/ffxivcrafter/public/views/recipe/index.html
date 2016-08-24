@@ -1,0 +1,59 @@
+
+<md-content ng-controller="RecipeController" layout="column" layout-fill>
+
+
+<div layout="row" flex>
+  <md-card ng-repeat="recipe in recipeList" flex>
+    <md-card-content>
+      <div layout="row" layout-fill>
+          <md-list flex>
+            <md-subheader>Inputs</md-subheader>
+            <md-list-item ng-repeat="input in recipe.inputs" layout="row">
+              <span flex>{{input.item.name}}</span>
+
+              <span ng-show="!editMode">
+                Amount: {{input.amount}}
+              </span>
+              <md-input-container ng-show="editMode">
+                <label>Amount</label>
+                <input ng-model="input.amount">
+              </md-input-container>
+            </md-list-item>
+
+            <md-divider></md-divider>
+            <md-list-item>
+              <md-button ng-click="addInput(recipe)">Add Input</md-button>
+            </md-list-item>
+          </md-list>
+          <md-list flex>
+            <md-subheader>Outputs</md-subheader>
+            <md-list-item ng-repeat="output in recipe.outputs" layout="row">
+
+                <span flex>{{output.item.name}}</span>
+
+              <span ng-show="!editMode">
+                Amount: {{output.amount}}
+              </span>
+              <md-input-container ng-show="editMode">
+                <label>Amount</label>
+                <input ng-model="input.amount">
+              </md-input-container>
+            </md-list-item>
+            <md-divider></md-divider>
+            <md-list-item>
+              <md-button>Add Output</md-button>
+            </md-list-item>
+          </md-list>
+      </div>
+    </md-card-content>
+    <md-card-actions layout="row">
+      <md-button ng-click="deleteRecipe(recipe)">Delete</md-button>
+    </md-card-actions>
+  </md-card>
+</div>
+
+<md-toolbar layout="row">
+  <md-button ng-click="createRecipe()">New</md-button>
+  <md-button ng-click="toggleEditMode()">EditMode</md-button>
+</md-toolbar>
+</md-content>
