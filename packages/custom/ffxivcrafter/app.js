@@ -18,7 +18,7 @@ MeanStarter.register(function(app, users, system) {
 
   MeanStarter.routes(app,users,system);
 
-  MeanStarter.angularDependencies(['mean.system', 'mean.users']);
+  MeanStarter.angularDependencies(['mean.system', 'mean.users','ngMaterial']);
 
   return MeanStarter;
 });
