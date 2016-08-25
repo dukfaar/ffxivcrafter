@@ -1,38 +1,41 @@
+<div ng-controller="ItemController" flex>
+  <main style="overflow:auto">
+    <div flex>
+      <md-content layout="row" layout-wrap>
+        <md-card ng-repeat="item in itemList">
+          <md-card-header>
+            <md-card-header-text>
+              <span class="md-title" ng-show="!editMode">{{item.name}}</span>
+              <md-input-container ng-show="editMode">
+                <label>Item-Name</label>
+                <input ng-model="item.name" ng-change="updateItem(item)"/>
+              </md-input-container>
+            </md-card-header-text>
 
-<md-content ng-controller="ItemController" layout="column" layout-fill>
+          </md-card-header>
 
+          <md-card-content>
+            <div ng-show="!editMode">
+              <label>Market Price</label>
+              <span>{{item.price}}</span>
+            </div>
+            <md-input-container ng-show="editMode">
+              <label>Market Price</label>
+              <input ng-model="item.price" ng-change="updateItem(item)"/>
+            </md-input-container>
+          </md-card-content>
+          <md-card-actions layout="row">
+            <md-button ng-click="deleteItem(item)">Delete</md-button>
+          </md-card-actions>
+        </md-card>
+      </md-content>
+    </div>
+  </main>
 
-<div layout="row" flex>
-  <md-card ng-repeat="item in itemList" flex>
-    <md-card-header>
-      <md-card-header-text>
-        <span class="md-title" ng-show="!editMode">{{item.name}}</span>
-        <md-input-container ng-show="editMode">
-          <label>Item-Name</label>
-          <input ng-model="item.name" ng-change="updateItem(item)"/>
-        </md-input-container>
-      </md-card-header-text>
-
-    </md-card-header>
-
-    <md-card-content>
-      <div ng-show="!editMode">
-        <label>Market Price</label>
-        <span>{{item.price}}</span>
-      </div>
-      <md-input-container ng-show="editMode">
-        <label>Market Price</label>
-        <input ng-model="item.price" ng-change="updateItem(item)"/>
-      </md-input-container>
-    </md-card-content>
-    <md-card-actions layout="row">
-      <md-button ng-click="deleteItem(item)">Delete</md-button>
-    </md-card-actions>
-  </md-card>
+  <footer>
+    <md-toolbar layout="row">
+      <md-button ng-click="createItem()">New</md-button>
+      <md-button ng-click="toggleEditMode()">EditMode</md-button>
+    </md-toolbar>
+  </footer>
 </div>
-
-<md-toolbar layout="row">
-  <md-button ng-click="createItem()">New</md-button>
-  <md-button ng-click="toggleEditMode()">EditMode</md-button>
-</md-toolbar>
-</md-content>

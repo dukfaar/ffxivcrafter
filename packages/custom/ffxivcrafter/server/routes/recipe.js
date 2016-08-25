@@ -17,4 +17,7 @@ module.exports = function(myPackage,app,auth,db) {
 
   app.route('/api/recipe/:id')
   .put(recipeController.update);
+
+  app.route('/api/recipe/by_output/:id')
+  .get(recipeController.findByOutput);
 }

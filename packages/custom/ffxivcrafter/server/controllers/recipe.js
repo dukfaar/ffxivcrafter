@@ -21,7 +21,7 @@ module.exports = function() {
         res.send(result);
       });
     },
-    create: function(req,res){
+    create: function(req,res) {
       var recipe=new Recipe();
 
       recipe.save(function(err) {
@@ -30,25 +30,41 @@ module.exports = function() {
         res.json({text:'Recipe created'});
       });
     },
-    get: function(req,res){
+    get: function(req,res) {
       Recipe.findById(req.params.id,function(err,recipe) {
         if(err) throw err;
 
         res.send(recipe);
       });
     },
-    update: function(req,res){
+    update: function(req,res) {
       Recipe.findByIdAndUpdate(req.params.id,req.body,function(err,recipe) {
         if(err) throw err;
 
         res.send(recipe);
       });
     },
-    delete: function(req,res){
+    delete: function(req,res) {
       Recipe.findByIdAndRemove(req.params.id,function(err) {
         if(err) throw err;
 
         res.send({});
+      });
+    },
+    findByOutput:function(req,res) {
+      Recipe.find({'outputs.item':req.params.id})
+      .populate({
+        path:'outputs.item',
+        select: 'name'
+      })
+      .populate({
+        path:'inputs.item',
+        select: 'name'
+      })
+      .exec(function(err,result) {
+        if(err) throw err;
+
+        res.send(result);
       });
     }
   }

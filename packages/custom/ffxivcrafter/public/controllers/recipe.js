@@ -18,59 +18,46 @@ angular.module('mean.system').controller('RecipeController', ['$scope', 'Global'
       });
     };
 
-    var timeoutMap={};
     $scope.updateRecipe=function(recipe) {
+      $http.put('/api/recipe/'+recipe._id,recipe)
+      .then(function(response) {
+      });
+    };
+
+    var timeoutMap={};
+    $scope.updateRecipeTimed=function(recipe) {
       if(timeoutMap[recipe._id]) {
         clearTimeout(timeoutMap[recipe._id]);
       }
 
       timeoutMap[recipe._id]=setTimeout(function() {
-        $http.put('/api/recipe/'+recipe._id,recipe)
-        .then(function(response) {
-        });
+        $scope.updateRecipe(recipe);
       },300);
     };
 
-    $scope.showItemSelection=false;
-    $scope.selectedRecipe=null;
-    $scope.selectedItem=null;
-
-    $scope.evaluateItemSelection=null;
-
-    $scope.selectItem=function(item) {
-      console.log('miau');
-    };
+    function openItemSelectionDialog() {
+      return $mdDialog.show({
+        templateUrl: 'meanStarter/views/item/itemSelection.html',
+        parent: angular.element(document.body),
+        controller: 'ItemSelectionDialogController',
+        clickOutsideToClose: true
+      });
+    }
 
     $scope.addInput=function(recipe) {
-      $scope.showItemSelection=true;
-      $scope.selectedRecipe=recipe;
-
-      $mdDialog.show({
-        templateUrl: 'meanStarter/views/recipe/itemSelection.html',
-        parent: angular.element(document.body),
-        controller: function DialogController($scope, $mdDialog) {
-          $scope.hide = function() {
-            $mdDialog.hide();
-          };
-          $scope.cancel = function() {
-            $mdDialog.cancel();
-          };
-          $scope.selectItem = function(item) {
-            $mdDialog.hide(item);
-          };
-        },
-        clickOutsideToClose: true
-      }).then(function(item) {
-        console.log(item);
+      openItemSelectionDialog()
+      .then(function(item) {
+        recipe.inputs.push({item:item,amount:1});
+        $scope.updateRecipe(recipe);
       });
+    };
 
-      $scope.evaluateItemSelection=function() {
-        $scope.selectedRecipe.inputs.push({item:$scope.selectedItem,amount:1});
-        $scope.updateRecipe($scope.selectedRecipe);
-
-        $scope.showItemSelection=false;
-        $scope.selectedRecipe=null;
-      };
+    $scope.addOutput=function(recipe) {
+      openItemSelectionDialog()
+      .then(function(item) {
+        recipe.outputs.push({item:item,amount:1});
+        $scope.updateRecipe(recipe);
+      });
     };
 
     $scope.deleteRecipe=function(recipe) {
