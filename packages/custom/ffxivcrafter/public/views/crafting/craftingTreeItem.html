@@ -1,4 +1,8 @@
 <ul>
-  <li id="miau">{{tree.amount}} {{tree.item.name}}</li>
+  <li id="miau">
+    <span>{{tree.amount}}</span>
+    <span>{{tree.item.name}}</span>
+    <i class="material-icons"ng-show="tree.inputs.length===0 && tree.item.gatheringEffort===0" style="color:red">warning<md-tooltip>No recipe and no gathering effort defined</md-tooltip></i>
+  </li>
   <crafting-tree-item data-tree="childItem" ng-repeat="childItem in tree.inputs"></crafting-tree-item>
 </ul>
