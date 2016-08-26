@@ -18,8 +18,16 @@
           <md-card-content ng-show="selectedItem">
             <h3>{{selectedItem.name}}</h3>
             <div>
+              <span>Max revenue:</span>
+              <span>{{craftingData.tree.item.price}}</span>
+            </div>
+            <div>
               <span>Total Price of ItemList:</span>
               <span>{{craftingData.materialPrice}}</span>
+            </div>
+            <div>
+              <span>Profit if crafted from base materials:</span>
+              <span ng-style="{color: craftingData.tree.item.price-craftingData.materialPrice>0?'green':'red'}">{{craftingData.tree.item.price-craftingData.materialPrice}}</span>
             </div>
             <div>
               <span>Total Effort of ItemList:</span>
