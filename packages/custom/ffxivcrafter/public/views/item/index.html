@@ -2,7 +2,7 @@
   <main style="overflow:auto">
     <div flex>
       <md-content layout="row" layout-wrap>
-        <md-card ng-repeat="item in itemList">
+        <md-card ng-repeat="item in itemList" ng-show="!tableMode">
           <md-card-header>
             <md-card-header-text>
               <span class="md-title" ng-show="!editMode">{{item.name}}</span>
@@ -37,6 +37,38 @@
             <md-button ng-click="deleteItem(item)">Delete</md-button>
           </md-card-actions>
         </md-card>
+
+        <md-card ng-show="tableMode" style="width:100%">
+          <md-card-content>
+            <table style="width:100%" class="table table-striped item-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Effort</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr ng-repeat="item in itemList">
+                  <td style="width:80%">
+                    <span ng-show="!editMode">{{item.name}}</span>
+                      <input ng-show="editMode" ng-model="item.name" ng-change="updateItem(item)" style="width:100%"/>
+                  </td>
+                  <td style="width:10%">
+                    <span ng-show="!editMode">{{item.price}}</span>
+                      <input ng-show="editMode" ng-model="item.price" ng-change="updateItem(item)"/>
+                  </td>
+                  <td style="width:10%">
+                    <span ng-show="!editMode">{{item.gatheringEffort}}</span>
+                      <input ng-show="editMode" ng-model="item.gatheringEffort" ng-change="updateItem(item)"/>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </md-card-content>
+        </md-card>
       </md-content>
     </div>
   </main>
@@ -44,11 +76,23 @@
   <footer>
     <md-toolbar layout="row">
       <md-button ng-click="createItem()">New</md-button>
-      <md-button ng-click="toggleEditMode()">EditMode</md-button>
+      <md-switch ng-model="editMode">EditMode: {{editMode?'On':'Off'}}</md-switch>
 
+      <md-switch ng-model="tableMode">TableMode: {{tableMode?'On':'Off'}}</md-switch>
       <md-input-container md-no-float>
         <input ng-model="filter" ng-change="updateList()" placeholder="Search"></input>
       </md-input-container>
     </md-toolbar>
   </footer>
 </div>
+
+<style>
+.item-table {
+
+}
+
+.item-table input {
+  border-width:0 0 1px 0;
+  background: rgba(0,0,0,0);
+}
+</table>

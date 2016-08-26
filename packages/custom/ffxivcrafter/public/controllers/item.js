@@ -3,6 +3,7 @@
 angular.module('mean.system').controller('ItemController', ['$scope', 'Global','$http',
   function($scope, Global,$http) {
     $scope.itemList=[];
+    $scope.tableMode=false;
 
     $scope.filter="";
 
