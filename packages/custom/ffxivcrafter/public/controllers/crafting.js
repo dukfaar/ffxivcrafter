@@ -15,10 +15,20 @@ angular.module('mean.system').controller('CraftingController', ['$scope', 'Globa
 
     $scope.craftingData={};
 
-    $http.get('/api/item')
-    .then(function(response) {
-      $scope.itemList=response.data;
-    });
+    $scope.filter="";
+
+    $scope.updateList=function() {
+      var url='/api/item';
+      if($scope.filter!="")
+        url='/api/item/filteredList/'+$scope.filter;
+
+      $http.get(url)
+      .then(function(response) {
+        $scope.itemList=response.data;
+      });
+    };
+
+    $scope.updateList();
 
     $scope.selectedItem=null;
 

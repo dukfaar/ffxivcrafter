@@ -1,5 +1,8 @@
-<md-dialog layout-padding>
-  <md-list ng-controller="ItemController">
+<md-dialog layout-padding ng-controller="ItemController">
+  <md-input-container md-no-float>
+    <input ng-model="filter" ng-change="updateList()" placeholder="Search" autofocus></input>
+  </md-input-container>
+  <md-list style="overflow:auto">
     <md-list-item ng-repeat="item in itemList" ng-click="selectItem(item)">
       {{item.name}}
     </md-list-item>

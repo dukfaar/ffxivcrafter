@@ -4,8 +4,14 @@ angular.module('mean.system').controller('ItemController', ['$scope', 'Global','
   function($scope, Global,$http) {
     $scope.itemList=[];
 
+    $scope.filter="";
+
     $scope.updateList=function() {
-      $http.get('/api/item')
+      var url='/api/item';
+      if($scope.filter!="")
+        url='/api/item/filteredList/'+$scope.filter;
+
+      $http.get(url)
       .then(function(response) {
         $scope.itemList=response.data;
       });

@@ -6,7 +6,8 @@ var Schema=mongoose.Schema;
 
 var ItemSchema = new Schema({
   name: { type:String },
-  price: { type:Number, default: 0 }
+  price: { type:Number, default: 0 },
+  gatheringEffort: { type:Number, default: 0}
 });
 
 mongoose.model('Item',ItemSchema);

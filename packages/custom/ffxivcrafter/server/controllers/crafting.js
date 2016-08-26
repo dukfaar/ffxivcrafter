@@ -76,6 +76,17 @@ function getMaterialPrice(list) {
   return result;
 }
 
+function getMaterialEffort(list) {
+  var result=0;
+  Object.keys(list).forEach(function(listKey,key,_array) {
+    var material=list[listKey];
+    material.gatheringEffort=material.item.gatheringEffort*material.amount;
+    result+=material.gatheringEffort;
+  });
+
+  return result;
+}
+
 /*$http.get('/api/recipe/by_output/'+value.item._id)
 .then(function(response) {
   if(response.data.length>0) {
@@ -103,6 +114,7 @@ module.exports = function() {
 
           buildMaterialList(result.tree,result.materialList);
           result.materialPrice=getMaterialPrice(result.materialList);
+          result.materialEffort=getMaterialEffort(result.materialList);
           res.send(result);
         });
       });

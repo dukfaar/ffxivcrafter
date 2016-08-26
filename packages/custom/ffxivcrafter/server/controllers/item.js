@@ -12,6 +12,13 @@ module.exports = function() {
         res.send(result);
       });
     },
+    filteredList: function(req,res) {
+      Item.find({'name':{$regex:req.params.q,$options:'i'}},function(err,result) {
+        if(err) throw err;
+
+        res.send(result);
+      });
+    },
     create: function(req,res){
       var item=new Item();
       item.name='Sinnloser Name';
