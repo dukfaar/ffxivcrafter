@@ -1,0 +1,17 @@
+<div ng-controller="ProjectController" flex>
+  <main style="overflow:auto">
+    <div flex>
+      <md-content layout="row" layout-wrap>
+        <md-card ng-repeat="project in projectList">
+        </md-card>
+
+      </md-content>
+    </div>
+  </main>
+
+  <footer>
+    <md-toolbar layout="row">
+      <md-button ng-click="createProject()">New</md-button>
+    </md-toolbar>
+  </footer>
+</div>

@@ -21,7 +21,7 @@ module.exports = function() {
     },
     create: function(req,res){
       var item=new Item();
-      item.name='Sinnloser Name';
+      item.name='No Name';
 
       item.save(function(err) {
         if(err) res.send(err);
@@ -48,6 +48,39 @@ module.exports = function() {
         if(err) throw err;
 
         res.send({});
+      });
+    },
+    importList:function(req,res) {
+      var importData=req.body.importText.split(/\r|\n/);
+      var filteredData = importData.filter(function(elem,pos) {
+        return importData.indexOf(elem) == pos;
+      });
+
+      var newCounter=0;
+      var savedCounter=0;
+
+      filteredData.forEach(function(name) {
+        Item.findOne({name:name},function(err,item) {
+          if(err) throw err;
+
+          if(!item) {
+            console.log("trying to create "+name)
+            newCounter++;
+
+            item=new Item();
+            item.name=name;
+            item.save(function(err) {
+              if(err) throw err;
+
+              savedCounter++;
+            });
+          }
+        });
+      });
+
+      res.send({
+        newItems:newCounter,
+        savedItems:savedCounter
       });
     }
   }

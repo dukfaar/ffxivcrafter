@@ -1,15 +1,15 @@
 'use strict';
 
-angular.module('mean.system').controller('ItemController', ['$scope', 'Global','$http',
-  function($scope, Global,$http) {
+angular.module('mean.system').controller('ItemController', ['$scope', 'Global','$http', '$mdDialog',
+  function($scope, Global,$http, $mdDialog) {
     $scope.itemList=[];
     $scope.tableMode=false;
 
-    $scope.filter="";
+    $scope.filter='';
 
     $scope.updateList=function() {
       var url='/api/item';
-      if($scope.filter!="")
+      if($scope.filter!='')
         url='/api/item/filteredList/'+$scope.filter;
 
       $http.get(url)
@@ -43,13 +43,18 @@ angular.module('mean.system').controller('ItemController', ['$scope', 'Global','
       .then(function(response) {
         $scope.updateList();
       });
-    }
+    };
+
+    $scope.openImport=function() {
+      $mdDialog.show({
+        templateUrl: 'meanStarter/views/item/importDialog.html',
+        parent: angular.element(document.body),
+        controller: 'ItemImportDialogController',
+        clickOutsideToClose: true
+      });
+    };
 
     $scope.editMode=false;
-
-    $scope.toggleEditMode=function() {
-      $scope.editMode=!$scope.editMode;
-    };
 
     $scope.updateList();
   }

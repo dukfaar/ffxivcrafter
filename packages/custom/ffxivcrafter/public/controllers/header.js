@@ -28,6 +28,11 @@ angular.module('mean.system').controller('HeaderController', ['$scope', '$rootSc
         'title':'Crafting',
         'link':'crafting home',
         'roles':['anonymous']
+      },
+      {
+        'title':'Projects',
+        'link':'project list',
+        'roles':['anonymous']
       }
     ];
 

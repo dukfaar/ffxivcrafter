@@ -58,7 +58,7 @@
   <footer>
     <md-toolbar layout="row">
       <md-button ng-click="createRecipe()">New</md-button>
-      <md-button ng-click="toggleEditMode()">EditMode</md-button>
+      <md-switch ng-model="editMode">EditMode: {{editMode?'On':'Off'}}</md-switch>
     </md-toolbar>
   </footer>
 </div>

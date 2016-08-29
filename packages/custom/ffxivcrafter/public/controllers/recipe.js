@@ -69,10 +69,6 @@ angular.module('mean.system').controller('RecipeController', ['$scope', 'Global'
 
     $scope.editMode=false;
 
-    $scope.toggleEditMode=function() {
-      $scope.editMode=!$scope.editMode;
-    };
-
     $scope.updateList();
   }
 ]);

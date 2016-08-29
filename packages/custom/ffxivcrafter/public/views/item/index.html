@@ -16,12 +16,21 @@
 
           <md-card-content>
             <div ng-show="!editMode">
-              <label>Market Price</label>
+              <label>Market Price NQ</label>
               <span>{{item.price}}</span>
             </div>
             <md-input-container ng-show="editMode">
-              <label>Market Price</label>
+              <label>Market Price NQ</label>
               <input ng-model="item.price" ng-change="updateItem(item)"/>
+            </md-input-container>
+
+            <div ng-show="!editMode">
+              <label>Market Price HQ</label>
+              <span>{{item.priceHQ}}</span>
+            </div>
+            <md-input-container ng-show="editMode">
+              <label>Market Price HQ</label>
+              <input ng-model="item.priceHQ" ng-change="updateItem(item)"/>
             </md-input-container>
 
             <div ng-show="!editMode">
@@ -44,8 +53,11 @@
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Price</th>
-                  <th>Effort</th>
+                  <th>Price NQ</th>
+                  <th>Price HQ</th>
+                  <th>Gathering Job</th>
+                  <th>Gathering Effort</th>
+                  <th>Gathering Level</th>
                 </tr>
               </thead>
               <tbody>
@@ -53,15 +65,31 @@
                 <tr ng-repeat="item in itemList">
                   <td style="width:80%">
                     <span ng-show="!editMode">{{item.name}}</span>
-                      <input ng-show="editMode" ng-model="item.name" ng-change="updateItem(item)" style="width:100%"/>
+                    <input ng-show="editMode" ng-model="item.name" ng-change="updateItem(item)" style="width:100%"/>
                   </td>
                   <td style="width:10%">
                     <span ng-show="!editMode">{{item.price}}</span>
-                      <input ng-show="editMode" ng-model="item.price" ng-change="updateItem(item)"/>
+                    <input ng-show="editMode" ng-model="item.price" ng-change="updateItem(item)"/>
+                  </td>
+                  <td style="width:10%">
+                    <span ng-show="!editMode">{{item.priceHQ}}</span>
+                    <input ng-show="editMode" ng-model="item.priceHQ" ng-change="updateItem(item)"/>
+                  </td>
+                  <td style="width:10%">
+                    <span ng-show="!editMode">{{item.gatheringJob}}</span>
+                    <select ng-show="editMode" ng-model="item.gatheringJob" ng-change="updateItem(item)">
+                      <option ng-value="None">None</option>
+                      <option ng-value="Botanist">Botanist</option>
+                      <option ng-value="Miner">Miner</option>
+                    </select>
                   </td>
                   <td style="width:10%">
                     <span ng-show="!editMode">{{item.gatheringEffort}}</span>
-                      <input ng-show="editMode" ng-model="item.gatheringEffort" ng-change="updateItem(item)"/>
+                    <input ng-show="editMode" ng-model="item.gatheringEffort" ng-change="updateItem(item)" size="3"/>
+                  </td>
+                  <td style="width:10%">
+                    <span ng-show="!editMode">{{item.gatheringLevel}}</span>
+                    <input ng-show="editMode" ng-model="item.gatheringLevel" ng-change="updateItem(item)" size="3"/>
                   </td>
                 </tr>
 
@@ -82,6 +110,8 @@
       <md-input-container md-no-float>
         <input ng-model="filter" ng-change="updateList()" placeholder="Search"></input>
       </md-input-container>
+
+      <md-button ng-click="openImport()">Import</md-button>
     </md-toolbar>
   </footer>
 </div>

@@ -12,6 +12,9 @@ module.exports = function(myPackage,app,auth,db) {
   app.route('/api/item')
   .post(itemController.create);
 
+  app.route('/api/item/importList')
+  .post(itemController.importList);
+
   app.route('/api/item/:id')
   .get(itemController.get);
 
