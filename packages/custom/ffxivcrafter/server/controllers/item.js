@@ -9,7 +9,7 @@ module.exports = function() {
     var limit=parseInt(req.query.limit);
     var page=parseInt(req.query.page);
 
-    Item.count(function(err, count) {
+    Item.count(query,function(err, count) {
       var q = Item.find(query);
 
       if(limit&&limit>0) q=q.limit(limit);

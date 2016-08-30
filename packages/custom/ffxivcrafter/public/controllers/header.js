@@ -2,6 +2,9 @@
 
 angular.module('mean.system').controller('HeaderController', ['$scope', '$rootScope', 'Menus', 'MeanUser', '$state', '$mdSidenav',
   function($scope, $rootScope, Menus, MeanUser, $state, $mdSidenav) {
+    $scope.allowed=function(perm) {
+      return MeanUser.acl.allowed&&MeanUser.acl.allowed.indexOf(perm)!=-1;
+    };
 
     var vm = this;
 
@@ -9,8 +12,7 @@ angular.module('mean.system').controller('HeaderController', ['$scope', '$rootSc
     vm.hdrvars = {
       authenticated: MeanUser.loggedin,
       user: MeanUser.user,
-      isAdmin: MeanUser.isAdmin,
-      allowed: MeanUser.acl.allowed
+      isAdmin: MeanUser.isAdmin
     };
 
     // Default hard coded menu items for main menu
@@ -41,8 +43,7 @@ angular.module('mean.system').controller('HeaderController', ['$scope', '$rootSc
       vm.hdrvars = {
         authenticated: MeanUser.loggedin,
         user: MeanUser.user,
-        isAdmin: MeanUser.isAdmin,
-        allowed: MeanUser.acl.allowed
+        isAdmin: MeanUser.isAdmin
       };
     });
 
