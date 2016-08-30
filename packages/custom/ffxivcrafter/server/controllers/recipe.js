@@ -2,23 +2,35 @@
 
 var mongoose=require('mongoose');
 var Recipe = mongoose.model('Recipe');
+var Item = mongoose.model('Item');
 
 module.exports = function() {
+  var populateAndSend=function(findResult,res,req) {
+    findResult
+    .populate({
+      path:'outputs.item',
+      select: 'name'
+    })
+    .populate({
+      path:'inputs.item',
+      select: 'name'
+    })
+    .exec(function(err,result) {
+      if(err) throw err;
+
+      res.send(result);
+    });
+  };
+
   return {
     list: function(req,res) {
-      Recipe.find({})
-      .populate({
-        path:'outputs.item',
-        select: 'name'
-      })
-      .populate({
-        path:'inputs.item',
-        select: 'name'
-      })
-      .exec(function(err,result) {
+      populateAndSend(Recipe.find({}),res,req);
+    },
+    filteredList: function(req,res) {
+      Item.find({'name':{$regex:req.params.q,$options:'i'}},function(err,result) {
         if(err) throw err;
 
-        res.send(result);
+        populateAndSend(Recipe.find({'outputs.item':{ $in: result } }),res,req);
       });
     },
     create: function(req,res) {

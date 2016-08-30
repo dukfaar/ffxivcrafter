@@ -6,6 +6,9 @@ module.exports = function(myPackage,app,auth,db) {
   app.route('/api/recipe')
   .get(recipeController.list);
 
+  app.route('/api/recipe/filteredList/:q')
+  .get(recipeController.filteredList);
+
   app.route('/api/recipe')
   .post(recipeController.create);
 

@@ -5,6 +5,22 @@
       <div layout="row" layout-wrap flex>
         <md-card ng-repeat="recipe in recipeList">
           <md-card-content>
+            <div layout="row">
+              <span flex ng-hide="editMode">{{recipe.craftingJob}}</span>
+              <md-input-container flex ng-show="editMode">
+                <label>Job</label>
+                <md-select  ng-model="recipe.craftingJob" ng-change="updateRecipe(recipe)">
+                  <md-option ng-value="job" ng-repeat="job in jobs">{{job}}</option>
+                </md-select>
+              </md-input-container>
+
+              <span ng-hide="editMode">{{recipe.craftingLevel}}</span>
+              <md-input-container ng-show="editMode">
+                <label>Level</label>
+                <input ng-model="recipe.craftingLevel" ng-change="updateRecipe(recipe)" size="3">
+              </md-input-container>
+            </div>
+
             <div layout="row" layout-fill>
                 <md-list flex>
                   <md-subheader>Inputs</md-subheader>
@@ -16,7 +32,7 @@
                     </span>
                     <md-input-container ng-show="editMode">
                       <label>Amount</label>
-                      <input ng-model="input.amount" ng-change="updateRecipe(recipe)">
+                      <input ng-model="input.amount" ng-model-options="{debounce:300}" ng-change="updateRecipe(recipe)">
                     </md-input-container>
                   </md-list-item>
 
@@ -36,7 +52,7 @@
                     </span>
                     <md-input-container ng-show="editMode">
                       <label>Amount</label>
-                      <input ng-model="output.amount" ng-change="updateRecipe(recipe)">
+                      <input ng-model="output.amount" ng-model-options="{debounce:300}" ng-change="updateRecipe(recipe)">
                     </md-input-container>
                   </md-list-item>
                   <md-divider></md-divider>
@@ -59,6 +75,10 @@
     <md-toolbar layout="row">
       <md-button ng-click="createRecipe()">New</md-button>
       <md-switch ng-model="editMode">EditMode: {{editMode?'On':'Off'}}</md-switch>
+
+      <md-input-container md-no-float>
+        <input ng-model="filter" ng-change="updateList()" ng-model-options="{debounce:300}" placeholder="Search"></input>
+      </md-input-container>
     </md-toolbar>
   </footer>
 </div>

@@ -1,20 +1,58 @@
 'use strict';
 
-angular.module('mean.system').controller('ItemController', ['$scope', 'Global','$http', '$mdDialog',
-  function($scope, Global,$http, $mdDialog) {
+angular.module('mean.system').controller('ItemController', ['$scope', 'Global','$http', '$mdDialog', 'MeanUser',
+  function($scope, Global,$http, $mdDialog, MeanUser) {
+    $scope.user=MeanUser;
+    $scope.allowed=function(perm) {
+      return MeanUser.acl.allowed&&MeanUser.acl.allowed.indexOf(perm)!=-1;
+    };
+
     $scope.itemList=[];
-    $scope.tableMode=false;
+    $scope.itemCount=0;
+    $scope.maxPage=0;
 
     $scope.filter='';
+
+    $scope.limit=10;
+    $scope.page=0;
+
+    $scope.prevPage=function() {
+      if($scope.page>0) {
+        $scope.page--;
+        $scope.updateList();
+      }
+    };
+    $scope.nextPage=function() {
+      if($scope.page<$scope.maxPage) {
+        $scope.page++;
+        $scope.updateList();
+      }
+    };
+    $scope.toPage=function(pageNum) {
+      if($scope.page!=pageNum) {
+        $scope.page=pageNum;
+        $scope.updateList();
+      }
+    };
+
+    $scope.pageArray=function() {
+      var result=[];
+      for(var i=0;i<=$scope.maxPage;i++) result.push(i);
+
+      return result;
+    };
+
 
     $scope.updateList=function() {
       var url='/api/item';
       if($scope.filter!='')
         url='/api/item/filteredList/'+$scope.filter;
 
-      $http.get(url)
+      $http.get(url,{params:{limit:$scope.limit,page:$scope.page}})
       .then(function(response) {
-        $scope.itemList=response.data;
+        $scope.itemCount=response.data.count;
+        $scope.itemList=response.data.list;
+        $scope.maxPage=Math.floor($scope.itemCount/$scope.limit);
       });
     };
 
@@ -25,17 +63,10 @@ angular.module('mean.system').controller('ItemController', ['$scope', 'Global','
       });
     };
 
-    var timeoutMap={};
     $scope.updateItem=function(item) {
-      if(timeoutMap[item._id]) {
-        clearTimeout(timeoutMap[item._id]);
-      }
-
-      timeoutMap[item._id]=setTimeout(function() {
-        $http.put('/api/item/'+item._id,item)
-        .then(function(response) {
-        });
-      },300);
+      $http.put('/api/item/'+item._id,item)
+      .then(function(response) {
+      });
     };
 
     $scope.deleteItem=function(item) {
@@ -53,8 +84,6 @@ angular.module('mean.system').controller('ItemController', ['$scope', 'Global','
         clickOutsideToClose: true
       });
     };
-
-    $scope.editMode=false;
 
     $scope.updateList();
   }

@@ -2,6 +2,7 @@
 
 var mongoose=require('mongoose');
 var CraftingProject = mongoose.model('CraftingProject');
+var ProjectStep = mongoose.model('ProjectStep');
 
 module.exports = function() {
   return {
@@ -42,6 +43,16 @@ module.exports = function() {
         if(err) throw err;
 
         res.send({});
+      });
+    },
+    fromItem: function(req,res) {
+      var project=new CraftingProject();
+      project.creator=req.user._id;
+
+      project.save(function(err) {
+        if(err) res.send(err);
+
+        res.json({text:'CraftingProject created'});
       });
     }
   }

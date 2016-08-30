@@ -22,9 +22,9 @@ angular.module('mean.system').controller('CraftingController', ['$scope', 'Globa
       if($scope.filter!="")
         url='/api/item/filteredList/'+$scope.filter;
 
-      $http.get(url)
+      $http.get(url,{params:{limit:10}})
       .then(function(response) {
-        $scope.itemList=response.data;
+        $scope.itemList=response.data.list;
       });
     };
 
@@ -56,6 +56,13 @@ angular.module('mean.system').controller('CraftingController', ['$scope', 'Globa
       $http.get('/api/crafting/'+item._id)
       .then(function(response) {
         $scope.craftingData=response.data;
+      });
+    };
+
+    $scope.projectFromItem=function(item) {
+      $http.post('/api/project/fromItem/'+item._id)
+      .then(function(response) {
+
       });
     };
   }

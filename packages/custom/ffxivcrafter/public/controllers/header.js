@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mean.system').controller('HeaderController', ['$scope', '$rootScope', 'Menus', 'MeanUser', '$state',
-  function($scope, $rootScope, Menus, MeanUser, $state) {
+angular.module('mean.system').controller('HeaderController', ['$scope', '$rootScope', 'Menus', 'MeanUser', '$state', '$mdSidenav',
+  function($scope, $rootScope, Menus, MeanUser, $state, $mdSidenav) {
 
     var vm = this;
 
@@ -9,31 +9,12 @@ angular.module('mean.system').controller('HeaderController', ['$scope', '$rootSc
     vm.hdrvars = {
       authenticated: MeanUser.loggedin,
       user: MeanUser.user,
-      isAdmin: MeanUser.isAdmin
+      isAdmin: MeanUser.isAdmin,
+      allowed: MeanUser.acl.allowed
     };
 
     // Default hard coded menu items for main menu
     var defaultMainMenu = [
-      {
-        'title':'ItemList',
-        'link':'item list',
-        'roles':['anonymous']
-      },
-      {
-        'title':'RecipeList',
-        'link':'recipe list',
-        'roles':['anonymous']
-      },
-      {
-        'title':'Crafting',
-        'link':'crafting home',
-        'roles':['anonymous']
-      },
-      {
-        'title':'Projects',
-        'link':'project list',
-        'roles':['anonymous']
-      }
     ];
 
     // Query menus added by modules. Only returns menus that user is allowed to see.
@@ -60,7 +41,8 @@ angular.module('mean.system').controller('HeaderController', ['$scope', '$rootSc
       vm.hdrvars = {
         authenticated: MeanUser.loggedin,
         user: MeanUser.user,
-        isAdmin: MeanUser.isAdmin
+        isAdmin: MeanUser.isAdmin,
+        allowed: MeanUser.acl.allowed
       };
     });
 
@@ -77,6 +59,10 @@ angular.module('mean.system').controller('HeaderController', ['$scope', '$rootSc
       queryMenu('main', defaultMainMenu);
       $state.go('home');
     });
+
+    $scope.openAdminPanel=function() {
+      $mdSidenav('left').open();
+    };
 
   }
 ]);

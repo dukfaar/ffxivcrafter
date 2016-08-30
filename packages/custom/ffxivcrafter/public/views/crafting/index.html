@@ -4,7 +4,7 @@
       <md-card>
         <md-card-content>
           <md-input-container md-no-float>
-            <input ng-model="filter" ng-change="updateList()" placeholder="Search"></input>
+            <input ng-model="filter" ng-change="updateList()" ng-model-options="{debounce:300}" placeholder="Search"></input>
           </md-input-container>
           <md-list>
             <md-list-item ng-repeat="item in itemList" ng-click="selectItem(item)">
@@ -34,6 +34,10 @@
               <span>{{craftingData.materialEffort}}</span>
             </div>
           </md-card-content>
+
+          <md-card-actions ng-show="selectedItem">
+            <md-button class="md-raised" ng-click="projectFromItem(selectedItem)">Add as project</md-button>
+          </md-card-actions>
       </md-card>
 
       <md-card>

@@ -9,6 +9,9 @@ module.exports = function(myPackage,app,auth,db) {
   app.route('/api/project')
   .post(projectController.create);
 
+  app.route('/api/project/fromItem/:id')
+  .post(projectController.fromItem);
+
   app.route('/api/project/:id')
   .get(projectController.get);
 

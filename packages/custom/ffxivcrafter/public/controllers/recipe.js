@@ -4,8 +4,16 @@ angular.module('mean.system').controller('RecipeController', ['$scope', 'Global'
   function($scope, Global, $http, $mdDialog) {
     $scope.recipeList=[];
 
+    $scope.filter='';
+
+    $scope.jobs=['Armorer','Alchimist','Blacksmith','Carpenter','Weaver','Leatherworker','Goldsmith','Culinarian'];
+
     $scope.updateList=function() {
-      $http.get('/api/recipe')
+      var url='/api/recipe';
+      if($scope.filter!='')
+        url='/api/recipe/filteredList/'+$scope.filter;
+
+      $http.get(url)
       .then(function(response) {
         $scope.recipeList=response.data;
       });
@@ -22,17 +30,6 @@ angular.module('mean.system').controller('RecipeController', ['$scope', 'Global'
       $http.put('/api/recipe/'+recipe._id,recipe)
       .then(function(response) {
       });
-    };
-
-    var timeoutMap={};
-    $scope.updateRecipeTimed=function(recipe) {
-      if(timeoutMap[recipe._id]) {
-        clearTimeout(timeoutMap[recipe._id]);
-      }
-
-      timeoutMap[recipe._id]=setTimeout(function() {
-        $scope.updateRecipe(recipe);
-      },300);
     };
 
     function openItemSelectionDialog() {
@@ -65,7 +62,7 @@ angular.module('mean.system').controller('RecipeController', ['$scope', 'Global'
       .then(function(response) {
         $scope.updateList();
       });
-    }
+    };
 
     $scope.editMode=false;
 

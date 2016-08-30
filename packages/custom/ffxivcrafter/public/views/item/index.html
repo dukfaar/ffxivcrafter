@@ -2,52 +2,7 @@
   <main style="overflow:auto">
     <div flex>
       <md-content layout="row" layout-wrap>
-        <md-card ng-repeat="item in itemList" ng-show="!tableMode">
-          <md-card-header>
-            <md-card-header-text>
-              <span class="md-title" ng-show="!editMode">{{item.name}}</span>
-              <md-input-container ng-show="editMode">
-                <label>Item-Name</label>
-                <input ng-model="item.name" ng-change="updateItem(item)"/>
-              </md-input-container>
-            </md-card-header-text>
-
-          </md-card-header>
-
-          <md-card-content>
-            <div ng-show="!editMode">
-              <label>Market Price NQ</label>
-              <span>{{item.price}}</span>
-            </div>
-            <md-input-container ng-show="editMode">
-              <label>Market Price NQ</label>
-              <input ng-model="item.price" ng-change="updateItem(item)"/>
-            </md-input-container>
-
-            <div ng-show="!editMode">
-              <label>Market Price HQ</label>
-              <span>{{item.priceHQ}}</span>
-            </div>
-            <md-input-container ng-show="editMode">
-              <label>Market Price HQ</label>
-              <input ng-model="item.priceHQ" ng-change="updateItem(item)"/>
-            </md-input-container>
-
-            <div ng-show="!editMode">
-              <label>Gathering Effort</label>
-              <span>{{item.gatheringEffort}}</span>
-            </div>
-            <md-input-container ng-show="editMode">
-              <label>Gathering Effort</label>
-              <input ng-model="item.gatheringEffort" ng-change="updateItem(item)"/>
-            </md-input-container>
-          </md-card-content>
-          <md-card-actions layout="row">
-            <md-button ng-click="deleteItem(item)">Delete</md-button>
-          </md-card-actions>
-        </md-card>
-
-        <md-card ng-show="tableMode" style="width:100%">
+        <md-card style="width:100%">
           <md-card-content>
             <table style="width:100%" class="table table-striped item-table">
               <thead>
@@ -58,43 +13,50 @@
                   <th>Gathering Job</th>
                   <th>Gathering Effort</th>
                   <th>Gathering Level</th>
+                  <th ng-if="allowed('delete items')"></th>
                 </tr>
               </thead>
               <tbody>
-
                 <tr ng-repeat="item in itemList">
                   <td style="width:80%">
-                    <span ng-show="!editMode">{{item.name}}</span>
-                    <input ng-show="editMode" ng-model="item.name" ng-change="updateItem(item)" style="width:100%"/>
+                    <span ng-if="!allowed('edit itemdata')">{{item.name}}</span>
+                    <input ng-if="allowed('edit itemdata')" ng-model="item.name" ng-model-options="{debounce:300}" ng-change="updateItem(item)" style="width:100%"/>
                   </td>
                   <td style="width:10%">
-                    <span ng-show="!editMode">{{item.price}}</span>
-                    <input ng-show="editMode" ng-model="item.price" ng-change="updateItem(item)"/>
+                    <span ng-if="!allowed('edit itemprices')">{{item.price}}</span>
+                    <input ng-if="allowed('edit itemprices')" ng-model="item.price" ng-model-options="{debounce:300}" ng-change="updateItem(item)"/>
                   </td>
                   <td style="width:10%">
-                    <span ng-show="!editMode">{{item.priceHQ}}</span>
-                    <input ng-show="editMode" ng-model="item.priceHQ" ng-change="updateItem(item)"/>
+                    <span ng-if="!allowed('edit itemprices')">{{item.priceHQ}}</span>
+                    <input ng-if="allowed('edit itemprices')" ng-model="item.priceHQ" ng-model-options="{debounce:300}" ng-change="updateItem(item)"/>
                   </td>
                   <td style="width:10%">
-                    <span ng-show="!editMode">{{item.gatheringJob}}</span>
-                    <select ng-show="editMode" ng-model="item.gatheringJob" ng-change="updateItem(item)">
+                    <span ng-if="!allowed('edit itemdata')">{{item.gatheringjob}}</span>
+                    <select ng-if="allowed('edit itemdata')" ng-model="item.gatheringJob" ng-change="updateItem(item)">
                       <option ng-value="None">None</option>
                       <option ng-value="Botanist">Botanist</option>
                       <option ng-value="Miner">Miner</option>
                     </select>
                   </td>
                   <td style="width:10%">
-                    <span ng-show="!editMode">{{item.gatheringEffort}}</span>
-                    <input ng-show="editMode" ng-model="item.gatheringEffort" ng-change="updateItem(item)" size="3"/>
+                    <span ng-if="!allowed('edit itemdata')">{{item.gatheringEffort}}</span>
+                    <input ng-if="allowed('edit itemdata')" ng-model="item.gatheringEffort" ng-model-options="{debounce:300}" ng-change="updateItem(item)" size="3"/>
                   </td>
                   <td style="width:10%">
-                    <span ng-show="!editMode">{{item.gatheringLevel}}</span>
-                    <input ng-show="editMode" ng-model="item.gatheringLevel" ng-change="updateItem(item)" size="3"/>
+                    <span ng-if="!allowed('edit itemdata') && item.gatheringLevel>0">{{item.gatheringLevel}}</span>
+                    <input ng-if="allowed('edit itemdata')" ng-model="item.gatheringLevel" ng-model-options="{debounce:300}" ng-change="updateItem(item)" size="3"/>
+                  </td>
+                  <td ng-if="allowed('delete items')">
+                    <i class="material-icons" ng-click="deleteItem(item)">delete</i>
                   </td>
                 </tr>
-
               </tbody>
             </table>
+            <div layout="row">
+              <md-button class="md-raised" ng-disabled="page==0" ng-click="prevPage()">&lt;</md-button>
+              <md-button class="md-raised" ng-disabled="page==pageNum" ng-repeat="pageNum in pageArray()" ng-click="toPage(pageNum)">{{pageNum}}</md-button>
+              <md-button class="md-raised" ng-disabled="page==maxPage" ng-click="nextPage()">&gt;</md-button>
+            </div>
           </md-card-content>
         </md-card>
       </md-content>
@@ -103,15 +65,17 @@
 
   <footer>
     <md-toolbar layout="row">
-      <md-button ng-click="createItem()">New</md-button>
-      <md-switch ng-model="editMode">EditMode: {{editMode?'On':'Off'}}</md-switch>
+      <md-button ng-if="allowed('create items')" ng-click="createItem()">New</md-button>
 
-      <md-switch ng-model="tableMode">TableMode: {{tableMode?'On':'Off'}}</md-switch>
       <md-input-container md-no-float>
-        <input ng-model="filter" ng-change="updateList()" placeholder="Search"></input>
+        <input ng-model="filter" ng-change="page=0; updateList()" ng-model-options="{debounce:300}" placeholder="Search"></input>
       </md-input-container>
 
-      <md-button ng-click="openImport()">Import</md-button>
+      <md-input-container md-no-float>
+        <input ng-model="limit" ng-change="updateList()" ng-model-options="{debounce:300}"></input>
+      </md-input-container>
+
+      <md-button ng-if="allowed('create items')" ng-click="openImport()">Import</md-button>
     </md-toolbar>
   </footer>
 </div>

@@ -4,20 +4,36 @@ var mongoose=require('mongoose');
 var Item = mongoose.model('Item');
 
 module.exports = function() {
+  var doFind=function(query,req,res) {
+
+    var limit=parseInt(req.query.limit);
+    var page=parseInt(req.query.page);
+
+    Item.count(function(err, count) {
+      var q = Item.find(query);
+
+      if(limit&&limit>0) q=q.limit(limit);
+      if(page&&page>-1) q=q.skip(page*limit);
+
+      q.exec(function(err,data) {
+        if(err) throw err;
+
+        var result = {
+          count: count,
+          list: data
+        };
+
+        res.send(result);
+      });
+    });
+  };
+
   return {
     list: function(req,res) {
-      Item.find({},function(err,result) {
-        if(err) throw err;
-
-        res.send(result);
-      });
+      doFind({},req,res);
     },
     filteredList: function(req,res) {
-      Item.find({'name':{$regex:req.params.q,$options:'i'}},function(err,result) {
-        if(err) throw err;
-
-        res.send(result);
-      });
+      doFind({'name':{$regex:req.params.q,$options:'i'}},req,res);
     },
     create: function(req,res){
       var item=new Item();
