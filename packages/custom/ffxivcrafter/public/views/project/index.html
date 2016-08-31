@@ -3,7 +3,7 @@
     <div flex>
       <md-content layout="row" layout-wrap>
         <md-card ng-repeat="project in projectList">
-          <step-view data-step="project.tree"></step-view>
+          <project-step data-step="project.tree"></project-step>
 
           <span>Created By {{project.creator.name}}</span>
         </md-card>
@@ -11,3 +11,13 @@
     </div>
   </main>
 </div>
+
+<style>
+.stepList {
+  padding:0.5em 0 0.5em 0.5em;
+}
+
+.step select {
+  border:0;
+}
+</style>
