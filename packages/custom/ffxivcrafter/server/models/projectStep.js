@@ -8,8 +8,19 @@ var ProjectStepSchema = new Schema({
   item: { type: Schema.ObjectId, ref: 'Item' },
   amount: Number,
   step: { type: String, enum:['Craft', 'Buy', 'Gather'] },
-  recipe: [ { type: Schema.ObjectId, ref: 'Recipe' } ],
+  recipe: { type: Schema.ObjectId, ref: 'Recipe' },
   inputs: [ { type: Schema.ObjectId, ref: 'ProjectStep' } ]
 });
+
+function autoPopulate (next) {
+  this.populate('inputs');
+  this.populate('item');
+  this.populate('recipe');
+  next();
+};
+
+ProjectStepSchema
+.pre('find',autoPopulate)
+.pre('findOne',autoPopulate);
 
 mongoose.model('ProjectStep',ProjectStepSchema);

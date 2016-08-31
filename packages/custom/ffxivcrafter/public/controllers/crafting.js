@@ -1,14 +1,5 @@
 'use strict';
 
-angular.module('mean.system').directive('craftingTreeItem',function() {
-  return {
-    templateUrl:'/meanStarter/views/crafting/craftingTreeItem.html',
-    scope: {
-      tree: '='
-    }
-  };
-});
-
 angular.module('mean.system').controller('CraftingController', ['$scope', 'Global', '$http', '$mdDialog',
   function($scope, Global, $http, $mdDialog) {
     $scope.itemList=null;

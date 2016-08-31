@@ -11,8 +11,32 @@ module.exports = function() {
   return {
     list: function(req,res) {
       CraftingProject.find({})
+      //.populate('creator tree')
       .exec(function(err,result) {
         if(err) throw err;
+
+        /*function populateTree(tree,callback) {
+          if(tree.inputs.length===0) {
+            callback();
+            return
+          }
+
+          ProjectStep.populate(tree,['item',{path:'inputs',model:'ProjectStep'}])
+          .then(function(step) {
+
+            var runningSubPopulates=step.inputs.length;
+            step.inputs.forEach(function(subStep) {
+              populateTree(subStep,function() {
+                runningSubPopulates--;
+                if(runningSubPopulates===0) callback();
+              });
+            });
+          });
+        }
+
+        populateTree(result[0].tree,function() {
+          res.send(result);
+        });*/
 
         res.send(result);
       });
@@ -68,7 +92,6 @@ module.exports = function() {
               callback(step);
             });
           } else {
-            console.log('craftable');
             step.step='Craft';
             var recipe=recipes[0];
             step.recipe=recipe._id;
@@ -76,7 +99,7 @@ module.exports = function() {
             var countdown=recipe.inputs.length;
 
             recipe.inputs.forEach(function(input) {
-              stepForItem(input._id,input.amount*amount,function(childStep) {
+              stepForItem(input.item,input.amount*amount,function(childStep) {
                 step.inputs.push(childStep);
 
                 countdown--;
@@ -88,7 +111,6 @@ module.exports = function() {
                 }
               });
             });
-            //TODO durchiterieren, irgendwie...
           }
         });
       };
@@ -100,8 +122,6 @@ module.exports = function() {
 
         project.save(function(err) {
           if(err) throw err;
-
-          //res.json({text:'CraftingProject created'});
         });
       });
 

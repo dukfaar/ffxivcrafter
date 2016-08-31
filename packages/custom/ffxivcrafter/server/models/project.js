@@ -9,4 +9,14 @@ var CraftingProjectSchema = new Schema({
   creator: { type: Schema.ObjectId, ref: 'User'}
 });
 
+var autoPopulate = function(next) {
+  this.populate('creator');
+  this.populate('tree');
+  next();
+};
+
+CraftingProjectSchema
+.pre('find',autoPopulate)
+.pre('findOne',autoPopulate);
+
 mongoose.model('CraftingProject',CraftingProjectSchema);

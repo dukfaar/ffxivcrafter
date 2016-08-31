@@ -3,15 +3,11 @@
     <div flex>
       <md-content layout="row" layout-wrap>
         <md-card ng-repeat="project in projectList">
-        </md-card>
+          <step-view data-step="project.tree"></step-view>
 
+          <span>Created By {{project.creator.name}}</span>
+        </md-card>
       </md-content>
     </div>
   </main>
-
-  <footer>
-    <md-toolbar layout="row">
-      <md-button ng-click="createProject()">New</md-button>
-    </md-toolbar>
-  </footer>
 </div>
