@@ -24,21 +24,21 @@ module.exports = function() {
       });
     },
     get: function(req,res) {
-      step.findById(req.params.id,function(err,ProjectStep) {
+      ProjectStep.findById(req.params.id,function(err,step) {
         if(err) throw err;
 
-        res.send(ProjectStep);
+        res.send(step);
       });
     },
     update: function(req,res) {
-      step.findByIdAndUpdate(req.params.id,req.body,function(err,ProjectStep) {
+      ProjectStep.findByIdAndUpdate(req.params.id,req.body,function(err,step) {
         if(err) throw err;
 
-        res.send(ProjectStep);
+        res.send(step);
       });
     },
     delete: function(req,res) {
-      step.findByIdAndRemove(req.params.id,function(err) {
+      ProjectStep.findByIdAndRemove(req.params.id,function(err) {
         if(err) throw err;
 
         res.send({});

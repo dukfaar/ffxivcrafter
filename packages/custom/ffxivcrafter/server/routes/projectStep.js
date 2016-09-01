@@ -1,20 +1,20 @@
 'use strict';
 
 module.exports = function(myPackage,app,auth,db) {
-  var projectController=require('../controllers/project')();
+  var stepController=require('../controllers/projectStep')();
 
-  app.route('/api/project')
-  .get(projectController.list);
+  app.route('/api/projectstep')
+  .get(stepController.list);
 
-  app.route('/api/project')
-  .post(projectController.create);
+  app.route('/api/projectstep')
+  .post(stepController.create);
 
-  app.route('/api/project/:id')
-  .get(projectController.get);
+  app.route('/api/projectstep/:id')
+  .get(stepController.get);
 
-  app.route('/api/project/:id')
-  .delete(projectController.delete);
+  app.route('/api/projectstep/:id')
+  .delete(stepController.delete);
 
-  app.route('/api/project/:id')
-  .put(projectController.update);
+  app.route('/api/projectstep/:id')
+  .put(stepController.update);
 }

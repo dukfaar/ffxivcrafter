@@ -3,8 +3,32 @@
     <div flex>
       <md-content layout="row" layout-wrap>
         <md-card ng-repeat="project in projectList">
-          <project-step data-step="project.tree"></project-step>
+          <div layout="row">
+            <project-step data-step="project.tree"></project-step>
 
+            <md-list>
+              <md-subheader class="md-no-sticky">Gatherlist Totals</md-subheader>
+              <md-list-item ng-repeat="gathers in projectData[project._id].gatherList" layout="row">
+                <span flex>{{gathers.total}} {{gathers.item.name}}</span>
+
+                <md-button ng-click="addToStock(project,gathers.item,gathers.total)">AddToStock</md-button>
+              </md-list-item>
+            </md-list>
+
+            <md-list>
+              <md-subheader class="md-no-sticky">Itemstock</md-subheader>
+              <md-list-item ng-repeat="stockElement in project.stock">
+                {{stockElement.amount}} {{stockElement.item.name}}
+              </md-list-item>
+            </md-list>
+
+            <md-list>
+              <md-subheader class="md-no-sticky">Items to Gather</md-subheader>
+              <md-list-item ng-repeat="gathers in projectData[project._id].gatherList" ng-if="gathers.outstanding>0" layout="row">
+                <span flex>{{gathers.outstanding}} {{gathers.item.name}}</span>
+              </md-list-item>
+            </md-list>
+          </div>
           <span>Created By {{project.creator.name}}</span>
         </md-card>
       </md-content>

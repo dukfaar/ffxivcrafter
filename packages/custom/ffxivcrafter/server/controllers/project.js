@@ -11,65 +11,33 @@ module.exports = function() {
   return {
     list: function(req,res) {
       CraftingProject.find({})
-      //.populate('creator tree')
       .exec(function(err,result) {
         if(err) throw err;
-
-        /*function populateTree(tree,callback) {
-          if(tree.inputs.length===0) {
-            callback();
-            return
-          }
-
-          ProjectStep.populate(tree,['item',{path:'inputs',model:'ProjectStep'}])
-          .then(function(step) {
-
-            var runningSubPopulates=step.inputs.length;
-            step.inputs.forEach(function(subStep) {
-              populateTree(subStep,function() {
-                runningSubPopulates--;
-                if(runningSubPopulates===0) callback();
-              });
-            });
-          });
-        }
-
-        populateTree(result[0].tree,function() {
-          res.send(result);
-        });*/
 
         res.send(result);
       });
     },
-    create: function(req,res) {
-      var project=new CraftingProject();
-      project.creator=req.user._id;
-
-      project.save(function(err) {
-        if(err) res.send(err);
-
-        res.json({text:'CraftingProject created'});
-      });
-    },
-    get: function(req,res) {
-      project.findById(req.params.id,function(err,CraftingProject) {
+    addToStock: function(req,res) {
+      CraftingProject.findById(req.params.projectId,function(err,project) {
         if(err) throw err;
+        var found=false;
 
-        res.send(CraftingProject);
-      });
-    },
-    update: function(req,res) {
-      project.findByIdAndUpdate(req.params.id,req.body,function(err,CraftingProject) {
-        if(err) throw err;
+        project.stock.forEach(function(stock) {
+          if(stock.item==req.params.itemId) {
+            found=true;
+            stock.amount+=req.params.amount;
+          }
+        });
 
-        res.send(CraftingProject);
-      });
-    },
-    delete: function(req,res) {
-      project.findByIdAndRemove(req.params.id,function(err) {
-        if(err) throw err;
+        if(!found) {
+          project.stock.push({item:req.params.itemId,amount:req.params.amount});
+        }
 
-        res.send({});
+        project.save(function(err) {
+          if(err) throw err;
+
+          res.send({});
+        })
       });
     },
     fromItem: function(req,res) {
