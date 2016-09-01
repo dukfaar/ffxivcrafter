@@ -10,7 +10,7 @@ angular.module('mean.system').controller('RecipeController', ['$scope', 'Global'
 
     $scope.updateList=function() {
       var url='/api/recipe';
-      if($scope.filter!='')
+      if($scope.filter!=='')
         url='/api/recipe/filteredList/'+$scope.filter;
 
       $http.get(url)

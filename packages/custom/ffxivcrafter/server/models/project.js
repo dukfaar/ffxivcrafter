@@ -1,4 +1,4 @@
-'use struct';
+'use strict';
 
 var mongoose=require('mongoose');
 

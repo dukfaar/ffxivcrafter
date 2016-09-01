@@ -6,11 +6,11 @@ angular.module('mean.system').controller('CraftingController', ['$scope', 'Globa
 
     $scope.craftingData={};
 
-    $scope.filter="";
+    $scope.filter='';
 
     $scope.updateList=function() {
       var url='/api/item';
-      if($scope.filter!="")
+      if($scope.filter!=='')
         url='/api/item/filteredList/'+$scope.filter;
 
       $http.get(url,{params:{limit:10}})

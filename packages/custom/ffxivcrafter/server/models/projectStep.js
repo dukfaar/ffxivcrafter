@@ -1,4 +1,4 @@
-'use struct';
+'use strict';
 
 var mongoose=require('mongoose');
 
@@ -17,7 +17,7 @@ function autoPopulate (next) {
   this.populate('item');
   this.populate('recipe');
   next();
-};
+}
 
 ProjectStepSchema
 .pre('find',autoPopulate)

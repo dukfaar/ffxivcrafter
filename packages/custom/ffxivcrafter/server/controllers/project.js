@@ -23,9 +23,14 @@ module.exports = function() {
         var found=false;
 
         project.stock.forEach(function(stock) {
-          if(stock.item==req.params.itemId) {
+          if(stock.item._id==req.params.itemId) {
             found=true;
-            stock.amount+=req.params.amount;
+            stock.amount+=parseInt(req.params.amount);
+
+            if(stock.amount<=0) {
+              project.stock.pull(stock);
+              return;
+            }
           }
         });
 

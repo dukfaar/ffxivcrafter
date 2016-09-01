@@ -8,24 +8,53 @@
 
             <md-list>
               <md-subheader class="md-no-sticky">Gatherlist Totals</md-subheader>
-              <md-list-item ng-repeat="gathers in projectData[project._id].gatherList" layout="row">
+              <md-input-container>
+                <label>Itemfilter</label>
+                <input ng-model="gatherTotalFilter"/>
+              </md-input-container>
+              <md-list-item ng-repeat="gathers in projectData[project._id].gatherList" ng-if="gathers.item.name.toLowerCase().includes(gatherTotalFilter.toLowerCase())" layout="row">
                 <span flex>{{gathers.total}} {{gathers.item.name}}</span>
 
-                <md-button ng-click="addToStock(project,gathers.item,gathers.total)">AddToStock</md-button>
+                <md-button class="md-raised" ng-click="addToStock(project,gathers.item,gathers.total)">AddToStock</md-button>
               </md-list-item>
             </md-list>
 
             <md-list>
               <md-subheader class="md-no-sticky">Itemstock</md-subheader>
-              <md-list-item ng-repeat="stockElement in project.stock">
-                {{stockElement.amount}} {{stockElement.item.name}}
+              <md-input-container>
+                <label>Itemfilter</label>
+                <input ng-model="stockFilter"/>
+              </md-input-container>
+              <md-list-item ng-repeat="stockElement in project.stock" ng-if="stockElement.item.name.toLowerCase().includes(stockFilter.toLowerCase())" layout="row">
+                <span flex>{{stockElement.amount}} {{stockElement.item.name}}</span>
+
+                <md-button class="md-raised" ng-click="addToStock(project,stockElement.item,-stockElement.amount)">RemoveFromStock</md-button>
               </md-list-item>
             </md-list>
 
             <md-list>
               <md-subheader class="md-no-sticky">Items to Gather</md-subheader>
-              <md-list-item ng-repeat="gathers in projectData[project._id].gatherList" ng-if="gathers.outstanding>0" layout="row">
+              <md-input-container>
+                <label>Itemfilter</label>
+                <input ng-model="gatherFilter"/>
+              </md-input-container>
+              <md-list-item ng-repeat="gathers in projectData[project._id].gatherList" ng-if="gathers.outstanding>0 && gathers.item.name.toLowerCase().includes(gatherFilter.toLowerCase())" layout="row">
                 <span flex>{{gathers.outstanding}} {{gathers.item.name}}</span>
+
+                <md-button class="md-raised" ng-click="addToStock(project,gathers.item,gathers.outstanding)">AddToStock</md-button>
+              </md-list-item>
+            </md-list>
+
+            <md-list>
+              <md-subheader class="md-no-sticky">Craftable Items</md-subheader>
+              <md-input-container>
+                <label>Itemfilter</label>
+                <input ng-model="craftableFilter"/>
+              </md-input-container>
+              <md-list-item ng-repeat="craftable in projectData[project._id].craftableSteps" ng-if="craftable.step.item.name.toLowerCase().includes(craftableFilter.toLowerCase())" layout="row">
+                <span flex>{{craftable.step.amount}} {{craftable.step.item.name}}</span>
+
+                <md-button class="md-raised" ng-click="addToStock(project,craftable.step.item,craftable.step.amount)">AddToStock</md-button>
               </md-list-item>
             </md-list>
           </div>
