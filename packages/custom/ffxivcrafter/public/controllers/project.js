@@ -21,20 +21,11 @@ angular.module('mean.system').controller('ProjectController', ['$scope', 'Global
       });
     };
 
-    $scope.updateMaterialList=function() {
-      $scope.projectData={};
-
-      $scope.projectList.forEach(function(project) {
-        if(!$scope.projectData[project._id]) {
-          $scope.projectData[project._id]={
-            project: project,
-            gatherList:{},
-            craftableSteps:[]
-          };
-        }
-        projectAnalyzerService.analyzeStep(project.tree,$scope.projectData[project._id]);
-
-        projectAnalyzerService.updateToGatherList($scope.projectData[project._id]);
+    $scope.updateProject=function(project) {
+      $http.put('/api/project/'+project._id,project)
+      .then(function(response) {
+        $scope.projectData={};
+        projectAnalyzerService.updateMaterialList($scope.projectList,$scope.projectData);
       });
     };
 
@@ -45,14 +36,21 @@ angular.module('mean.system').controller('ProjectController', ['$scope', 'Global
       .then(function(response) {
         $scope.projectList=response.data;
 
-        $scope.updateMaterialList();
+        $scope.projectData={};
+        projectAnalyzerService.updateMaterialList($scope.projectList,$scope.projectData);
       });
     };
 
-    $scope.createProject=function() {
+    $scope.createProject=function() { 
       $http.post('/api/project')
       .then(function(response) {
         $scope.updateList();
+      });
+    };
+
+    $scope.toArray=function(obj) {
+      return Object.keys(obj).map(function (key) {
+        return obj[key];
       });
     };
 

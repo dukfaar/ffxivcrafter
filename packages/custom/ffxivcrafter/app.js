@@ -11,7 +11,7 @@ var MeanStarter = new Module('meanStarter');
  * All MEAN packages require registration
  * Dependency injection is used to define required modules
  */
-MeanStarter.register(function(app, users, system) {
+MeanStarter.register(function(app, users, system, database) {
 
   // Set views path, template engine and default layout
   app.set('views', __dirname + '/server/views');
@@ -41,6 +41,27 @@ MeanStarter.register(function(app, users, system) {
     link:'project list',
     roles:['see projects'],
     menu:'main'
+  });
+
+  MeanStarter.menus.add({
+    title:'Level Settings',
+    link:'doldoh config',
+    roles:['authenticated'],
+    menu:'account'
+  });
+
+  var UserModel = database.connection.model('User');
+  UserModel.schema.add({
+    minerLevel: { type: Number, min:1, max: 60, default: 1 },
+    botanistLevel: { type: Number, min:1, max: 60, default: 1 },
+    weaverLevel: { type: Number, min:1, max: 60, default: 1 },
+    culinarianLevel: { type: Number, min:1, max: 60, default: 1 },
+    alchimistLevel: { type: Number, min:1, max: 60, default: 1 },
+    blacksmithLevel: { type: Number, min:1, max: 60, default: 1 },
+    carpenterLevel: { type: Number, min:1, max: 60, default: 1 },
+    armorerLevel: { type: Number, min:1, max: 60, default: 1 },
+    goldsmithLevel: { type: Number, min:1, max: 60, default: 1 },
+    leatherworkerLevel: { type: Number, min:1, max: 60, default: 1 }
   });
 
   MeanStarter.angularDependencies(['mean.system', 'mean.users','ngMaterial']);

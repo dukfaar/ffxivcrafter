@@ -17,6 +17,14 @@ module.exports = function() {
         res.send(result);
       });
     },
+    publicList: function(req,res) {
+      CraftingProject.find({public:true})
+      .exec(function(err,result) {
+        if(err) throw err;
+
+        res.send(result);
+      });
+    },
     addToStock: function(req,res) {
       CraftingProject.findById(req.params.projectId,function(err,project) {
         if(err) throw err;
@@ -43,6 +51,13 @@ module.exports = function() {
 
           res.send({});
         })
+      });
+    },
+    update: function(req,res){
+      CraftingProject.findByIdAndUpdate(req.params.id,req.body,function(err,project) {
+        if(err) throw err;
+
+        res.send(project);
       });
     },
     fromItem: function(req,res) {

@@ -6,9 +6,15 @@ module.exports = function(myPackage,app,auth,db) {
   app.route('/api/project')
   .get(projectController.list);
 
+  app.route('/api/project/public')
+  .get(projectController.publicList);
+
   app.route('/api/project/fromItem/:id')
   .post(projectController.fromItem);
 
   app.route('/api/project/stock/add/:projectId/:itemId/:amount')
   .post(projectController.addToStock);
+
+  app.route('/api/project/:id')
+  .put(projectController.update);
 }

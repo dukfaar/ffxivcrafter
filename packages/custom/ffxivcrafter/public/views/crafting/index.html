@@ -14,48 +14,60 @@
         </md-card-content>
       </md-card>
 
-      <md-card>
-          <md-card-content ng-show="selectedItem">
-            <h3>{{selectedItem.name}}</h3>
-            <div>
-              <span>Max revenue:</span>
-              <span>{{craftingData.tree.item.price*0.95}}</span>
-            </div>
-            <div>
-              <span>Total Price of ItemList:</span>
-              <span>{{craftingData.materialPrice}}</span>
-            </div>
-            <div>
-              <span>Profit if crafted from base materials (5% taxes included):</span>
-              <span ng-style="{color: craftingData.tree.item.price-craftingData.materialPrice>0?'green':'red'}">{{craftingData.tree.item.price*0.95-craftingData.materialPrice}}</span>
-            </div>
-            <div>
-              <span>Total Effort of ItemList:</span>
-              <span>{{craftingData.materialEffort}}</span>
-            </div>
-          </md-card-content>
+      <md-card ng-if="selectedItem">
+        <md-card-header>
+          <md-card-header-text class="md-title">
+            {{selectedItem.name}}
+          </md-card-header-text>
+        </md-card-header>
+        <md-card-content ng-show="selectedItem">
+          <div>
+            <span>Max revenue:</span>
+            <span>{{craftingData.tree.item.price*0.95}}</span>
+          </div>
+          <div>
+            <span>Total Price of ItemList:</span>
+            <span>{{craftingData.materialPrice}}</span>
+          </div>
+          <div>
+            <span>Profit if crafted from base materials (5% taxes included):</span>
+            <span ng-style="{color: craftingData.tree.item.price-craftingData.materialPrice>0?'green':'red'}">{{craftingData.tree.item.price*0.95-craftingData.materialPrice}}</span>
+          </div>
+          <div>
+            <span>Total Effort of ItemList:</span>
+            <span>{{craftingData.materialEffort}}</span>
+          </div>
+        </md-card-content>
 
-          <md-card-actions ng-show="selectedItem">
-            <md-button class="md-raised" ng-click="projectFromItem(selectedItem)">Add as project</md-button>
-          </md-card-actions>
+        <md-card-actions ng-show="selectedItem">
+          <md-button class="md-raised" ng-click="projectFromItem(selectedItem)">Add as project</md-button>
+        </md-card-actions>
       </md-card>
 
-      <md-card>
-          <md-card-content ng-show="selectedItem">
-            <h3>Crafting Tree</h3>
-              <crafting-tree-item data-tree="craftingData.tree"></crafting-tree-item>
-          </md-card-content>
+      <md-card ng-if="selectedItem">
+        <md-card-header>
+          <md-card-header-text class="md-title">
+            Crafting Tree
+          </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+          <crafting-tree-item data-tree="craftingData.tree"></crafting-tree-item>
+        </md-card-content>
       </md-card>
 
-      <md-card>
-          <md-card-content ng-show="selectedItem">
-            <h3>ItemList</h3>
-              <md-list>
-                <md-list-item ng-repeat="item in craftingData.materialList" layout="row" layout-fill>
-                  <div flex>{{item.item.name}}</div><div>{{item.amount}}</span>
-                </md-list-item>
-              </md-list>
-          </md-card-content>
+      <md-card ng-if="selectedItem">
+        <md-card-header>
+          <md-card-header-text class="md-title">
+            ItemList
+          </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+          <md-list>
+            <md-list-item ng-repeat="item in craftingData.materialList" layout="row" layout-fill>
+              <div flex>{{item.item.name}}</div><div>{{item.amount}}</span>
+            </md-list-item>
+          </md-list>
+        </md-card-content>
       </md-card>
     </md-content>
   </div>

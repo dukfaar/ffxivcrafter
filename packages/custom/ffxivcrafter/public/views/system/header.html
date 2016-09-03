@@ -37,6 +37,9 @@
                             <span>{{hdrctr.hdrvars.user.name}}</span> <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
+                            <li ui-route="/{{item.link}}" ng-class="{active: $uiRoute}" ng-repeat="item in hdrctr.menus.account">
+                                <a mean-token="item.link" ui-sref='{{item.link}}'>{{item.title}}</a>
+                            </li>
                             <li ng-show="allowed('admin')"><a href="#" ng-click="openAdminPanel()">Open Admin Panel</a></li>
                             <li><a href="#" ng-click="hdrctr.logout()">Log Out</a></li>
                         </ul>

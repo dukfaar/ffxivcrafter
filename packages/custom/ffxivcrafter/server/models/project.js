@@ -10,7 +10,8 @@ var CraftingProjectSchema = new Schema({
   stock: [{
     item: { type: Schema.ObjectId, ref: 'Item'},
     amount: { type: Number, default: 0 }
-  }]
+  }],
+  public: { type: Boolean, default: false }
 });
 
 var autoPopulate = function(next) {

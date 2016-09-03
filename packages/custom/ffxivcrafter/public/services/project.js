@@ -73,8 +73,24 @@ angular.module('mean.system').factory('projectAnalyzerService', function() {
     }
   }
 
+  function updateMaterialList(projectList,projectData) {
+    projectList.forEach(function(project) {
+      if(!projectData[project._id]) {
+        projectData[project._id]={
+          project: project,
+          gatherList:{},
+          craftableSteps:[]
+        };
+      }
+      analyzeStep(project.tree,projectData[project._id]);
+
+      updateToGatherList(projectData[project._id]);
+    });
+  };
+
   return {
     analyzeStep:analyzeStep,
-    updateToGatherList:updateToGatherList
+    updateToGatherList:updateToGatherList,
+    updateMaterialList:updateMaterialList
   };
 });

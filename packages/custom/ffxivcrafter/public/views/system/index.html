@@ -1,10 +1,49 @@
-<div flex>
+<div flex ng-controller="IndexController">
   <main style="overflow:auto">
-    <div flex>
-      <md-content layout="column" layout-align="center center">
-        <span>Oh no! This guy <img src="meanStarter/assets/img/ffxiv_cactus.png"/> has stolen this pages content!</span>
-        <span>If you see him, report him to the local moogle authorities!</span>
-      </md-content>
+    <div flex layout="row">
+
+      <md-card ng-if="allowed('see public gather tasks')">
+        <md-card-header>
+          <md-card-header-text class="md-title">
+            Gatherable items
+          </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+          <md-list>
+            <md-input-container>
+              <label>Itemfilter</label>
+              <input ng-model="gatherFilter"/>
+            </md-input-container>
+            <div ng-repeat="project in projectList">
+              <md-list-item ng-repeat="gathers in toArray(projectData[project._id].gatherList) | filter: { item: { name:gatherFilter } } | filter:canHarvest | orderBy:'item.gatheringLevel':true" ng-if="gathers.outstanding>0" layout="row">
+                <span flex>{{gathers.outstanding}} {{gathers.item.name}}</span>
+              </md-list-item>
+            </div>
+          </md-list>
+        <md-card-content>
+      </md-card>
+
+      <md-card ng-if="allowed('see public craft tasks')">
+        <md-card-header>
+          <md-card-header-text class="md-title">
+            Craftable Items
+          </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+          <md-list>
+            <md-input-container>
+              <label>Itemfilter</label>
+              <input ng-model="craftableFilter"/>
+            </md-input-container>
+            <div ng-repeat="project in projectList">
+              <md-list-item ng-repeat="craftable in toArray(projectData[project._id].craftableSteps) | filter: { step: { item: { name: craftableFilter }}} | filter:canCraft" layout="row">
+                <span flex>{{craftable.step.amount}} {{craftable.step.item.name}}</span>
+              </md-list-item>
+            </div>
+          </md-list>
+        </md-card-content>
+      </md-card>
+
     </div>
   </main>
 </div>
