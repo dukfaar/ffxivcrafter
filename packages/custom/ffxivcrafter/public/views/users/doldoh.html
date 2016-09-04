@@ -1,50 +1,64 @@
 <div ng-controller="DoLDoHProfileController" layout-fill>
-  <md-content layout="column" layout-fill flex>
-    <div layout="row" layout-fill>
-      <md-input-container>
-        <label>Botanist Level</label>
-        <input ng-model="user.user.botanistLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-      </md-input-container>
+  <md-content layout="column" layout-fill layout-padding flex>
+    <md-card>
+      <md-card-header>
+        <md-card-header-text class="md-title">
+          Disciples of the Land
+        </md-card-header-text>
+      </md-card-header>
+      <md-card-content layout="row" >
+        <md-input-container>
+          <label>Botanist Level</label>
+          <input ng-model="user.user.botanistLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
+        </md-input-container>
 
-      <md-input-container>
-        <label>Miner Level</label>
-        <input ng-model="user.user.minerLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-      </md-input-container>
-    </div>
+        <md-input-container>
+          <label>Miner Level</label>
+          <input ng-model="user.user.minerLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
+        </md-input-container>
+      </md-card-content>
+    </md-card>
 
-    <div layout="row" layout-fill>
-      <md-input-container>
-        <label>Weaver Level</label>
-        <input ng-model="user.user.weaverLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-      </md-input-container>
-      <md-input-container>
-        <label>Culinarian Level</label>
-        <input ng-model="user.user.culinarianLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-      </md-input-container>
-      <md-input-container>
-        <label>Alchimist Level</label>
-        <input ng-model="user.user.alchimistLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-      </md-input-container>
-      <md-input-container>
-        <label>Blacksmith Level</label>
-        <input ng-model="user.user.blacksmithLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-      </md-input-container>
-      <md-input-container>
-        <label>Carpenter Level</label>
-        <input ng-model="user.user.carpenterLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-      </md-input-container>
-      <md-input-container>
-        <label>Armorer Level</label>
-        <input ng-model="user.user.armorerLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-      </md-input-container>
-      <md-input-container>
-        <label>Goldsmith Level</label>
-        <input ng-model="user.user.goldsmithLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-      </md-input-container>
-      <md-input-container>
-        <label>Leatherworker Level</label>
-        <input ng-model="user.user.leatherworkerLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-      </md-input-container>
-    </div>
+    <md-card>
+      <md-card-header>
+        <md-card-header-text class="md-title">
+          Disciples of the Hand
+        </md-card-header-text>
+      </md-card-header>
+      <md-card-content layout="row">
+        <md-input-container>
+          <label>Weaver Level</label>
+          <input ng-model="user.user.weaverLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
+        </md-input-container>
+        <md-input-container>
+          <label>Culinarian Level</label>
+          <input ng-model="user.user.culinarianLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
+        </md-input-container>
+        <md-input-container>
+          <label>Alchimist Level</label>
+          <input ng-model="user.user.alchimistLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
+        </md-input-container>
+        <md-input-container>
+          <label>Blacksmith Level</label>
+          <input ng-model="user.user.blacksmithLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
+        </md-input-container>
+        <md-input-container>
+          <label>Carpenter Level</label>
+          <input ng-model="user.user.carpenterLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
+        </md-input-container>
+        <md-input-container>
+          <label>Armorer Level</label>
+          <input ng-model="user.user.armorerLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
+        </md-input-container>
+        <md-input-container>
+          <label>Goldsmith Level</label>
+          <input ng-model="user.user.goldsmithLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
+        </md-input-container>
+        <md-input-container>
+          <label>Leatherworker Level</label>
+          <input ng-model="user.user.leatherworkerLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
+        </md-input-container>
+      </md-card-content>
+    </md-card>
   </md-content>
 </div>

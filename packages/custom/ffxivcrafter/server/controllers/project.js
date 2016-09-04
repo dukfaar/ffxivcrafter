@@ -11,6 +11,8 @@ module.exports = function() {
   return {
     list: function(req,res) {
       CraftingProject.find({})
+      .populate('creator tree stock.item')
+      .lean()
       .exec(function(err,result) {
         if(err) throw err;
 
@@ -19,6 +21,8 @@ module.exports = function() {
     },
     publicList: function(req,res) {
       CraftingProject.find({public:true})
+      .populate('creator tree stock.item')
+      .lean()
       .exec(function(err,result) {
         if(err) throw err;
 
@@ -30,10 +34,42 @@ module.exports = function() {
         if(err) throw err;
         var found=false;
 
+        console.log(project.stock);
+
         project.stock.forEach(function(stock) {
-          if(stock.item._id==req.params.itemId) {
+          if(stock.item==req.params.itemId) {
+            console.log('found!');
+
             found=true;
             stock.amount+=parseInt(req.params.amount);
+
+            if(stock.amount<=0) {
+              project.stock.pull(stock);
+              return;
+            }
+          }
+        });
+
+        if(!found) {
+          project.stock.push({item:req.params.itemId,amount:req.params.amount});
+        }
+
+        project.save(function(err) {
+          if(err) throw err;
+
+          res.send({});
+        })
+      });
+    },
+    setStock: function(req,res) {
+      CraftingProject.findById(req.params.projectId,function(err,project) {
+        if(err) throw err;
+        var found=false;
+
+        project.stock.forEach(function(stock) {
+          if(stock.item==req.params.itemId) {
+            found=true;
+            stock.amount=parseInt(req.params.amount);
 
             if(stock.amount<=0) {
               project.stock.pull(stock);

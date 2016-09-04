@@ -14,15 +14,4 @@ var CraftingProjectSchema = new Schema({
   public: { type: Boolean, default: false }
 });
 
-var autoPopulate = function(next) {
-  this.populate('creator');
-  this.populate('tree');
-  this.populate('stock.item');
-  next();
-};
-
-CraftingProjectSchema
-.pre('find',autoPopulate)
-.pre('findOne',autoPopulate);
-
 mongoose.model('CraftingProject',CraftingProjectSchema);

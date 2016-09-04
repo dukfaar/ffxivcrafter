@@ -15,7 +15,10 @@
               <input ng-model="gatherFilter"/>
             </md-input-container>
             <div ng-repeat="project in projectList">
-              <md-list-item ng-repeat="gathers in toArray(projectData[project._id].gatherList) | filter: { item: { name:gatherFilter } } | filter:canHarvest | orderBy:'item.gatheringLevel':true" ng-if="gathers.outstanding>0" layout="row">
+              <md-list-item
+                ng-click="deliveryDialog(project,gathers.item)"
+                ng-repeat="gathers in toArray(projectData[project._id].gatherList) | filter: { item: { name:gatherFilter } } | filter:canHarvest | orderBy:'item.gatheringLevel':true"
+                ng-if="gathers.outstanding>0" layout="row">
                 <span flex>{{gathers.outstanding}} {{gathers.item.name}}</span>
               </md-list-item>
             </div>
@@ -36,14 +39,15 @@
               <input ng-model="craftableFilter"/>
             </md-input-container>
             <div ng-repeat="project in projectList">
-              <md-list-item ng-repeat="craftable in toArray(projectData[project._id].craftableSteps) | filter: { step: { item: { name: craftableFilter }}} | filter:canCraft" layout="row">
+              <md-list-item
+                ng-click="deliveryDialog(project,craftable.step.item)"
+                ng-repeat="craftable in toArray(projectData[project._id].craftableSteps) | filter: { step: { item: { name: craftableFilter }}} | filter:canCraft" layout="row">
                 <span flex>{{craftable.step.amount}} {{craftable.step.item.name}}</span>
               </md-list-item>
             </div>
           </md-list>
         </md-card-content>
       </md-card>
-
     </div>
   </main>
 </div>

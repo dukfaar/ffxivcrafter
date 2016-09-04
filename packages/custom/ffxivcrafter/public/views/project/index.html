@@ -5,65 +5,103 @@
         <md-tabs md-dynamic-height md-border-bottom>
           <md-tab ng-repeat="project in projectList" label="{{project.tree.item.name}}">
             <md-content layout="row" layout-padding>
-              <project-step data-step="project.tree"></project-step>
+              <md-card>
+                <md-card-content>
+                  <project-step data-step="project.tree"></project-step>
+                </md-card-content>
+              </md-card>
 
-              <md-list>
-                <md-subheader class="md-no-sticky">Gatherlist Totals</md-subheader>
-                <md-input-container>
-                  <label>Itemfilter</label>
-                  <input ng-model="gatherTotalFilter"/>
-                </md-input-container>
-                <md-list-item ng-repeat="gathers in toArray(projectData[project._id].gatherList) | filter: { item: { name: gatherTotalFilter } }" layout="row">
-                  <span flex>{{gathers.total}} {{gathers.item.name}}</span>
+              <!--<md-card>
+                <md-card-header>
+                  <md-card-header-text class="md-title">
+                    Gatherlist Totals
+                  </md-card-header-text>
+                </md-card-header>
+                <md-card-content>
+                  <md-list>
+                    <md-input-container>
+                      <label>Itemfilter</label>
+                      <input ng-model="gatherTotalFilter"/>
+                    </md-input-container>
+                    <md-list-item ng-repeat="gathers in toArray(projectData[project._id].gatherList) | filter: { item: { name: gatherTotalFilter } }" layout="row">
+                      <span flex>{{gathers.total}} {{gathers.item.name}}</span>
 
-                  <md-button class="md-raised" ng-click="addToStock(project,gathers.item,gathers.total)">AddToStock</md-button>
-                </md-list-item>
-              </md-list>
+                      <md-button class="md-raised" ng-click="addToStock(project,gathers.item,gathers.total)">AddToStock</md-button>
+                    </md-list-item>
+                  </md-list>
+                </md-card-content>
+              </md-card>-->
 
-              <md-list>
-                <md-subheader class="md-no-sticky">Itemstock</md-subheader>
-                <md-input-container>
-                  <label>Itemfilter</label>
-                  <input ng-model="stockFilter"/>
-                </md-input-container>
-                <md-list-item ng-repeat="stockElement in toArray(project.stock) | filter: { item: { name: stockFilter } }" layout="row">
-                  <span flex>{{stockElement.amount}} {{stockElement.item.name}}</span>
+              <md-card>
+                <md-card-header>
+                  <md-card-header-text class="md-title">
+                    Itemstock
+                  </md-card-header-text>
+                </md-card-header>
+                <md-card-content>
+                  <md-list>
+                    <md-input-container>
+                      <label>Itemfilter</label>
+                      <input ng-model="stockFilter"/>
+                    </md-input-container>
+                    <md-list-item ng-repeat="stockElement in toArray(project.stock) | filter: { item: { name: stockFilter } }" layout="row">
+                      <span flex>{{stockElement.amount}} {{stockElement.item.name}}</span>
+                      <md-button class="md-raised" ng-click="addToStock(project,stockElement.item,-stockElement.amount)">RemoveFromStock</md-button>
+                    </md-list-item>
+                  </md-list>
+                </md-card-content>
+              </md-card>
 
-                  <md-button class="md-raised" ng-click="addToStock(project,stockElement.item,-stockElement.amount)">RemoveFromStock</md-button>
-                </md-list-item>
-              </md-list>
+              <md-card>
+                <md-card-header>
+                  <md-card-header-text class="md-title">
+                    Items to Gather
+                  </md-card-header-text>
+                </md-card-header>
+                <md-card-content>
+                  <md-list>
+                    <md-input-container>
+                      <label>Itemfilter</label>
+                      <input ng-model="gatherFilter"/>
+                    </md-input-container>
+                    <md-list-item ng-repeat="gathers in toArray(projectData[project._id].gatherList) | filter: { item: { name: gatherFilter } }" ng-if="gathers.outstanding>0" layout="row">
+                      <span flex>{{gathers.outstanding}} {{gathers.item.name}}</span>
 
-              <md-list>
-                <md-subheader class="md-no-sticky">Items to Gather</md-subheader>
-                <md-input-container>
-                  <label>Itemfilter</label>
-                  <input ng-model="gatherFilter"/>
-                </md-input-container>
-                <md-list-item ng-repeat="gathers in toArray(projectData[project._id].gatherList) | filter: { item: { name: gatherFilter } }" ng-if="gathers.outstanding>0" layout="row">
-                  <span flex>{{gathers.outstanding}} {{gathers.item.name}}</span>
+                      <md-button class="md-raised" ng-click="addToStock(project,gathers.item,gathers.outstanding)">AddToStock</md-button>
+                    </md-list-item>
+                  </md-list>
+                </md-card-content>
+              </md-card>
 
-                  <md-button class="md-raised" ng-click="addToStock(project,gathers.item,gathers.outstanding)">AddToStock</md-button>
-                </md-list-item>
-              </md-list>
+              <md-card>
+                <md-card-header>
+                  <md-card-header-text class="md-title">
+                    Craftable Items
+                  </md-card-header-text>
+                </md-card-header>
+                <md-card-content>
+                  <md-list>
+                    <md-input-container>
+                      <label>Itemfilter</label>
+                      <input ng-model="craftableFilter"/>
+                    </md-input-container>
+                    <md-list-item ng-repeat="craftable in toArray(projectData[project._id].craftableSteps)  | filter: { step: { item: { name: craftableFilter } } }" layout="row">
+                      <span flex>{{craftable.step.amount}} {{craftable.step.item.name}}</span>
 
-              <md-list>
-                <md-subheader class="md-no-sticky">Craftable Items</md-subheader>
-                <md-input-container>
-                  <label>Itemfilter</label>
-                  <input ng-model="craftableFilter"/>
-                </md-input-container>
-                <md-list-item ng-repeat="craftable in toArray(projectData[project._id].craftableSteps)  | filter: { step: { item: { name: craftableFilter } } }" layout="row">
-                  <span flex>{{craftable.step.amount}} {{craftable.step.item.name}}</span>
+                      <md-button class="md-raised" ng-click="addToStock(project,craftable.step.item,craftable.step.amount)">AddToStock</md-button>
+                    </md-list-item>
+                  </md-list>
+                </md-card-content>
+              </md-card>
 
-                  <md-button class="md-raised" ng-click="addToStock(project,craftable.step.item,craftable.step.amount)">AddToStock</md-button>
-                </md-list-item>
-              </md-list>
-
-              <div>
-                <md-switch ng-model="project.public" ng-change="updateProject(project)">{{project.public?'public':'non-public'}} project</md-switch>
-              </div>
+              <md-card>
+                <md-card-content>
+                  <span>Project created By {{project.creator.name}}</span>
+                  <md-switch ng-model="project.public" ng-change="updateProject(project)">{{project.public?'public':'non-public'}} project</md-switch>
+                </md-card-content>
+              </md-card>
             </md-content>
-            <span>Created By {{project.creator.name}}</span>
+
           </md-tab>
         </md-tabs>
       </md-content>

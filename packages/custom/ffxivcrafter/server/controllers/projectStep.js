@@ -24,7 +24,9 @@ module.exports = function() {
       });
     },
     get: function(req,res) {
-      ProjectStep.findById(req.params.id,function(err,step) {
+      ProjectStep.findById(req.params.id)
+      .lean()
+      .exec(function(err,step) {
         if(err) throw err;
 
         res.send(step);

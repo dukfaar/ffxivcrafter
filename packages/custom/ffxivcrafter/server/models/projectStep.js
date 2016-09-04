@@ -12,6 +12,7 @@ var ProjectStepSchema = new Schema({
   inputs: [ { type: Schema.ObjectId, ref: 'ProjectStep' } ]
 });
 
+
 function autoPopulate (next) {
   this.populate('inputs');
   this.populate('item');

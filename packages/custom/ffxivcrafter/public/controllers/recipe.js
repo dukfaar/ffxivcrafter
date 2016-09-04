@@ -6,14 +6,8 @@ angular.module('mean.system').controller('RecipeController', ['$scope', 'Global'
 
     $scope.filter='';
 
-    $scope.jobs=['Armorer','Alchimist','Blacksmith','Carpenter','Weaver','Leatherworker','Goldsmith','Culinarian'];
-
     $scope.updateList=function() {
-      var url='/api/recipe';
-      if($scope.filter!=='')
-        url='/api/recipe/filteredList/'+$scope.filter;
-
-      $http.get(url)
+      $http.get('/api/recipe')
       .then(function(response) {
         $scope.recipeList=response.data;
       });

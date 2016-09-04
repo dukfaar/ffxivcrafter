@@ -13,6 +13,25 @@ angular.module('mean.system').controller('IndexController', ['$scope', 'Global',
     $scope.gatherFilter='';
     $scope.craftableFilter='';
 
+    $scope.deliveryDialog=function(project,item) {
+      $mdDialog.show({
+        templateUrl: 'meanStarter/views/project/deliveryDialog.html',
+        parent: angular.element(document.body),
+        controller: 'DeliveryDialogController',
+        clickOutsideToClose: true,
+        locals: {
+          item:item
+        }
+      }).then(function(amount) {
+        if(amount>0) {
+          $http.post('/api/project/stock/add/'+project._id+'/'+item._id+'/'+amount)
+          .then(function(err,result) {
+            $scope.updateList();
+          });
+        }
+      });
+    };
+
     $scope.updateList=function() {
       $http.get('api/project/public')
       .then(function(response) {
@@ -55,6 +74,7 @@ angular.module('mean.system').controller('IndexController', ['$scope', 'Global',
 
       for(var i in map) {
         var job=map[i];
+
         if(step.step.recipe.craftingJob===job[0]) {
           return step.step.recipe.craftingLevel<=MeanUser.user[job[1]];
         }

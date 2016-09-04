@@ -15,6 +15,9 @@ module.exports = function(myPackage,app,auth,db) {
   app.route('/api/project/stock/add/:projectId/:itemId/:amount')
   .post(projectController.addToStock);
 
+  app.route('/api/project/stock/set/:projectId/:itemId/:amount')
+  .post(projectController.setStock);
+
   app.route('/api/project/:id')
   .put(projectController.update);
 }

@@ -21,6 +21,13 @@ angular.module('mean.system').controller('ProjectController', ['$scope', 'Global
       });
     };
 
+    $scope.setStock=function(project,item,amount) {
+      $http.post('/api/project/stock/set/'+project._id+'/'+item._id+'/'+amount)
+      .then(function(err,result) {
+        $scope.updateList();
+      });
+    };
+
     $scope.updateProject=function(project) {
       $http.put('/api/project/'+project._id,project)
       .then(function(response) {
@@ -34,14 +41,15 @@ angular.module('mean.system').controller('ProjectController', ['$scope', 'Global
 
       $http.get(url)
       .then(function(response) {
+        $scope.projectData={};
+
         $scope.projectList=response.data;
 
-        $scope.projectData={};
         projectAnalyzerService.updateMaterialList($scope.projectList,$scope.projectData);
       });
     };
 
-    $scope.createProject=function() { 
+    $scope.createProject=function() {
       $http.post('/api/project')
       .then(function(response) {
         $scope.updateList();
