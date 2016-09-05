@@ -6,6 +6,21 @@ angular.module('mean.system').controller('RecipeController', ['$scope', 'Global'
 
     $scope.filter='';
 
+    $scope.recipeFilter=function(recipe) {
+      if(recipe.outputs.length===0) return true;
+
+      if($scope.filter==='') return true; 
+
+      for(var i in recipe.outputs) {
+        var output=recipe.outputs[i];
+
+        if(output.item.name.toLowerCase().search($scope.filter.toLowerCase()))
+          return true;
+      }
+
+      return false;
+    };
+
     $scope.updateList=function() {
       $http.get('/api/recipe')
       .then(function(response) {
