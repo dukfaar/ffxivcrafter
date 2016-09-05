@@ -96,6 +96,45 @@ module.exports = function() {
         res.send(project);
       });
     },
+    delete: function(req,res){
+      function deleteStep(step,callback) {
+        var countdown=step.inputs.length;
+        if(countdown===0) {
+          step.remove(function(err){
+            if(err) throw err;
+
+            callback();
+          });
+        }
+
+        step.inputs.forEach(function(subStep) {
+          deleteStep(subStep,function() {
+
+            countdown--;
+            if(countdown===0) {
+              step.remove(function(err){
+                if(err) throw err;
+
+                callback();
+              });
+            }
+          });
+        });
+
+      }
+
+      CraftingProject.findById(req.params.id).populate('tree').exec(function(err,project) {
+        if(err) throw err;
+
+        deleteStep(project.tree,function() {
+          project.remove(function(err) {
+            if(err) throw err;
+
+            res.send({});
+          });
+        });
+      });
+    },
     fromItem: function(req,res) {
       var stepForItem=function(itemId,amount,callback) {
         var step=new ProjectStep();

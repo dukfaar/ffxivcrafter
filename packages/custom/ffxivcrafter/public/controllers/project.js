@@ -36,6 +36,13 @@ angular.module('mean.system').controller('ProjectController', ['$scope', 'Global
       });
     };
 
+    $scope.deleteProject=function(project) {
+      $http.delete('/api/project/'+project._id)
+      .then(function(response) {
+        $scope.updateList();
+      });
+    };
+
     $scope.updateList=function() {
       var url='/api/project';
 

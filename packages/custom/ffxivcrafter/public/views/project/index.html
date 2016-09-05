@@ -98,6 +98,7 @@
                 <md-card-content>
                   <span>Project created By {{project.creator.name}}</span>
                   <md-switch ng-model="project.public" ng-change="updateProject(project)">{{project.public?'public':'non-public'}} project</md-switch>
+                  <md-button ng-click="deleteProject(project)" class="md-raised">Delete Project</md-button>
                 </md-card-content>
               </md-card>
             </md-content>
