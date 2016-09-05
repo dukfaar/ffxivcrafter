@@ -23,4 +23,7 @@ module.exports = function(myPackage,app,auth,db) {
 
   app.route('/api/recipe/by_output/:id')
   .get(recipeController.findByOutput);
+
+  app.route('/api/recipe/xivdbImport/:id')
+  .post(recipeController.xivdbImport);
 }

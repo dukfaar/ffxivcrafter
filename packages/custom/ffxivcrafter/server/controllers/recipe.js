@@ -78,6 +78,13 @@ module.exports = function() {
 
         res.send(result);
       });
+    },
+    xivdbImport:function(req,res) {
+      var xivItemId=req.params.id;
+      var url='http://api.xivdb.com/recipe/'+xivItemId;
+
+
+      res.send({});
     }
   }
 }
