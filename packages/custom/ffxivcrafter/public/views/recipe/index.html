@@ -11,7 +11,7 @@
                 <label>Job</label>
                 <md-select ng-model="recipe.craftingJob" ng-change="updateRecipe(recipe)">
                   <md-option ng-value="'Armorer'">Armorer</md-option>
-                  <md-option ng-value="'Alchimist'">Alchimist</md-option>
+                  <md-option ng-value="'Alchemist'">Alchemist</md-option>
                   <md-option ng-value="'Blacksmith'">Blacksmith</md-option>
                   <md-option ng-value="'Carpenter'">Carpenter</md-option>
                   <md-option ng-value="'Weaver'">Weaver</md-option>
@@ -86,6 +86,13 @@
       <md-input-container md-no-float>
         <input ng-model="filter" placeholder="Search"></input>
       </md-input-container>
+
+      <md-input-container>
+        <label>ImportID</label>
+        <input ng-model="xivdbImportId"></input>
+      </md-input-container>
+
+      <md-button ng-click="xivdbImport()">XIVDB Import</md-button>
     </md-toolbar>
   </footer>
 </div>

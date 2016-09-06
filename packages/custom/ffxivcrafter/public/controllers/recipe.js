@@ -9,7 +9,7 @@ angular.module('mean.system').controller('RecipeController', ['$scope', 'Global'
     $scope.recipeFilter=function(recipe) {
       if(recipe.outputs.length===0) return true;
 
-      if($scope.filter==='') return true; 
+      if($scope.filter==='') return true;
 
       for(var i in recipe.outputs) {
         var output=recipe.outputs[i];
@@ -38,6 +38,15 @@ angular.module('mean.system').controller('RecipeController', ['$scope', 'Global'
     $scope.updateRecipe=function(recipe) {
       $http.put('/api/recipe/'+recipe._id,recipe)
       .then(function(response) {
+      });
+    };
+
+    $scope.xivdbImportId=0;
+
+    $scope.xivdbImport=function() {
+      $http.post('/api/recipe/xivdbImport/'+$scope.xivdbImportId)
+      .then(function(response) {
+        $scope.updateList();
       });
     };
 

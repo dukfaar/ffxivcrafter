@@ -13,7 +13,7 @@ var RecipeSchema = new Schema({
     item:{type: Schema.ObjectId, ref: 'Item' },
     amount:{type: Number, default:1 }
   }],
-  craftingJob: { type: String, enum:['Armorer','Alchimist','Blacksmith','Carpenter','Weaver','Leatherworker','Goldsmith','Culinarian'], default: 'Armorer'},
+  craftingJob: { type: String, enum:['Armorer','Alchemist','Blacksmith','Carpenter','Weaver','Leatherworker','Goldsmith','Culinarian'], default: 'Armorer'},
   craftingLevel: { type: Number, min: 1, max: 60, default: 1}
 });
 
