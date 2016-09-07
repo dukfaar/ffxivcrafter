@@ -87,19 +87,6 @@ function getMaterialEffort(list) {
   return result;
 }
 
-/*$http.get('/api/recipe/by_output/'+value.item._id)
-.then(function(response) {
-  if(response.data.length>0) {
-   processRecipe(response.data[0],1);
- } else {
-   if(!$scope.craftingMaterials[value.item._id]) {
-     $scope.craftingMaterials[value.item._id]={item:value.item,amount:0};
-   }
-
-   $scope.craftingMaterials[value.item._id].amount+=value.amount*multiplier;
- }
-});*/
-
 module.exports = function() {
   return {
     craftItem:function(req,res) {

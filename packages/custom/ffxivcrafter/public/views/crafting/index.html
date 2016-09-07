@@ -40,6 +40,10 @@
         </md-card-content>
 
         <md-card-actions ng-show="selectedItem">
+          <md-input-container>
+            <label>Number of Items</label>
+            <input ng-model="order.amount"></input>
+          </md-input-container>
           <md-button class="md-raised" ng-click="projectFromItem(selectedItem)">Add as project</md-button>
         </md-card-actions>
       </md-card>

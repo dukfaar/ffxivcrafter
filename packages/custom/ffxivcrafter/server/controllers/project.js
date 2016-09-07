@@ -178,7 +178,7 @@ module.exports = function() {
         });
       };
 
-      stepForItem(req.params.id,1,function(step) {
+      stepForItem(req.params.id,req.params.amount,function(step) {
         var project=new CraftingProject();
         project.creator=req.user._id;
         project.tree=step._id;

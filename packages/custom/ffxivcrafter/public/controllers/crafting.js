@@ -8,6 +8,11 @@ angular.module('mean.system').controller('CraftingController', ['$scope', 'Globa
 
     $scope.filter='';
 
+    $scope.order={
+      amount: 1
+    };
+
+
     $scope.updateList=function() {
       var url='/api/item';
       if($scope.filter!=='')
@@ -51,7 +56,8 @@ angular.module('mean.system').controller('CraftingController', ['$scope', 'Globa
     };
 
     $scope.projectFromItem=function(item) {
-      $http.post('/api/project/fromItem/'+item._id)
+      console.log($scope.order.amount);
+      $http.post('/api/project/fromItem/'+item._id+"/"+$scope.order.amount)
       .then(function(response) {
 
       });
