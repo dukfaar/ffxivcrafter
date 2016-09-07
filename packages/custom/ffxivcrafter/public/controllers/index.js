@@ -53,7 +53,9 @@ angular.module('mean.system').controller('IndexController', ['$scope', 'Global',
 
       for(var i in map) {
         var job=map[i];
-        if(step.item.gatheringJob===job[0]) {
+        if(step.item.gatheringJob==='None') {
+          return true;
+        } else if(step.item.gatheringJob===job[0]) {
           return step.item.gatheringLevel<=MeanUser.user[job[1]];
         }
       }
