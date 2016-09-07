@@ -11,7 +11,8 @@ var CraftingProjectSchema = new Schema({
     item: { type: Schema.ObjectId, ref: 'Item'},
     amount: { type: Number, default: 0 }
   }],
-  public: { type: Boolean, default: false }
+  public: { type: Boolean, default: false },
+  comment: { type: String, default: '' }
 });
 
 mongoose.model('CraftingProject',CraftingProjectSchema);

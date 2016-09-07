@@ -183,6 +183,10 @@ module.exports = function() {
         project.creator=req.user._id;
         project.tree=step._id;
 
+        if(req.body.comment) {
+          project.comment=req.body.comment;
+        }
+
         project.save(function(err) {
           if(err) throw err;
         });

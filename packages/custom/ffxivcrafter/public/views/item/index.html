@@ -13,6 +13,7 @@
                   <th>Gathering Job</th>
                   <th>Gathering Effort</th>
                   <th>Gathering Level</th>
+                  <th>OrderByUnprivileged</th>
                   <th ng-if="allowed('delete items')"></th>
                 </tr>
               </thead>
@@ -45,6 +46,9 @@
                   <td style="width:10%">
                     <span ng-if="!allowed('edit itemdata') && item.gatheringLevel>0">{{item.gatheringLevel}}</span>
                     <input ng-if="allowed('edit itemdata')" ng-model="item.gatheringLevel" ng-model-options="{debounce:300}" ng-change="updateItem(item)" size="3"/>
+                  </td>
+                  <td ng-if="allowed('edit itemdata')">
+                    <input type="checkbox" ng-model="item.canBeOrderedByUnprivileged" ng-change="updateItem(item)"/>
                   </td>
                   <td ng-if="allowed('delete items')">
                     <i class="material-icons" ng-click="deleteItem(item)">delete</i>

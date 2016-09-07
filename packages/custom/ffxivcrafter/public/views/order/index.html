@@ -1,0 +1,49 @@
+<div ng-controller="OrderController">
+  <div flex>
+    <md-content layout="row" layout-fill>
+      <md-card>
+        <md-card-content>
+          <md-input-container md-no-float>
+            <input ng-model="filter" ng-change="updateList()" ng-model-options="{debounce:300}" placeholder="Search"></input>
+          </md-input-container>
+          <md-list>
+            <md-list-item ng-repeat="item in itemList" ng-click="selectItem(item)">
+              {{item.name}}
+            </md-list-item>
+          </md-list>
+        </md-card-content>
+      </md-card>
+
+      <md-card ng-if="selectedItem">
+        <md-card-header>
+          <md-card-header-text class="md-title">
+            {{selectedItem.name}}
+          </md-card-header-text>
+        </md-card-header>
+        <md-card-content ng-show="selectedItem">
+        </md-card-content>
+
+        <md-card-actions ng-show="selectedItem">
+          <md-input-container>
+            <label>Number of Items</label>
+            <input ng-model="order.amount"></input>
+          </md-input-container>
+          <md-button class="md-raised" ng-click="orderItem(selectedItem)">Place Order</md-button>
+        </md-card-actions>
+      </md-card>
+
+      <md-card ng-if="selectedItem">
+        <md-card-header>
+          <md-card-header-text class="md-title">
+            Comment
+          </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+          <md-input-container>
+            <textarea ng-model="order.comment"></textarea>
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+    </md-content>
+  </div>
+</div>

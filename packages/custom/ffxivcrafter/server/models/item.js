@@ -10,7 +10,8 @@ var ItemSchema = new Schema({
   priceHQ: { type: Number, default: 0 },
   gatheringEffort: { type: Number, default: 0},
   gatheringJob: { type:String, enum: ['None', 'Botanist', 'Miner'], default: 'None' },
-  gatheringLevel: { type: Number, default: 0 }
+  gatheringLevel: { type: Number, default: 0 },
+  canBeOrderedByUnprivileged: { type: Boolean, default: false }
 });
 
 mongoose.model('Item',ItemSchema);

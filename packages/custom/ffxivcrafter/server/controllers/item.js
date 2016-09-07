@@ -5,6 +5,9 @@ var Item = mongoose.model('Item');
 
 module.exports = function() {
   var doFind=function(query,req,res) {
+    if(req.query.privileged&&req.query.privileged=='true') {
+      query['canBeOrderedByUnprivileged']=true;
+    }
 
     var limit=parseInt(req.query.limit);
     var page=parseInt(req.query.page);
@@ -32,6 +35,7 @@ module.exports = function() {
     list: function(req,res) {
       doFind({},req,res);
     },
+
     filteredList: function(req,res) {
       doFind({'name':{$regex:req.params.q,$options:'i'}},req,res);
     },

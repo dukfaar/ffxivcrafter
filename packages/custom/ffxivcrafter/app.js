@@ -19,6 +19,13 @@ MeanStarter.register(function(app, users, system, database) {
   MeanStarter.routes(app,users,system);
 
   MeanStarter.menus.add({
+    title:'Order',
+    link:'order home',
+    roles:['authenticated'],
+    menu:'main'
+  });
+
+  MeanStarter.menus.add({
     title:'ItemList',
     link:'item list',
     roles:['see items'],
