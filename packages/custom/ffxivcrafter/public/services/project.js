@@ -54,6 +54,32 @@ angular.module('mean.system').factory('projectAnalyzerService', function() {
     }
   }
 
+  function buyingStep(step,projectData) {
+    var needsGathering=!itemInUnallocatedStock(projectData,step.item,step.amount);
+
+    if(needsGathering) {
+      if(!projectData.gatherList[step.item._id]) {
+        projectData.gatherList[step.item._id] = {
+          item: step.item,
+          outstanding: 0
+        };
+      }
+
+      var toGather=step.amount;
+
+      var storedAmount=getAmountOfItemInUnnallocatedStock(projectData,step.item);
+      if(storedAmount!=null) {
+        toGather-=storedAmount;
+        deductFromUnallocatedStock(projectData,step.item,storedAmount);
+      }
+
+      projectData.gatherList[step.item._id].outstanding+=toGather;
+      projectData.totalCost+=step.item.price*step.amount;
+    } else {
+      deductFromUnallocatedStock(projectData,step.item,step.amount);
+    }
+  }
+
   function craftingStep(step,projectData) {
     var needsCrafting=!itemInUnallocatedStock(projectData,step.item,step.amount);
 
@@ -97,6 +123,8 @@ angular.module('mean.system').factory('projectAnalyzerService', function() {
       gatheringStep(step,projectData);
     } else if(step.step==='Craft') {
       craftingStep(step,projectData);
+    } else if(step.step==='Buy') {
+      buyingStep(step,projectData);
     }
   }
 
@@ -120,7 +148,8 @@ angular.module('mean.system').factory('projectAnalyzerService', function() {
           project: project,
           gatherList:{},
           craftableSteps:[],
-          unallocatedStock:$.extend(true,{},project.stock)
+          unallocatedStock:$.extend(true,{},project.stock),
+          totalCost:0
         };
       }
 

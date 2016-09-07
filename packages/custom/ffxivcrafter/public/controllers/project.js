@@ -43,6 +43,15 @@ angular.module('mean.system').controller('ProjectController', ['$scope', 'Global
       });
     };
 
+    $scope.updateStep=function(step) {
+      console.log('meowmeow');
+      $http.put('/api/projectstep/'+step._id,step)
+      .then(function(response) {
+        $scope.projectData={};
+        projectAnalyzerService.updateMaterialList($scope.projectList,$scope.projectData);
+      });
+    }
+
     $scope.updateList=function() {
       var url='/api/project';
 

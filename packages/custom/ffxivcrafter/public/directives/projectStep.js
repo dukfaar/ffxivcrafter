@@ -4,7 +4,13 @@ angular.module('mean.system').directive('projectStep',function() {
   return {
     templateUrl:'/meanStarter/views/project/projectStep.html',
     scope: {
-      step: '='
+      step: '=',
+      updateStep: '&'
+    },
+    controller:function($scope) {
+      $scope.update=function() {
+        $scope.updateStep()($scope.step);
+      };
     }
   };
 });

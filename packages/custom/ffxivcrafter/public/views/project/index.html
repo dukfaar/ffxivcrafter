@@ -4,10 +4,10 @@
       <md-content layout-wrap>
         <md-tabs md-dynamic-height md-border-bottom>
           <md-tab ng-repeat="project in projectList" label="{{project.tree.item.name}}">
-            <md-content layout="row" layout-padding>
+            <md-content layout="row" layout-wrap>
               <md-card>
                 <md-card-content>
-                  <project-step data-step="project.tree"></project-step>
+                  <project-step data-step="project.tree" update-step="updateStep"></project-step>
                 </md-card-content>
               </md-card>
 
@@ -73,15 +73,35 @@
                 </md-card-content>
               </md-card>
 
-              <md-card>
-                <md-card-content>
-                  <span>Project created By {{project.creator.name}}</span>
-                  <md-switch ng-model="project.public" ng-change="updateProject(project)">{{project.public?'public':'non-public'}} project</md-switch>
-                  <md-button ng-click="deleteProject(project)" class="md-raised">Delete Project</md-button>
-                </md-card-content>
-              </md-card>
-            </md-content>
+              <span layout="column">
+                <md-card>
+                  <md-card-content layout="column">
+                    <div layout="row">
+                      <span flex>Expected Revenue: </span>
+                      <span>{{project.tree.item.price.toLocaleString()}}g</span>
+                    </div>
+                    <div layout="row" layout-fill>
+                      <span flex>Total Cost: </span>
+                      <span >{{projectData[project._id].totalCost.toLocaleString()}}g</span>
+                    </div>
+                    <div layout="row">
+                      <span flex>Expected Profit: </span>
+                      <span>{{(project.tree.item.price*0.95-projectData[project._id].totalCost).toLocaleString()}}g</span>
+                    </div>
+                  </md-card-content>
+                </md-card>
 
+                <md-card>
+                  <md-card-content>
+                    <span>Project created By {{project.creator.name}}</span>
+                    <md-switch ng-model="project.public" ng-change="updateProject(project)">{{project.public?'public':'non-public'}} project</md-switch>
+
+                    <md-button ng-click="deleteProject(project)" class="md-raised">Delete Project</md-button>
+                  </md-card-content>
+                </md-card>
+              </span>
+
+            </md-content>
           </md-tab>
         </md-tabs>
       </md-content>
