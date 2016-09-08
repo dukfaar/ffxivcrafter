@@ -13,7 +13,7 @@ module.exports = {
   },
   hostname: 'http://localhost:3000',
   app: {
-    name: 'FFXIVCrafter - DEV MODE'
+    name: 'RainCollector - DEV MODE'
   },
   strategies: {
     local: {

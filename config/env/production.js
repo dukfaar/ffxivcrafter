@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  db: 'mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'localhost') + '/ffxivcrafter',
+  db: 'mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'localhost') + '/mean-dev',
   /**
    * Database options that will be passed directly to mongoose.connect
    * Below are some examples.
@@ -28,7 +28,7 @@ module.exports = {
   },
   hostname: 'http://localhost:3000',
   app: {
-    name: 'FFXIVCrafter'
+    name: 'RainCollector'
   },
   logging: {
     format: 'combined'
