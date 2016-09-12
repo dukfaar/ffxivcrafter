@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('mean.ffxivCrafter').controller('DeliveryCraftDialogController',
   function ($scope, $mdDialog, item) {
@@ -8,14 +8,14 @@ angular.module('mean.ffxivCrafter').controller('DeliveryCraftDialogController',
       item: item
     }
 
-    $scope.hide = function() {
-      $mdDialog.hide();
-    };
-    $scope.cancel = function() {
-      $mdDialog.cancel();
-    };
-    $scope.deliver = function() {
-      $mdDialog.hide($scope.data);
-    };
+    $scope.hide = function () {
+      $mdDialog.hide()
+    }
+    $scope.cancel = function () {
+      $mdDialog.cancel()
+    }
+    $scope.deliver = function () {
+      $mdDialog.hide($scope.data)
+    }
   }
-);
+)

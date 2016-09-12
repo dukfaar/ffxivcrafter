@@ -40,7 +40,7 @@
             </md-input-container>
             <div ng-repeat="project in projectList">
               <md-list-item
-                ng-click="deliveryDialog(project,craftable.step.item)"
+                ng-click="deliveryCraftDialog(project,craftable.step.item,craftable.step)"
                 ng-repeat="craftable in toArray(projectData[project._id].craftableSteps) | filter: { step: { item: { name: craftableFilter }}} | filter:canCraft" layout="row">
                 <span flex>{{craftable.step.amount}} {{craftable.step.item.name}}</span>
               </md-list-item>

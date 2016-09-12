@@ -1,12 +1,12 @@
-'use strict';
+'use strict'
 
-//Setting up route
+// Setting up route
 angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
-  function($meanStateProvider) {
+  function ($meanStateProvider) {
     $meanStateProvider
       .state('project list', {
         url: '/project/list',
         templateUrl: 'ffxivCrafter/views/project/index.html'
-      });
+      })
   }
-]);
+])
