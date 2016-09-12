@@ -67,7 +67,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
         var itemsInStock = getAmountOfItemInUnnallocatedStock(projectData, input.item)
         var remainingNeeded = neededItems - itemsInStock
 
-        neededInputs[index] = remainingNeeded
+        neededInputs[input.item] = remainingNeeded
         var possibleSteps = itemsInStock > 0 ? itemsInStock / input.amount : 0
 
         maxSteps = Math.min(maxSteps, possibleSteps)
@@ -88,7 +88,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
       }
 
       step.inputs.forEach(function (input, index) {
-        input.amount = neededInputs[index]
+        input.amount = neededInputs[input.item._id]
         analyzeStep(input, projectData)
       })
     } else {
