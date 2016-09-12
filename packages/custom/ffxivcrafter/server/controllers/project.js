@@ -196,7 +196,7 @@ module.exports = function () {
 
               var transport = nodemailer.createTransport(config.mailer)
 
-              users.forEach(function(user) {
+              /*users.forEach(function(user) {
                 transport.sendMail({
                   from: config.emailFrom,
                   to: user.email,
@@ -205,7 +205,7 @@ module.exports = function () {
                 }, function(err, response) {
                   if (err) return err
                 })
-              })
+              })*/
             })
           }
         })
