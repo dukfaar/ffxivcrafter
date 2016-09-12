@@ -6,6 +6,11 @@ var CraftingProject = mongoose.model('CraftingProject')
 var ProjectStep = mongoose.model('ProjectStep')
 var Recipe = mongoose.model('Recipe')
 var Item = mongoose.model('Item')
+var User = mongoose.model('User')
+
+var nodemailer = require('nodemailer')
+
+var config = require('meanio').loadConfig()
 
 module.exports = function () {
   return {
@@ -183,6 +188,26 @@ module.exports = function () {
 
         project.save(function (err) {
           if (err) throw err
+
+          if(req.body.orderedViaOrderView) {
+            User.find({roles: 'projectManager' })
+            .exec(function(err,users) {
+              if(err) throw err
+
+              var transport = nodemailer.createTransport(config.mailer)
+
+              users.forEach(function(user) {
+                transport.sendMail({
+                  from: config.emailFrom,
+                  to: user.email,
+                  subject: 'New Crafting order',
+                  html: '<p>A new crafting order has been placed by '+req.user.name+'. Please check the RainCollector</p>'
+                }, function(err, response) {
+                  if (err) return err
+                })
+              })
+            })
+          }
         })
       })
 
