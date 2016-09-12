@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.system').controller('ItemController', ['$scope', 'Global','$http', '$mdDialog', 'MeanUser',
+angular.module('mean.ffxivCrafter').controller('ItemController', ['$scope', 'Global','$http', '$mdDialog', 'MeanUser',
   function($scope, Global,$http, $mdDialog, MeanUser) {
     $scope.user=MeanUser;
     $scope.allowed=function(perm) {
@@ -78,7 +78,7 @@ angular.module('mean.system').controller('ItemController', ['$scope', 'Global','
 
     $scope.openImport=function() {
       $mdDialog.show({
-        templateUrl: 'meanStarter/views/item/importDialog.html',
+        templateUrl: 'ffxivCrafter/views/item/importDialog.html',
         parent: angular.element(document.body),
         controller: 'ItemImportDialogController',
         clickOutsideToClose: true

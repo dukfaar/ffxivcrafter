@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.system').controller('RecipeController', ['$scope', 'Global', '$http', '$mdDialog',
+angular.module('mean.ffxivCrafter').controller('RecipeController', ['$scope', 'Global', '$http', '$mdDialog',
   function($scope, Global, $http, $mdDialog) {
     $scope.recipeList=[];
 

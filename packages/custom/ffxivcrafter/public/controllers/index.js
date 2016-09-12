@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.system').controller('IndexController', ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'MeanUser',
+angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'MeanUser',
   function($scope, Global, $http, $mdDialog,projectAnalyzerService, MeanUser) {
     $scope.user=MeanUser;
     $scope.allowed=function(perm) {
@@ -15,7 +15,7 @@ angular.module('mean.system').controller('IndexController', ['$scope', 'Global',
 
     $scope.deliveryDialog=function(project,item) {
       $mdDialog.show({
-        templateUrl: 'meanStarter/views/project/deliveryDialog.html',
+        templateUrl: 'ffxivCrafter/views/project/deliveryDialog.html',
         parent: angular.element(document.body),
         controller: 'DeliveryDialogController',
         clickOutsideToClose: true,

@@ -5,58 +5,74 @@
  */
 var Module = require('meanio').Module;
 
-var MeanStarter = new Module('meanStarter');
+var FFXIVCrafter = new Module('ffxivCrafter');
 
-/*
- * All MEAN packages require registration
- * Dependency injection is used to define required modules
- */
-MeanStarter.register(function(app, users, system, database) {
+function setupCircles(circles) {
+  circles.registerCircle('projectManager',['admin']);
 
-  // Set views path, template engine and default layout
-  app.set('views', __dirname + '/server/views');
+  circles.registerCircle('manage items',['admin']);
+  circles.registerCircle('see items',['manage items']);
+  circles.registerCircle('edit itemdata',['manage items']);
+  circles.registerCircle('edit itemprices',['manage items']);
+  circles.registerCircle('create items',['manage items']);
+  circles.registerCircle('delete items',['manage items']);
 
-  MeanStarter.routes(app,users,system);
+  circles.registerCircle('manage recipes',['admin']);
+  circles.registerCircle('see recipes',['manage recipes']);
 
-  MeanStarter.menus.add({
+  circles.registerCircle('manage crafting',['projectManager']);
+  circles.registerCircle('see crafting',['manage crafting']);
+
+  circles.registerCircle('manage projects',['projectManager']);
+  circles.registerCircle('see projects',['manage projects']);
+
+  circles.registerCircle('see public tasks',['admin']);
+  circles.registerCircle('see public craft tasks',['see public tasks']);
+  circles.registerCircle('see public gather tasks',['see public tasks']);
+}
+
+function setupMenus() {
+  FFXIVCrafter.menus.add({
     title:'Order',
     link:'order home',
     roles:['authenticated'],
     menu:'main'
   });
 
-  MeanStarter.menus.add({
+  FFXIVCrafter.menus.add({
     title:'ItemList',
     link:'item list',
     roles:['see items'],
     menu:'main'
   });
-  MeanStarter.menus.add({
+  FFXIVCrafter.menus.add({
     title:'RecipeList',
     link:'recipe list',
     roles:['see recipes'],
     menu:'main'
   });
-  MeanStarter.menus.add({
+  FFXIVCrafter.menus.add({
     title:'Crafting',
     link:'crafting home',
     roles:['see crafting'],
     menu:'main'
   });
-  MeanStarter.menus.add({
+  FFXIVCrafter.menus.add({
     title:'Projects',
     link:'project list',
     roles:['see projects'],
     menu:'main'
   });
 
-  MeanStarter.menus.add({
+  FFXIVCrafter.menus.add({
     title:'Level Settings',
     link:'doldoh config',
     roles:['authenticated'],
     menu:'account'
   });
+}
 
+function extendUser(database) {
   var UserModel = database.connection.model('User');
   UserModel.schema.add({
     minerLevel: { type: Number, min:1, max: 60, default: 1 },
@@ -70,8 +86,25 @@ MeanStarter.register(function(app, users, system, database) {
     goldsmithLevel: { type: Number, min:1, max: 60, default: 1 },
     leatherworkerLevel: { type: Number, min:1, max: 60, default: 1 }
   });
+}
 
-  MeanStarter.angularDependencies(['mean.system', 'mean.users','ngMaterial']);
+/*
+ * All MEAN packages require registration
+ * Dependency injection is used to define required modules
+ */
+FFXIVCrafter.register(function(app, users, system, admin, database, circles) {
+  // Set views path, template engine and default layout
+  app.set('views', __dirname + '/server/views');
 
-  return MeanStarter;
+  FFXIVCrafter.routes(app,users,system);
+
+  setupMenus();
+
+  extendUser(database);
+
+  FFXIVCrafter.angularDependencies(['mean.system', 'mean.users', 'mean.admin', 'ngMaterial']);
+
+  setupCircles(circles);
+
+  return FFXIVCrafter;
 });

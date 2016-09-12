@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('mean.system').factory('projectAnalyzerService', function() {
-  function getAmountOfItemInUnnallocatedStock(projectData,item) {
+angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function() {
+  function getAmountOfItemInUnnallocatedStock(projectData,itemId) {
     for(var i in projectData.unallocatedStock) {
       var sItem = projectData.unallocatedStock[i];
 
-      if(sItem.item._id==item._id) {
+      if(sItem.item._id==itemId) {
         return sItem.amount;
       }
     }
@@ -13,24 +13,24 @@ angular.module('mean.system').factory('projectAnalyzerService', function() {
     return null;
   }
 
-  function itemInUnallocatedStock(projectData,item,amount) {
-    var storedAmount=getAmountOfItemInUnnallocatedStock(projectData,item,amount);
+  function itemInUnallocatedStock(projectData,itemId,amount) {
+    var storedAmount=getAmountOfItemInUnnallocatedStock(projectData,itemId,amount);
 
     return storedAmount!=null&&storedAmount>=amount;
   }
 
-  function deductFromUnallocatedStock(projectData,item,amount) {
+  function deductFromUnallocatedStock(projectData,itemId,amount) {
     for(var i in projectData.unallocatedStock) {
       var sItem = projectData.unallocatedStock[i];
 
-      if(sItem.item._id==item._id) {
+      if(sItem.item._id==itemId) {
         sItem.amount-=amount;
       }
     }
   }
 
   function gatheringStep(step,projectData) {
-    var needsGathering=!itemInUnallocatedStock(projectData,step.item,step.amount);
+    var needsGathering=!itemInUnallocatedStock(projectData,step.item._id,step.amount);
 
     if(needsGathering) {
       if(!projectData.gatherList[step.item._id]) {
@@ -42,15 +42,15 @@ angular.module('mean.system').factory('projectAnalyzerService', function() {
 
       var toGather=step.amount;
 
-      var storedAmount=getAmountOfItemInUnnallocatedStock(projectData,step.item);
+      var storedAmount=getAmountOfItemInUnnallocatedStock(projectData,step.item._id);
       if(storedAmount!=null) {
         toGather-=storedAmount;
-        deductFromUnallocatedStock(projectData,step.item,storedAmount);
+        deductFromUnallocatedStock(projectData,step.item._id,storedAmount);
       }
 
       projectData.gatherList[step.item._id].outstanding+=toGather;
     } else {
-      deductFromUnallocatedStock(projectData,step.item,step.amount);
+      deductFromUnallocatedStock(projectData,step.item._id,step.amount);
     }
   }
 
@@ -81,12 +81,28 @@ angular.module('mean.system').factory('projectAnalyzerService', function() {
   }
 
   function craftingStep(step,projectData) {
-    var needsCrafting=!itemInUnallocatedStock(projectData,step.item,step.amount);
+    var neededAmount=step.amount-getAmountOfItemInUnnallocatedStock(projectData,step.item._id);
 
-    if(needsCrafting) {
+    if(neededAmount>0) {
+      var neededSteps=Math.ceil(neededAmount/step.recipe.outputs[0].amount); //how often we need to craft the recipe the fulfill the need
+      var maxSteps=neededSteps; //who often we can craft the recipe, with our input materials
+
       var isCraftable=true;
 
-      step.inputs.forEach(function(input) {
+      var neededInputs={};
+
+      step.recipe.inputs.forEach(function(input,index) {
+        var neededItems=input.amount*neededSteps;
+
+        var itemsInStock=getAmountOfItemInUnnallocatedStock(projectData,input.item);
+        var remainingNeeded=neededItems-itemsInStock;
+        neededInputs[index]=remainingNeeded;
+        var possibleSteps=itemsInStock>0?itemsInStock/input.amount:0;
+
+        console.log("I could craft %i times and still need %i",possibleSteps,remainingNeeded);
+      });
+
+      /*step.inputs.forEach(function(input) {
         var found=false;
 
         for(var stockItem in projectData.project.stock) {
@@ -95,16 +111,20 @@ angular.module('mean.system').factory('projectAnalyzerService', function() {
           if(sItem.item._id==input.item._id) {
             found=true;
 
+            var maxItemSteps=sItem/input.amount
+
             if(sItem.amount<input.amount) {
               isCraftable=false;
             }
+
+            break;
           }
         }
 
-        if(!found) isCraftable=false;
-      });
+        if(!found) maxSteps=0;
+      });*/
 
-      if(isCraftable) {
+      /*if(isCraftable) {
         projectData.craftableSteps.push({
           step: step
         });
@@ -112,9 +132,9 @@ angular.module('mean.system').factory('projectAnalyzerService', function() {
         step.inputs.forEach(function(input) {
           analyzeStep(input,projectData);
         });
-      }
+      }*/
     } else {
-      deductFromUnallocatedStock(projectData,step.item,step.amount);
+      deductFromUnallocatedStock(projectData,step.item._id,step.amount);
     }
   }
 

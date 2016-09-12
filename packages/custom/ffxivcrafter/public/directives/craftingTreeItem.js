@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('mean.system').directive('craftingTreeItem',function() {
+angular.module('mean.ffxivCrafter').directive('craftingTreeItem',function() {
   return {
-    templateUrl:'/meanStarter/views/crafting/craftingTreeItem.html',
+    templateUrl:'/ffxivCrafter/views/crafting/craftingTreeItem.html',
     scope: {
       tree: '='
     }

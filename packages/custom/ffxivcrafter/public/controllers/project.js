@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.system').controller('ProjectController', ['$scope', 'Global','$http', '$mdDialog', 'projectAnalyzerService',
+angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', 'Global','$http', '$mdDialog', 'projectAnalyzerService',
   function($scope, Global,$http, $mdDialog, projectAnalyzerService) {
     $scope.projectList=[];
     $scope.projectData={};

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.system').controller('CraftingController', ['$scope', 'Global', '$http', '$mdDialog',
+angular.module('mean.ffxivCrafter').controller('CraftingController', ['$scope', 'Global', '$http', '$mdDialog',
   function($scope, Global, $http, $mdDialog) {
     $scope.itemList=null;
 

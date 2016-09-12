@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.system').controller('DoLDoHProfileController', ['$scope', 'Global', '$http', '$mdDialog', 'MeanUser',
+angular.module('mean.ffxivCrafter').controller('DoLDoHProfileController', ['$scope', 'Global', '$http', '$mdDialog', 'MeanUser',
   function($scope, Global, $http, $mdDialog, MeanUser) {
     $scope.user=MeanUser;
 

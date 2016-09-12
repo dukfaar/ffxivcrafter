@@ -1,18 +1,18 @@
 'use strict'
 
 // Setting up route
-angular.module('mean.meanStarter').config(['$meanStateProvider',
+angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
   function ($meanStateProvider) {
     // states for users
     $meanStateProvider
       .state('auth', {
         url: '/auth',
         abstract: true,
-        templateUrl: 'meanStarter/views/users/index.html'
+        templateUrl: 'ffxivCrafter/views/users/index.html'
       })
       .state('auth.login', {
         url: '/login',
-        templateUrl: 'meanStarter/views/users/login.html',
+        templateUrl: 'ffxivCrafter/views/users/login.html',
         resolve: {
           loggedin: function (MeanUser) {
             return MeanUser.checkLoggedOut()
@@ -21,7 +21,7 @@ angular.module('mean.meanStarter').config(['$meanStateProvider',
       })
       .state('auth.register', {
         url: '/register',
-        templateUrl: 'meanStarter/views/users/register.html',
+        templateUrl: 'ffxivCrafter/views/users/register.html',
         resolve: {
           loggedin: function (MeanUser) {
             return MeanUser.checkLoggedOut()
@@ -30,7 +30,7 @@ angular.module('mean.meanStarter').config(['$meanStateProvider',
       })
       .state('forgot-password', {
         url: '/forgot-password',
-        templateUrl: 'meanStarter/views/users/forgot-password.html',
+        templateUrl: 'ffxivCrafter/views/users/forgot-password.html',
         resolve: {
           loggedin: function (MeanUser) {
             return MeanUser.checkLoggedOut()
@@ -39,7 +39,7 @@ angular.module('mean.meanStarter').config(['$meanStateProvider',
       })
       .state('reset-password', {
         url: '/reset/:tokenId',
-        templateUrl: 'meanStarter/views/users/reset-password.html',
+        templateUrl: 'ffxivCrafter/views/users/reset-password.html',
         resolve: {
           loggedin: function (MeanUser) {
             return MeanUser.checkLoggedOut()

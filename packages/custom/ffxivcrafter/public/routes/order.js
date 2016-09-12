@@ -1,12 +1,12 @@
 'use strict';
 
 //Setting up route
-angular.module('mean.meanStarter').config(['$meanStateProvider',
+angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
   function($meanStateProvider) {
     $meanStateProvider
     .state('order home', {
       url: '/order/home',
-      templateUrl: 'meanStarter/views/order/index.html'
+      templateUrl: 'ffxivCrafter/views/order/index.html'
     });
   }
 ]);

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.system').controller('ItemSelectionDialogController', ['$scope', '$mdDialog',
+angular.module('mean.ffxivCrafter').controller('ItemSelectionDialogController', ['$scope', '$mdDialog',
   function ($scope, $mdDialog) {
     $scope.hide = function() {
       $mdDialog.hide();

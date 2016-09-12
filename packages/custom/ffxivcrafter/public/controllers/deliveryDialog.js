@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.system').controller('DeliveryDialogController',
+angular.module('mean.ffxivCrafter').controller('DeliveryDialogController',
   function ($scope, $mdDialog, item) {
     $scope.amount=0;
     $scope.item=item;

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.system').controller('HeaderController', ['$scope', '$rootScope', 'Menus', 'MeanUser', '$state', '$mdSidenav',
+angular.module('mean.ffxivCrafter').controller('HeaderController', ['$scope', '$rootScope', 'Menus', 'MeanUser', '$state', '$mdSidenav',
   function($scope, $rootScope, Menus, MeanUser, $state, $mdSidenav) {
     $scope.allowed=function(perm) {
       return MeanUser.acl.allowed&&MeanUser.acl.allowed.indexOf(perm)!=-1;

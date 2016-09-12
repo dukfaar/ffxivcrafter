@@ -1,9 +1,9 @@
 {
-  "name": "meanStarter",
+  "name": "ffxivCrafter",
   "version": "0.0.1",
-  "description": "A starter layout / theme package for MEAN",
+  "description": "",
   "author": {
-    "name": "MEAN.io"
+    "name": "dukfaar"
   },
   "mean": "0.6.0",
   "dependencies": {
