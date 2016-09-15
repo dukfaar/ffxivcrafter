@@ -5,8 +5,13 @@ var Item = mongoose.model('Item');
 
 module.exports = function() {
   var doFind=function(query,req,res) {
-    if(req.query.privileged&&req.query.privileged=='true') {
+    if(req.query.privileged&&req.query.privileged==='true') {
       query['canBeOrderedByUnprivileged']=true;
+    }
+
+    if(req.query.mbItems&&req.query.mbItems==='true') {
+      query['soldOnMarket']=true;
+      console.log('meow')
     }
 
     var limit=parseInt(req.query.limit);

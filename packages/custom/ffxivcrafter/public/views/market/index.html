@@ -1,0 +1,26 @@
+<div ng-controller="MarketController" flex>
+  <main style="overflow:auto">
+    <div flex>
+      <md-content layout="row" layout-wrap>
+        <table style="width:100%" class="table table-striped item-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Items in Stock</th>
+              <th>MB Discount</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in itemList">
+              <th>{{item.name}}</th>
+              <th>{{item.inStock}}</th>
+              <th>{{item.discount}}</th>
+              <th>{{item.price}}</th>
+            </tr>
+          </tbody>
+        </table>
+      </md-content>
+    </div>
+  </main>
+</div>

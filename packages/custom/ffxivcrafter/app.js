@@ -40,6 +40,13 @@ function setupMenus() {
   });
 
   FFXIVCrafter.menus.add({
+    title:'Market',
+    link:'market home',
+    roles:['authenticated'],
+    menu:'main'
+  });
+
+  FFXIVCrafter.menus.add({
     title:'ItemList',
     link:'item list',
     roles:['see items'],

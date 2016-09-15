@@ -11,7 +11,10 @@ var ItemSchema = new Schema({
   gatheringEffort: { type: Number, default: 0},
   gatheringJob: { type:String, enum: ['None', 'Botanist', 'Miner'], default: 'None' },
   gatheringLevel: { type: Number, default: 0 },
-  canBeOrderedByUnprivileged: { type: Boolean, default: false }
+  canBeOrderedByUnprivileged: { type: Boolean, default: false },
+  soldOnMarket: { type: Boolean, default: false },
+  inStock: { type: Number, default: 0},
+  discount: { type: Number, default: 0}  
 });
 
 mongoose.model('Item',ItemSchema);
