@@ -52,7 +52,7 @@ angular.module('mean.ffxivCrafter').controller('RecipeController', ['$scope', 'G
 
     function openItemSelectionDialog() {
       return $mdDialog.show({
-        templateUrl: 'meanStarter/views/item/itemSelection.html',
+        templateUrl: 'ffxivCrafter/views/item/itemSelection.html',
         parent: angular.element(document.body),
         controller: 'ItemSelectionDialogController',
         clickOutsideToClose: true
