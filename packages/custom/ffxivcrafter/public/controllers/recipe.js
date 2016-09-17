@@ -1,89 +1,88 @@
-'use strict';
+'use strict'
 
 angular.module('mean.ffxivCrafter').controller('RecipeController', ['$scope', 'Global', '$http', '$mdDialog',
-  function($scope, Global, $http, $mdDialog) {
-    $scope.recipeList=[];
+  function ($scope, Global, $http, $mdDialog) {
+    $scope.recipeList = []
 
-    $scope.filter='';
+    $scope.filter = ''
 
-    $scope.recipeFilter=function(recipe) {
-      if(recipe.outputs.length===0) return true;
+    $scope.recipeFilter = function (recipe) {
+      if (recipe.outputs.length === 0) return true
 
-      if($scope.filter==='') return true;
+      if ($scope.filter === '') return true
 
-      for(var i in recipe.outputs) {
-        var output=recipe.outputs[i];
+      for (var i in recipe.outputs) {
+        var output = recipe.outputs[i]
 
-        if(output.item.name.toLowerCase().search($scope.filter.toLowerCase()))
-          return true;
+        if (output.item.name.toLowerCase().search($scope.filter.toLowerCase()) !== -1)
+          return true
       }
 
-      return false;
-    };
+      return false
+    }
 
-    $scope.updateList=function() {
+    $scope.updateList = function () {
       $http.get('/api/recipe')
-      .then(function(response) {
-        $scope.recipeList=response.data;
-      });
-    };
+        .then(function (response) {
+          $scope.recipeList = response.data
+        })
+    }
 
-    $scope.createRecipe=function() {
+    $scope.createRecipe = function () {
       $http.post('/api/recipe')
-      .then(function(response) {
-        $scope.updateList();
-      });
-    };
+        .then(function (response) {
+          $scope.updateList()
+        })
+    }
 
-    $scope.updateRecipe=function(recipe) {
-      $http.put('/api/recipe/'+recipe._id,recipe)
-      .then(function(response) {
-      });
-    };
+    $scope.updateRecipe = function (recipe) {
+      $http.put('/api/recipe/' + recipe._id, recipe)
+        .then(function (response) {})
+    }
 
-    $scope.xivdbImportId=0;
+    $scope.xivdbImportId = 0
 
-    $scope.xivdbImport=function() {
-      $http.post('/api/recipe/xivdbImport/'+$scope.xivdbImportId)
-      .then(function(response) {
-        $scope.updateList();
-      });
-    };
+    $scope.xivdbImport = function () {
+      $http.post('/api/recipe/xivdbImport/' + $scope.xivdbImportId)
+        .then(function (response) {
+          $scope.updateList()
+        })
+    }
 
-    function openItemSelectionDialog() {
+    function openItemSelectionDialog () {
       return $mdDialog.show({
         templateUrl: 'ffxivCrafter/views/item/itemSelection.html',
         parent: angular.element(document.body),
         controller: 'ItemSelectionDialogController',
         clickOutsideToClose: true
-      });
+      })
     }
 
-    $scope.addInput=function(recipe) {
+    $scope.addInput = function (recipe) {
       openItemSelectionDialog()
-      .then(function(item) {
-        recipe.inputs.push({item:item,amount:1});
-        $scope.updateRecipe(recipe);
-      });
-    };
+        .then(function (item) {
+          recipe.inputs.push({item: item,amount: 1})
+          $scope.updateRecipe(recipe)
+        })
+    }
 
-    $scope.addOutput=function(recipe) {
+    $scope.addOutput = function (recipe) {
       openItemSelectionDialog()
-      .then(function(item) {
-        recipe.outputs.push({item:item,amount:1});
-        $scope.updateRecipe(recipe);
-      });
-    };
+        .then(function (item) {
+          recipe.outputs.push({item: item,amount: 1})
+          $scope.updateRecipe(recipe)
+        })
+    }
 
-    $scope.deleteRecipe=function(recipe) {
-      $http.delete('/api/recipe/'+recipe._id,recipe)
-      .then(function(response) {
-        $scope.updateList();
-      });
-    };
+    $scope.deleteRecipe = function (recipe) {
+      $http.delete('/api/recipe/' + recipe._id, recipe)
+        .then(function (response) {
+          $scope.updateList()
+        })
+    }
 
-    $scope.editMode=false;
+    $scope.editMode = false
 
-    $scope.updateList();
+    $scope.updateList()
   }
-]);
+])
