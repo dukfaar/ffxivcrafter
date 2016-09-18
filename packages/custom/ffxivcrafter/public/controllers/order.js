@@ -1,12 +1,8 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('OrderController', ['$scope', 'Global', '$http', '$mdDialog',
-  function ($scope, Global, $http, $mdDialog) {
-    $scope.itemList = null
-
-    // $scope.craftingData={}
-
-    $scope.filter = ''
+angular.module('mean.ffxivCrafter').controller('OrderController', ['$scope', 'Global', '$http', '$mdDialog', 'ItemService', 
+  function ($scope, Global, $http, $mdDialog, ItemService) {
+    $scope.itemService = ItemService
 
     $scope.order = {
       amount: 1,
@@ -14,14 +10,7 @@ angular.module('mean.ffxivCrafter').controller('OrderController', ['$scope', 'Gl
     }
 
     $scope.updateList = function () {
-      var url = '/api/item'
-      if ($scope.filter !== '')
-        url = '/api/item/filteredList/' + $scope.filter
-
-      $http.get(url, {params: {limit: 10,privileged: true}})
-        .then(function (response) {
-          $scope.itemList = response.data.list
-        })
+      ItemService.updateList({privileged:true})
     }
 
     $scope.updateList()
@@ -55,7 +44,6 @@ angular.module('mean.ffxivCrafter').controller('OrderController', ['$scope', 'Gl
     }
 
     $scope.orderItem = function (item) {
-      console.log($scope.order.amount)
       $http.post('/api/project/fromItem/' + item._id + '/' + $scope.order.amount, {comment: $scope.order.comment, orderedViaOrderView: true})
         .then(function (response) {})
     }

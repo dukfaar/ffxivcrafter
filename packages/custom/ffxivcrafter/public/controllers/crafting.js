@@ -1,30 +1,16 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('CraftingController', ['$scope', 'Global', '$http', '$mdDialog',
-  function ($scope, Global, $http, $mdDialog) {
+angular.module('mean.ffxivCrafter').controller('CraftingController', ['$scope', 'Global', '$http', '$mdDialog', 'ItemService',
+  function ($scope, Global, $http, $mdDialog, ItemService) {
     $scope.itemList = null
 
-    $scope.craftingData = {}
-
-    $scope.filter = ''
+    $scope.itemService = ItemService
 
     $scope.order = {
       amount: 1
     }
 
-    $scope.updateList = function () {
-      var url = '/api/item'
-      if ($scope.filter !== '') {
-        url = '/api/item/filteredList/' + $scope.filter
-      }
-
-      $http.get(url, {params: {limit: 10}})
-        .then(function (response) {
-          $scope.itemList = response.data.list
-        })
-    }
-
-    $scope.updateList()
+    $scope.itemService.updateList()
 
     $scope.selectedItem = null
 

@@ -21,7 +21,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="item in itemList">
+                <tr ng-repeat="item in itemService.itemList">
                   <td style="width:80%">
                     <span ng-if="!allowed('edit itemdata')">{{item.name}}</span>
                     <input ng-if="allowed('edit itemdata')" ng-model="item.name" ng-model-options="{debounce:300}" ng-change="updateItem(item)" style="width:100%"/>
@@ -73,9 +73,9 @@
               </tbody>
             </table>
             <div layout="row">
-              <md-button class="md-raised" ng-disabled="page==0" ng-click="prevPage()">&lt;</md-button>
-              <md-button class="md-raised" ng-disabled="page==pageNum" ng-repeat="pageNum in pageArray()" ng-click="toPage(pageNum)">{{pageNum}}</md-button>
-              <md-button class="md-raised" ng-disabled="page==maxPage" ng-click="nextPage()">&gt;</md-button>
+              <md-button class="md-raised" ng-disabled="itemService.page==0" ng-click="itemService.prevPage()">&lt;</md-button>
+              <md-button class="md-raised" ng-disabled="itemService.page==pageNum" ng-repeat="pageNum in itemService.pageArray()" ng-click="itemService.toPage(pageNum)">{{pageNum}}</md-button>
+              <md-button class="md-raised" ng-disabled="itemService.page==maxPage" ng-click="itemService.nextPage()">&gt;</md-button>
             </div>
           </md-card-content>
         </md-card>
@@ -88,11 +88,11 @@
       <md-button ng-if="allowed('create items')" ng-click="createItem()">New</md-button>
 
       <md-input-container md-no-float>
-        <input ng-model="filter" ng-change="page=0; updateList()" ng-model-options="{debounce:300}" placeholder="Search"></input>
+        <input ng-model="itemService.filter" ng-change="page=0; itemService.updateList()" ng-model-options="{debounce:300}" placeholder="Search"></input>
       </md-input-container>
 
       <md-input-container md-no-float>
-        <input ng-model="limit" ng-change="updateList()" ng-model-options="{debounce:300}"></input>
+        <input ng-model="itemService.limit" ng-change="itemService.updateList()" ng-model-options="{debounce:300}"></input>
       </md-input-container>
 
       <md-button ng-if="allowed('create items')" ng-click="openImport()">Import</md-button>

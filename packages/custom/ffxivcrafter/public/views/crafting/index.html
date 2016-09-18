@@ -4,10 +4,10 @@
       <md-card>
         <md-card-content>
           <md-input-container md-no-float>
-            <input ng-model="filter" ng-change="updateList()" ng-model-options="{debounce:300}" placeholder="Search"></input>
+            <input ng-model="itemService.filter" ng-change="itemService.updateList()" ng-model-options="{debounce:300}" placeholder="Search"></input>
           </md-input-container>
           <md-list>
-            <md-list-item ng-repeat="item in itemList" ng-click="selectItem(item)">
+            <md-list-item ng-repeat="item in itemService.itemList" ng-click="selectItem(item)">
               {{item.name}}
             </md-list-item>
           </md-list>
