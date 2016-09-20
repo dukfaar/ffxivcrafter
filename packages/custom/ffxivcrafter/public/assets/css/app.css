@@ -1,3 +1,11 @@
+.buyItem {
+  color:orange; 
+}
+
+.craftItem {
+  color:green;
+}
+
 .navbar {
   margin-bottom:0;
 }

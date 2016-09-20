@@ -44,7 +44,6 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     }
 
     $scope.updateStep = function (step) {
-      console.log('meowmeow')
       $http.put('/api/projectstep/' + step._id, step)
         .then(function (response) {
           $scope.projectData = {}
