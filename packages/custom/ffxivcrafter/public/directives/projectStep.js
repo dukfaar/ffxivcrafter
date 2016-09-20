@@ -1,11 +1,12 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').directive('projectStep', function () {
+angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog) {
   return {
     templateUrl: '/ffxivCrafter/views/project/projectStep.html',
     scope: {
       step: '=',
-      updateStep: '&'
+      updateStep: '&',
+      priceUpdate: '&'
     },
     controller: function ($scope) {
       $scope.update = function () {
@@ -31,10 +32,24 @@ angular.module('mean.ffxivCrafter').directive('projectStep', function () {
       }
 
       $scope.suggestionClass = function (step) {
-        if (step.inputs.length == 0) return 'noSuggestion'
+        if (step.inputs.length === 0) return 'noSuggestion'
 
         if ($scope.isCheaperToBuy(step)) return 'buyItem'
         return 'craftItem'
+      }
+
+      $scope.priceDialog = function (item) {
+        $mdDialog.show({
+          templateUrl: 'ffxivCrafter/views/item/priceDialog.html',
+          parent: angular.element(document.body),
+          controller: 'ItemPriceDialogController',
+          clickOutsideToClose: true,
+          locals: {
+            item: item,
+            priceUpdate: $scope.priceUpdate
+          }
+        }).then(function () {
+        })
       }
     }
   }

@@ -1,0 +1,17 @@
+<md-dialog layout-padding>
+  <md-dialog-content layout="column">
+    <h2>{{item.name}}</h2>
+    <md-input-container>
+      <label>Price</label>
+      <input ng-change="update()" ng-model-options="{debounce:300}" ng-model="item.price"/>
+    </md-input-container>
+    <md-input-container>
+      <label>Price HQ</label>
+      <input ng-change="update()" ng-model-options="{debounce:300}" ng-model="item.priceHQ"/>
+    </md-input-container>
+  </md-dialog-content>
+
+  <md-dialog-actions>
+    <md-button ng-click="close()">Close</md-button>
+  </md-dialog-actions>
+</md-dialog>

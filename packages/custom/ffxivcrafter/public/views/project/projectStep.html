@@ -16,12 +16,12 @@
 
     <div layout="row" style="margin-bottom:0.5em;" ng-class="suggestionClass(step)">
       <md-tooltip ng-if="step.inputs.length>0&&isCheaperToBuy(step)">It's cheaper to buy this, than crafting it</md-tooltip>
-      <span flex>{{step.item.price.toLocaleString()}}gil/pc</span>
+      <span flex ng-click="priceDialog(step.item)">{{step.item.price.toLocaleString()}}gil/pc</span>
       <span>{{(step.item.price * step.amount).toLocaleString()}}gil</span>
     </div>
   </div>
 
   <div ng-if="step.inputs.length>0" class="stepList">
-    <project-step data-step="childStep" ng-repeat="childStep in step.inputs" update-step="updateStep()"></project-step>
+    <project-step data-step="childStep" ng-repeat="childStep in step.inputs" update-step="updateStep()" price-update="priceUpdate()"></project-step>
   </div>
 </div>

@@ -28,11 +28,15 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
         })
     }
 
+    $scope.recalcProjectData = function () {
+      $scope.projectData = {}
+      projectAnalyzerService.updateMaterialList($scope.projectList, $scope.projectData)
+    }
+
     $scope.updateProject = function (project) {
       $http.put('/api/project/' + project._id, project)
         .then(function (response) {
-          $scope.projectData = {}
-          projectAnalyzerService.updateMaterialList($scope.projectList, $scope.projectData)
+          $scope.recalcProjectData()
         })
     }
 
@@ -46,9 +50,8 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.updateStep = function (step) {
       $http.put('/api/projectstep/' + step._id, step)
         .then(function (response) {
-          $scope.projectData = {}
-          projectAnalyzerService.updateMaterialList($scope.projectList, $scope.projectData)
-        })
+      $scope.recalcProjectData()
+          })
     }
 
     $scope.updateList = function () {
@@ -56,11 +59,8 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
       $http.get(url)
         .then(function (response) {
-          $scope.projectData = {}
-
           $scope.projectList = response.data
-
-          projectAnalyzerService.updateMaterialList($scope.projectList, $scope.projectData)
+          $scope.recalcProjectData()
         })
     }
 
@@ -75,6 +75,24 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       return Object.keys(obj).map(function (key) {
         return obj[key]
       })
+    }
+
+    function recursiveSetPrices (step, item) {
+      if (step.item._id === item._id) {
+        step.item = item
+      }
+
+      step.inputs.forEach(function (input) {
+        recursiveSetPrices(input, item)
+      })
+    }
+
+    $scope.priceUpdate = function (item) {
+      $scope.projectList.forEach(function (project) {
+        recursiveSetPrices(project.tree, item)
+      })
+
+      $scope.recalcProjectData()
     }
 
     $scope.updateList()
