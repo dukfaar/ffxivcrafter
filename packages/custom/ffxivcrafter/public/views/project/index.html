@@ -78,7 +78,7 @@
                   <md-card-content layout="column">
                     <div layout="row">
                       <span flex>Expected Revenue: </span>
-                      <span>{{project.tree.item.price.toLocaleString()}}g</span>
+                      <span>{{(project.tree.item.price*project.tree.amount).toLocaleString()}}g</span>
                     </div>
                     <div layout="row" layout-fill>
                       <span flex>Total Cost: </span>
@@ -86,7 +86,7 @@
                     </div>
                     <div layout="row">
                       <span flex>Expected Profit: </span>
-                      <span>{{(project.tree.item.price*0.95-projectData[project._id].totalCost).toLocaleString()}}g</span>
+                      <span>{{(project.tree.item.price*project.tree.amount*0.95-projectData[project._id].totalCost).toLocaleString()}}g</span>
                     </div>
                   </md-card-content>
                 </md-card>
