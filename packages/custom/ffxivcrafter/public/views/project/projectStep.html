@@ -1,24 +1,23 @@
 <div class="step">
+  <div layout="column">
+    <div layout="row">
+      <span>{{step.amount}}</span>
+      <span flex style="margin-left:8px">{{step.item.name}}</span>
 
-<div layout="column">
-  <div layout="row">
-    <span>{{step.amount}}</span>
-    <span flex style="margin-left:8px">{{step.item.name}}</span>
+      <span>
+        <select ng-model="step.step" ng-change="update()">
+          <option ng-value="Craft">Craft</option>
+          <option ng-value="Buy">Buy</option>
+          <option ng-value="Gather">Gather</option>
+        </select>
+      </span>
+    </div>
 
-    <span>
-      <select ng-model="step.step" ng-change="update()">
-        <option ng-value="Craft">Craft</option>
-        <option ng-value="Buy">Buy</option>
-        <option ng-value="Gather">Gather</option>
-      </select>
-    </span>
+    <div layout="row" style="padding-bottom:0.5em;">
+      <span flex>{{step.item.price.toLocaleString()}}gil/pc</span>
+      <span>{{(step.item.price * step.amount).toLocaleString()}}gil</span>
+    </div>
   </div>
-
-  <div layout="row">
-    <span flex>{{step.item.price}}gil/pc</step>
-    <span>{{step.item.price * step.amount}}gil</step>
-  </div>
-</div>
 
   <div ng-if="step.inputs.length>0" class="stepList">
     <project-step data-step="childStep" ng-repeat="childStep in step.inputs" update-step="updateStep()"></project-step>
