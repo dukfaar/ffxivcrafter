@@ -1,11 +1,12 @@
 'use strict'
 
 angular.module('mean.ffxivCrafter').controller('DeliveryCraftDialogController',
-  function ($scope, $mdDialog, item) {
+  function ($scope, $mdDialog, item, craftable) {
     $scope.data = {
       amount: 0,
       craftedFromStock: true,
-      item: item
+      item: item,
+      craftable: craftable
     }
 
     $scope.hide = function () {

@@ -12,10 +12,10 @@ module.exports = function(myPackage,app,auth,db) {
   app.route('/api/project/fromItem/:id/:amount')
   .post(projectController.fromItem);
 
-  app.route('/api/project/stock/add/:projectId/:itemId/:amount')
+  app.route('/api/project/stock/add/:projectId/:itemId/:amount/:hq')
   .post(projectController.addToStock);
 
-  app.route('/api/project/stock/set/:projectId/:itemId/:amount')
+  app.route('/api/project/stock/set/:projectId/:itemId/:amount/:hq')
   .post(projectController.setStock);
 
   app.route('/api/project/:id')

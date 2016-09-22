@@ -35,12 +35,15 @@ module.exports = function () {
         })
     },
     addToStock: function (req, res) {
+      console.log(req.params.hq)
+
       CraftingProject.findById(req.params.projectId, function (err, project) {
         if (err) throw err
         var found = false
 
         project.stock.forEach(function (stock) {
-          if (stock.item.toString() === req.params.itemId) {
+          console.log(stock.hq)
+          if (stock.item.toString() === req.params.itemId && stock.hq === (req.params.hq==='true'?true:false)) {
             found = true
             stock.amount += parseInt(req.params.amount)
 
@@ -52,7 +55,7 @@ module.exports = function () {
         })
 
         if (!found) {
-          project.stock.push({item: req.params.itemId, amount: req.params.amount})
+          project.stock.push({item: req.params.itemId, amount: req.params.amount, hq: (req.params.hq==='true'?true:false)})
         }
 
         project.save(function (err) {
@@ -68,7 +71,7 @@ module.exports = function () {
         var found = false
 
         project.stock.forEach(function (stock) {
-          if (stock.item === req.params.itemId) {
+          if (stock.item === req.params.itemId && stock.hq === (req.params.hq==='true'?true:false)) {
             found = true
             stock.amount = parseInt(req.params.amount)
 
@@ -80,7 +83,7 @@ module.exports = function () {
         })
 
         if (!found) {
-          project.stock.push({item: req.params.itemId,amount: req.params.amount})
+          project.stock.push({item: req.params.itemId,amount: req.params.amount, hq: (req.params.hq==='true'?true:false)})
         }
 
         project.save(function (err) {

@@ -1,7 +1,7 @@
 <md-dialog layout-padding>
   <md-dialog-content>
     <h2>
-      So you want to deliver some {{item.name}}?
+      So you want to deliver some {{item.name}} <span ng-if="gathers.hq">HQ</span>?
     </h2>
     <md-input-container md-is-error="amount===0">
       <label>How many?</label>

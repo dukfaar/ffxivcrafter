@@ -16,15 +16,15 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       return gather.outstanding > 0
     }
 
-    $scope.addToStock = function (project, item, amount) {
-      $http.post('/api/project/stock/add/' + project._id + '/' + item._id + '/' + amount)
+    $scope.addToStock = function (project, item, amount, hq) {
+      $http.post('/api/project/stock/add/' + project._id + '/' + item._id + '/' + amount + '/' + hq)
         .then(function (result) {
           $scope.updateList()
         })
     }
 
-    $scope.setStock = function (project, item, amount) {
-      $http.post('/api/project/stock/set/' + project._id + '/' + item._id + '/' + amount)
+    $scope.setStock = function (project, item, amount, hq) {
+      $http.post('/api/project/stock/set/' + project._id + '/' + item._id + '/' + amount + '/' + hq)
         .then(function (result) {
           $scope.updateList()
         })

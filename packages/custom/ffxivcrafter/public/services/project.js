@@ -1,11 +1,11 @@
 'use strict'
 
 angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function () {
-  function getAmountOfItemInUnnallocatedStock (projectData, itemId) {
+  function getAmountOfItemInUnnallocatedStock (projectData, itemId, hq) {
     for (var i in projectData.unallocatedStock) {
       var sItem = projectData.unallocatedStock[i]
 
-      if (sItem.item._id === itemId) {
+      if (sItem.item._id === itemId && sItem.hq === hq) {
         return sItem.amount
       }
     }
@@ -13,31 +13,42 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
     return null
   }
 
-  function itemInUnallocatedStock (projectData, itemId, amount) {
-    var storedAmount = getAmountOfItemInUnnallocatedStock(projectData, itemId, amount)
+  function itemInUnallocatedStock (projectData, itemId, amount, hq) {
+    var storedAmount = getAmountOfItemInUnnallocatedStock(projectData, itemId, amount, hq)
 
     return storedAmount != null && storedAmount >= amount
   }
 
-  function deductFromUnallocatedStock (projectData, itemId, amount) {
+  function deductFromUnallocatedStock (projectData, itemId, amount, hq) {
     for (var i in projectData.unallocatedStock) {
       var sItem = projectData.unallocatedStock[i]
 
-      if (sItem.item._id === itemId) {
+      if (sItem.item._id === itemId && sItem.hq === hq) {
         sItem.amount -= amount
       }
     }
   }
 
-  function gatheringStep (step, projectData) {
-    if (!projectData.gatherList[step.item._id]) {
-      projectData.gatherList[step.item._id] = {
+  function stepLookup (step) {
+    return step.item._id + (step.hq ? 'HQ' : 'NQ')
+  }
+
+  function checkForGatheringStepObject (step, projectData) {
+    var lookup = stepLookup(step)
+
+    if (!projectData.gatherList[lookup]) {
+      projectData.gatherList[lookup] = {
         item: step.item,
-        outstanding: 0
+        outstanding: 0,
+        hq: step.hq ? true : false
       }
     }
 
-    projectData.gatherList[step.item._id].outstanding += step.amount
+    return projectData.gatherList[lookup]
+  }
+
+  function gatheringStep (step, projectData) {
+    checkForGatheringStepObject(step, projectData).outstanding += step.amount
   }
 
   function itemPrice (step) {
@@ -49,19 +60,13 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
   }
 
   function buyingStep (step, projectData) {
-    if (!projectData.gatherList[step.item._id]) {
-      projectData.gatherList[step.item._id] = {
-        item: step.item,
-        outstanding: 0
-      }
-    }
+    checkForGatheringStepObject(step, projectData).outstanding += step.amount
 
-    projectData.gatherList[step.item._id].outstanding += step.amount
     projectData.totalCost += stepPrice(step)
   }
 
   function craftingStep (step, projectData) {
-    var neededAmount = step.amount - getAmountOfItemInUnnallocatedStock(projectData, step.item._id)
+    var neededAmount = step.amount - getAmountOfItemInUnnallocatedStock(projectData, step.item._id, step.hq)
 
     if (neededAmount > 0) {
       var neededSteps = Math.ceil(neededAmount / step.recipe.outputs[0].amount) // how often we need to craft the recipe to fulfill the need
@@ -72,7 +77,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
       step.recipe.inputs.forEach(function (input, index) {
         var neededItems = input.amount * neededSteps
 
-        var itemsInStock = getAmountOfItemInUnnallocatedStock(projectData, input.item)
+        var itemsInStock = getAmountOfItemInUnnallocatedStock(projectData, input.item, step.inputs[index].hq)
         var remainingNeeded = neededItems - itemsInStock
 
         neededInputs[input.item] = remainingNeeded
@@ -86,12 +91,14 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
           step: {
             amount: maxSteps * step.recipe.outputs[0].amount,
             item: step.item,
-            recipe: step.recipe
+            recipe: step.recipe,
+            inputs: $.extend(true, {}, step.inputs),
+            hq: step.hq
           }
         })
 
         step.recipe.inputs.forEach(function (input, index) {
-          deductFromUnallocatedStock(projectData, input.item._id, input.amount * maxSteps)
+          deductFromUnallocatedStock(projectData, input.item._id, input.amount * maxSteps, step.inputs[index].hq)
         })
       }
 
@@ -100,7 +107,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
         analyzeStep(input, projectData)
       })
     } else {
-      deductFromUnallocatedStock(projectData, step.item._id, step.amount)
+      deductFromUnallocatedStock(projectData, step.item._id, step.amount, step.hq)
     }
   }
 
