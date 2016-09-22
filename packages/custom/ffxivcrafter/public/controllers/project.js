@@ -10,6 +10,8 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.craftableFilter = ''
     $scope.stockFilter = ''
 
+    $scope.projectAnalyzerService = projectAnalyzerService
+
     $scope.isGatherOutsanding = function (gather) {
       return gather.outstanding > 0
     }
@@ -50,8 +52,8 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.updateStep = function (step) {
       $http.put('/api/projectstep/' + step._id, step)
         .then(function (response) {
-      $scope.recalcProjectData()
-          })
+          $scope.recalcProjectData()
+        })
     }
 
     $scope.updateList = function () {

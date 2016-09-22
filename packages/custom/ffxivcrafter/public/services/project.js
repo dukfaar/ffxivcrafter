@@ -40,6 +40,14 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
     projectData.gatherList[step.item._id].outstanding += step.amount
   }
 
+  function itemPrice (step) {
+    return step.hq ? step.item.priceHQ : step.item.price
+  }
+
+  function stepPrice (step) {
+    return itemPrice(step) * step.amount
+  }
+
   function buyingStep (step, projectData) {
     if (!projectData.gatherList[step.item._id]) {
       projectData.gatherList[step.item._id] = {
@@ -49,7 +57,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
     }
 
     projectData.gatherList[step.item._id].outstanding += step.amount
-    projectData.totalCost += step.item.price * step.amount
+    projectData.totalCost += stepPrice(step)
   }
 
   function craftingStep (step, projectData) {
@@ -124,6 +132,8 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
 
   return {
     analyzeStep: analyzeStep,
-    updateMaterialList: updateMaterialList
+    updateMaterialList: updateMaterialList,
+    itemPrice: itemPrice,
+    stepPrice: stepPrice
   }
 })

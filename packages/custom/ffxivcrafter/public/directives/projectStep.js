@@ -13,15 +13,20 @@ angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog
         $scope.updateStep()($scope.step)
       }
 
+      $scope.toggleHQ = function () {
+        $scope.step.hq = !$scope.step.hq
+        $scope.updateStep()($scope.step)
+      }
+
       $scope.outputStepPrice = function (step) {
-        return step.amount * step.item.price
+        return step.amount * (step.hq ? step.item.priceHQ : step.item.price)
       }
 
       $scope.inputPriceSum = function (step) {
         var sum = 0
 
         step.inputs.forEach(function (input) {
-          sum += input.item.price * input.amount
+          sum += $scope.outputStepPrice(input)
         })
 
         return sum
@@ -48,8 +53,7 @@ angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog
             item: item,
             priceUpdate: $scope.priceUpdate
           }
-        }).then(function () {
-        })
+        }).then(function () {})
       }
     }
   }

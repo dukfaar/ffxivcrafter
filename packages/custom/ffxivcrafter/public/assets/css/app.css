@@ -1,9 +1,17 @@
 .buyItem {
-  color:orange; 
+  color:orange;
 }
 
 .craftItem {
   color:green;
+}
+
+.isHQStep {
+  color:black;
+}
+
+.isNQStep {
+  color:lightgrey; 
 }
 
 .navbar {

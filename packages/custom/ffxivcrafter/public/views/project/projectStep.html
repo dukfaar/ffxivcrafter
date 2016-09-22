@@ -12,12 +12,15 @@
           <option ng-value="Gather">Gather</option>
         </select>
       </span>
+      <span>
+        <span ng-class="step.hq?'isHQStep':'isNQStep'" ng-click="toggleHQ()">HQ</span>
+      </span>
     </div>
 
     <div layout="row" style="margin-bottom:0.5em;" ng-class="suggestionClass(step)">
       <md-tooltip ng-if="step.inputs.length>0&&isCheaperToBuy(step)">It's cheaper to buy this, than crafting it</md-tooltip>
-      <span flex ng-click="priceDialog(step.item)">{{step.item.price.toLocaleString()}}gil/pc</span>
-      <span>{{(step.item.price * step.amount).toLocaleString()}}gil</span>
+      <span flex ng-click="priceDialog(step.item)">{{(step.hq?step.item.priceHQ:step.item.price).toLocaleString()}}gil/pc</span>
+      <span>{{((step.hq?step.item.priceHQ:step.item.price) * step.amount).toLocaleString()}}gil</span>
     </div>
   </div>
 
