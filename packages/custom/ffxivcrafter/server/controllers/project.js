@@ -146,6 +146,8 @@ module.exports = function () {
           .exec(function (err, recipes) {
             if (err) throw err
 
+
+
             if (recipes.length === 0) {
               step.step = 'Gather'
               step.save(function (err) {
@@ -161,7 +163,7 @@ module.exports = function () {
               var countdown = recipe.inputs.length
 
               recipe.inputs.forEach(function (input) {
-                stepForItem(input.item, input.amount * amount, function (childStep) {
+                stepForItem(input.item, input.amount * amount/recipe.outputs[0].amount, function (childStep) {
                   step.inputs.push(childStep)
 
                   countdown--
