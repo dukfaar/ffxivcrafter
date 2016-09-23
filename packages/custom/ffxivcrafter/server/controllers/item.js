@@ -11,7 +11,6 @@ module.exports = function() {
 
     if(req.query.mbItems&&req.query.mbItems==='true') {
       query['soldOnMarket']=true;
-      console.log('meow')
     }
 
     var limit=parseInt(req.query.limit);
