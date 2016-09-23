@@ -40,7 +40,7 @@ module.exports = function () {
         var found = false
 
         project.stock.forEach(function (stock) {
-          if (stock.item.toString() === req.params.itemId && stock.hq === (req.params.hq==='true'?true:false)) {
+          if (stock.item.toString() === req.params.itemId && stock.hq === (req.params.hq === 'true' ? true : false)) {
             found = true
             stock.amount += parseInt(req.params.amount)
 
@@ -52,7 +52,7 @@ module.exports = function () {
         })
 
         if (!found) {
-          project.stock.push({item: req.params.itemId, amount: req.params.amount, hq: (req.params.hq==='true'?true:false)})
+          project.stock.push({item: req.params.itemId, amount: req.params.amount, hq: (req.params.hq === 'true' ? true : false)})
         }
 
         project.save(function (err) {
@@ -68,7 +68,7 @@ module.exports = function () {
         var found = false
 
         project.stock.forEach(function (stock) {
-          if (stock.item === req.params.itemId && stock.hq === (req.params.hq==='true'?true:false)) {
+          if (stock.item === req.params.itemId && stock.hq === (req.params.hq === 'true' ? true : false)) {
             found = true
             stock.amount = parseInt(req.params.amount)
 
@@ -80,7 +80,7 @@ module.exports = function () {
         })
 
         if (!found) {
-          project.stock.push({item: req.params.itemId,amount: req.params.amount, hq: (req.params.hq==='true'?true:false)})
+          project.stock.push({item: req.params.itemId,amount: req.params.amount, hq: (req.params.hq === 'true' ? true : false)})
         }
 
         project.save(function (err) {
@@ -138,7 +138,6 @@ module.exports = function () {
       var stepForItem = function (itemId, amount, callback) {
         var step = new ProjectStep()
         step.item = itemId
-        step.amount = amount
         step.inputs = []
 
         Recipe
@@ -146,10 +145,10 @@ module.exports = function () {
           .exec(function (err, recipes) {
             if (err) throw err
 
-
-
             if (recipes.length === 0) {
               step.step = 'Gather'
+              step.amount = amount
+              
               step.save(function (err) {
                 if (err) throw err
 
@@ -162,8 +161,11 @@ module.exports = function () {
 
               var countdown = recipe.inputs.length
 
+              amount = Math.ceil(amount / recipe.outputs[0].amount) * recipe.outputs[0].amount
+              step.amount = amount
+
               recipe.inputs.forEach(function (input) {
-                stepForItem(input.item, input.amount * amount/recipe.outputs[0].amount, function (childStep) {
+                stepForItem(input.item, input.amount * amount / recipe.outputs[0].amount, function (childStep) {
                   step.inputs.push(childStep)
 
                   countdown--
@@ -191,12 +193,12 @@ module.exports = function () {
         project.save(function (err) {
           if (err) throw err
 
-          if(req.body.orderedViaOrderView) {
+          if (req.body.orderedViaOrderView) {
             User.find({roles: 'projectManager' })
-            .exec(function(err,users) {
-              if(err) throw err
+              .exec(function (err, users) {
+                if (err) throw err
 
-              var transport = nodemailer.createTransport(config.mailer)
+                var transport = nodemailer.createTransport(config.mailer)
 
               /*users.forEach(function(user) {
                 transport.sendMail({
@@ -208,7 +210,7 @@ module.exports = function () {
                   if (err) return err
                 })
               })*/
-            })
+              })
           }
         })
       })

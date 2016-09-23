@@ -136,7 +136,7 @@ module.exports = function () {
           }
 
           findOrCreateItem(data.name_en, data.item.id, function (item) {
-            recipe.outputs.push({item: item._id, amount: 1})
+            recipe.outputs.push({item: item._id, amount: data.craft_quantity})
             decreaseCounter()
           })
 
