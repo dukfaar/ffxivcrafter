@@ -1,0 +1,20 @@
+<md-card>
+  <md-card-header>
+    <md-card-header-text class="md-title">
+      Itemstock
+    </md-card-header-text>
+  </md-card-header>
+  <md-card-content>
+    <md-list>
+      <md-input-container>
+        <label>Itemfilter</label>
+        <input ng-model="stockFilter"/>
+      </md-input-container>
+      <md-list-item ng-repeat="stockElement in toArray(project.stock) | filter: { item: { name: stockFilter } }" layout="row">
+        <span flex>{{stockElement.amount}} {{stockElement.item.name}}</span>
+        <span ng-if="stockElement.hq">HQ</span>
+        <md-button class="md-raised" ng-click="addToStock(project,stockElement.item,-stockElement.amount, stockElement.hq)">RemoveFromStock</md-button>
+      </md-list-item>
+    </md-list>
+  </md-card-content>
+</md-card>

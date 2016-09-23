@@ -35,14 +35,11 @@ module.exports = function () {
         })
     },
     addToStock: function (req, res) {
-      console.log(req.params.hq)
-
       CraftingProject.findById(req.params.projectId, function (err, project) {
         if (err) throw err
         var found = false
 
         project.stock.forEach(function (stock) {
-          console.log(stock.hq)
           if (stock.item.toString() === req.params.itemId && stock.hq === (req.params.hq==='true'?true:false)) {
             found = true
             stock.amount += parseInt(req.params.amount)

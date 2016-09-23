@@ -1,0 +1,23 @@
+<md-card>
+  <md-card-header>
+    <md-card-header-text class="md-title">
+      Items to Gather
+    </md-card-header-text>
+  </md-card-header>
+  <md-card-content>
+    <md-list>
+      <md-input-container>
+        <label>Itemfilter</label>
+        <input ng-model="gatherFilter"/>
+      </md-input-container>
+      <md-list-item ng-repeat="gathers in toArray(projectData[project._id].gatherList) | filter: { item: { name: gatherFilter } }" ng-if="gathers.outstanding>0" layout="row">
+        <span flex>
+          <span>{{gathers.outstanding}} {{gathers.item.name}}</span>
+          <span ng-if="gathers.hq">HQ</span>
+        </span>
+
+        <md-button class="md-raised" ng-click="addToStock(project,gathers.item,gathers.outstanding,gathers.hq)">AddToStock</md-button>
+      </md-list-item>
+    </md-list>
+  </md-card-content>
+</md-card>

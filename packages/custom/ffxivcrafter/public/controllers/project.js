@@ -5,6 +5,19 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.projectList = []
     $scope.projectData = {}
 
+    $scope.tabdata = {
+      selectedIndex: 0
+    }
+
+    $scope.recalcOnPage = null
+
+    $scope.$watch('tabdata.selectedIndex',function(oldValue,newValue) {
+      if($scope.recalcOnPage!==null&&$scope.recalcOnPage!==0) {
+        $scope.tabdata.selectedIndex = $scope.recalcOnPage
+        $scope.recalcOnPage=null
+      }
+    })
+
     $scope.gatherFilter = ''
     $scope.gatherTotalFilter = ''
     $scope.craftableFilter = ''
@@ -45,6 +58,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.deleteProject = function (project) {
       $http.delete('/api/project/' + project._id)
         .then(function (response) {
+          $scope.tabdata.selectedIndex=0
           $scope.updateList()
         })
     }
@@ -56,13 +70,54 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
         })
     }
 
+    function addOrUpdateProjects (newProjects) {
+      newProjects.forEach(function (newProject) {
+        var found = false
+
+        $scope.projectList.forEach(function (oldProject, oldIndex) {
+          if (newProject._id === oldProject._id) {
+            $scope.projectList[oldIndex] = newProject
+            found = true
+          }
+        })
+
+        if (!found) {
+          $scope.projectList.push(newProject)
+        }
+      })
+    }
+
+    function removeDeletedProjects (newProjects) {
+      $scope.projectList.forEach(function (oldProject, oldIndex) {
+        var found = false
+
+        newProjects.forEach(function (newProject) {
+          if (newProject._id === oldProject._id) {
+            found = true
+          }
+        })
+
+        if (!found) {
+          delete $scope.projectList[oldIndex]
+        }
+      })
+
+      $scope.projectList=$scope.projectList.filter(function (a) {return typeof a !== 'undefined';}
+      )
+    }
+
     $scope.updateList = function () {
       var url = '/api/project'
 
       $http.get(url)
         .then(function (response) {
-          $scope.projectList = response.data
+          addOrUpdateProjects(response.data)
+
+          removeDeletedProjects(response.data)
+
           $scope.recalcProjectData()
+
+          $scope.recalcOnPage=$scope.tabdata.selectedIndex
         })
     }
 

@@ -1,0 +1,23 @@
+<md-card>
+  <md-card-header>
+    <md-card-header-text class="md-title">
+      Craftable Items
+    </md-card-header-text>
+  </md-card-header>
+  <md-card-content>
+    <md-list>
+      <md-input-container>
+        <label>Itemfilter</label>
+        <input ng-model="craftableFilter"/>
+      </md-input-container>
+      <md-list-item ng-repeat="craftable in toArray(projectData[project._id].craftableSteps)  | filter: { step: { item: { name: craftableFilter } } }" layout="row">
+        <span flex>
+          <span>{{craftable.step.amount}} {{craftable.step.item.name}}</span>
+          <span ng-if="craftable.step.hq">HQ</span>
+        </span>
+
+        <md-button class="md-raised" ng-click="addToStock(project,craftable.step.item,craftable.step.amount,craftable.hq)">AddToStock</md-button>
+      </md-list-item>
+    </md-list>
+  </md-card-content>
+</md-card>

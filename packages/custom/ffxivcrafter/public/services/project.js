@@ -121,24 +121,29 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
     }
   }
 
+  function getProjectMaterialList (project) {
+    var result = {
+      project: project,
+      gatherList: {},
+      craftableSteps: [],
+      unallocatedStock: $.extend(true, {}, project.stock),
+      totalCost: 0
+    }
+
+    analyzeStep($.extend(true, {}, project.tree), result)
+
+    return result
+  }
+
   function updateMaterialList (projectList, projectData) {
     projectList.forEach(function (project) {
-      if (!projectData[project._id]) {
-        projectData[project._id] = {
-          project: project,
-          gatherList: {},
-          craftableSteps: [],
-          unallocatedStock: $.extend(true, {}, project.stock),
-          totalCost: 0
-        }
-      }
-
-      analyzeStep($.extend(true, {}, project.tree), projectData[project._id])
+      projectData[project._id] = getProjectMaterialList(project)
     })
   }
 
   return {
     analyzeStep: analyzeStep,
+    getProjectMaterialList: getProjectMaterialList,
     updateMaterialList: updateMaterialList,
     itemPrice: itemPrice,
     stepPrice: stepPrice

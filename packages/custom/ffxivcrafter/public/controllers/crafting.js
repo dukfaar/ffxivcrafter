@@ -24,7 +24,6 @@ angular.module('mean.ffxivCrafter').controller('CraftingController', ['$scope', 
     }
 
     $scope.projectFromItem = function (item) {
-      console.log($scope.order.amount)
       $http.post('/api/project/fromItem/' + item._id + '/' + $scope.order.amount)
         .then(function (response) {})
     }

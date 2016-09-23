@@ -2,7 +2,7 @@
   <main style="overflow:auto">
     <div flex>
       <md-content layout-wrap>
-        <md-tabs md-dynamic-height md-border-bottom>
+        <md-tabs md-dynamic-height md-border-bottom md-selected="tabdata.selectedIndex">
           <md-tab ng-repeat="project in projectList" label="{{project.tree.item.name}}">
             <md-content layout="row" layout-wrap>
               <md-card>
@@ -11,92 +11,14 @@
                 </md-card-content>
               </md-card>
 
-              <md-card>
-                <md-card-header>
-                  <md-card-header-text class="md-title">
-                    Itemstock
-                  </md-card-header-text>
-                </md-card-header>
-                <md-card-content>
-                  <md-list>
-                    <md-input-container>
-                      <label>Itemfilter</label>
-                      <input ng-model="stockFilter"/>
-                    </md-input-container>
-                    <md-list-item ng-repeat="stockElement in toArray(project.stock) | filter: { item: { name: stockFilter } }" layout="row">
-                      <span flex>{{stockElement.amount}} {{stockElement.item.name}}</span>
-                      <span ng-if="stockElement.hq">HQ</span>
-                      <md-button class="md-raised" ng-click="addToStock(project,stockElement.item,-stockElement.amount, stockElement.hq)">RemoveFromStock</md-button>
-                    </md-list-item>
-                  </md-list>
-                </md-card-content>
-              </md-card>
+              <project-item-stock></project-item-stock>
 
-              <md-card>
-                <md-card-header>
-                  <md-card-header-text class="md-title">
-                    Items to Gather
-                  </md-card-header-text>
-                </md-card-header>
-                <md-card-content>
-                  <md-list>
-                    <md-input-container>
-                      <label>Itemfilter</label>
-                      <input ng-model="gatherFilter"/>
-                    </md-input-container>
-                    <md-list-item ng-repeat="gathers in toArray(projectData[project._id].gatherList) | filter: { item: { name: gatherFilter } }" ng-if="gathers.outstanding>0" layout="row">
-                      <span flex>
-                        <span>{{gathers.outstanding}} {{gathers.item.name}}</span>
-                        <span ng-if="gathers.hq">HQ</span>
-                      </span>
+              <project-item-gathers></project-item-gathers>
 
-                      <md-button class="md-raised" ng-click="addToStock(project,gathers.item,gathers.outstanding,gathers.hq)">AddToStock</md-button>
-                    </md-list-item>
-                  </md-list>
-                </md-card-content>
-              </md-card>
-
-              <md-card>
-                <md-card-header>
-                  <md-card-header-text class="md-title">
-                    Craftable Items
-                  </md-card-header-text>
-                </md-card-header>
-                <md-card-content>
-                  <md-list>
-                    <md-input-container>
-                      <label>Itemfilter</label>
-                      <input ng-model="craftableFilter"/>
-                    </md-input-container>
-                    <md-list-item ng-repeat="craftable in toArray(projectData[project._id].craftableSteps)  | filter: { step: { item: { name: craftableFilter } } }" layout="row">
-                      <span flex>
-                        <span>{{craftable.step.amount}} {{craftable.step.item.name}}</span>
-                        <span ng-if="craftable.step.hq">HQ</span>
-                      </span>
-
-                      <md-button class="md-raised" ng-click="addToStock(project,craftable.step.item,craftable.step.amount,craftable.hq)">AddToStock</md-button>
-                    </md-list-item>
-                  </md-list>
-                </md-card-content>
-              </md-card>
+              <project-item-crafts></project-item-crafts>
 
               <span layout="column">
-                <md-card>
-                  <md-card-content layout="column">
-                    <div layout="row">
-                      <span flex>Expected Revenue: </span>
-                      <span>{{projectAnalyzerService.stepPrice(project.tree).toLocaleString()}}g</span>
-                    </div>
-                    <div layout="row">
-                      <span flex>Total Cost: </span>
-                      <span >{{projectData[project._id].totalCost.toLocaleString()}}g</span>
-                    </div>
-                    <div layout="row">
-                      <span flex>Expected Profit: </span>
-                      <span>{{(projectAnalyzerService.stepPrice(project.tree)*0.95-projectData[project._id].totalCost).toLocaleString()}}g</span>
-                    </div>
-                  </md-card-content>
-                </md-card>
+                <revenue-card project="project" project-data="projectData[project._id]"></revenue-card>
 
                 <md-card>
                   <md-card-content>
