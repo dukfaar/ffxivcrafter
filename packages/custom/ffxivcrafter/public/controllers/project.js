@@ -11,11 +11,13 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
     $scope.recalcOnPage = null
 
-    $scope.$watch('tabdata.selectedIndex',function(oldValue,newValue) {
-      if($scope.recalcOnPage!==null&&$scope.recalcOnPage!==0) {
+    $scope.$watch('tabdata.selectedIndex', function (oldValue, newValue) {
+      if ($scope.recalcOnPage !== null && $scope.recalcOnPage !== 0) {
         $scope.tabdata.selectedIndex = $scope.recalcOnPage
-        $scope.recalcOnPage=null
+        $scope.recalcOnPage = null
       }
+
+      $scope.recalcVisibleProjectData()
     })
 
     $scope.gatherFilter = ''
@@ -43,22 +45,27 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
         })
     }
 
-    $scope.recalcProjectData = function () {
-      $scope.projectData = {}
-      projectAnalyzerService.updateMaterialList($scope.projectList, $scope.projectData)
+    $scope.recalcProjectData = function (project) {
+      if (!project) return
+
+      $scope.projectData[project._id] = projectAnalyzerService.getProjectMaterialList(project)
+    }
+
+    $scope.recalcVisibleProjectData = function () {
+      $scope.recalcProjectData($scope.projectList[$scope.tabdata.selectedIndex])
     }
 
     $scope.updateProject = function (project) {
       $http.put('/api/project/' + project._id, project)
         .then(function (response) {
-          $scope.recalcProjectData()
+          $scope.recalcVisibleProjectData()
         })
     }
 
     $scope.deleteProject = function (project) {
       $http.delete('/api/project/' + project._id)
         .then(function (response) {
-          $scope.tabdata.selectedIndex=0
+          $scope.tabdata.selectedIndex = 0
           $scope.updateList()
         })
     }
@@ -66,7 +73,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.updateStep = function (step) {
       $http.put('/api/projectstep/' + step._id, step)
         .then(function (response) {
-          $scope.recalcProjectData()
+          $scope.recalcVisibleProjectData()
         })
     }
 
@@ -102,7 +109,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
         }
       })
 
-      $scope.projectList=$scope.projectList.filter(function (a) {return typeof a !== 'undefined';}
+      $scope.projectList = $scope.projectList.filter(function (a) {return typeof a !== 'undefined';}
       )
     }
 
@@ -115,16 +122,9 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
           removeDeletedProjects(response.data)
 
-          $scope.recalcProjectData()
+          $scope.recalcVisibleProjectData()
 
-          $scope.recalcOnPage=$scope.tabdata.selectedIndex
-        })
-    }
-
-    $scope.createProject = function () {
-      $http.post('/api/project')
-        .then(function (response) {
-          $scope.updateList()
+          $scope.recalcOnPage = $scope.tabdata.selectedIndex
         })
     }
 
@@ -149,7 +149,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
         recursiveSetPrices(project.tree, item)
       })
 
-      $scope.recalcProjectData()
+      $scope.recalcVisibleProjectData()
     }
 
     $scope.updateList()

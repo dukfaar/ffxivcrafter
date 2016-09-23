@@ -3,8 +3,8 @@
     <div flex>
       <md-content layout-wrap>
         <md-tabs md-dynamic-height md-border-bottom md-selected="tabdata.selectedIndex">
-          <md-tab ng-repeat="project in projectList" label="{{project.tree.item.name}}">
-            <md-content layout="row" layout-wrap>
+          <md-tab md-on-select="selectedProject(project)" ng-repeat="project in projectList" label="{{project.tree.item.name}}">
+            <md-content layout="row" layout-wrap ng-if="projectData[project._id]">
               <md-card>
                 <md-card-content>
                   <project-step data-step="project.tree" update-step="updateStep" price-update='priceUpdate'></project-step>
