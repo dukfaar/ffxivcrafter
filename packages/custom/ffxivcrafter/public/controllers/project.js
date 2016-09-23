@@ -62,6 +62,12 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
         })
     }
 
+    $scope.updateProjectNotes = function (project) {
+      $http.put('/api/project/notes/' + project._id, {notes: project.notes})
+        .then(function (response) {
+        })
+    }
+
     $scope.deleteProject = function (project) {
       $http.delete('/api/project/' + project._id)
         .then(function (response) {

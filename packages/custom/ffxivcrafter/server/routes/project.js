@@ -21,6 +21,9 @@ module.exports = function(myPackage,app,auth,db) {
   app.route('/api/project/:id')
   .put(projectController.update);
 
+  app.route('/api/project/notes/:id')
+  .put(projectController.updateNotes);
+
   app.route('/api/project/:id')
   .delete(projectController.delete);
 }

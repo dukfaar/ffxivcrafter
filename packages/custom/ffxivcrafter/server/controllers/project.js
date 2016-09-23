@@ -97,6 +97,13 @@ module.exports = function () {
         res.send(project)
       })
     },
+    updateNotes: function (req, res) {
+      CraftingProject.findByIdAndUpdate(req.params.id, req.body, function (err, project) {
+        if (err) throw err
+
+        res.send(project)
+      })
+    },
     delete: function (req, res) {
       function deleteStep (step, callback) {
         var countdown = step.inputs.length
@@ -148,7 +155,7 @@ module.exports = function () {
             if (recipes.length === 0) {
               step.step = 'Gather'
               step.amount = amount
-              
+
               step.save(function (err) {
                 if (err) throw err
 

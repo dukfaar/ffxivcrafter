@@ -13,7 +13,8 @@ var CraftingProjectSchema = new Schema({
     hq: { type: Boolean, default: false }
   }],
   public: { type: Boolean, default: false },
-  comment: { type: String, default: '' }
+  comment: { type: String, default: '' },
+  notes: { type: String, default: ''}
 })
 
 mongoose.model('CraftingProject', CraftingProjectSchema)
