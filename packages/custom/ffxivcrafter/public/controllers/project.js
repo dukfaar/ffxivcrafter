@@ -1,9 +1,11 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService',
-  function ($scope, Global, $http, $mdDialog, projectAnalyzerService) {
+angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'deliveryService',
+  function ($scope, Global, $http, $mdDialog, projectAnalyzerService, deliveryService) {
     $scope.projectList = []
     $scope.projectData = {}
+
+    $scope.deliveryService = deliveryService
 
     $scope.tabdata = {
       selectedIndex: 0
@@ -55,6 +57,14 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       $scope.recalcProjectData($scope.projectList[$scope.tabdata.selectedIndex])
     }
 
+    $scope.deliveryDialog = function (project, item, gathers) {
+      deliveryService.deliveryDialog(project, item, gathers, function () { $scope.updateList() })
+    }
+
+    $scope.deliveryCraftDialog = function (project, item, step, craftable) {
+      deliveryService.deliveryCraftDialog(project, item, step, craftable, function () { $scope.updateList() })
+    }
+
     $scope.updateProject = function (project) {
       $http.put('/api/project/' + project._id, project)
         .then(function (response) {
@@ -64,8 +74,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
     $scope.updateProjectNotes = function (project) {
       $http.put('/api/project/notes/' + project._id, {notes: project.notes})
-        .then(function (response) {
-        })
+        .then(function (response) {})
     }
 
     $scope.deleteProject = function (project) {

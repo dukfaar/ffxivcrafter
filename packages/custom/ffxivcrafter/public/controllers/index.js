@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'MeanUser',
-  function ($scope, Global, $http, $mdDialog, projectAnalyzerService, MeanUser) {
+angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'MeanUser', 'deliveryService',
+  function ($scope, Global, $http, $mdDialog, projectAnalyzerService, MeanUser, deliveryService) {
     $scope.user = MeanUser
     $scope.allowed = function (perm) {
       return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) !== -1
@@ -14,61 +14,11 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
     $scope.craftableFilter = ''
 
     $scope.deliveryDialog = function (project, item, gathers) {
-      $mdDialog.show({
-        templateUrl: 'ffxivCrafter/views/project/deliveryDialog.html',
-        parent: angular.element(document.body),
-        controller: 'DeliveryDialogController',
-        clickOutsideToClose: true,
-        locals: {
-          item: item,
-          gathers: gathers
-        }
-      }).then(function (amount) {
-        if (amount > 0) {
-          $http.post('/api/project/stock/add/' + project._id + '/' + item._id + '/' + amount+'/'+(gathers.hq?'true':'false'))
-            .then(function (result) {
-              $scope.updateList()
-            })
-        }
-      })
+      deliveryService.deliveryDialog(project, item, gathers, function () { $scope.updateList() })
     }
 
     $scope.deliveryCraftDialog = function (project, item, step, craftable) {
-      $mdDialog.show({
-        templateUrl: 'ffxivCrafter/views/project/deliveryCraftDialog.html',
-        parent: angular.element(document.body),
-        controller: 'DeliveryCraftDialogController',
-        clickOutsideToClose: true,
-        locals: {
-          item: item,
-          craftable: craftable
-        }
-      }).then(function (data) {
-        if (data.amount > 0) {
-          var stepsDone = data.amount / step.recipe.outputs[0].amount
-          console.log(craftable)
-
-          function handleInput (index) {
-            if (index >= step.recipe.inputs.length) {
-              $scope.updateList()
-            } else {
-              $http.post('/api/project/stock/add/' + project._id + '/' + step.recipe.inputs[index].item + '/' + (-stepsDone * step.recipe.inputs[index].amount)+'/'+(craftable.step.inputs[index].hq?'true':'false'))
-                .then(function (result) {
-                  handleInput(index + 1)
-                })
-            }
-          }
-
-          $http.post('/api/project/stock/add/' + project._id + '/' + item._id + '/' + data.amount +'/'+(craftable.step.hq?'true':'false'))
-            .then(function (result) {
-              if (data.craftedFromStock) {
-                handleInput(0)
-              } else {
-                $scope.updateList()
-              }
-            })
-        }
-      })
+      deliveryService.deliveryCraftDialog(project, item, step, craftable, function () { $scope.updateList() })
     }
 
     $scope.updateList = function () {
