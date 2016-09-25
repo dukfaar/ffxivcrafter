@@ -21,6 +21,13 @@ angular.module('mean.ffxivCrafter').controller('ItemController', ['$scope', 'Glo
         .then(function (response) {})
     }
 
+    $scope.updateItemPrice = function (item) {
+      $http.post('/api/price/' + item._id + '/' + item.price + '/' + item.priceHQ)
+        .then(function (response) {
+
+        })
+    }
+
     $scope.deleteItem = function (item) {
       $http.delete('/api/item/' + item._id, item)
         .then(function (response) {

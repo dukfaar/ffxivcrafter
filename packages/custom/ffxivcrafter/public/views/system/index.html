@@ -54,6 +54,22 @@
           </md-list>
         </md-card-content>
       </md-card>
+
+      <md-card ng-if="allowed('edit itemprices')">
+        <md-card-header>
+          <md-card-header-text class="md-title">
+            <span class="md-headline">Old item prices!</span>
+            <span class="md-subhead">Holy Kitty, the prices of these items are really old.<br/> If you are in front of a market board, please update them.</span>
+          </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+          <md-list>
+            <md-list-item ng-repeat="item in oldItems" ng-click="priceDialog(item)">
+              {{item.name}}
+            </md-list-item>
+          </md-list>
+        </md-card-content>
+      </md-card>
     </div>
   </main>
 </div>

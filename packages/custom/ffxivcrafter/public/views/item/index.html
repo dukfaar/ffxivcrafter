@@ -10,6 +10,7 @@
                   <th>Name</th>
                   <th>Price NQ</th>
                   <th>Price HQ</th>
+                  <th>Last Update</th>
                   <th>Gathering Job</th>
                   <th>Gathering Effort</th>
                   <th>Gathering Level</th>
@@ -28,11 +29,14 @@
                   </td>
                   <td style="width:10%">
                     <span ng-if="!allowed('edit itemprices')">{{item.price}}</span>
-                    <input ng-if="allowed('edit itemprices')" ng-model="item.price" ng-model-options="{debounce:300}" ng-change="updateItem(item)"/>
+                    <input ng-if="allowed('edit itemprices')" ng-model="item.price" ng-model-options="{debounce:300}" ng-change="updateItemPrice(item)"/>
                   </td>
                   <td style="width:10%">
                     <span ng-if="!allowed('edit itemprices')">{{item.priceHQ}}</span>
-                    <input ng-if="allowed('edit itemprices')" ng-model="item.priceHQ" ng-model-options="{debounce:300}" ng-change="updateItem(item)"/>
+                    <input ng-if="allowed('edit itemprices')" ng-model="item.priceHQ" ng-model-options="{debounce:300}" ng-change="updateItemPrice(item)"/>
+                  </td>
+                  <td>
+                    <span>{{item.lastPriceUpdate}}</span>
                   </td>
                   <td style="width:10%">
                     <span ng-if="!allowed('edit itemdata')">{{item.gatheringjob}}</span>
@@ -71,7 +75,7 @@
                   </td>
                 </tr>
               </tbody>
-            </table>  
+            </table>
             <div layout="row">
               <md-button class="md-raised" ng-disabled="itemService.page==0" ng-click="itemService.prevPage()">&lt;</md-button>
               <md-button class="md-raised" ng-disabled="itemService.page==pageNum" ng-repeat="pageNum in itemService.pageArray()" ng-click="itemService.toPage(pageNum)">{{pageNum}}</md-button>

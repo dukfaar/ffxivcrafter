@@ -13,6 +13,8 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
     $scope.gatherFilter = ''
     $scope.craftableFilter = ''
 
+    $scope.oldItems = []
+
     $scope.deliveryDialog = function (project, item, gathers) {
       deliveryService.deliveryDialog(project, item, gathers, function () { $scope.updateList() })
     }
@@ -29,6 +31,30 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
           $scope.projectData = {}
           projectAnalyzerService.updateMaterialList($scope.projectList, $scope.projectData)
         })
+    }
+
+    $scope.updateOldList = function () {
+      $http.get('api/item/oldest')
+        .then(function (response) {
+          $scope.oldItems = response.data
+        })
+    }
+
+    $scope.updateOldList()
+
+    $scope.priceDialog = function (item) {
+      $mdDialog.show({
+        templateUrl: 'ffxivCrafter/views/item/priceDialogFront.html',
+        parent: angular.element(document.body),
+        controller: 'ItemPriceDialogController',
+        clickOutsideToClose: true,
+        locals: {
+          item: item,
+          priceUpdate: null
+        }
+      }).then(function () {
+        $scope.updateOldList()
+      })
     }
 
     $scope.toArray = function (obj) {

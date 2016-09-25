@@ -43,9 +43,16 @@ module.exports = function () {
     list: function (req, res) {
       doFind({}, req, res)
     },
-
     filteredList: function (req, res) {
       doFind({'name': {$regex: req.params.q,$options: 'i'}}, req, res)
+    },
+    oldest: function (req, res) {
+      Item.find()
+        .sort('lastPriceUpdate')
+        .limit(10)
+        .exec(function (err, result) {
+          res.send(result)
+        })
     },
     create: function (req, res) {
       var item = new Item()
@@ -62,6 +69,20 @@ module.exports = function () {
         if (err) throw err
 
         res.send(item)
+      })
+    },
+    updatePrice: function (req, res) {
+      Item.findById(req.params.id, function (err, item) {
+        if (err) throw err
+
+        item.price = req.params.price
+        item.priceHQ = req.params.priceHQ
+        item.lastPriceUpdate = Date.now()
+
+        item.save(function (err) {
+          if (err) res.status(500).send('Could not save new price: ' + err)
+          else res.send(item)
+        })
       })
     },
     update: function (req, res) {
@@ -129,18 +150,18 @@ module.exports = function () {
             return
           }
 
-          function checkNextItem(index) {
-            if(index>=data.length) return
+          function checkNextItem (index) {
+            if (index >= data.length) return
 
-            var itemData=data[index]
+            var itemData = data[index]
 
-            itemImport.findOrCreateItem(itemData.name, itemData.id, function (item,newItem) {
-              if(newItem) {
+            itemImport.findOrCreateItem(itemData.name, itemData.id, function (item, newItem) {
+              if (newItem) {
                 setTimeout(function () {
-                  checkNextItem(index+1)
-                },100)
+                  checkNextItem(index + 1)
+                }, 100)
               } else {
-                checkNextItem(index+1)
+                checkNextItem(index + 1)
               }
             }, false)
           }

@@ -9,6 +9,9 @@ module.exports = function (myPackage, app, auth, db) {
   app.route('/api/item/filteredList/:q')
     .get(itemController.filteredList)
 
+  app.route('/api/item/oldest')
+    .get(itemController.oldest)
+
   app.route('/api/item')
     .post(itemController.create)
 
@@ -23,6 +26,9 @@ module.exports = function (myPackage, app, auth, db) {
 
   app.route('/api/item/:id')
     .post(itemController.update)
+
+  app.route('/api/price/:id/:price/:priceHQ')
+    .post(itemController.updatePrice)
 
   app.route('/api/import/item/:id')
     .get(itemController.xivdbImport)
