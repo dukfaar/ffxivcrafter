@@ -3,7 +3,7 @@
     <div flex>
       <md-content>
       <div layout="row" layout-wrap flex>
-        <md-card ng-repeat="recipe in recipeList | filter: recipeFilter">
+        <md-card ng-repeat="recipe in recipeList | filter: recipeFilter | limitTo: 10">
           <md-card-content>
             <div layout="row">
               <span flex ng-hide="editMode">{{recipe.craftingJob}}</span>
