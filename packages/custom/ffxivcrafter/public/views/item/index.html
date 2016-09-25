@@ -77,9 +77,11 @@
               </tbody>
             </table>
             <div layout="row">
+              <md-button class="md-raised" ng-disabled="itemService.page==0" ng-click="itemService.toPage(0)">&lt;&lt;</md-button>
               <md-button class="md-raised" ng-disabled="itemService.page==0" ng-click="itemService.prevPage()">&lt;</md-button>
               <md-button class="md-raised" ng-disabled="itemService.page==pageNum" ng-repeat="pageNum in itemService.pageArray()" ng-click="itemService.toPage(pageNum)">{{pageNum}}</md-button>
               <md-button class="md-raised" ng-disabled="itemService.page==maxPage" ng-click="itemService.nextPage()">&gt;</md-button>
+              <md-button class="md-raised" ng-disabled="itemService.page==maxPage" ng-click="itemService.toPage(itemService.maxPage)">&gt;&gt;</md-button>
             </div>
           </md-card-content>
         </md-card>

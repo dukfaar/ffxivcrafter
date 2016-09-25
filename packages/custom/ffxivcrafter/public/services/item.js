@@ -14,7 +14,7 @@ angular.module('mean.ffxivCrafter').factory('ItemService', [ '$http',
 
     instance.pageArray = function () {
       var result = []
-      for (var i = 0;i <= instance.maxPage;i++) result.push(i)
+      for (var i = Math.max(0, instance.page - 3);i <= Math.min(instance.page + 3, instance.maxPage);i++) result.push(i)
 
       return result
     }
