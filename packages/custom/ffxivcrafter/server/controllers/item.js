@@ -129,15 +129,23 @@ module.exports = function () {
             return
           }
 
-          var timeoutCounter = 0
+          function checkNextItem(index) {
+            if(index>=data.length) return
 
-          data.forEach(function (itemData) {
-            setTimeout(function () {
-              itemImport.findOrCreateItem(itemData.name, itemData.id, function (item) {}, false)
-            }, timeoutCounter)
+            var itemData=data[index]
 
-            timeoutCounter += 100
-          })
+            itemImport.findOrCreateItem(itemData.name, itemData.id, function (item,newItem) {
+              if(newItem) {
+                setTimeout(function () {
+                  checkNextItem(index+1)
+                },100)
+              } else {
+                checkNextItem(index+1)
+              }
+            }, false)
+          }
+
+          checkNextItem(0)
 
           res.status(200).send('working on it, this will take a while')
         }

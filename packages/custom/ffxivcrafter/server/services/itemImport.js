@@ -73,11 +73,11 @@ module.exports = function () {
               item.save(function (err) {
                 if (err) throw err
 
-                callback(item)
+                callback(item,true)
               })
             })
           } else {
-            callback(item)
+            callback(item,false)
           }
         })
     }
