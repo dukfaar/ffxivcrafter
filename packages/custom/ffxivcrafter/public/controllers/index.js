@@ -13,6 +13,8 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
     $scope.gatherFilter = ''
     $scope.craftableFilter = ''
 
+    $scope.mergeSelection=null
+
     $scope.oldItems = []
 
     $scope.deliveryDialog = function (project, item, gathers) {

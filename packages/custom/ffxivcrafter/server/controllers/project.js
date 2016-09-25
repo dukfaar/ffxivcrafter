@@ -14,6 +14,45 @@ var config = require('meanio').loadConfig()
 
 module.exports = function () {
   return {
+    merge: function (req, res) {
+      CraftingProject.findById(req.params.id1)
+        .populate('creator tree stock.item')
+        .exec(function (err, project1) {
+          CraftingProject.findById(req.params.id2)
+            .populate('creator tree stock.item')
+            .exec(function (err, project2) {
+              console.log('trying to merge')
+
+              var metaStep = new ProjectStep()
+              metaStep.item = null
+              metaStep.step = 'Meta'
+              metaStep.inputs = []
+
+              metaStep.inputs.push(project1.tree)
+              metaStep.inputs.push(project2.tree)
+
+              metaStep.save(function (err) {
+                if (err) throw err
+
+                var metaProject = new CraftingProject()
+                metaProject.name = project1.name + project2.name
+                metaProject.creator = req.user ? req.user._id : null
+                metaProject.tree = metaStep
+
+                metaProject.save(function (err) {
+                  if (err) throw err
+                  project1.remove(function (err) {
+                    if (err) throw err
+                    project2.remove(function (err) {
+                      if (err) throw err
+                      res.send('Merged')
+                    })
+                  })
+                })
+              })
+            })
+        })
+    },
     list: function (req, res) {
       CraftingProject.find({})
         .populate('creator tree stock.item')
@@ -193,32 +232,36 @@ module.exports = function () {
         project.creator = req.user._id
         project.tree = step._id
 
-        if (req.body.comment) {
-          project.comment = req.body.comment
-        }
+        Item.findById(step.item, function (err, item) {
+          project.name = item.name
 
-        project.save(function (err) {
-          if (err) throw err
-
-          if (req.body.orderedViaOrderView) {
-            User.find({roles: 'projectManager' })
-              .exec(function (err, users) {
-                if (err) throw err
-
-                var transport = nodemailer.createTransport(config.mailer)
-
-              /*users.forEach(function(user) {
-                transport.sendMail({
-                  from: config.emailFrom,
-                  to: user.email,
-                  subject: 'New Crafting order',
-                  html: '<p>A new crafting order has been placed by '+req.user.name+'. Please check the RainCollector</p>'
-                }, function(err, response) {
-                  if (err) return err
-                })
-              })*/
-              })
+          if (req.body.comment) {
+            project.comment = req.body.comment
           }
+
+          project.save(function (err) {
+            if (err) throw err
+
+            if (req.body.orderedViaOrderView) {
+              User.find({roles: 'projectManager' })
+                .exec(function (err, users) {
+                  if (err) throw err
+
+                  var transport = nodemailer.createTransport(config.mailer)
+
+                /*users.forEach(function(user) {
+                  transport.sendMail({
+                    from: config.emailFrom,
+                    to: user.email,
+                    subject: 'New Crafting order',
+                    html: '<p>A new crafting order has been placed by '+req.user.name+'. Please check the RainCollector</p>'
+                  }, function(err, response) {
+                    if (err) return err
+                  })
+                })*/
+                })
+            }
+          })
         })
       })
 

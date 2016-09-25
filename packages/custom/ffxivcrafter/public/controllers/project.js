@@ -22,6 +22,12 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       $scope.recalcVisibleProjectData()
     })
 
+    $scope.doMerge = function (project, mergeProject) {
+      $http.get('/api/project/merge/' + project._id + '/' + mergeProject._id).then(function (response) {
+        $scope.updateList()
+      })
+    }
+
     $scope.gatherFilter = ''
     $scope.gatherTotalFilter = ''
     $scope.craftableFilter = ''

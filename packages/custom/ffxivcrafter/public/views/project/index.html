@@ -3,7 +3,7 @@
     <div flex>
       <md-content layout-wrap>
         <md-tabs md-dynamic-height md-border-bottom md-selected="tabdata.selectedIndex">
-          <md-tab md-on-select="selectedProject(project)" ng-repeat="project in projectList" label="{{project.tree.item.name}}">
+          <md-tab md-on-select="selectedProject(project)" ng-repeat="project in projectList" label="{{(project.name&&project.name!=='')?project.name:project.tree.item.name}}">
             <md-content layout="row" layout-wrap ng-if="projectData[project._id] && tabdata.selectedIndex==$index">
               <md-card>
                 <md-card-content>
@@ -21,11 +21,23 @@
                 <revenue-card project="project" project-data="projectData[project._id]"></revenue-card>
 
                 <md-card>
-                  <md-card-content>
+                  <md-card-content layout="column">
                     <span>Project created By {{project.creator.name}}</span>
                     <md-switch ng-model="project.public" ng-change="updateProject(project)">{{project.public?'public':'non-public'}} project</md-switch>
 
+                    <md-input-container>
+                      <label>Projectname</label>
+                      <input type="text" ng-model="project.name" ng-model-options="{debounce:300}" ng-change="updateProject(project)"/>
+                    </md-input-container>
+
                     <md-button ng-click="deleteProject(project)" class="md-raised">Delete Project</md-button>
+
+                    <md-input-container>
+                      <md-select ng-model="mergeSelection">
+                        <md-option ng-value="mergeProject" placeholder="Select a project to merge with" ng-if="mergeProject!==project" ng-repeat="mergeProject in projectList">{{(mergeProject.name&&mergeProject.name!=='')?mergeProject.name:mergeProject.tree.item.name}}</md-option>
+                      </md-select>
+                    </md-input-container>
+                    <md-button class="md-raised" ng-click="doMerge(project,mergeSelection)">Merge with selected Project</md-button>
                   </md-card-content>
                 </md-card>
 

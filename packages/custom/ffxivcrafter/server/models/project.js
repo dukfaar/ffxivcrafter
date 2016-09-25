@@ -5,6 +5,7 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
 var CraftingProjectSchema = new Schema({
+  name: { type: String, default: ''},
   tree: { type: Schema.ObjectId, ref: 'ProjectStep' },
   creator: { type: Schema.ObjectId, ref: 'User'},
   stock: [{

@@ -1,29 +1,32 @@
-'use strict';
+'use strict'
 
-module.exports = function(myPackage,app,auth,db) {
-  var projectController=require('../controllers/project')();
+module.exports = function (myPackage, app, auth, db) {
+  var projectController = require('../controllers/project')()
 
   app.route('/api/project')
-  .get(projectController.list);
+    .get(projectController.list)
 
   app.route('/api/project/public')
-  .get(projectController.publicList);
+    .get(projectController.publicList)
 
   app.route('/api/project/fromItem/:id/:amount')
-  .post(projectController.fromItem);
+    .post(projectController.fromItem)
+
+  app.route('/api/project/merge/:id1/:id2')
+    .get(projectController.merge)
 
   app.route('/api/project/stock/add/:projectId/:itemId/:amount/:hq')
-  .post(projectController.addToStock);
+    .post(projectController.addToStock)
 
   app.route('/api/project/stock/set/:projectId/:itemId/:amount/:hq')
-  .post(projectController.setStock);
+    .post(projectController.setStock)
 
   app.route('/api/project/:id')
-  .put(projectController.update);
+    .put(projectController.update)
 
   app.route('/api/project/notes/:id')
-  .put(projectController.updateNotes);
+    .put(projectController.updateNotes)
 
   app.route('/api/project/:id')
-  .delete(projectController.delete);
+    .delete(projectController.delete)
 }

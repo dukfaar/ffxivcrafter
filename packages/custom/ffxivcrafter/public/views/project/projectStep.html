@@ -1,7 +1,7 @@
-<div class="step">
+<div class="step" ng-if="step.step!=='Meta'">
   <div layout="column">
 
-    <div layout="row">
+    <div layout="row" >
       <span>{{step.amount}}</span>
       <span flex style="margin-left:8px">{{step.item.name}}</span>
 
@@ -25,6 +25,12 @@
   </div>
 
   <div ng-if="step.inputs.length>0" class="stepList">
+    <project-step data-step="childStep" ng-repeat="childStep in step.inputs" update-step="updateStep()" price-update="priceUpdate()"></project-step>
+  </div>
+</div>
+
+<div ng-if="step.step==='Meta'">
+  <div ng-if="step.inputs.length>0">
     <project-step data-step="childStep" ng-repeat="childStep in step.inputs" update-step="updateStep()" price-update="priceUpdate()"></project-step>
   </div>
 </div>

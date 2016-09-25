@@ -52,11 +52,20 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
   }
 
   function itemPrice (step) {
-    return step.hq ? step.item.priceHQ : step.item.price
+    if (!step.item) return 0
+    return step.step !== 'Meta' ? (step.hq ? step.item.priceHQ : step.item.price) : 0
   }
 
   function stepPrice (step) {
-    return itemPrice(step) * step.amount
+    if (step.step === 'Meta') {
+      var sum = 0
+      step.inputs.forEach(function (input) {
+        sum += stepPrice(input)
+      })
+      return sum
+    } else {
+      return itemPrice(step) * step.amount
+    }
   }
 
   function buyingStep (step, projectData) {
@@ -111,6 +120,12 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
     }
   }
 
+  function metaStep (step, projectData) {
+    step.inputs.forEach(function (input, index) {
+      analyzeStep(input, projectData)
+    })
+  }
+
   function analyzeStep (step, projectData) {
     if (step.step === 'Gather') {
       gatheringStep(step, projectData)
@@ -118,6 +133,8 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
       craftingStep(step, projectData)
     } else if (step.step === 'Buy') {
       buyingStep(step, projectData)
+    } else if (step.step === 'Meta') {
+      metaStep(step, projectData)
     }
   }
 
