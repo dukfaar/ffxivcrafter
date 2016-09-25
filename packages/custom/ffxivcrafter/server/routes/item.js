@@ -27,6 +27,9 @@ module.exports = function (myPackage, app, auth, db) {
   app.route('/api/import/item/:id')
     .get(itemController.xivdbImport)
 
+  app.route('/api/importnoOW/item/')
+    .get(itemController.fullXivdbImportNoOverwrite)
+
   app.route('/api/import/item/')
     .get(itemController.fullXivdbImport)
 }

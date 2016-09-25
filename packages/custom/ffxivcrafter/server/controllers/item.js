@@ -113,6 +113,36 @@ module.exports = function () {
         }
       })
     },
+    fullXivdbImportNoOverwrite: function (req, res) {
+      var url = 'http://api.xivdb.com/item'
+
+      httpreq.get(url, function (err, xivdata) {
+        if (err) {
+          res.status(500).send('Request failed')
+        } else {
+          var data
+
+          try {
+            data = JSON.parse(xivdata.body)
+          } catch (err) {
+            res.status(500).send('Failed to parse the xiv data')
+            return
+          }
+
+          var timeoutCounter = 0
+
+          data.forEach(function (itemData) {
+            setTimeout(function () {
+              itemImport.findOrCreateItem(itemData.name, itemData.id, function (item) {}, false)
+            }, timeoutCounter)
+
+            timeoutCounter += 100
+          })
+
+          res.status(200).send('working on it, this will take a while')
+        }
+      })
+    },
     importList: function (req, res) {
       var importData = req.body.importText.split(/\r|\n/)
       var filteredData = importData.filter(function (elem, pos) {
