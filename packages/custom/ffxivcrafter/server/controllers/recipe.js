@@ -7,6 +7,8 @@ var Item = mongoose.model('Item')
 var httpreq = require('httpreq')
 
 module.exports = function () {
+  var itemImport = require('../services/itemImport')()
+
   var populateAndSend = function (findResult, res, req) {
     findResult
       .populate({
@@ -22,6 +24,59 @@ module.exports = function () {
 
         res.send(result)
       })
+  }
+
+  function xivImportById (xivItemId,callback) {
+    console.log('Importing Recipe Id' + xivItemId)
+
+    var url = 'http://api.xivdb.com/recipe/' + xivItemId
+
+    httpreq.get(url, function (err, xivdata) {
+      if (err) {
+        throw err
+      } else {
+        var data
+
+        try {
+          data = JSON.parse(xivdata.body)
+        } catch (err) {
+          throw err
+          return
+        }
+
+        var recipe = new Recipe()
+        recipe.craftingJob = data.class_name
+        recipe.craftingLevel = data.level_view
+
+        function creationDone () {
+          recipe.save(function (err) {
+            if (err) throw err
+
+            console.log('done Importing Recipe Id' + xivItemId)
+            callback(recipe)
+          })
+        }
+
+        var creationCounter = 1 + data.tree.length
+        function decreaseCounter () {
+          creationCounter--
+
+          if (creationCounter === 0) creationDone()
+        }
+
+        itemImport.findOrCreateItem(data.name_en, data.item.id, function (item) {
+          recipe.outputs.push({item: item._id, amount: data.craft_quantity})
+          decreaseCounter()
+        }, false)
+
+        data.tree.forEach(function (input) {
+          itemImport.findOrCreateItem(input.name, input.id, function (item) {
+            recipe.inputs.push({item: item._id, amount: input.quantity})
+            decreaseCounter()
+          }, false)
+        })
+      }
+    })
   }
 
   return {
@@ -68,9 +123,8 @@ module.exports = function () {
     findByOutput: function (req, res) {
       populateAndSend(Recipe.find({'outputs.item': req.params.id}), res, req)
     },
-    xivdbImport: function (req, res) {
-      var xivItemId = req.params.id
-      var url = 'http://api.xivdb.com/recipe/' + xivItemId
+    fullXivdbImport: function (req, res) {
+      var url = 'http://api.xivdb.com/recipe'
 
       httpreq.get(url, function (err, xivdata) {
         if (err) {
@@ -85,68 +139,45 @@ module.exports = function () {
             return
           }
 
-          var recipe = new Recipe()
-          recipe.craftingJob = data.class_name
-          recipe.craftingLevel = data.level_view
+          var timeoutCounter = 0
 
-          function creationDone () {
-            recipe.save(function (err) {
-              if (err) throw err
+          function checkNextRecipe(index) {
+            if(index>=data.length) {
+              console.log('finished importing')
+              return
+            }
 
-              res.status(200).send('Recipe created')
-            })
-          }
+            var recipeData=data[index]
 
-          var creationCounter = 1 + data.tree.length
-          function decreaseCounter () {
-            creationCounter--
-
-            if (creationCounter === 0) creationDone()
-          }
-
-          function findOrCreateItem (name, xivid, callback) {
-            Item.findOne({name: name})
+            Item.findOne({name: recipeData.name })
               .exec(function (err, item) {
-                if (err) throw err
-
-                if (item == null) {
-                  item = new Item()
-                  item.name = name
-
-                  httpreq.get('http://api.xivdb.com/item/' + xivid, function (err, xivItemData) {
-                    if (err) throw err
-
-                    var itemData = JSON.parse(xivItemData.body)
-                    if (itemData.gathering && itemData.gathering.length > 0) {
-                      item.gatheringLevel = itemData.gathering[0].level_view
-                      if (itemData.gathering[0].type_name === 'Mining') item.gatheringJob = 'Miner'
-                      else if (itemData.gathering[0].type_name === 'Logging') item.gatheringJob = 'Botanist'
+                if (item) {
+                  Recipe.findOne({'outputs.item': item}).exec(function (err, recipe) {
+                    if (!recipe) {
+                      xivImportById(recipeData.id,function(recipe) {
+                        setTimeout(function () {
+                          checkNextRecipe(index+1)
+                        }, 100)
+                      })
+                    } else {
+                      checkNextRecipe(index+1)
                     }
-
-                    item.save(function (err) {
-                      if (err) throw err
-
-                      callback(item)
-                    })
                   })
                 } else {
-                  callback(item)
+                  checkNextRecipe(index+1)
                 }
               })
           }
 
-          findOrCreateItem(data.name_en, data.item.id, function (item) {
-            recipe.outputs.push({item: item._id, amount: data.craft_quantity})
-            decreaseCounter()
-          })
+          checkNextRecipe(0)
 
-          data.tree.forEach(function (input) {
-            findOrCreateItem(input.name, input.id, function (item) {
-              recipe.inputs.push({item: item._id, amount: input.quantity})
-              decreaseCounter()
-            })
-          })
+          res.status(200).send('Working on it, this will take a while')
         }
+      })
+    },
+    xivdbImport: function (req, res) {
+      xivImportById(req.params.id,function(recipe) {
+        res.send('Import done')
       })
     }
   }

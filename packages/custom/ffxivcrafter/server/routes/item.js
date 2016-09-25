@@ -1,26 +1,32 @@
-'use strict';
+'use strict'
 
-module.exports = function(myPackage,app,auth,db) {
-  var itemController=require('../controllers/item')();
+module.exports = function (myPackage, app, auth, db) {
+  var itemController = require('../controllers/item')()
 
   app.route('/api/item')
-  .get(itemController.list);
+    .get(itemController.list)
 
   app.route('/api/item/filteredList/:q')
-  .get(itemController.filteredList);
+    .get(itemController.filteredList)
 
   app.route('/api/item')
-  .post(itemController.create);
+    .post(itemController.create)
 
   app.route('/api/item/importList')
-  .post(itemController.importList);
+    .post(itemController.importList)
 
   app.route('/api/item/:id')
-  .get(itemController.get);
+    .get(itemController.get)
 
   app.route('/api/item/:id')
-  .delete(itemController.delete);
+    .delete(itemController.delete)
 
   app.route('/api/item/:id')
-  .put(itemController.update);
+    .post(itemController.update)
+
+  app.route('/api/import/item/:id')
+    .get(itemController.xivdbImport)
+
+  app.route('/api/import/item/')
+    .get(itemController.fullXivdbImport)
 }
