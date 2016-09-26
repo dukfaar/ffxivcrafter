@@ -14,6 +14,7 @@ var CraftingProjectSchema = new Schema({
     hq: { type: Boolean, default: false }
   }],
   public: { type: Boolean, default: false },
+  private: { type: Boolean, default: true },
   comment: { type: String, default: '' },
   notes: { type: String, default: ''}
 })

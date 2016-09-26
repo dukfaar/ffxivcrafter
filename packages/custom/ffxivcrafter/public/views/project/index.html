@@ -24,6 +24,10 @@
                   <md-card-content layout="column">
                     <span>Project created By {{project.creator.name}}</span>
                     <md-switch ng-model="project.public" ng-change="updateProject(project)">{{project.public?'public':'non-public'}} project</md-switch>
+                    <md-switch ng-model="project.private" ng-change="updateProject(project)">
+                      <md-tooltip>If this is set, only you can see this project</md-tooltip>
+                      {{project.private?'private':'non-private'}} project
+                    </md-switch>
 
                     <md-input-container>
                       <label>Projectname</label>

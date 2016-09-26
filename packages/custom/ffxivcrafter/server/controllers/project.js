@@ -54,7 +54,12 @@ module.exports = function () {
         })
     },
     list: function (req, res) {
-      CraftingProject.find({})
+      CraftingProject.find({
+        $or: [
+          {private: false},
+          {private: true, creator: req.user._id}
+        ]
+      })
         .populate('creator tree stock.item')
         .lean()
         .exec(function (err, result) {
@@ -64,7 +69,7 @@ module.exports = function () {
         })
     },
     publicList: function (req, res) {
-      CraftingProject.find({public: true})
+      CraftingProject.find({public: true, private: false})
         .populate('creator tree stock.item')
         .lean()
         .exec(function (err, result) {
