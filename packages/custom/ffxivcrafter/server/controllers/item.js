@@ -47,10 +47,16 @@ module.exports = function () {
       doFind({'name': {$regex: req.params.q,$options: 'i'}}, req, res)
     },
     oldest: function (req, res) {
-      Item.find()
+      Item.find({
+          $or: [
+            {'datedObject': false},
+            {'datedObject': {$exists:false}}
+          ]
+      })
         .sort('lastPriceUpdate')
         .limit(10)
         .exec(function (err, result) {
+          if (err) throw err
           res.send(result)
         })
     },

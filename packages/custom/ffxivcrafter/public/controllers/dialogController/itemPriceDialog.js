@@ -9,7 +9,7 @@ angular.module('mean.ffxivCrafter').controller('ItemPriceDialogController',
     }
 
     $scope.update = function () {
-      $http.post('/api/price/' + $scope.item._id + '/' + $scope.item.price + '/' + $scope.item.priceHQ)
+      $http.put('/api/price/' + $scope.item._id + '/' + $scope.item.price + '/' + $scope.item.priceHQ)
         .then(function (response) {
           if(priceUpdate) priceUpdate()(item)
         })

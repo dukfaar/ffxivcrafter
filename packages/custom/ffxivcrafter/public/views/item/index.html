@@ -15,6 +15,7 @@
                   <th>Gathering Effort</th>
                   <th>Gathering Level</th>
                   <th>OrderByUnprivileged</th>
+                  <th>Dated</th>
                   <th ng-if="allowed('edit itemdata')">On MB</th>
                   <th>#In Stock</th>
                   <th>Discount%</th>
@@ -56,6 +57,9 @@
                   </td>
                   <td ng-if="allowed('edit itemdata')">
                     <input type="checkbox" ng-model="item.canBeOrderedByUnprivileged" ng-change="updateItem(item)"/>
+                  </td>
+                  <td ng-if="allowed('edit itemdata')">
+                    <input type="checkbox" ng-model="item.datedObject" ng-change="updateItem(item)"/>
                   </td>
                   <th>
                   <input type="checkbox" ng-model="item.soldOnMarket" ng-change="updateItem(item)"/>

@@ -12,6 +12,9 @@ module.exports = function (myPackage, app, auth, db) {
   app.route('/api/item/oldest')
     .get(itemController.oldest)
 
+  app.route('/api/item/:id')
+    .get(itemController.get)
+
   app.route('/api/item')
     .post(itemController.create)
 
@@ -19,16 +22,13 @@ module.exports = function (myPackage, app, auth, db) {
     .post(itemController.importList)
 
   app.route('/api/item/:id')
-    .get(itemController.get)
-
-  app.route('/api/item/:id')
     .delete(itemController.delete)
 
   app.route('/api/item/:id')
-    .post(itemController.update)
+    .put(itemController.update)
 
   app.route('/api/price/:id/:price/:priceHQ')
-    .post(itemController.updatePrice)
+    .put(itemController.updatePrice)
 
   app.route('/api/import/item/:id')
     .get(itemController.xivdbImport)

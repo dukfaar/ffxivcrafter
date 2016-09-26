@@ -22,7 +22,7 @@ angular.module('mean.ffxivCrafter').controller('ItemController', ['$scope', 'Glo
     }
 
     $scope.updateItemPrice = function (item) {
-      $http.post('/api/price/' + item._id + '/' + item.price + '/' + item.priceHQ)
+      $http.put('/api/price/' + item._id + '/' + item.price + '/' + item.priceHQ)
         .then(function (response) {
 
         })
