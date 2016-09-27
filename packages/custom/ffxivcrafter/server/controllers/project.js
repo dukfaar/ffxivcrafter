@@ -13,6 +13,74 @@ var nodemailer = require('nodemailer')
 var config = require('meanio').loadConfig()
 
 module.exports = function () {
+  function stepForItem (itemId, amount, callback) {
+    var step = new ProjectStep()
+    step.item = itemId
+    step.inputs = []
+
+    Recipe
+      .find({'outputs.item': itemId})
+      .exec(function (err, recipes) {
+        if (err) throw err
+
+        if (recipes.length === 0) {
+          step.step = 'Gather'
+          step.amount = amount
+
+          step.save(function (err) {
+            if (err) throw err
+
+            callback(step)
+          })
+        } else {
+          step.step = 'Craft'
+          var recipe = recipes[0]
+          step.recipe = recipe._id
+
+          var countdown = recipe.inputs.length
+
+          amount = Math.ceil(amount / recipe.outputs[0].amount) * recipe.outputs[0].amount
+          step.amount = amount
+
+          recipe.inputs.forEach(function (input) {
+            stepForItem(input.item, input.amount * amount / recipe.outputs[0].amount, function (childStep) {
+              step.inputs.push(childStep)
+
+              countdown--
+              if (countdown === 0) {
+                step.save(function (err) {
+                  if (err) throw err
+                  callback(step)
+                })
+              }
+            })
+          })
+        }
+      })
+  }
+
+  function projectToMetaProject (project, callback) {
+    if (project.tree.step !== 'Meta') {
+      var metaStep = new ProjectStep()
+      metaStep.item = null
+      metaStep.step = 'Meta'
+      metaStep.inputs = [project.tree]
+
+      metaStep.save(function (err) {
+        if (err) throw err
+
+        project.tree = metaStep
+        project.save(function (err) {
+          if (err) throw err
+          console.log(project)
+          callback(project)
+        })
+      })
+    } else {
+      callback(project)
+    }
+  }
+
   return {
     merge: function (req, res) {
       CraftingProject.findById(req.params.id1)
@@ -185,53 +253,25 @@ module.exports = function () {
         })
       })
     },
-    fromItem: function (req, res) {
-      var stepForItem = function (itemId, amount, callback) {
-        var step = new ProjectStep()
-        step.item = itemId
-        step.inputs = []
-
-        Recipe
-          .find({'outputs.item': itemId})
-          .exec(function (err, recipes) {
-            if (err) throw err
-
-            if (recipes.length === 0) {
-              step.step = 'Gather'
-              step.amount = amount
-
-              step.save(function (err) {
+    addToProject: function (req, res) {
+      CraftingProject.findById(req.params.projectId)
+        .populate('creator tree stock.item')
+        .exec(function (err, project) {
+          projectToMetaProject(project, function (metaProject) {
+            stepForItem(req.params.id, req.params.amount, function (step) {
+              console.log(metaProject)
+              metaProject.tree.inputs.push(step)
+              metaProject.tree.save(function (err) {
                 if (err) throw err
+                console.log(metaProject)
 
-                callback(step)
+                res.send(metaProject)
               })
-            } else {
-              step.step = 'Craft'
-              var recipe = recipes[0]
-              step.recipe = recipe._id
-
-              var countdown = recipe.inputs.length
-
-              amount = Math.ceil(amount / recipe.outputs[0].amount) * recipe.outputs[0].amount
-              step.amount = amount
-
-              recipe.inputs.forEach(function (input) {
-                stepForItem(input.item, input.amount * amount / recipe.outputs[0].amount, function (childStep) {
-                  step.inputs.push(childStep)
-
-                  countdown--
-                  if (countdown === 0) {
-                    step.save(function (err) {
-                      if (err) throw err
-                      callback(step)
-                    })
-                  }
-                })
-              })
-            }
+            })
           })
-      }
-
+        })
+    },
+    fromItem: function (req, res) {
       stepForItem(req.params.id, req.params.amount, function (step) {
         var project = new CraftingProject()
         project.creator = req.user._id

@@ -39,12 +39,23 @@
           </div>
         </md-card-content>
 
-        <md-card-actions ng-show="selectedItem">
-          <md-input-container>
-            <label>Number of Items</label>
-            <input ng-model="order.amount"></input>
-          </md-input-container>
-          <md-button class="md-raised" ng-click="projectFromItem(selectedItem)">Add as project</md-button>
+        <md-card-actions ng-show="selectedItem" layout="column">
+          <div layout="row" layout-align="space-around center">
+            <md-input-container>
+              <label>Number of Items</label>
+              <input ng-model="order.amount"></input>
+            </md-input-container>
+            <md-button class="md-raised" ng-click="projectFromItem(selectedItem)">Add as new project</md-button>
+          </div>
+          <div layout="row" layout-align="space-around center">
+            <md-input-container>
+              <md-select ng-model="selectedProject">
+                <label>Project to add to</label>
+                <md-option ng-value="project" ng-repeat="project in projectList">{{project.name}}</md-option>
+              </md-select>
+            </md-input-container>
+            <md-button class="md-raised" ng-click="addToProject(selectedItem,selectedProject)">Add to project</md-button>
+          </div>
         </md-card-actions>
       </md-card>
 

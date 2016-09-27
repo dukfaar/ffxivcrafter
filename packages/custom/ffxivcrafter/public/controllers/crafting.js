@@ -5,6 +5,20 @@ angular.module('mean.ffxivCrafter').controller('CraftingController', ['$scope', 
     $scope.itemList = null
 
     $scope.itemService = ItemService
+    $scope.selectedProject = null
+
+    $scope.projectList = []
+
+    $scope.updateProjectList = function () {
+      var url = '/api/project'
+
+      $http.get(url)
+        .then(function (response) {
+          $scope.projectList = response.data
+        })
+    }
+
+    $scope.updateProjectList()
 
     $scope.order = {
       amount: 1
@@ -25,7 +39,18 @@ angular.module('mean.ffxivCrafter').controller('CraftingController', ['$scope', 
 
     $scope.projectFromItem = function (item) {
       $http.post('/api/project/fromItem/' + item._id + '/' + $scope.order.amount)
-        .then(function (response) {})
+        .then(function (response) {
+          $scope.updateProjectList()
+        })
+    }
+
+    $scope.addToProject = function (item, project) {
+      if (!project) return
+
+      $http.post('/api/project/addToProject/' + item._id + '/' + $scope.order.amount + '/' + project._id)
+        .then(function (response) {
+          $scope.updateProjectList()
+        })
     }
   }
 ])

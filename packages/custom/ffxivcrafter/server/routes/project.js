@@ -12,6 +12,9 @@ module.exports = function (myPackage, app, auth, db) {
   app.route('/api/project/fromItem/:id/:amount')
     .post(projectController.fromItem)
 
+  app.route('/api/project/addToProject/:id/:amount/:projectId')
+    .post(projectController.addToProject)
+
   app.route('/api/project/merge/:id1/:id2')
     .get(projectController.merge)
 
