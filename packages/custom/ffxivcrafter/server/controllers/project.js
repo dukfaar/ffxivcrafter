@@ -72,7 +72,6 @@ module.exports = function () {
         project.tree = metaStep
         project.save(function (err) {
           if (err) throw err
-          console.log(project)
           callback(project)
         })
       })
@@ -259,11 +258,9 @@ module.exports = function () {
         .exec(function (err, project) {
           projectToMetaProject(project, function (metaProject) {
             stepForItem(req.params.id, req.params.amount, function (step) {
-              console.log(metaProject)
               metaProject.tree.inputs.push(step)
               metaProject.tree.save(function (err) {
                 if (err) throw err
-                console.log(metaProject)
 
                 res.send(metaProject)
               })
