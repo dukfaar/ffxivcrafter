@@ -14,6 +14,10 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.recalcOnPage = null
     $scope.project = null
 
+    $scope.gatherList = []
+    $scope.craftableList = []
+    $scope.stockList = []
+
     $scope.$watch('tabdata.selectedIndex', function (oldValue, newValue) {
       if ($scope.recalcOnPage !== null && $scope.recalcOnPage !== 0) {
         $scope.tabdata.selectedIndex = $scope.recalcOnPage
@@ -22,6 +26,14 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
       $scope.recalcVisibleProjectData()
     })
+
+    $scope.$watch('project', function (oldValue, newValue) {
+      if ($scope.project) {
+        $scope.stockList = $scope.toArray($scope.project.stock)
+        $scope.craftableList = $scope.toArray($scope.projectData[$scope.project._id].craftableSteps)
+        $scope.gatherList = $scope.toArray($scope.projectData[$scope.project._id].gatherList)
+      }
+    }, true)
 
     $scope.selectedProject = function (p) {
       $scope.project = p
@@ -146,8 +158,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
         }
       })
 
-      $scope.projectList = $scope.projectList.filter(function (a) {return typeof a !== 'undefined';}
-      )
+      $scope.projectList = $scope.projectList.filter(function (a) {return typeof a !== 'undefined';})
     }
 
     $scope.updateList = function () {

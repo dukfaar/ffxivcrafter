@@ -11,7 +11,7 @@
   </md-toolbar>
   <md-card-content>
     <md-list>
-      <md-list-item ng-repeat="stockElement in toArray(project.stock) | filter: { item: { name: stockFilter } }" layout="row">
+      <md-list-item ng-repeat="stockElement in stockList | filter: { item: { name: stockFilter } }" layout="row">
         <span flex>{{stockElement.amount}} {{stockElement.item.name}}</span>
         <span ng-if="stockElement.hq">HQ</span>
         <md-button class="md-raised" ng-click="addToStock(project,stockElement.item,-stockElement.amount, stockElement.hq)">RemoveFromStock</md-button>

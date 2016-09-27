@@ -13,7 +13,7 @@
   <md-card-content>
     <md-list>
       <md-list-item
-      ng-repeat="gathers in toArray(projectData[project._id].gatherList) | filter: { item: { name: gatherFilter } }"
+      ng-repeat="gathers in gatherList | filter: { item: { name: gatherFilter } }"
       ng-click="deliveryDialog(project,gathers.item,gathers)"
       ng-if="gathers.outstanding>0"
       layout="row">

@@ -13,7 +13,7 @@
   <md-card-content>
     <md-list>
       <md-list-item
-      ng-repeat="craftable in toArray(projectData[project._id].craftableSteps)  | filter: { step: { item: { name: craftableFilter } } }"
+      ng-repeat="craftable in craftableList | filter: { step: { item: { name: craftableFilter } } }"
       ng-click="deliveryCraftDialog(project,craftable.step.item,craftable.step,craftable)"
       layout="row">
         <span flex>
