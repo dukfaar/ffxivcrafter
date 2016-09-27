@@ -5,8 +5,8 @@
         <md-tabs md-dynamic-height md-border-bottom md-selected="tabdata.selectedIndex">
           <md-tab md-on-select="selectedProject(project)" ng-repeat="project in projectList" label="{{(project.name&&project.name!=='')?project.name:project.tree.item.name}}">
             <!--<md-content layout="row" layout-wrap ng-if="projectData[project._id] && tabdata.selectedIndex==$index">-->
-            <md-content layout="row" layout-wrap>
-              <md-card>
+            <md-content layout="row" layout-xs="column" layout-sm="column" layout-fill>
+              <md-card flex="25" flex-xs="100" flex-sm="100">
                 <md-toolbar class="md-hue-2">
                   <div class="md-toolbar-tools">
                     <span>Recipe Tree</span>
@@ -27,13 +27,14 @@
                 </md-card-content>
               </md-card>
 
-              <project-item-stock></project-item-stock>
+              <div layout="column" flex="25" flex-xs="100" flex-sm="100">
+                <project-item-crafts></project-item-crafts>
+                <project-item-gathers></project-item-gathers>
+              </div>
 
-              <project-item-gathers></project-item-gathers>
+              <project-item-stock flex="25" flex-xs="100" flex-sm="100"></project-item-stock>
 
-              <project-item-crafts></project-item-crafts>
-
-              <span layout="column">
+              <span layout="column" flex="25" flex-xs="100" flex-sm="100">
                 <revenue-card project="project" project-data="projectData[project._id]"></revenue-card>
 
                 <md-card>
