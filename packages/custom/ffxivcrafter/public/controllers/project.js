@@ -12,6 +12,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     }
 
     $scope.recalcOnPage = null
+    $scope.project = null
 
     $scope.$watch('tabdata.selectedIndex', function (oldValue, newValue) {
       if ($scope.recalcOnPage !== null && $scope.recalcOnPage !== 0) {
@@ -22,10 +23,14 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       $scope.recalcVisibleProjectData()
     })
 
+    $scope.selectedProject = function (p) {
+      $scope.project = p
+    }
+
     $scope.showAllSteps = function () {
       $rootScope.showingAllProjectStepChildren = true
       $rootScope.$broadcast('showAllProjectStepChildren')
-      setTimeout(function(){$rootScope.showingAllProjectStepChildren = false},2000)
+      setTimeout(function () {$rootScope.showingAllProjectStepChildren = false}, 2000)
     }
 
     $scope.hideAllSteps = function () {
@@ -157,6 +162,8 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
           $scope.recalcVisibleProjectData()
 
           $scope.recalcOnPage = $scope.tabdata.selectedIndex
+
+          $scope.project = $scope.projectList[$scope.tabdata.selectedIndex]
         })
     }
 
