@@ -1,15 +1,17 @@
 <md-card>
-  <md-card-header>
-    <md-card-header-text class="md-title">
-      Items to Gather
-    </md-card-header-text>
-  </md-card-header>
+  <md-toolbar class="md-hue-2">
+    <div class="md-toolbar-tools">
+      <span>Items to Gather</span>
+      <span flex></span>
+      <md-input-container class="md-accent" style="padding-bottom:0px;margin-left:25px">
+        <label style="color:wheat">Itemfilter</label>
+        <input style="color:wheat" ng-model="gatherFilter" size="10"/>
+      </md-input-container>
+    </div>
+  </md-toolbar>
+
   <md-card-content>
     <md-list>
-      <md-input-container>
-        <label>Itemfilter</label>
-        <input ng-model="gatherFilter"/>
-      </md-input-container>
       <md-list-item
       ng-repeat="gathers in toArray(projectData[project._id].gatherList) | filter: { item: { name: gatherFilter } }"
       ng-click="deliveryDialog(project,gathers.item,gathers)"

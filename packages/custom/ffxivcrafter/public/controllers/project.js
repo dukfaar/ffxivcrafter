@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'deliveryService',
-  function ($scope, Global, $http, $mdDialog, projectAnalyzerService, deliveryService) {
+angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'deliveryService',
+  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, deliveryService) {
     $scope.projectList = []
     $scope.projectData = {}
 
@@ -21,6 +21,17 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
       $scope.recalcVisibleProjectData()
     })
+
+    $scope.showAllSteps = function () {
+      $rootScope.showingAllProjectStepChildren = true
+      $rootScope.$broadcast('showAllProjectStepChildren')
+      setTimeout(function(){$rootScope.showingAllProjectStepChildren = false},2000)
+    }
+
+    $scope.hideAllSteps = function () {
+      $rootScope.hidingAllProjectStepChildren = true
+      $rootScope.$broadcast('hideAllProjectStepChildren')
+    }
 
     $scope.doMerge = function (project, mergeProject) {
       $http.get('/api/project/merge/' + project._id + '/' + mergeProject._id).then(function (response) {
@@ -150,6 +161,8 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     }
 
     $scope.toArray = function (obj) {
+      if (!obj) return []
+
       return Object.keys(obj).map(function (key) {
         return obj[key]
       })

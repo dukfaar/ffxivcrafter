@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog) {
+angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog, $rootScope) {
   return {
     templateUrl: '/ffxivCrafter/views/project/projectStep.html',
     scope: {
@@ -13,14 +13,24 @@ angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog
         $scope.updateStep()($scope.step)
       }
 
+      $scope.hideChildren = $rootScope.showingAllProjectStepChildren===true?false:true
+
+      $scope.toggleChildren = function () { $scope.hideChildren = !$scope.hideChildren }
+
+      $rootScope.$on('showAllProjectStepChildren', function () {
+        $scope.hideChildren = false
+      })
+      $rootScope.$on('hideAllProjectStepChildren', function () {
+        $scope.hideChildren = true
+      })
+
       $scope.toggleHQ = function () {
         $scope.step.hq = !$scope.step.hq
         $scope.updateStep()($scope.step)
       }
 
       $scope.outputStepPrice = function (step) {
-
-        return step.amount * (step.item?(step.hq ? step.item.priceHQ : step.item.price):0)
+        return step.amount * (step.item ? (step.hq ? step.item.priceHQ : step.item.price) : 0)
       }
 
       $scope.inputPriceSum = function (step) {

@@ -1,15 +1,17 @@
 <md-card>
-  <md-card-header>
-    <md-card-header-text class="md-title">
-      Craftable Items
-    </md-card-header-text>
-  </md-card-header>
+  <md-toolbar class="md-hue-2">
+    <div class="md-toolbar-tools">
+      <span>Craftable Items</span>
+      <span flex></span>
+      <md-input-container class="md-accent" style="padding-bottom:0px;margin-left:25px">
+        <label style="color:wheat">Itemfilter</label>
+        <input style="color:wheat" ng-model="craftableFilter" size="10"/>
+      </md-input-container>
+    </div>
+  </md-toolbar>
+
   <md-card-content>
     <md-list>
-      <md-input-container>
-        <label>Itemfilter</label>
-        <input ng-model="craftableFilter"/>
-      </md-input-container>
       <md-list-item
       ng-repeat="craftable in toArray(projectData[project._id].craftableSteps)  | filter: { step: { item: { name: craftableFilter } } }"
       ng-click="deliveryCraftDialog(project,craftable.step.item,craftable.step,craftable)"
