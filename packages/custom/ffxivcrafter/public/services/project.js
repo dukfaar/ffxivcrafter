@@ -107,7 +107,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
         })
 
         step.recipe.inputs.forEach(function (input, index) {
-          deductFromUnallocatedStock(projectData, input.item._id, input.amount * maxSteps, step.inputs[index].hq)
+          deductFromUnallocatedStock(projectData, input.item, input.amount * maxSteps, step.inputs[index].hq)
         })
       }
 
@@ -122,15 +122,13 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
 
   function metaStep (step, projectData) {
     step.inputs.forEach(function (input, index) {
-      console.log(input)
-
       if (input.step !== 'Meta') {
         var inStock = getAmountOfItemInUnnallocatedStock(projectData, input.item._id, input.hq)
         var takeFromStock = Math.min(inStock, input.amount)
 
         input.amount -= takeFromStock
 
-        eductFromUnallocatedStock(projectData, input.item._id, takeFromStock, input.hq)
+        deductFromUnallocatedStock(projectData, input.item._id, takeFromStock, input.hq)
       }
 
       analyzeStep(input, projectData)
