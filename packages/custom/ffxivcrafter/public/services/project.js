@@ -124,8 +124,14 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
     step.inputs.forEach(function (input, index) {
       console.log(input)
 
-      if(input.step!=='Meta')
-        input.amount -= getAmountOfItemInUnnallocatedStock(projectData, input.item._id, input.hq)
+      if (input.step !== 'Meta') {
+        var inStock = getAmountOfItemInUnnallocatedStock(projectData, input.item._id, input.hq)
+        var takeFromStock = Math.min(inStock, input.amount)
+
+        input.amount -= takeFromStock
+
+        eductFromUnallocatedStock(projectData, input.item._id, takeFromStock, input.hq)
+      }
 
       analyzeStep(input, projectData)
     })
