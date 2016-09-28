@@ -1,10 +1,11 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog, $rootScope) {
+angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog, $rootScope, $http) {
   return {
     templateUrl: '/ffxivCrafter/views/project/projectStep.html',
     scope: {
       step: '=',
+      stepDeletion: "=",
       updateStep: '&',
       priceUpdate: '&'
     },
@@ -14,6 +15,14 @@ angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog
       }
 
       $scope.hideChildren = $rootScope.showingAllProjectStepChildren===true?false:true
+
+      $scope.deleteStep = function() {
+        $http.delete('/api/projectstep/'+$scope.step._id)
+        .then(function(response) {
+
+          $scope.updateStep()($scope.step)
+        })
+      }
 
       $scope.toggleChildren = function () { $scope.hideChildren = !$scope.hideChildren }
 

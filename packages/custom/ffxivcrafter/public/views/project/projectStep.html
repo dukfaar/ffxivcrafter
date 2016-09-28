@@ -8,6 +8,8 @@
         <span>{{step.amount}}</span>
         <span flex style="margin-left:8px">{{step.item.name}}</span>
 
+        <md-icon ng-if="stepDeletion.enabled" ng-click="deleteStep()" class="material-icons">delete</md-icon>
+
         <span>
           <select ng-model="step.step" ng-change="update()">
             <option ng-value="Craft">Craft</option>
@@ -29,12 +31,12 @@
   </div>
 
   <div ng-if="step.inputs.length>0&&!hideChildren" class="stepList">
-    <project-step data-step="childStep" ng-repeat="childStep in step.inputs" update-step="updateStep()" price-update="priceUpdate()"></project-step>
+    <project-step data-step="childStep" ng-repeat="childStep in step.inputs" update-step="updateStep()" price-update="priceUpdate()" step-deletion="stepDeletion"></project-step>
   </div>
 </div>
 
 <div ng-if="step.step==='Meta'">
   <div ng-if="step.inputs.length>0">
-    <project-step data-step="childStep" ng-repeat="childStep in step.inputs" update-step="updateStep()" price-update="priceUpdate()"></project-step>
+    <project-step data-step="childStep" ng-repeat="childStep in step.inputs" update-step="updateStep()" price-update="priceUpdate()" step-deletion="stepDeletion"></project-step>
   </div>
 </div>

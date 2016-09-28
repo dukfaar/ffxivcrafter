@@ -30,12 +30,14 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.$watch('project', function (oldValue, newValue) {
       if ($scope.project) {
         $scope.recalcProjectData($scope.project)
-        
+
         $scope.stockList = $scope.toArray($scope.project.stock)
         $scope.craftableList = $scope.toArray($scope.projectData[$scope.project._id].craftableSteps)
         $scope.gatherList = $scope.toArray($scope.projectData[$scope.project._id].gatherList)
       }
     }, true)
+
+    $scope.stepDeletion = { enabled: false }
 
     $scope.selectedProject = function (p) {
       $scope.project = p
