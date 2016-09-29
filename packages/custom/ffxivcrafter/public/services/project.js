@@ -101,10 +101,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
 
   // rewrite this thingy
   function craftingStep (step, projectData) {
-    console.log('craft ' + step.item.name + ' start')
-
     var stepData = getMaxCraftableSteps(step, projectData)
-    console.log('can craft a maximum of %i', stepData.maxSteps)
 
     if (stepData.neededAmount > 0) {
       // we need to craft
@@ -125,7 +122,6 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
 
         // and remove every item that would be used in this crafting steps
         step.recipe.inputs.forEach(function (input, index) {
-          console.log('allocated %i %s', input.amount * stepData.maxSteps, input.item)
           deductFromUnallocatedStock(projectData, input.item, input.amount * stepData.maxSteps, step.inputs[index].hq)
         })
       } else {
@@ -143,7 +139,6 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
 
       step.inputs.forEach(function (input, index) {
         input.amount = stepData.neededInputs[input.item._id]
-        console.log('input of %s set to %i', input.item.name, input.amount)
         analyzeStep(input, projectData)
       })
     } else {
@@ -151,7 +146,6 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
       no crafting needed
       deduce this steps items from the stock and be done
       */
-      console.log('deducing %i items', step.amount)
       deductFromUnallocatedStock(projectData, step.item._id, step.amount, step.hq)
     }
   }

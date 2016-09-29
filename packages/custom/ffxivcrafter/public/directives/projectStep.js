@@ -7,7 +7,9 @@ angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog
       step: '=',
       stepDeletion: "=",
       updateStep: '&',
-      priceUpdate: '&'
+      priceUpdate: '&',
+      deletedStep: '&',
+      showDeleter: '='
     },
     controller: function ($scope) {
       $scope.update = function () {
@@ -20,7 +22,7 @@ angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog
         $http.delete('/api/projectstep/'+$scope.step._id)
         .then(function(response) {
 
-          $scope.updateStep()($scope.step)
+          $scope.deletedStep()()
         })
       }
 
