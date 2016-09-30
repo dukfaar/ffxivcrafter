@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'deliveryService',
-  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, deliveryService) {
+angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'deliveryService', '$mdPanel',
+  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, deliveryService, $mdPanel) {
     $scope.projectList = []
     $scope.projectData = {}
 
@@ -17,6 +17,59 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.gatherList = []
     $scope.craftableList = []
     $scope.stockList = []
+
+    $scope.reqPanel = {
+
+    }
+
+    $scope.closeRequirementsPanel = function (stockElement) {
+      console.log($scope.project._id+stockElement.item._id)
+      console.log('closing')
+      $scope.reqPanel[$scope.project._id+stockElement.item._id].close()
+      .then(function() {
+        $scope.reqPanel[$scope.project._id+stockElement.item._id].destroy()
+        delete $scope.reqPanel[$scope.project._id+stockElement.item._id]
+        $scope.reqPanel[$scope.project._id+stockElement.item._id]=null
+      })
+    }
+
+    $scope.showRequirementsPanel = function (stockElement) {
+      console.log($scope.project._id+stockElement.item._id)
+      if (!$scope.reqPanel[$scope.project._id+stockElement.item._id]) {
+        var position = $mdPanel.newPanelPosition()
+          .relativeTo('#stockElement_' + stockElement.item._id)
+          .addPanelPosition($mdPanel.xPosition.OFFSET_END, $mdPanel.yPosition.ALIGN_TOPS)
+
+        var config = {
+          attachTo: "#commentCard",
+          controller: function ($scope, project, projectData, stockElement) {
+            $scope.project = project
+            $scope.projectData = projectData
+            $scope.stockElement = stockElement
+          },
+          locals: {
+            'project': $scope.project,
+            'projectData': $scope.projectData,
+            'stockElement': stockElement
+          },
+          disableParentScroll: false,
+          templateUrl: 'ffxivCrafter/views/project/stockRequirementsPanel.html',
+          hasBackdrop: false,
+          panelClass: 'stockRequirementsPanel',
+          propagateContainerEvents: true,
+          position: position,
+          trapFocus: false,
+          zIndex: 150,
+          escapeToClose: true,
+          focusOnOpen: false
+        }
+
+        $scope.reqPanel[$scope.project._id+stockElement.item._id] = $mdPanel.create(config)
+      }
+
+      console.log('opening')
+      $scope.reqPanel[$scope.project._id+stockElement.item._id].open()
+    }
 
     $scope.$watch('tabdata.selectedIndex', function (oldValue, newValue) {
       if ($scope.recalcOnPage !== null && $scope.recalcOnPage !== 0) {
