@@ -13,6 +13,11 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
     return null
   }
 
+  function markStockAsRequiredBy (projectData, itemId, hq, requiredByStep) {
+    if (!projectData.stockRequirements[itemId + '_' + hq]) projectData.stockRequirements[itemId + '_' + hq] = []
+    projectData.stockRequirements[itemId + '_' + hq].push(requiredByStep)
+  }
+
   function itemInUnallocatedStock (projectData, itemId, amount, hq) {
     var storedAmount = getAmountOfItemInUnnallocatedStock(projectData, itemId, amount, hq)
 
@@ -122,11 +127,13 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
 
         // and remove every item that would be used in this crafting steps
         step.recipe.inputs.forEach(function (input, index) {
+          markStockAsRequiredBy(projectData, input.item, step.inputs[index].hq, step)
           deductFromUnallocatedStock(projectData, input.item, input.amount * stepData.maxSteps, step.inputs[index].hq)
         })
       } else {
         // we still need to allocate any items that COULD be used
         step.inputs.forEach(function (input, index) {
+          markStockAsRequiredBy(projectData, input.item._id, input.hq, step)
           var itemsInStock = getAmountOfItemInUnnallocatedStock(projectData, input.item._id, input.hq)
           var amount = Math.min(itemsInStock, input.amount)
           deductFromUnallocatedStock(projectData, input.item._id, amount, input.hq)
@@ -183,6 +190,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
   function getProjectMaterialList (project) {
     var result = {
       project: project,
+      stockRequirements: {},
       gatherList: {},
       craftableSteps: [],
       unallocatedStock: $.extend(true, {}, project.stock),

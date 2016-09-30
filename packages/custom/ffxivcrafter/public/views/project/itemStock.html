@@ -12,6 +12,12 @@
   <md-card-content>
     <md-list>
       <md-list-item ng-repeat="stockElement in stockList | filter: { item: { name: stockFilter } }" layout="row">
+        <md-tooltip>
+          <span>Required by: </span>
+          <span ng-repeat="req in projectData[project._id].stockRequirements[stockElement.item._id+'_'+stockElement.hq]">
+            <span>{{req.item.name}}</span><span ng-if="!$last">, </span>
+          </span>
+        </md-tooltip>
         <span flex>{{stockElement.amount}} {{stockElement.item.name}}</span>
         <span ng-if="stockElement.hq">HQ</span>
         <md-button class="md-raised" ng-click="addToStock(project,stockElement.item,-stockElement.amount, stockElement.hq)">RemoveFromStock</md-button>
