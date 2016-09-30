@@ -12,9 +12,9 @@
 
         <span>
           <select ng-model="step.step" ng-change="update()">
-            <option ng-value="Craft">Craft</option>
+            <option ng-if="step.recipe" ng-value="Craft">Craft</option>
             <option ng-value="Buy">Buy</option>
-            <option ng-value="Gather">Gather</option>
+            <option ng-if="!step.recipe" ng-value="Gather">Gather</option>
           </select>
         </span>
         <span>

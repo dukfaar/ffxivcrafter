@@ -156,7 +156,11 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       deliveryService.deliveryCraftDialog(project, item, step, craftable, function () { $scope.updateList() })
     }
 
-    $scope.updateProject = function (project) {
+    $scope.updateProject = function (p) {
+      var project = $.extend(true, {}, p)
+      delete project.tree
+      delete project.creator
+      delete project.stock
       $http.put('/api/project/' + project._id, project)
         .then(function (response) {
           $scope.recalcVisibleProjectData()
@@ -176,7 +180,11 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
         })
     }
 
-    $scope.updateStep = function (step) {
+    $scope.updateStep = function (s) {
+      var step = $.extend(true, {}, s)
+      delete step.inputs
+      delete step.item
+      delete step.recipe
       $http.put('/api/projectstep/' + step._id, step)
         .then(function (response) {
           $scope.recalcVisibleProjectData()
