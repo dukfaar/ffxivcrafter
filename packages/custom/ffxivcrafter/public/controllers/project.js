@@ -23,15 +23,15 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     }
 
     socket.on('project stock changed', function (data) {
-      $scope.updateList()
+      $scope.getProject(data.projectId)
     })
 
     socket.on('new project created', function (data) {
-      $scope.updateList()
+      $scope.getProject(data.projectId)
     })
 
     socket.on('project data changed', function (data) {
-      $scope.updateList()
+      $scope.getProject(data.projectId)
     })
 
     socket.on('price data changed', function (data) {
@@ -111,7 +111,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.stepDeletion = { enabled: false }
 
     $scope.selectedProject = function (p) {
-      //$scope.project = p
+      // $scope.project = p
     }
 
     $scope.showAllSteps = function () {
@@ -144,14 +144,12 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
     $scope.addToStock = function (project, item, amount, hq) {
       $http.post('/api/project/stock/add/' + project._id + '/' + item._id + '/' + amount + '/' + hq)
-        .then(function (result) {
-        })
+        .then(function (result) {})
     }
 
     $scope.setStock = function (project, item, amount, hq) {
       $http.post('/api/project/stock/set/' + project._id + '/' + item._id + '/' + amount + '/' + hq)
-        .then(function (result) {
-        })
+        .then(function (result) {})
     }
 
     $scope.recalcProjectData = function (project) {
@@ -206,22 +204,26 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
         })
     }
 
+    function addOrUpdateProject (newProject) {
+      var found = false
+
+      $scope.projectList.forEach(function (oldProject, oldIndex) {
+        if (newProject._id === oldProject._id) {
+          $scope.projectList[oldIndex] = newProject
+          $scope.projectListChanged = true
+          found = true
+        }
+      })
+
+      if (!found) {
+        $scope.projectList.push(newProject)
+        $scope.projectListChanged = true
+      }
+    }
+
     function addOrUpdateProjects (newProjects) {
       newProjects.forEach(function (newProject) {
-        var found = false
-
-        $scope.projectList.forEach(function (oldProject, oldIndex) {
-          if (newProject._id === oldProject._id) {
-            $scope.projectList[oldIndex] = newProject
-            $scope.projectListChanged = true
-            found = true
-          }
-        })
-
-        if (!found) {
-          $scope.projectList.push(newProject)
-          $scope.projectListChanged = true
-        }
+        addOrUpdateProject(newProject)
       })
     }
 
@@ -260,6 +262,23 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
           $scope.recalcOnPage = $scope.tabdata.selectedIndex
 
           $scope.project = $scope.projectList[$scope.tabdata.selectedIndex]
+        })
+    }
+
+    $scope.getProject = function (projectId) {
+      var url = '/api/project/' + projectId
+
+      $http.get(url)
+        .then(function (response) {
+          if (response.data !== '') {
+            addOrUpdateProject(response.data)
+
+            $scope.recalcVisibleProjectData()
+
+            $scope.recalcOnPage = $scope.tabdata.selectedIndex
+
+            $scope.project = $scope.projectList[$scope.tabdata.selectedIndex]
+          }
         })
     }
 

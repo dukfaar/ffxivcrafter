@@ -63,7 +63,7 @@ module.exports = function (io) {
       ProjectStep.findByIdAndUpdate(req.params.id, req.body, function (err, step) {
         if (err) throw err
 
-        io.emit('project step data changed',{})
+        io.emit('project step data changed',{stepId: step._id})
 
         res.send(step)
       })

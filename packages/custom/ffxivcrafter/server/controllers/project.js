@@ -145,6 +145,21 @@ module.exports = function (io) {
           res.send(result)
         })
     },
+    get: function (req, res) {
+      CraftingProject.findOne({_id: req.params.id,
+        $or: [
+          {private: false},
+          {private: true, creator: req.user._id}
+        ]
+      })
+        .lean()
+        .populate('creator tree stock.item')
+        .exec(function (err, project) {
+          if (err) throw err
+
+          res.send(project)
+        })
+    },
     addToStock: function (req, res) {
       CraftingProject.findById(req.params.projectId, function (err, project) {
         if (err) throw err
@@ -169,7 +184,7 @@ module.exports = function (io) {
         project.save(function (err) {
           if (err) throw err
 
-          io.emit('project stock changed',{projectId: project._id})
+          io.emit('project stock changed', {projectId: project._id})
 
           res.send({})
         })
@@ -199,7 +214,7 @@ module.exports = function (io) {
         project.save(function (err) {
           if (err) throw err
 
-          io.emit('project stock changed',{projectId: project._id})
+          io.emit('project stock changed', {projectId: project._id})
 
           res.send({})
         })
@@ -209,7 +224,7 @@ module.exports = function (io) {
       CraftingProject.findByIdAndUpdate(req.params.id, req.body, function (err, project) {
         if (err) throw err
 
-        io.emit('project data changed',{projectId: project._id})
+        io.emit('project data changed', {projectId: project._id})
 
         res.send(project)
       })
@@ -218,7 +233,7 @@ module.exports = function (io) {
       CraftingProject.findByIdAndUpdate(req.params.id, req.body, function (err, project) {
         if (err) throw err
 
-        io.emit('project data changed',{projectId: project._id})
+        io.emit('project data changed', {projectId: project._id})
 
         res.send(project)
       })
@@ -255,7 +270,7 @@ module.exports = function (io) {
           project.remove(function (err) {
             if (err) throw err
 
-            io.emit('project deleted',{projectId: project._id})
+            io.emit('project deleted', {projectId: project._id})
 
             res.send({})
           })
@@ -272,7 +287,7 @@ module.exports = function (io) {
               metaProject.tree.save(function (err) {
                 if (err) throw err
 
-                io.emit('project data changed',{projectId: project._id})
+                io.emit('project data changed', {projectId: project._id})
 
                 res.send(metaProject)
               })
@@ -296,7 +311,7 @@ module.exports = function (io) {
           project.save(function (err) {
             if (err) throw err
 
-            io.emit('new project created',{projectId: project._id})
+            io.emit('new project created', {projectId: project._id})
 
             if (req.body.orderedViaOrderView) {
               User.find({roles: 'projectManager' })

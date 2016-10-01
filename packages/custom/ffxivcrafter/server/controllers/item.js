@@ -88,7 +88,7 @@ module.exports = function (io) {
         item.save(function (err) {
           if (err) res.status(500).send('Could not save new price: ' + err)
           else {
-            io.emit('price data changed',{})
+            io.emit('price data changed',{itemId:item._id})
             res.send({})
           }
         })
