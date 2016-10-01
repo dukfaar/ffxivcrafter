@@ -124,7 +124,7 @@ FFXIVCrafter.register(function (app, users, system, admin, database, circles, ht
 
   extendUser(database)
 
-  FFXIVCrafter.angularDependencies(['mean.system', 'mean.users', 'mean.admin', 'ngMaterial'])
+  FFXIVCrafter.angularDependencies(['mean.system', 'mean.users', 'mean.admin', 'ngMaterial', 'LocalStorageModule'])
 
   setupCircles(circles)
 

@@ -1,11 +1,11 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog, $rootScope, $http) {
+angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog, $rootScope, $http, localStorageService) {
   return {
     templateUrl: '/ffxivCrafter/views/project/projectStep.html',
     scope: {
       step: '=',
-      stepDeletion: "=",
+      stepDeletion: '=',
       updateStep: '&',
       priceUpdate: '&',
       deletedStep: '&',
@@ -16,23 +16,35 @@ angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog
         $scope.updateStep()($scope.step)
       }
 
-      $scope.hideChildren = $rootScope.showingAllProjectStepChildren===true?false:true
-
-      $scope.deleteStep = function() {
-        $http.delete('/api/projectstep/'+$scope.step._id)
-        .then(function(response) {
-
-          $scope.deletedStep()()
-        })
+      if ($rootScope.showingAllProjectStepChildren === true) {
+        $scope.hideChildren = false
+      } else {
+        if (localStorageService.get('hideChildren_' + $scope.step._id) === null) {
+          localStorageService.set('hideChildren_' + $scope.step._id, true)
+        }
+        $scope.hideChildren = localStorageService.get('hideChildren_' + $scope.step._id)
       }
 
-      $scope.toggleChildren = function () { $scope.hideChildren = !$scope.hideChildren }
+      $scope.deleteStep = function () {
+        $http.delete('/api/projectstep/' + $scope.step._id)
+          .then(function (response) {
+            $scope.deletedStep()()
+          })
+      }
+
+      $scope.toggleChildren = function () {
+        $scope.hideChildren = !$scope.hideChildren
+
+        localStorageService.set('hideChildren_' + $scope.step._id, $scope.hideChildren)
+      }
 
       $rootScope.$on('showAllProjectStepChildren', function () {
         $scope.hideChildren = false
+        localStorageService.set('hideChildren_' + $scope.step._id, $scope.hideChildren)
       })
       $rootScope.$on('hideAllProjectStepChildren', function () {
         $scope.hideChildren = true
+        localStorageService.set('hideChildren_' + $scope.step._id, $scope.hideChildren)
       })
 
       $scope.toggleHQ = function () {
