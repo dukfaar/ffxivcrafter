@@ -102,11 +102,23 @@ function extendUser (database) {
  * All MEAN packages require registration
  * Dependency injection is used to define required modules
  */
-FFXIVCrafter.register(function (app, users, system, admin, database, circles) {
+FFXIVCrafter.register(function (app, users, system, admin, database, circles, http) {
   // Set views path, template engine and default layout
   app.set('views', __dirname + '/server/views')
 
-  FFXIVCrafter.routes(app, users, system)
+  var io = require('./server/config/socket')(http)
+
+  FFXIVCrafter.io = io
+
+  io.sockets.on('connection', function(socket) {
+    console.log('Client Connected');
+
+    socket.on('disconnect',function(socket) {
+      console.log('Client Disconnected')
+    })
+  })
+
+  FFXIVCrafter.routes(app, users, system, io)
 
   setupMenus()
 
@@ -115,6 +127,10 @@ FFXIVCrafter.register(function (app, users, system, admin, database, circles) {
   FFXIVCrafter.angularDependencies(['mean.system', 'mean.users', 'mean.admin', 'ngMaterial'])
 
   setupCircles(circles)
+
+
+
+
 
   return FFXIVCrafter
 })

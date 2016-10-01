@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = function(myPackage,app,auth,db) {
-  var stepController=require('../controllers/projectStep')();
+module.exports = function(myPackage,app,auth,db,io) {
+  var stepController=require('../controllers/projectStep')(io);
 
   app.route('/api/projectstep')
   .get(stepController.list);

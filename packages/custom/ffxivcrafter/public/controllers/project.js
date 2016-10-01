@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'deliveryService', '$mdPanel',
-  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, deliveryService, $mdPanel) {
+angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'deliveryService', '$mdPanel', 'socket',
+  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, deliveryService, $mdPanel, socket) {
     $scope.projectList = []
     $scope.projectData = {}
 
@@ -22,26 +22,43 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
     }
 
+    socket.on('project stock changed', function (data) {
+      $scope.updateList()
+    })
+
+    socket.on('new project created', function (data) {
+      $scope.updateList()
+    })
+
+    socket.on('project data changed', function (data) {
+      $scope.updateList()
+    })
+
+    socket.on('price data changed', function (data) {
+      $scope.updateList()
+    })
+
+    socket.on('project step data changed', function (data) {
+      $scope.updateList()
+    })
+
     $scope.closeRequirementsPanel = function (stockElement) {
-      console.log($scope.project._id+stockElement.item._id)
-      console.log('closing')
-      $scope.reqPanel[$scope.project._id+stockElement.item._id].close()
-      .then(function() {
-        $scope.reqPanel[$scope.project._id+stockElement.item._id].destroy()
-        delete $scope.reqPanel[$scope.project._id+stockElement.item._id]
-        $scope.reqPanel[$scope.project._id+stockElement.item._id]=null
-      })
+      $scope.reqPanel[$scope.project._id + stockElement.item._id].close()
+        .then(function () {
+          $scope.reqPanel[$scope.project._id + stockElement.item._id].destroy()
+          delete $scope.reqPanel[$scope.project._id + stockElement.item._id]
+          $scope.reqPanel[$scope.project._id + stockElement.item._id] = null
+        })
     }
 
     $scope.showRequirementsPanel = function (stockElement) {
-      console.log($scope.project._id+stockElement.item._id)
-      if (!$scope.reqPanel[$scope.project._id+stockElement.item._id]) {
+      if (!$scope.reqPanel[$scope.project._id + stockElement.item._id]) {
         var position = $mdPanel.newPanelPosition()
           .relativeTo('#stockElement_' + stockElement.item._id)
           .addPanelPosition($mdPanel.xPosition.OFFSET_END, $mdPanel.yPosition.ALIGN_TOPS)
 
         var config = {
-          attachTo: "#commentCard",
+          attachTo: '#commentCard',
           controller: function ($scope, project, projectData, stockElement) {
             $scope.project = project
             $scope.projectData = projectData
@@ -64,17 +81,18 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
           focusOnOpen: false
         }
 
-        $scope.reqPanel[$scope.project._id+stockElement.item._id] = $mdPanel.create(config)
+        $scope.reqPanel[$scope.project._id + stockElement.item._id] = $mdPanel.create(config)
       }
 
-      console.log('opening')
-      $scope.reqPanel[$scope.project._id+stockElement.item._id].open()
+      $scope.reqPanel[$scope.project._id + stockElement.item._id].open()
     }
 
-    $scope.$watch('tabdata.selectedIndex', function (oldValue, newValue) {
+    $scope.$watch('tabdata.selectedIndex', function (newValue, oldValue) {
       if ($scope.recalcOnPage !== null && $scope.recalcOnPage !== 0) {
         $scope.tabdata.selectedIndex = $scope.recalcOnPage
         $scope.recalcOnPage = null
+      } else {
+        $scope.project = $scope.projectList[newValue]
       }
 
       $scope.recalcVisibleProjectData()
@@ -93,7 +111,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.stepDeletion = { enabled: false }
 
     $scope.selectedProject = function (p) {
-      $scope.project = p
+      //$scope.project = p
     }
 
     $scope.showAllSteps = function () {
@@ -127,14 +145,12 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.addToStock = function (project, item, amount, hq) {
       $http.post('/api/project/stock/add/' + project._id + '/' + item._id + '/' + amount + '/' + hq)
         .then(function (result) {
-          $scope.updateList()
         })
     }
 
     $scope.setStock = function (project, item, amount, hq) {
       $http.post('/api/project/stock/set/' + project._id + '/' + item._id + '/' + amount + '/' + hq)
         .then(function (result) {
-          $scope.updateList()
         })
     }
 
@@ -176,7 +192,6 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       $http.delete('/api/project/' + project._id)
         .then(function (response) {
           $scope.tabdata.selectedIndex = 0
-          $scope.updateList()
         })
     }
 
@@ -198,17 +213,20 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
         $scope.projectList.forEach(function (oldProject, oldIndex) {
           if (newProject._id === oldProject._id) {
             $scope.projectList[oldIndex] = newProject
+            $scope.projectListChanged = true
             found = true
           }
         })
 
         if (!found) {
           $scope.projectList.push(newProject)
+          $scope.projectListChanged = true
         }
       })
     }
 
     function removeDeletedProjects (newProjects) {
+      var hadDeletions = false
       $scope.projectList.forEach(function (oldProject, oldIndex) {
         var found = false
 
@@ -219,11 +237,13 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
         })
 
         if (!found) {
+          hadDeletions = true
           delete $scope.projectList[oldIndex]
+          $scope.projectListChanged = true
         }
       })
 
-      $scope.projectList = $scope.projectList.filter(function (a) {return typeof a !== 'undefined';})
+      if (hadDeletions) $scope.projectList = $scope.projectList.filter(function (a) {return typeof a !== 'undefined';})
     }
 
     $scope.updateList = function () {

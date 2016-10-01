@@ -7,6 +7,7 @@
   },
   "mean": "0.6.0",
   "dependencies": {
+    "cookie-parser": "^1.4.3",
     "meanio-admin": "git://github.com/linnovate/meanio-admin.git",
     "meanio-circles": "git://github.com/linnovate/meanio-circles.git",
     "meanio-system": "git://github.com/linnovate/meanio-system.git",

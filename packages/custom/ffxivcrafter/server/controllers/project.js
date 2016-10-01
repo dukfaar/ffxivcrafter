@@ -12,7 +12,7 @@ var nodemailer = require('nodemailer')
 
 var config = require('meanio').loadConfig()
 
-module.exports = function () {
+module.exports = function (io) {
   function stepForItem (itemId, amount, callback) {
     var step = new ProjectStep()
     step.item = itemId
@@ -169,6 +169,8 @@ module.exports = function () {
         project.save(function (err) {
           if (err) throw err
 
+          io.emit('project stock changed',{projectId: project._id})
+
           res.send({})
         })
       })
@@ -197,6 +199,8 @@ module.exports = function () {
         project.save(function (err) {
           if (err) throw err
 
+          io.emit('project stock changed',{projectId: project._id})
+
           res.send({})
         })
       })
@@ -205,12 +209,16 @@ module.exports = function () {
       CraftingProject.findByIdAndUpdate(req.params.id, req.body, function (err, project) {
         if (err) throw err
 
+        io.emit('project data changed',{projectId: project._id})
+
         res.send(project)
       })
     },
     updateNotes: function (req, res) {
       CraftingProject.findByIdAndUpdate(req.params.id, req.body, function (err, project) {
         if (err) throw err
+
+        io.emit('project data changed',{projectId: project._id})
 
         res.send(project)
       })
@@ -247,6 +255,8 @@ module.exports = function () {
           project.remove(function (err) {
             if (err) throw err
 
+            io.emit('project deleted',{projectId: project._id})
+
             res.send({})
           })
         })
@@ -261,6 +271,8 @@ module.exports = function () {
               metaProject.tree.inputs.push(step)
               metaProject.tree.save(function (err) {
                 if (err) throw err
+
+                io.emit('project data changed',{projectId: project._id})
 
                 res.send(metaProject)
               })
@@ -283,6 +295,8 @@ module.exports = function () {
 
           project.save(function (err) {
             if (err) throw err
+
+            io.emit('new project created',{projectId: project._id})
 
             if (req.body.orderedViaOrderView) {
               User.find({roles: 'projectManager' })

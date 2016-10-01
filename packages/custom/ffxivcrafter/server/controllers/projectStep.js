@@ -4,7 +4,7 @@ var mongoose = require('mongoose')
 var ProjectStep = mongoose.model('ProjectStep')
 var CraftingProject = mongoose.model('CraftingProject')
 
-module.exports = function () {
+module.exports = function (io) {
   function recursiveDeleteStep (step, callback) {
     var toGo = step.inputs.length
 
@@ -63,6 +63,8 @@ module.exports = function () {
       ProjectStep.findByIdAndUpdate(req.params.id, req.body, function (err, step) {
         if (err) throw err
 
+        io.emit('project step data changed',{})
+
         res.send(step)
       })
     },
@@ -105,7 +107,10 @@ module.exports = function () {
             {}, // options
             function (err) {
               if (err) throw err
-              tryCleanUpProject(function () { res.send({}) })
+              tryCleanUpProject(function () {
+                io.emit('project step data changed',{})
+                res.send({})
+              })
             }
           )
         })

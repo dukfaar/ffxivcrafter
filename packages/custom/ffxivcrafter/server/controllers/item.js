@@ -5,7 +5,7 @@ var Item = mongoose.model('Item')
 
 var httpreq = require('httpreq')
 
-module.exports = function () {
+module.exports = function (io) {
   var itemImport = require('../services/itemImport')()
 
   var doFind = function (query, req, res) {
@@ -87,7 +87,10 @@ module.exports = function () {
 
         item.save(function (err) {
           if (err) res.status(500).send('Could not save new price: ' + err)
-          else res.send(item)
+          else {
+            io.emit('price data changed',{})
+            res.send({})
+          }
         })
       })
     },

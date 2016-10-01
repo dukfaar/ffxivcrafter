@@ -1,7 +1,7 @@
 'use strict'
 
-module.exports = function (myPackage, app, auth, db) {
-  var projectController = require('../controllers/project')()
+module.exports = function (myPackage, app, auth, db, io) {
+  var projectController = require('../controllers/project')(io)
 
   app.route('/api/project')
     .get(projectController.list)
