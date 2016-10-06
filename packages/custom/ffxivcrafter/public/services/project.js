@@ -73,8 +73,23 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
     }
   }
 
+  function checkForBuyingStepObject (step, projectData) {
+    var lookup = stepLookup(step)
+
+    if (!projectData.buyList[lookup]) {
+      projectData.buyList[lookup] = {
+        item: step.item,
+        outstanding: 0,
+        hq: step.hq ? true : false
+      }
+    }
+
+    return projectData.buyList[lookup]
+  }
+
   function buyingStep (step, projectData) {
     checkForGatheringStepObject(step, projectData).outstanding += step.amount
+    checkForBuyingStepObject(step, projectData).outstanding += step.amount
 
     projectData.totalCost += stepPrice(step)
   }
@@ -104,7 +119,6 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
     return result
   }
 
-  // rewrite this thingy
   function craftingStep (step, projectData) {
     var stepData = getMaxCraftableSteps(step, projectData)
 
@@ -192,12 +206,17 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
       project: project,
       stockRequirements: {},
       gatherList: {},
+      buyList: {},
       craftableSteps: [],
       unallocatedStock: $.extend(true, {}, project.stock),
       totalCost: 0
     }
 
     analyzeStep($.extend(true, {}, project.tree), result)
+
+    result.revenue = stepPrice(project.tree)
+    result.profit = stepPrice(project.tree) * 0.95 - result.totalCost
+    result.relativeProfit = (result.profit / result.totalCost) * 100
 
     return result
   }

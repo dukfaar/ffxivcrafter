@@ -2,15 +2,17 @@
   <md-card-content layout="column">
     <div layout="row">
       <span flex>Expected Revenue: </span>
-      <span>{{projectAnalyzerService.stepPrice(project.tree).toLocaleString()}}g</span>
+      <span>{{projectData.revenue.toLocaleString()}}g</span>
     </div>
     <div layout="row">
       <span flex>Total Cost: </span>
       <span>{{projectData.totalCost.toLocaleString()}}g</span>
     </div>
-    <div layout="row">
+    <div layout="row" ng-style="{'color': projectData.profit>0?'green':'red'}">
       <span flex>Expected Profit: </span>
-      <span>{{(projectAnalyzerService.stepPrice(project.tree)*0.95-projectData.totalCost).toLocaleString()}}g</span>
+      <span>{{projectData.relativeProfit.toLocaleString()}}%</span>
+      <span flex="10"></span>
+      <span>{{projectData.profit.toLocaleString()}}g</span>
     </div>
   </md-card-content>
 </md-card>

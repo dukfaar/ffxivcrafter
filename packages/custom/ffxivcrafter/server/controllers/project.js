@@ -80,6 +80,18 @@ module.exports = function (io) {
     }
   }
 
+  function populateAndSend (res, projectFind, doPopulate) {
+    if (doPopulate) projectFind = projectFind.populate('creator tree stock.item')
+
+    projectFind
+      .lean()
+      .exec(function (err, result) {
+        if (err) throw err
+
+        res.send(result)
+      })
+  }
+
   return {
     merge: function (req, res) {
       CraftingProject.findById(req.params.id1)
@@ -121,44 +133,23 @@ module.exports = function (io) {
         })
     },
     list: function (req, res) {
-      CraftingProject.find({
+      populateAndSend(res, CraftingProject.find({
         $or: [
           {private: false},
           {private: true, creator: req.user._id}
         ]
-      })
-        .populate('creator tree stock.item')
-        .lean()
-        .exec(function (err, result) {
-          if (err) throw err
-
-          res.send(result)
-        })
+      }), req.query.doPopulate==='true')
     },
     publicList: function (req, res) {
-      CraftingProject.find({public: true, private: false})
-        .populate('creator tree stock.item')
-        .lean()
-        .exec(function (err, result) {
-          if (err) throw err
-
-          res.send(result)
-        })
+      populateAndSend(res, CraftingProject.find({public: true, private: false}), true)
     },
     get: function (req, res) {
-      CraftingProject.findOne({_id: req.params.id,
+      populateAndSend(res, CraftingProject.findOne({_id: req.params.id,
         $or: [
           {private: false},
           {private: true, creator: req.user._id}
         ]
-      })
-        .lean()
-        .populate('creator tree stock.item')
-        .exec(function (err, project) {
-          if (err) throw err
-
-          res.send(project)
-        })
+      }), true)
     },
     addToStock: function (req, res) {
       CraftingProject.findById(req.params.projectId, function (err, project) {

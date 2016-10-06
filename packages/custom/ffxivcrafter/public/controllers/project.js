@@ -2,13 +2,16 @@
 
 angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'deliveryService', '$mdPanel', 'socket',
   function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, deliveryService, $mdPanel, socket) {
+    $scope.tabList = []
     $scope.projectList = []
     $scope.projectData = {}
 
     $scope.deliveryService = deliveryService
 
     $scope.tabdata = {
-      selectedIndex: 0
+      selectedIndex: 0,
+      projectFilter: '',
+      currentProjectName: 'project_0'
     }
 
     $scope.recalcOnPage = null
@@ -23,82 +26,30 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     }
 
     socket.on('project stock changed', function (data) {
-      $scope.getProject(data.projectId)
+      $scope.getProject(data.projectId, function () {})
     })
 
     socket.on('new project created', function (data) {
-      $scope.getProject(data.projectId)
+      $scope.getProject(data.projectId, function () {})
     })
 
     socket.on('project data changed', function (data) {
-      $scope.getProject(data.projectId)
+      $scope.getProject(data.projectId, function () {})
     })
 
     socket.on('price data changed', function (data) {
-      $scope.updateList()
+      $scope.getProject($scope.project._id, function () {})
     })
 
     socket.on('project step data changed', function (data) {
-      $scope.updateList()
+      $scope.getProject($scope.project._id, function () {})
     })
 
-    $scope.closeRequirementsPanel = function (stockElement) {
-      $scope.reqPanel[$scope.project._id + stockElement.item._id].close()
-        .then(function () {
-          $scope.reqPanel[$scope.project._id + stockElement.item._id].destroy()
-          delete $scope.reqPanel[$scope.project._id + stockElement.item._id]
-          $scope.reqPanel[$scope.project._id + stockElement.item._id] = null
-        })
-    }
-
-    $scope.showRequirementsPanel = function (stockElement) {
-      if (!$scope.reqPanel[$scope.project._id + stockElement.item._id]) {
-        var position = $mdPanel.newPanelPosition()
-          .relativeTo('#stockElement_' + stockElement.item._id)
-          .addPanelPosition($mdPanel.xPosition.OFFSET_END, $mdPanel.yPosition.ALIGN_TOPS)
-
-        var config = {
-          attachTo: '#commentCard',
-          controller: function ($scope, project, projectData, stockElement) {
-            $scope.project = project
-            $scope.projectData = projectData
-            $scope.stockElement = stockElement
-          },
-          locals: {
-            'project': $scope.project,
-            'projectData': $scope.projectData,
-            'stockElement': stockElement
-          },
-          disableParentScroll: false,
-          templateUrl: 'ffxivCrafter/views/project/stockRequirementsPanel.html',
-          hasBackdrop: false,
-          panelClass: 'stockRequirementsPanel',
-          propagateContainerEvents: true,
-          position: position,
-          trapFocus: false,
-          zIndex: 150,
-          escapeToClose: true,
-          focusOnOpen: false
-        }
-
-        $scope.reqPanel[$scope.project._id + stockElement.item._id] = $mdPanel.create(config)
-      }
-
-      $scope.reqPanel[$scope.project._id + stockElement.item._id].open()
-    }
-
-    $scope.$watch('tabdata.selectedIndex', function (newValue, oldValue) {
-      if ($scope.recalcOnPage !== null && $scope.recalcOnPage !== 0) {
-        $scope.tabdata.selectedIndex = $scope.recalcOnPage
-        $scope.recalcOnPage = null
-      } else {
-        $scope.project = $scope.projectList[newValue]
-      }
-
-      $scope.recalcVisibleProjectData()
+    $scope.$watch('project.name', function (newValue, oldValue) {
+      $scope.tabList[$scope.tabdata.selectedIndex].name = newValue
     })
 
-    $scope.$watch('project', function (oldValue, newValue) {
+    $scope.$watch('project', function (newValue, oldValue) {
       if ($scope.project) {
         $scope.recalcProjectData($scope.project)
 
@@ -110,8 +61,14 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
     $scope.stepDeletion = { enabled: false }
 
-    $scope.selectedProject = function (p) {
-      // $scope.project = p
+    $scope.clickProject = function (p, index) {
+      if ($scope.project._id === p._id) return
+
+      $scope.getProject(p._id, function () {
+        $scope.project = $scope.projectList[index]
+        $scope.tabdata.currentProjectName = 'project_' + index
+        $scope.tabdata.selectedIndex = index
+      })
     }
 
     $scope.showAllSteps = function () {
@@ -127,7 +84,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
     $scope.doMerge = function (project, mergeProject) {
       $http.get('/api/project/merge/' + project._id + '/' + mergeProject._id).then(function (response) {
-        $scope.updateList()
+        $scope.updateList(function () {})
       })
     }
 
@@ -159,7 +116,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     }
 
     $scope.recalcVisibleProjectData = function () {
-      $scope.recalcProjectData($scope.projectList[$scope.tabdata.selectedIndex])
+      $scope.recalcProjectData($scope.project)
     }
 
     $scope.deliveryDialog = function (project, item, gathers) {
@@ -190,6 +147,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       $http.delete('/api/project/' + project._id)
         .then(function (response) {
           $scope.tabdata.selectedIndex = 0
+          $scope.tabdata.currentProjectName = 'project_0'
         })
     }
 
@@ -248,24 +206,17 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       if (hadDeletions) $scope.projectList = $scope.projectList.filter(function (a) {return typeof a !== 'undefined';})
     }
 
-    $scope.updateList = function () {
-      var url = '/api/project'
-
-      $http.get(url)
+    $scope.updateList = function (callback) {
+      $http.get('/api/project?doPopulate=false')
         .then(function (response) {
-          addOrUpdateProjects(response.data)
+          $scope.tabList = $.extend(true, {}, response.data)
+          $scope.projectList = response.data
 
-          removeDeletedProjects(response.data)
-
-          $scope.recalcVisibleProjectData()
-
-          $scope.recalcOnPage = $scope.tabdata.selectedIndex
-
-          $scope.project = $scope.projectList[$scope.tabdata.selectedIndex]
+          if (callback) callback()
         })
     }
 
-    $scope.getProject = function (projectId) {
+    $scope.getProject = function (projectId, callback) {
       var url = '/api/project/' + projectId
 
       $http.get(url)
@@ -273,11 +224,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
           if (response.data !== '') {
             addOrUpdateProject(response.data)
 
-            $scope.recalcVisibleProjectData()
-
-            $scope.recalcOnPage = $scope.tabdata.selectedIndex
-
-            $scope.project = $scope.projectList[$scope.tabdata.selectedIndex]
+            if (callback) callback(response.data)
           }
         })
     }
@@ -308,6 +255,12 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       $scope.recalcVisibleProjectData()
     }
 
-    $scope.updateList()
+    $scope.updateList(function () {
+      $scope.getProject($scope.projectList[0]._id,
+        function () {
+          $scope.project = $scope.projectList[0]
+          $scope.tabdata.currentProjectName = 'project_0'
+        })
+    })
   }
 ])

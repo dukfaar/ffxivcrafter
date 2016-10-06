@@ -16,7 +16,8 @@ var CraftingProjectSchema = new Schema({
   public: { type: Boolean, default: false },
   private: { type: Boolean, default: true },
   comment: { type: String, default: '' },
-  notes: { type: String, default: ''}
+  notes: { type: String, default: ''},
+  tags: {type: String, default: ''}
 })
 
 mongoose.model('CraftingProject', CraftingProjectSchema)

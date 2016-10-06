@@ -1,75 +1,96 @@
 <div flex ng-controller="IndexController">
   <main style="overflow:auto">
     <div flex layout="row">
-
-      <md-card ng-if="allowed('see public gather tasks')">
-        <md-card-header>
-          <md-card-header-text class="md-title">
-            Gatherable items
-          </md-card-header-text>
-        </md-card-header>
-        <md-card-content>
-          <md-list>
-            <md-input-container>
-              <label>Itemfilter</label>
-              <input ng-model="gatherFilter"/>
-            </md-input-container>
-            <div ng-repeat="project in projectList">
-              <md-list-item
-                ng-click="deliveryDialog(project,gathers.item,gathers)"
-                ng-repeat="gathers in toArray(projectData[project._id].gatherList) | filter: { item: { name:gatherFilter } } | filter:canHarvest | orderBy:'item.gatheringLevel':true"
-                ng-if="gathers.outstanding>0" layout="row">
-                <span flex>
-                  <span>{{gathers.outstanding}} {{gathers.item.name}}</span>
-                  <span ng-if="gathers.hq">HQ</span>
-                </span>
-              </md-list-item>
+      <div layout="column" flex="25" flex-xs="100" flex-sm="100">
+        <md-card ng-if="allowed('see public gather tasks')">
+          <md-toolbar class="md-hue-2">
+            <div class="md-toolbar-tools">
+              <span>Gatherable items</span>
+              <span flex></span>
+              <md-input-container class="md-accent" style="padding-bottom:0px;margin-left:25px">
+                <label style="color:wheat">Itemfilter</label>
+                <input style="color:wheat" ng-model="gatherFilter" size="10"/>
+              </md-input-container>
             </div>
-          </md-list>
-        </md-card-content>
-      </md-card>
+          </md-toolbar>
+          <md-card-content>
+            <md-list>
+              <div ng-repeat="project in projectList">
+                <md-list-item
+                  ng-click="deliveryDialog(project,gathers.item,gathers)"
+                  ng-repeat="gathers in toArray(projectData[project._id].gatherList) | filter: { item: { name:gatherFilter } } | filter:canHarvest | orderBy:'item.gatheringLevel':true"
+                  ng-if="gathers.outstanding>0" layout="row">
+                  <span flex>
+                    <span>{{gathers.outstanding}} {{gathers.item.name}}</span>
+                    <span ng-if="gathers.hq">HQ</span>
+                  </span>
+                </md-list-item>
+              </div>
+            </md-list>
+          </md-card-content>
+        </md-card>
+      </div>
 
-      <md-card ng-if="allowed('see public craft tasks')">
-        <md-card-header>
-          <md-card-header-text class="md-title">
-            Craftable Items
-          </md-card-header-text>
-        </md-card-header>
-        <md-card-content>
-          <md-list>
-            <md-input-container>
-              <label>Itemfilter</label>
-              <input ng-model="craftableFilter"/>
-            </md-input-container>
-            <div ng-repeat="project in projectList">
-              <md-list-item
-                ng-click="deliveryCraftDialog(project,craftable.step.item,craftable.step,craftable)"
-                ng-repeat="craftable in toArray(projectData[project._id].craftableSteps) | filter: { step: { item: { name: craftableFilter }}} | filter:canCraft" layout="row">
-                <span flex>
-                  <span>{{craftable.step.amount}} {{craftable.step.item.name}}</span>
-                  <span ng-if="craftable.step.hq">HQ</span>
-                </span>
-              </md-list-item>
+      <div layout="column" flex="25" flex-xs="100" flex-sm="100">
+        <md-card ng-if="allowed('see public craft tasks')">
+          <md-toolbar class="md-hue-2">
+            <div class="md-toolbar-tools">
+              <span>Craftable items</span>
+              <span flex></span>
+              <md-input-container class="md-accent" style="padding-bottom:0px;margin-left:25px">
+                <label style="color:wheat">Itemfilter</label>
+                <input style="color:wheat" ng-model="craftableFilter" size="10"/>
+              </md-input-container>
             </div>
-          </md-list>
-        </md-card-content>
-      </md-card>
+          </md-toolbar>
 
-      <md-card ng-if="allowed('edit itemprices')">
-        <md-card-header>
-          <md-card-header-text class="md-title">
-            <span class="md-headline">Old item prices!</span>
-            <span class="md-subhead">Holy Kitty, the prices of these items are really old.<br/> If you are in front of a market board, please update them.</span>
-          </md-card-header-text>
-        </md-card-header>
-        <md-card-content>
-          <md-list>
-            <md-list-item ng-repeat="item in oldItems" ng-click="priceDialog(item)">
-              {{item.name}}
-            </md-list-item>
-          </md-list>
-        </md-card-content>
-      </md-card>
+          <md-card-content>
+            <md-list>
+              <div ng-repeat="project in projectList">
+                <md-list-item
+                  ng-click="deliveryCraftDialog(project,craftable.step.item,craftable.step,craftable)"
+                  ng-repeat="craftable in toArray(projectData[project._id].craftableSteps) | filter: { step: { item: { name: craftableFilter }}} | filter:canCraft" layout="row">
+                  <span flex>
+                    <span>{{craftable.step.amount}} {{craftable.step.item.name}}</span>
+                    <span ng-if="craftable.step.hq">HQ</span>
+                  </span>
+                </md-list-item>
+              </div>
+            </md-list>
+          </md-card-content>
+        </md-card>
+      </div>
+
+      <div layout="column" flex="25" flex-xs="100" flex-sm="100">
+        <md-card ng-if="allowed('edit itemprices')">
+          <md-toolbar class="md-hue-2">
+            <div class="md-toolbar-tools">
+              <span>Old item prices!</span>
+              <span flex></span>
+            </div>
+          </md-toolbar>
+          <md-card-header>
+            <md-card-header-text class="md-title">
+              <span class="md-subhead">Holy Kitty, the prices of these items are really old.<br/> If you are in front of a market board, please update them.</span>
+            </md-card-header-text>
+          </md-card-header>
+          <md-card-content>
+            <md-list>
+              <md-list-item ng-repeat="item in oldItems" ng-click="priceDialog(item)">
+                {{item.name}}
+              </md-list-item>
+            </md-list>
+          </md-card-content>
+        </md-card>
+      </div>
+
+      <div layout="column" flex="25" flex-xs="100" flex-sm="100">
+
+      </div>
     </div>
   </main>
 </div>
+
+<style>
+.md-errors-spacer:empty { display: none; }
+</style>

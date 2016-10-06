@@ -1,8 +1,0 @@
-<md-card>
-  <md-card-content>
-    <span>Required by: </span>
-    <span ng-repeat="req in projectData[project._id].stockRequirements[stockElement.item._id+'_'+stockElement.hq]">
-      <span>{{req.item.name}}</span><span ng-if="!$last">, </span>
-    </span>
-  </md-card-content>
-</md-card>
