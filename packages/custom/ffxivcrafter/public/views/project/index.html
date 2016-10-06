@@ -1,14 +1,14 @@
 <div ng-controller="ProjectController" flex>
   <main style="overflow:auto">
     <div flex>
-      <md-content layout-wrap>
+      <md-content>
 
         <md-tabs flex md-dynamic-height md-border-bottom md-selected="tabdata.selectedIndex">
           <md-tab ng-click="clickProject(tabproject,$index)" ng-repeat="tabproject in tabList" label="{{(tabproject.name&&tabproject.name!=='')?tabproject.name:tabproject.tree.item.name}}"></md-tab>
         </md-tabs>
 
-        <md-content layout="row" layout-xs="column" layout-sm="column" layout-fill ng-if="project">
-          <div layout="column" flex="25" flex-xs="100" flex-sm="100">
+        <md-content layout-wrap layout="row" layout-xs="column" layout-sm="row" ng-if="project">
+          <div layout="column" flex="25" flex-xs="100" flex-sm="50">
             <md-card>
               <md-toolbar class="md-hue-2">
                 <div class="md-toolbar-tools">
@@ -30,16 +30,16 @@
                 <project-step data-step="project.tree" update-step="updateStep" price-update='priceUpdate' step-deletion="stepDeletion" deleted-step="updateList" show-deleter="true"></project-step>
               </md-card-content>
             </md-card>
-          </div layout="column" flex="25" flex-xs="100" flex-sm="100">
+          </div>
 
-          <div layout="column" flex="25" flex-xs="100" flex-sm="100">
+          <div layout="column" flex="25" flex-xs="100" flex-sm="50">
             <project-item-crafts></project-item-crafts>
             <project-item-gathers></project-item-gathers>
           </div>
 
-          <project-item-stock flex="25" flex-xs="100" flex-sm="100"></project-item-stock>
+          <project-item-stock flex="25" flex-xs="100" flex-sm="50"></project-item-stock>
 
-          <div layout="column" flex="25" flex-xs="100" flex-sm="100">
+          <div layout="column" flex="25" flex-xs="100" flex-sm="50">
             <md-card>
               <md-toolbar class="md-hue-2">
                 <div class="md-toolbar-tools">
