@@ -133,12 +133,19 @@ module.exports = function (io) {
         })
     },
     list: function (req, res) {
-      populateAndSend(res, CraftingProject.find({
-        $or: [
-          {private: false},
-          {private: true, creator: req.user._id}
-        ]
-      }), req.query.doPopulate==='true')
+      var criteria = {}
+
+      if (req.user.roles.indexOf('projectManager') < 0) {
+        criteria = {private: true, creator: req.user._id}
+      } else {
+        criteria = {$or: [
+            {private: false},
+            {private: true, creator: req.user._id}
+          ]
+        }
+      }
+
+      populateAndSend(res, CraftingProject.find(criteria), req.query.doPopulate === 'true')
     },
     publicList: function (req, res) {
       populateAndSend(res, CraftingProject.find({public: true, private: false}), true)

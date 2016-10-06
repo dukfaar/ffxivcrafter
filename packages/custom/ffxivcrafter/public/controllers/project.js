@@ -1,10 +1,14 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'deliveryService', '$mdPanel', 'socket',
-  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, deliveryService, $mdPanel, socket) {
+angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'deliveryService', '$mdPanel', 'socket', 'MeanUser',
+  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, deliveryService, $mdPanel, socket, MeanUser) {
     $scope.tabList = []
     $scope.projectList = []
     $scope.projectData = {}
+    $scope.user = MeanUser
+    $scope.allowed = function (perm) {
+      return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) != -1
+    }
 
     $scope.deliveryService = deliveryService
 

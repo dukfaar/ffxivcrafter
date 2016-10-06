@@ -61,7 +61,7 @@
                   <input type="text" ng-model="project.name" ng-model-options="{debounce:300}" ng-change="updateProject(project)"/>
                 </md-input-container>
 
-                <div layout="row">
+                <div layout="row" ng-if="allowed('projectManager')">
                   <md-switch ng-model="project.private" ng-change="updateProject(project)">
                     <md-tooltip>If this is set, only you can see this project</md-tooltip>
                     {{project.private?'private':'non-private'}} project
