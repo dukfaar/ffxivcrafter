@@ -146,8 +146,13 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.deleteProject = function (project) {
       $http.delete('/api/project/' + project._id)
         .then(function (response) {
-          $scope.tabdata.selectedIndex = 0
-          $scope.tabdata.currentProjectName = 'project_0'
+          $scope.updateList(function() {
+            $scope.getProject($scope.projectList[0]._id,
+              function () {
+                $scope.project = $scope.projectList[0]
+                $scope.tabdata.currentProjectName = 'project_0'
+              })
+          })
         })
     }
 
