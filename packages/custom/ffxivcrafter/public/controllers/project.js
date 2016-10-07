@@ -50,7 +50,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     })
 
     $scope.$watch('project.name', function (newValue, oldValue) {
-      $scope.tabList[$scope.tabdata.selectedIndex].name = newValue
+      if($scope.tabList[$scope.tabdata.selectedIndex]) $scope.tabList[$scope.tabdata.selectedIndex].name = newValue
     })
 
     $scope.$watch('project', function (newValue, oldValue) {
