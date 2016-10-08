@@ -152,10 +152,6 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
           var amount = Math.min(itemsInStock, input.amount)
           deductFromUnallocatedStock(projectData, input.item._id, amount, input.hq)
         })
-      /*step.recipe.inputs.forEach(function (input, index) {
-        console.log('allocated %i %s', input.amount * stepData.maxSteps, input.item)
-        deductFromUnallocatedStock(projectData, input.item, input.amount * stepData.maxSteps, step.inputs[index].hq)
-      })*/
       }
 
       step.inputs.forEach(function (input, index) {

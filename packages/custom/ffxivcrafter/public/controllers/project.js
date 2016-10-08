@@ -50,7 +50,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     })
 
     $scope.$watch('project.name', function (newValue, oldValue) {
-      if($scope.tabList[$scope.tabdata.selectedIndex]) $scope.tabList[$scope.tabdata.selectedIndex].name = newValue
+      if ($scope.tabList[$scope.tabdata.selectedIndex]) $scope.tabList[$scope.tabdata.selectedIndex].name = newValue
     })
 
     $scope.$watch('project', function (newValue, oldValue) {
@@ -150,8 +150,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.deleteProject = function (project) {
       $http.delete('/api/project/' + project._id)
         .then(function (response) {
-          $scope.updateList(function() {
-
+          $scope.updateList(function () {
             $scope.getProject($scope.projectList[0]._id,
               function () {
                 $scope.tabdata.selectedIndex = 0
@@ -174,6 +173,10 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
     function addOrUpdateProject (newProject) {
       var found = false
+
+      if ($scope.project && $scope.project._id === newProject._id) {
+        $scope.project = newProject
+      }
 
       $scope.projectList.forEach(function (oldProject, oldIndex) {
         if (newProject._id === oldProject._id) {
