@@ -83,7 +83,7 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
       var map = [
         ['Weaver', 'weaverLevel'],
         ['Culinarian', 'culinarianLevel'],
-        ['Alchimist', 'alchimistLevel'],
+        ['Alchemist', 'alchimistLevel'],
         ['Blacksmith', 'blacksmithLevel'],
         ['Carpenter', 'carpenterLevel'],
         ['Armorer', 'armorerLevel'],
