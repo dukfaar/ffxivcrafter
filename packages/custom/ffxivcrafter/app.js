@@ -80,6 +80,13 @@ function setupMenus () {
     roles: ['authenticated'],
     menu: 'account'
   })
+
+  FFXIVCrafter.menus.add({
+    title: 'DoLDoH Overview',
+    link: 'doldoh overview',
+    roles: ['projectManager'],
+    menu: 'account'
+  })
 }
 
 function extendUser (database) {

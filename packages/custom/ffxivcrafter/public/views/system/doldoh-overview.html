@@ -1,0 +1,51 @@
+
+<div ng-controller="DoLDoHOverviewController" layout-fill>
+  <md-content layout="row" layout-wrap>
+    <md-card style="width:100%">
+      <md-card-content>
+        <table style="width:100%" class="table table-striped doldoh-table">
+          <thead>
+            <tr>
+              <th ng-repeat="field in fields" ng-click="orderBy(field[0])">
+                <span>{{field[1]}}</span>
+                <span ng-class="{showIcon: orderingField === field[0]}">
+                  <md-icon ng-if="!orderingReverse" class="material-icons">arrow_drop_up</md-icon>
+                  <md-icon ng-if="orderingReverse" class="material-icons">arrow_drop_down</md-icon>
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="user in users| orderBy: orderingField: orderingReverse">
+              <td ng-repeat="field in fields">{{user[field[0]]}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </md-card-content>
+    </md-card>
+  </md-content>
+</div>
+
+<style>
+.doldoh-table {
+  border-spacing:0;
+}
+
+.doldoh-table md-icon {
+  color: rgba(0,0,0,0);
+}
+
+.doldoh-table .showIcon md-icon {
+  color: black;
+}
+
+.doldoh-table td, .doldoh-table th {
+  text-align: left;
+}
+
+.doldoh-table tbody tr:hover {
+  background: lightgrey;
+  transition: background 300ms ease-in-out 0s;
+}
+
+</style>

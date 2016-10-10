@@ -12,6 +12,12 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider', '$urlRouterPro
         url: '/',
         templateUrl: 'ffxivCrafter/views/system/index.html'
       })
+
+      $meanStateProvider
+        .state('doldoh overview', {
+          url: '/doldoh/overview',
+          templateUrl: 'ffxivCrafter/views/system/doldoh-overview.html'
+        })
   }
 ]).config(['$locationProvider',
   function ($locationProvider) {
