@@ -23,7 +23,7 @@
         <md-card-content ng-show="selectedItem">
           <div>
             <span>Max revenue:</span>
-            <span>{{craftingData.tree.item.price*0.95}}</span>
+            <span>{{craftingData.tree.amount*craftingData.tree.item.price*0.95}}</span>
           </div>
           <div>
             <span>Total Price of ItemList:</span>
@@ -31,7 +31,7 @@
           </div>
           <div>
             <span>Profit if crafted from base materials (5% taxes included):</span>
-            <span ng-style="{color: craftingData.tree.item.price-craftingData.materialPrice>0?'green':'red'}">{{craftingData.tree.amount*craftingData.tree.item.price*0.95-craftingData.materialPrice}}</span>
+            <span ng-style="{color: craftingData.tree.amount*craftingData.tree.item.price-craftingData.materialPrice>0?'green':'red'}">{{craftingData.tree.amount*craftingData.tree.item.price*0.95-craftingData.materialPrice}}</span>
           </div>
           <div>
             <span>Total Effort of ItemList:</span>
