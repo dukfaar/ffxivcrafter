@@ -37,10 +37,12 @@ function buildCraftingTree(item,amount,callback) {
       return;
     }
 
+    if(returnValue.amount===0) returnValue.amount=result[0].outputs[0].amount
+
     for(var i=0;i<len;i++) {
       var input=result[0].inputs[i];
 
-      buildCraftingTree(input.item,input.amount*amount,function(tree) {
+      buildCraftingTree(input.item,input.amount*(amount===0?1:amount),function(tree) {
         returnValue.inputs.push(tree);
 
         countdown--;
@@ -95,7 +97,7 @@ module.exports = function() {
 
         var result = {};
 
-        buildCraftingTree(targetItem,1,function(tree) {
+        buildCraftingTree(targetItem,0,function(tree) {
           result.tree=tree;
           result.materialList={};
 
