@@ -31,7 +31,7 @@
           </div>
           <div>
             <span>Profit if crafted from base materials (5% taxes included):</span>
-            <span ng-style="{color: craftingData.tree.item.price-craftingData.materialPrice>0?'green':'red'}">{{craftingData.tree.item.price*0.95-craftingData.materialPrice}}</span>
+            <span ng-style="{color: craftingData.tree.item.price-craftingData.materialPrice>0?'green':'red'}">{{craftingData.tree.amount*craftingData.tree.item.price*0.95-craftingData.materialPrice}}</span>
           </div>
           <div>
             <span>Total Effort of ItemList:</span>
