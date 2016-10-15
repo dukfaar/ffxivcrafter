@@ -29,7 +29,6 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
       var sItem = projectData.unallocatedStock[i]
 
       if (sItem.item._id === itemId && sItem.hq === hq) {
-        console.log("removing %i from item %s",amount,itemId)
         sItem.amount -= amount
       }
     }
@@ -112,6 +111,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
       var remainingNeeded = Math.max(0, neededItems - itemsInStock)
 
       result.neededInputs[input.item] = remainingNeeded
+
       var possibleSteps = itemsInStock > 0 ? itemsInStock / input.amount : 0
 
       result.maxSteps = Math.min(result.maxSteps, possibleSteps)
@@ -159,7 +159,6 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
 
       step.inputs.forEach(function (input, index) {
         input.amount = stepData.neededInputs[input.item._id]
-        console.log("stepping down %i needed from %s for %s",input.amount,input.item.name,step.item.name)
         analyzeStep(input, projectData)
       })
     } else {
