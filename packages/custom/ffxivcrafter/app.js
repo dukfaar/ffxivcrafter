@@ -32,6 +32,8 @@ function setupCircles (circles) {
 
   circles.registerCircle('see market', ['admin'])
   circles.registerCircle('see order', ['admin'])
+
+  circles.registerCircle('manage airships', ['admin'])
 }
 
 function setupMenus () {
@@ -71,6 +73,13 @@ function setupMenus () {
     title: 'Projects',
     link: 'project list',
     roles: ['see projects'],
+    menu: 'main'
+  })
+
+  FFXIVCrafter.menus.add({
+    title: 'Airship',
+    link: 'airship home',
+    roles: ['manage airships'],
     menu: 'main'
   })
 
@@ -131,7 +140,7 @@ FFXIVCrafter.register(function (app, users, system, admin, database, circles, ht
 
   extendUser(database)
 
-  FFXIVCrafter.angularDependencies(['mean.system', 'mean.users', 'mean.admin', 'ngMaterial', 'LocalStorageModule'])
+  FFXIVCrafter.angularDependencies(['mean.system', 'mean.users', 'mean.admin', 'ngMaterial', 'LocalStorageModule', 'ngResource'])
 
   setupCircles(circles)
 
