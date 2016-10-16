@@ -14,7 +14,7 @@
       <md-list-item ng-attr-id="{{'stockElement_'+stockElement.item._id}}" ng-repeat="stockElement in stockList | filter: { item: { name: stockFilter } }" layout="row">
         <md-tooltip>
           <span>Required by: </span>
-          <span ng-repeat="req in projectData[project._id].stockRequirements[stockElement.item._id+'_'+stockElement.hq]">
+          <span ng-repeat="req in projectData[project._id].stockRequirements[stockElement.item._id+'_'+stockElement.hq] track by $index">
             <span>{{req.item.name}}</span><span ng-if="!$last">, </span>
           </span>
         </md-tooltip>
