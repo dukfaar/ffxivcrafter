@@ -2,132 +2,136 @@
   <main style="overflow:auto">
     <div flex>
       <md-content layout="row" layout-wrap>
-        <md-card style="width:100%">
-          <md-card-content>
-            <table style="width:100%" class="table table-striped part-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Slot</th>
-                  <th>Rank</th>
-                  <th>Components</th>
-                  <th>Survaillance</th>
-                  <th>Retrieval</th>
-                  <th>Speed</th>
-                  <th>Range</th>
-                  <th>Favor</th>
-                  <th>Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="part in partList">
-                  <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" ng-model="part.name"/></td>
+        <md-tabs flex md-dynamic-height md-border-bottom>
+          <md-tab label="Combinations">
+            <md-card style="width:100%">
+              <md-card-content>
+                <table style="width:100%" class="table table-striped ship-table">
+                  <thead>
+                    <tr>
+                      <th><span ng-click="orderBy('name')">Name</span>
+                        <span ng-class="{showIcon: orderingField === 'name'}">
+                          <md-icon ng-if="!orderingReverse" class="material-icons">arrow_drop_up</md-icon>
+                          <md-icon ng-if="orderingReverse" class="material-icons">arrow_drop_down</md-icon>
+                        </span>
+                      </th>
+                      <th><span ng-click="orderBy('minRank')">Min. Rank</span>
+                        <input size="2" ng-model="filterData.maxRank"/>
+                        <span ng-class="{showIcon: orderingField === 'minRank'}">
+                          <md-icon ng-if="!orderingReverse" class="material-icons">arrow_drop_up</md-icon>
+                          <md-icon ng-if="orderingReverse" class="material-icons">arrow_drop_down</md-icon>
+                        </span>
+                      </th>
+                      <th><span ng-click="orderBy('components')">Components</span>
+                        <input size="2" ng-model="filterData.maxComponents"/>
+                        <span ng-class="{showIcon: orderingField === 'components'}">
+                          <md-icon ng-if="!orderingReverse" class="material-icons">arrow_drop_up</md-icon>
+                          <md-icon ng-if="orderingReverse" class="material-icons">arrow_drop_down</md-icon>
+                        </span>
+                      </th>
+                      <th><span ng-click="orderBy('survaillance')">Survaillance</span>
+                        <input size="3" ng-model="filterData.minSurvaillance"/>
+                        <span ng-class="{showIcon: orderingField === 'survaillance'}">
+                          <md-icon ng-if="!orderingReverse" class="material-icons">arrow_drop_up</md-icon>
+                          <md-icon ng-if="orderingReverse" class="material-icons">arrow_drop_down</md-icon>
+                        </span>
+                      </th>
+                      <th><span ng-click="orderBy('retrieval')">Retrieval</span>
+                        <input size="3" ng-model="filterData.minRetrieval"/>
+                        <span ng-class="{showIcon: orderingField === 'retrieval'}">
+                          <md-icon ng-if="!orderingReverse" class="material-icons">arrow_drop_up</md-icon>
+                          <md-icon ng-if="orderingReverse" class="material-icons">arrow_drop_down</md-icon>
+                        </span>
+                      </th>
+                      <th><span ng-click="orderBy('speed')">Speed</span>
+                        <input size="3" ng-model="filterData.minSpeed"/>
+                        <span ng-class="{showIcon: orderingField === 'speed'}">
+                          <md-icon ng-if="!orderingReverse" class="material-icons">arrow_drop_up</md-icon>
+                          <md-icon ng-if="orderingReverse" class="material-icons">arrow_drop_down</md-icon>
+                        </span>
+                      </th>
+                      <th><span ng-click="orderBy('range')">Range</span>
+                        <input size="3" ng-model="filterData.minRange"/>
+                        <span ng-class="{showIcon: orderingField === 'range'}">
+                          <md-icon ng-if="!orderingReverse" class="material-icons">arrow_drop_up</md-icon>
+                          <md-icon ng-if="orderingReverse" class="material-icons">arrow_drop_down</md-icon>
+                        </span>
+                      </th>
+                      <th><span ng-click="orderBy('favor')">Favor</span>
+                        <input size="3" ng-model="filterData.minFavor"/>
+                        <span ng-class="{showIcon: orderingField === 'favor'}">
+                          <md-icon ng-if="!orderingReverse" class="material-icons">arrow_drop_up</md-icon>
+                          <md-icon ng-if="orderingReverse" class="material-icons">arrow_drop_down</md-icon>
+                        </span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="ship in shipList | filter: shipListFilter | orderBy: orderingField: orderingReverse">
+                      <td><span>{{ship.name}}</span></td>
 
-                  <td><select ng-model="part.slot" ng-change="updatePart(part)">
-                    <option ng-value="Hull">Hull</option>
-                    <option ng-value="Rigging">Rigging</option>
-                    <option ng-value="Forecastle">Forecastle</option>
-                    <option ng-value="Aftercastle">Aftercastle</option>
-                  </select></td>
+                      <td><span>{{ship.minRank}}</td>
 
-                  <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" size="3" ng-model="part.rank"/></td>
-                  <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" size="3" ng-model="part.components"/></td>
-                  <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" size="4" ng-model="part.survaillance"/></td>
-                  <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" size="4" ng-model="part.retrieval"/></td>
-                  <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" size="4" ng-model="part.speed"/></td>
-                  <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" size="4" ng-model="part.range"/></td>
-                  <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" size="4" ng-model="part.favor"/></td>
+                      <td><span>{{ship.components}}</span></td>
+                      <td><span>{{ship.survaillance}}</span></td>
+                      <td><span>{{ship.retrieval}}</span></td>
+                      <td><span>{{ship.speed}}</span></td>
+                      <td><span>{{ship.range}}</span></td>
+                      <td><span>{{ship.favor}}</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </md-card-content>
+            </md-card>
+          </md-tab>
+          <md-tab label="Parts">
+            <md-card style="width:100%">
+              <md-card-content>
+                <table style="width:100%" class="table table-striped part-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Slot</th>
+                      <th>Rank</th>
+                      <th>Components</th>
+                      <th>Survaillance</th>
+                      <th>Retrieval</th>
+                      <th>Speed</th>
+                      <th>Range</th>
+                      <th>Favor</th>
+                      <th>Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="part in partList">
+                      <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" ng-model="part.name"/></td>
 
-                  <td><md-button ng-click="deletePart(part)">Delete</md-button></td>
-                </tr>
-              </tbody>
-            </table>
+                      <td><select ng-model="part.slot" ng-change="updatePart(part)">
+                        <option ng-value="Hull">Hull</option>
+                        <option ng-value="Rigging">Rigging</option>
+                        <option ng-value="Forecastle">Forecastle</option>
+                        <option ng-value="Aftercastle">Aftercastle</option>
+                      </select></td>
+
+                      <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" size="3" ng-model="part.rank"/></td>
+                      <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" size="3" ng-model="part.components"/></td>
+                      <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" size="4" ng-model="part.survaillance"/></td>
+                      <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" size="4" ng-model="part.retrieval"/></td>
+                      <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" size="4" ng-model="part.speed"/></td>
+                      <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" size="4" ng-model="part.range"/></td>
+                      <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" size="4" ng-model="part.favor"/></td>
+
+                      <td><md-button ng-click="deletePart(part)">Delete</md-button></td>
+                    </tr>
+                  </tbody>
+                </table>
 
 
-            <md-button ng-click="newPart()">Add new part</md-button>
-          </md-card-content>
-        </md-card>
-
-        <md-card style="width:100%">
-          <md-card-content>
-            <table style="width:100%" class="table table-striped ship-table">
-              <thead>
-                <tr>
-                  <th><span ng-click="orderBy('name')">Name</span>
-                    <span ng-class="{showIcon: orderingField === 'name'}">
-                      <md-icon ng-if="!orderingReverse" class="material-icons">arrow_drop_up</md-icon>
-                      <md-icon ng-if="orderingReverse" class="material-icons">arrow_drop_down</md-icon>
-                    </span>
-                  </th>
-                  <th><span ng-click="orderBy('minRank')">Min. Rank</span>
-                    <input size="2" ng-model="filterData.maxRank"/>
-                    <span ng-class="{showIcon: orderingField === 'minRank'}">
-                      <md-icon ng-if="!orderingReverse" class="material-icons">arrow_drop_up</md-icon>
-                      <md-icon ng-if="orderingReverse" class="material-icons">arrow_drop_down</md-icon>
-                    </span>
-                  </th>
-                  <th><span ng-click="orderBy('components')">Components</span>
-                    <input size="2" ng-model="filterData.maxComponents"/>
-                    <span ng-class="{showIcon: orderingField === 'components'}">
-                      <md-icon ng-if="!orderingReverse" class="material-icons">arrow_drop_up</md-icon>
-                      <md-icon ng-if="orderingReverse" class="material-icons">arrow_drop_down</md-icon>
-                    </span>
-                  </th>
-                  <th><span ng-click="orderBy('survaillance')">Survaillance</span>
-                    <input size="3" ng-model="filterData.minSurvaillance"/>
-                    <span ng-class="{showIcon: orderingField === 'survaillance'}">
-                      <md-icon ng-if="!orderingReverse" class="material-icons">arrow_drop_up</md-icon>
-                      <md-icon ng-if="orderingReverse" class="material-icons">arrow_drop_down</md-icon>
-                    </span>
-                  </th>
-                  <th><span ng-click="orderBy('retrieval')">Retrieval</span>
-                    <input size="3" ng-model="filterData.minRetrieval"/>
-                    <span ng-class="{showIcon: orderingField === 'retrieval'}">
-                      <md-icon ng-if="!orderingReverse" class="material-icons">arrow_drop_up</md-icon>
-                      <md-icon ng-if="orderingReverse" class="material-icons">arrow_drop_down</md-icon>
-                    </span>
-                  </th>
-                  <th><span ng-click="orderBy('speed')">Speed</span>
-                    <input size="3" ng-model="filterData.minSpeed"/>
-                    <span ng-class="{showIcon: orderingField === 'speed'}">
-                      <md-icon ng-if="!orderingReverse" class="material-icons">arrow_drop_up</md-icon>
-                      <md-icon ng-if="orderingReverse" class="material-icons">arrow_drop_down</md-icon>
-                    </span>
-                  </th>
-                  <th><span ng-click="orderBy('range')">Range</span>
-                    <input size="3" ng-model="filterData.minRange"/>
-                    <span ng-class="{showIcon: orderingField === 'range'}">
-                      <md-icon ng-if="!orderingReverse" class="material-icons">arrow_drop_up</md-icon>
-                      <md-icon ng-if="orderingReverse" class="material-icons">arrow_drop_down</md-icon>
-                    </span>
-                  </th>
-                  <th><span ng-click="orderBy('favor')">Favor</span>
-                    <input size="3" ng-model="filterData.minFavor"/>
-                    <span ng-class="{showIcon: orderingField === 'favor'}">
-                      <md-icon ng-if="!orderingReverse" class="material-icons">arrow_drop_up</md-icon>
-                      <md-icon ng-if="orderingReverse" class="material-icons">arrow_drop_down</md-icon>
-                    </span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="ship in shipList | filter: shipListFilter | orderBy: orderingField: orderingReverse">
-                  <td><span>{{ship.name}}</span></td>
-
-                  <td><span>{{ship.minRank}}</td>
-
-                  <td><span>{{ship.components}}</span></td>
-                  <td><span>{{ship.survaillance}}</span></td>
-                  <td><span>{{ship.retrieval}}</span></td>
-                  <td><span>{{ship.speed}}</span></td>
-                  <td><span>{{ship.range}}</span></td>
-                  <td><span>{{ship.favor}}</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </md-card-content>
-        </md-card>
-
+                <md-button ng-click="newPart()">Add new part</md-button>
+              </md-card-content>
+            </md-card>
+          </md-tab>
+        </md-tabs>
       </md-content>
     </div>
   </main>
