@@ -12,7 +12,7 @@ var nodemailer = require('nodemailer')
 
 var config = require('meanio').loadConfig()
 
-var Q = require('Q')
+var Q = require('q')
 
 module.exports = function (io) {
   var itemService = require('../services/itemService')()

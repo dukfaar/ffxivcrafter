@@ -3,7 +3,7 @@
 var mongoose = require('mongoose')
 var Item = mongoose.model('Item')
 var ProjectStep = mongoose.model('ProjectStep')
-var Q = require('Q')
+var Q = require('q')
 
 module.exports = function () {
   var updateAgeMultipliersRunning = false
