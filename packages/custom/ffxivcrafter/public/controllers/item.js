@@ -35,6 +35,18 @@ angular.module('mean.ffxivCrafter').controller('ItemController', ['$scope', 'Glo
         })
     }
 
+    $scope.multiplierUpdatesDone = false
+
+    $scope.triggerAgeMultiplierUpdate = function() {
+      $scope.multiplierUpdatesDone = false
+      $scope.multiplierUpdatesRunning = true
+      $http.put('/api/item/updateAllAgeMultipliers')
+      .then(function(response) {
+        $scope.multiplierUpdatesRunning = false
+        $scope.multiplierUpdatesDone = true
+      })
+    }
+
     $scope.openImport = function () {
       $mdDialog.show({
         templateUrl: 'ffxivCrafter/views/item/importDialog.html',

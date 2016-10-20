@@ -12,7 +12,11 @@ var nodemailer = require('nodemailer')
 
 var config = require('meanio').loadConfig()
 
+var Q = require('Q')
+
 module.exports = function (io) {
+  var itemService = require('../services/itemService')()
+
   function stepForItem (itemId, amount, callback) {
     var step = new ProjectStep()
     step.item = itemId
@@ -30,7 +34,12 @@ module.exports = function (io) {
           step.save(function (err) {
             if (err) throw err
 
-            callback(step)
+            Item.findById(itemId).exec(function(err, item) {
+              itemService.updateItemAgeMultiplier(item)
+              .then(function() {
+                callback(step)
+              })
+            })
           })
         } else {
           step.step = 'Craft'
@@ -50,7 +59,13 @@ module.exports = function (io) {
               if (countdown === 0) {
                 step.save(function (err) {
                   if (err) throw err
-                  callback(step)
+
+                  Item.findById(itemId).exec(function(err, item) {
+                    itemService.updateItemAgeMultiplier(item)
+                    .then(function() {
+                      callback(step)
+                    })
+                  })
                 })
               }
             })
@@ -237,34 +252,59 @@ module.exports = function (io) {
       })
     },
     delete: function (req, res) {
-      function deleteStep (step, callback) {
-        var countdown = step.inputs.length
-        if (countdown === 0) {
-          step.remove(function (err) {
-            if (err) throw err
+      function triggerItemUpdate(itemId) {
+        var deferred = Q.defer()
 
-            callback()
+        if(itemId) {
+          Item.findById(itemId).exec(function(err, item) {
+            itemService.updateItemAgeMultiplier(item)
+            .then(function() {
+              deferred.resolve()
+            })
+          })
+        } else {
+          deferred.resolve()
+        }
+
+        return deferred.promise
+      }
+
+      function deleteStep (step) {
+        var deferred = Q.defer()
+
+        var stepItem = step.item
+
+        if (step.inputs.length === 0) {
+          step.remove(function (err) {
+            if (err) deferred.reject(err)
+
+            triggerItemUpdate(stepItem)
+            .then(function() {
+              deferred.resolve()
+            })
           })
         }
 
-        step.inputs.forEach(function (subStep) {
-          deleteStep(subStep, function () {
-            countdown--
-            if (countdown === 0) {
-              step.remove(function (err) {
-                if (err) throw err
+        Q.all(step.inputs.map(function(subStep) { return deleteStep(subStep) } ))
+        .then(function() {
+          step.remove(function (err) {
+            if (err) throw defered.reject(err)
 
-                callback()
-              })
-            }
+            triggerItemUpdate(stepItem)
+            .then(function() {
+              deferred.resolve()
+            })
           })
         })
+
+        return deferred.promise
       }
 
       CraftingProject.findById(req.params.id).populate('tree').exec(function (err, project) {
         if (err) throw err
 
-        deleteStep(project.tree, function () {
+        deleteStep(project.tree)
+        .then(function () {
           project.remove(function (err) {
             if (err) throw err
 

@@ -3,6 +3,9 @@
 module.exports = function (myPackage, app, auth, db, io) {
   var itemController = require('../controllers/item')(io)
 
+  app.route('/api/item/updateAllAgeMultipliers')
+    .put(itemController.updateAllAgeMultipliers)
+
   app.route('/api/item')
     .get(itemController.list)
 
@@ -38,4 +41,6 @@ module.exports = function (myPackage, app, auth, db, io) {
 
   app.route('/api/import/item/')
     .get(itemController.fullXivdbImport)
+
+
 }

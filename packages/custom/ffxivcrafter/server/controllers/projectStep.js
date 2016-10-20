@@ -5,14 +5,20 @@ var ProjectStep = mongoose.model('ProjectStep')
 var CraftingProject = mongoose.model('CraftingProject')
 
 module.exports = function (io) {
+  var itemService = require('../services/itemService')()
+
   function recursiveDeleteStep (step, callback) {
     var toGo = step.inputs.length
 
     var doRemoveAndCallback = function () {
+      var stepItem = step.item
+
       step.remove(function (err) {
         if (err) throw err
-
-        callback()
+        itemService.updateItemAgeMultiplier(stepItem)
+        .then(function() {
+          callback()
+        })
       })
     }
 
@@ -42,7 +48,6 @@ module.exports = function (io) {
     },
     create: function (req, res) {
       var step = new ProjectStep()
-      console.log(req)
 
       step.save(function (err) {
         if (err) res.send(err)

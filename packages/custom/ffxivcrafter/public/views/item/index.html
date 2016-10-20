@@ -106,6 +106,10 @@
       </md-input-container>
 
       <md-button ng-if="allowed('create items')" ng-click="openImport()">Import</md-button>
+
+      <md-button ng-if="allowed('admin') && !multiplierUpdatesRunning" ng-click="triggerAgeMultiplierUpdate()">Update Age Multipliers</md-button>
+      <span ng-if="multiplierUpdatesRunning">Updating...</span>
+      <span ng-if="multiplierUpdatesDone">Update done</span>
     </md-toolbar>
   </footer>
 </div>

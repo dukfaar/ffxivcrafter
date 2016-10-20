@@ -2,11 +2,14 @@
 
 var mongoose = require('mongoose')
 var Item = mongoose.model('Item')
+var ProjectStep = mongoose.model('ProjectStep')
+var Q = require('Q')
 
 var httpreq = require('httpreq')
 
 module.exports = function (io) {
   var itemImport = require('../services/itemImport')()
+  var itemService = require('../services/itemService')()
 
   var doFind = function (query, req, res) {
     if (req.query.privileged && req.query.privileged === 'true') {
@@ -46,19 +49,33 @@ module.exports = function (io) {
     filteredList: function (req, res) {
       doFind({'name': {$regex: req.params.q,$options: 'i'}}, req, res)
     },
-    oldest: function (req, res) {
-      Item.find({
-          $or: [
-            {'datedObject': false},
-            {'datedObject': {$exists:false}}
-          ]
+    updateAllAgeMultipliers: function(req, res) {
+      itemService.updateAllAgeMultipliers()
+      .then(function(result) {
+        res.send('done')
       })
-        .sort('lastPriceUpdate')
-        .limit(10)
-        .exec(function (err, result) {
-          if (err) throw err
-          res.send(result)
-        })
+    },
+    oldest: function (req, res) {
+      var now = new Date()
+      Item.aggregate()
+      .match({
+        $or: [
+          {'datedObject': false},
+          {'datedObject': {$exists:false}}
+        ]
+      })
+      .project({
+        name: true,
+        price: true,
+        priceHQ: true,
+        weightedAge:{$multiply:[{$subtract:[now, '$lastPriceUpdate']},'$ageMultiplier']}
+      })
+      .sort('-weightedAge')
+      .limit(10)
+      .exec(function (err, result) {
+        if (err) throw err
+        res.send(result)
+      })
     },
     create: function (req, res) {
       var item = new Item()
