@@ -91,6 +91,13 @@ function setupMenus () {
   })
 
   FFXIVCrafter.menus.add({
+    title: 'Theme Settings',
+    link: 'theme settings',
+    roles: ['authenticated'],
+    menu: 'account'
+  })
+
+  FFXIVCrafter.menus.add({
     title: 'DoLDoH Overview',
     link: 'doldoh overview',
     roles: ['projectManager'],

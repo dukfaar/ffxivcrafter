@@ -45,7 +45,7 @@
               <label>Number of Items</label>
               <input ng-model="order.amount"></input>
             </md-input-container>
-            <md-button class="md-raised" ng-click="projectFromItem(selectedItem)">Add as new project</md-button>
+            <md-button class="md-raised md-primary" ng-click="projectFromItem(selectedItem)">Add as new project</md-button>
           </div>
           <div layout="row" layout-align="space-around center">
             <md-input-container>
@@ -54,7 +54,7 @@
                 <md-option ng-value="project" ng-repeat="project in projectList">{{project.name}}</md-option>
               </md-select>
             </md-input-container>
-            <md-button class="md-raised" ng-click="addToProject(selectedItem,selectedProject)">Add to project</md-button>
+            <md-button class="md-raised md-primary" ng-click="addToProject(selectedItem,selectedProject)">Add to project</md-button>
           </div>
         </md-card-actions>
       </md-card>

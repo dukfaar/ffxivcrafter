@@ -74,7 +74,7 @@
                     <md-option ng-value="mergeProject" placeholder="Select a project to merge with" ng-if="mergeProject!==project" ng-repeat="mergeProject in projectList">{{(mergeProject.name&&mergeProject.name!=='')?mergeProject.name:mergeProject.tree.item.name}}</md-option>
                   </md-select>
                 </md-input-container>
-                <md-button class="md-raised" ng-click="doMerge(project,mergeSelection)">Merge with selected Project</md-button>
+                <md-button class="md-raised md-primary" ng-click="doMerge(project,mergeSelection)">Merge with selected Project</md-button>
 
                 <div layout="row"><span flex></span><span>Project created By {{project.creator.name}}</span></div>
               </md-card-content>

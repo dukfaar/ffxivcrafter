@@ -1,10 +1,11 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'deliveryService', '$mdPanel', 'socket', 'MeanUser',
-  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, deliveryService, $mdPanel, socket, MeanUser) {
+angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'deliveryService', '$mdPanel', 'socket', 'MeanUser', '$q',
+  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, deliveryService, $mdPanel, socket, MeanUser, $q) {
     $scope.tabList = []
     $scope.projectList = []
     $scope.projectData = {}
+
     $scope.user = MeanUser
     $scope.allowed = function (perm) {
       return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) != -1
@@ -20,6 +21,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
     $scope.recalcOnPage = null
     $scope.project = null
+    $scope.currentProjectData = null
 
     $scope.gatherList = []
     $scope.craftableList = []
@@ -53,13 +55,24 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       if ($scope.tabList[$scope.tabdata.selectedIndex]) $scope.tabList[$scope.tabdata.selectedIndex].name = newValue
     })
 
+    $scope.$watch('currentProjectData', function (newValue, oldValue) {
+      if($scope.currentProjectData) {
+        if($scope.currentProjectData.craftableSteps) $scope.craftableList = $scope.toArray($scope.currentProjectData.craftableSteps)
+        if($scope.currentProjectData.gatherList) $scope.gatherList = $scope.toArray($scope.currentProjectData.gatherList)
+      }
+    }, true)
+
+
     $scope.$watch('project', function (newValue, oldValue) {
       if ($scope.project) {
-        $scope.recalcProjectData($scope.project)
-
         $scope.stockList = $scope.toArray($scope.project.stock)
-        $scope.craftableList = $scope.toArray($scope.projectData[$scope.project._id].craftableSteps)
-        $scope.gatherList = $scope.toArray($scope.projectData[$scope.project._id].gatherList)
+
+        $scope.recalcProjectData($scope.project)
+        .then(function (data) {
+          $scope.currentProjectData = data
+        }, null, function (data) {
+          $scope.currentProjectData = data
+        })
       }
     }, true)
 
@@ -114,13 +127,25 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     }
 
     $scope.recalcProjectData = function (project) {
-      if (!project) return
+      var deferred = $q.defer()
 
-      $scope.projectData[project._id] = projectAnalyzerService.getProjectMaterialList(project)
+      if (!project) {
+        deferred.resolve()
+      } else {
+        projectAnalyzerService.getProjectMaterialList(project)
+        .then(function(data) {
+          $scope.projectData[project._id] = data
+          deferred.resolve(data)
+        }, null, function(data) {
+          $scope.projectData[project._id] = data
+          deferred.notify(data)
+        })
+      }
+      return deferred.promise
     }
 
     $scope.recalcVisibleProjectData = function () {
-      $scope.recalcProjectData($scope.project)
+      return $scope.recalcProjectData($scope.project)
     }
 
     $scope.deliveryDialog = function (project, item, gathers) {

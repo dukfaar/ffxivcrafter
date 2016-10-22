@@ -7,7 +7,7 @@
             <input ng-model="itemService.filter" ng-change="updateList()" ng-model-options="{debounce:300}" placeholder="Search"></input>
           </md-input-container>
           <md-list>
-            <md-list-item ng-repeat="item in itemService.itemList" ng-click="selectItem(item)"> 
+            <md-list-item ng-repeat="item in itemService.itemList" ng-click="selectItem(item)">
               {{item.name}}
             </md-list-item>
           </md-list>
@@ -28,7 +28,7 @@
             <label>Number of Items</label>
             <input ng-model="order.amount"></input>
           </md-input-container>
-          <md-button class="md-raised" ng-click="orderItem(selectedItem)">Place Order</md-button>
+          <md-button class="md-raised md-primary" ng-click="orderItem(selectedItem)">Place Order</md-button>
         </md-card-actions>
       </md-card>
 

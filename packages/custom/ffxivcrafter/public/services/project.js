@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function () {
+angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function ($q) {
   function getAmountOfItemInUnnallocatedStock (projectData, itemId, hq) {
     for (var i in projectData.unallocatedStock) {
       var sItem = projectData.unallocatedStock[i]
@@ -53,7 +53,12 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
   }
 
   function gatheringStep (step, projectData) {
+    var deferred = $q.defer()
+
     checkForGatheringStepObject(step, projectData).outstanding += step.amount
+
+    deferred.resolve()
+    return deferred.promise
   }
 
   function itemPrice (step) {
@@ -88,10 +93,15 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
   }
 
   function buyingStep (step, projectData) {
+    var deferred = $q.defer()
+
     checkForGatheringStepObject(step, projectData).outstanding += step.amount
     checkForBuyingStepObject(step, projectData).outstanding += step.amount
 
     projectData.totalCost += stepPrice(step)
+
+    deferred.resolve()
+    return deferred.promise
   }
 
   function getMaxCraftableSteps (step, projectData) {
@@ -121,6 +131,8 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
   }
 
   function craftingStep (step, projectData) {
+    var deferred = $q.defer()
+
     var stepData = getMaxCraftableSteps(step, projectData)
 
     if (stepData.neededAmount > 0) {
@@ -156,10 +168,11 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
       }
 
 
-
-      step.inputs.forEach(function (input, index) {
+      $q.all(step.inputs.map(function(input) {
         input.amount = stepData.neededInputs[input.item._id]
-        analyzeStep(input, projectData)
+        return analyzeStep(input, projectData)
+      })).then(function() {
+        deferred.resolve()
       })
     } else {
       /*
@@ -167,14 +180,20 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
       deduce this steps items from the stock and be done
       */
       deductFromUnallocatedStock(projectData, step.item._id, step.amount, step.hq)
+
+      deferred.resolve()
     }
+
+    return deferred.promise
   }
 
   /**
     have a look at this, was the simple version enough?
   */
   function metaStep (step, projectData) {
-    step.inputs.forEach(function (input, index) {
+    var deferred = $q.defer()
+
+    $q.all(step.inputs.map(function(input) {
       if (input.step !== 'Meta') {
         var inStock = getAmountOfItemInUnnallocatedStock(projectData, input.item._id, input.hq)
         var takeFromStock = Math.min(inStock, input.amount)
@@ -184,23 +203,30 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
         deductFromUnallocatedStock(projectData, input.item._id, takeFromStock, input.hq)
       }
 
-      analyzeStep(input, projectData)
+       return analyzeStep(input, projectData)
+    }))
+    .then(function() {
+      deferred.resolve()
     })
+
+    return deferred.promise
   }
 
   function analyzeStep (step, projectData) {
     if (step.step === 'Gather') {
-      gatheringStep(step, projectData)
+      return gatheringStep(step, projectData)
     } else if (step.step === 'Craft') {
-      craftingStep(step, projectData)
+      return craftingStep(step, projectData)
     } else if (step.step === 'Buy') {
-      buyingStep(step, projectData)
+      return buyingStep(step, projectData)
     } else if (step.step === 'Meta') {
-      metaStep(step, projectData)
+      return metaStep(step, projectData)
     }
   }
 
   function getProjectMaterialList (project) {
+    var deferred = $q.defer()
+
     var result = {
       project: project,
       stockRequirements: {},
@@ -211,18 +237,26 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
       totalCost: 0
     }
 
+    deferred.notify(result)
+
     analyzeStep($.extend(true, {}, project.tree), result)
+    .then(function() {
+      result.revenue = stepPrice(project.tree)
+      result.profit = stepPrice(project.tree) * 0.95 - result.totalCost
+      result.relativeProfit = (result.profit / result.totalCost) * 100
 
-    result.revenue = stepPrice(project.tree)
-    result.profit = stepPrice(project.tree) * 0.95 - result.totalCost
-    result.relativeProfit = (result.profit / result.totalCost) * 100
+      deferred.resolve(result)
+    })
 
-    return result
+    return deferred.promise
   }
 
   function updateMaterialList (projectList, projectData) {
     projectList.forEach(function (project) {
-      projectData[project._id] = getProjectMaterialList(project)
+      getProjectMaterialList(project)
+      .then(function(data) {
+        projectData[project._id] = data
+      })
     })
   }
 

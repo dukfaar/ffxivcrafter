@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('AirshipController', ['$scope', 'Global', '$http', 'AirshipPart',
-  function ($scope, Global, $http, AirshipPart) {
+angular.module('mean.ffxivCrafter').controller('AirshipController', ['$scope', 'Global', '$http', 'AirshipPart', '$timeout',
+  function ($scope, Global, $http, AirshipPart, $timeout) {
     $scope.AirshipPart = AirshipPart
 
     $scope.partList = AirshipPart.query()
@@ -33,7 +33,7 @@ angular.module('mean.ffxivCrafter').controller('AirshipController', ['$scope', '
 
       $scope.partList.filter(function (v) { return v.slot === 'Hull' }).forEach(function (hull) {
         $scope.partList.filter(function (v) { return v.slot === 'Rigging' }).forEach(function (rigging) {
-          $scope.partList.filter(function (v) { return v.slot === 'Forecastle' }).forEach(function (forecastle) {
+          $scope.partList.filter(function (v) { return v.slot === 'Forecastle' }).forEach(function (forecastle) {  $timeout(function() {
             $scope.partList.filter(function (v) { return v.slot === 'Aftercastle' }).forEach(function (aftercastle) {
               $scope.shipList.push({
                 name: hull.name + ', ' + rigging.name + ', ' + forecastle.name + ', ' + aftercastle.name,
@@ -45,7 +45,7 @@ angular.module('mean.ffxivCrafter').controller('AirshipController', ['$scope', '
                 range: Number(hull.range) + Number(rigging.range) + Number(forecastle.range) + Number(aftercastle.range),
                 favor: Number(hull.favor) + Number(rigging.favor) + Number(forecastle.favor) + Number(aftercastle.favor)
               })
-            })
+            }) })
           })
         })
       })

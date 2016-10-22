@@ -1,0 +1,31 @@
+<div ng-controller="ThemeController" flex>
+  <md-content layout="row" flex>
+    <md-card flex>
+      <md-card-content>
+        <div layout="row" layout-fill>
+          <md-input-container flex>
+            <label>Primary Color</label>
+            <md-select ng-model="palettes.primary" ng-change="setPrimary(palettes.primary)">
+              <md-option ng-repeat="palette in paletteList" ng-value="palette">{{palette}}</md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container flex>
+            <label>Accent Color</label>
+            <md-select ng-model="palettes.accent" ng-change="setAccent(palettes.accent)">
+              <md-option ng-repeat="palette in paletteList" ng-value="palette">{{palette}}</md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container flex>
+            <label>Background Color</label>
+            <md-select ng-model="palettes.background" ng-change="setBackground(palettes.background)">
+              <md-option ng-repeat="palette in paletteList" ng-value="palette">{{palette}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+
+        <md-switch ng-model="palettes.dark" ng-change="setDark(palettes.dark)">Dark ({{palettes.dark?'true': 'false'}})</md-switch>
+
+      </md-card-content>
+    </md-card>
+  </md-content>
+</div>
