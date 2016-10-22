@@ -1,8 +1,8 @@
 <div ng-controller="ThemeController" flex>
   <md-content layout="row" flex>
     <md-card flex>
-      <md-card-content>
-        <div layout="row" layout-fill>
+      <md-card-content layout="column">
+        <div layout="row">
           <md-input-container flex>
             <label>Primary Color</label>
             <md-select ng-model="palettes.primary" ng-change="setPrimary(palettes.primary)">
