@@ -9,27 +9,7 @@
 
         <md-content layout-wrap layout="row" layout-xs="column" layout-sm="row" ng-if="project">
           <div layout="column" flex="25" flex-xs="100" flex-sm="50">
-            <md-card>
-              <md-toolbar class="md-hue-2">
-                <div class="md-toolbar-tools">
-                  <span>Recipe Tree</span>
-                  <span flex></span>
-                  <md-menu>
-                    <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu()">
-                      <md-icon class="material-icons">more_vert</md-icon>
-                    </md-button>
-                    <md-menu-content>
-                      <md-menu-item><md-button ng-click="showAllSteps()">Show all children</md-button></md-menu-item>
-                      <md-menu-item><md-button ng-click="hideAllSteps()">Hide all children</md-button></md-menu-item>
-                      <md-menu-item><md-button ng-click="stepDeletion.enabled = !stepDeletion.enabled">{{stepDeletion.enabled?'Hide':'Show'}} step deleters</md-button></md-menu-item>
-                    </md-menu-content>
-                  </md-menu>
-                </div>
-              </md-toolbar>
-              <md-card-content>
-                <project-step data-step="project.tree" update-step="updateStep" price-update='priceUpdate' step-deletion="stepDeletion" deleted-step="updateList" show-deleter="true"></project-step>
-              </md-card-content>
-            </md-card>
+            <project-recipe-tree-card></project-recipe-tree-card>
           </div>
 
           <div layout="column" flex="25" flex-xs="100" flex-sm="50">
@@ -37,48 +17,12 @@
             <project-item-gathers></project-item-gathers>
           </div>
 
-          <project-item-stock flex="25" flex-xs="100" flex-sm="50"></project-item-stock>
+          <div layout="column" flex="25" flex-xs="100" flex-sm="50">
+            <project-item-stock></project-item-stock>
+          </div>
 
           <div layout="column" flex="25" flex-xs="100" flex-sm="50">
-            <md-card>
-              <md-toolbar class="md-hue-2">
-                <div class="md-toolbar-tools">
-                  <span>Settings</span>
-                  <span flex></span>
-                  <md-menu>
-                    <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu()">
-                      <md-icon class="material-icons">more_vert</md-icon>
-                    </md-button>
-                    <md-menu-content>
-                      <md-menu-item><md-button ng-click="deleteProject(project)" class="md-raised">Delete Project</md-button></md-menu-item>
-                    </md-menu-content>
-                  </md-menu>
-                </div>
-              </md-toolbar>
-              <md-card-content layout="column">
-                <md-input-container>
-                  <label>Projectname</label>
-                  <input type="text" ng-model="project.name" ng-model-options="{debounce:300}" ng-change="updateProject(project)"/>
-                </md-input-container>
-
-                <div layout="row" ng-if="allowed('projectManager')">
-                  <md-switch ng-model="project.private" ng-change="updateProject(project)">
-                    <md-tooltip>If this is set, only you can see this project</md-tooltip>
-                    {{project.private?'private':'non-private'}} project
-                  </md-switch>
-                  <md-switch ng-if="!project.private" ng-model="project.public" ng-change="updateProject(project)">{{project.public?'public':'non-public'}} project</md-switch>
-                </div>
-
-                <md-input-container>
-                  <md-select ng-model="mergeSelection">
-                    <md-option ng-value="mergeProject" placeholder="Select a project to merge with" ng-if="mergeProject!==project" ng-repeat="mergeProject in projectList">{{(mergeProject.name&&mergeProject.name!=='')?mergeProject.name:mergeProject.tree.item.name}}</md-option>
-                  </md-select>
-                </md-input-container>
-                <md-button class="md-raised md-primary" ng-click="doMerge(project,mergeSelection)">Merge with selected Project</md-button>
-
-                <div layout="row"><span flex></span><span>Project created By {{project.creator.name}}</span></div>
-              </md-card-content>
-            </md-card>
+            <project-settings-card></project-settings-card>
 
             <revenue-card project="project" project-data="projectData[project._id]"></revenue-card>
 

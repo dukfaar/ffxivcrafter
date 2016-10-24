@@ -1,0 +1,21 @@
+<md-card>
+  <md-toolbar class="md-hue-2">
+    <div class="md-toolbar-tools">
+      <span>Recipe Tree</span>
+      <span flex></span>
+      <md-menu>
+        <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu()">
+          <md-icon class="material-icons">more_vert</md-icon>
+        </md-button>
+        <md-menu-content>
+          <md-menu-item><md-button ng-click="showAllSteps()">Show all children</md-button></md-menu-item>
+          <md-menu-item><md-button ng-click="hideAllSteps()">Hide all children</md-button></md-menu-item>
+          <md-menu-item><md-button ng-click="stepDeletion.enabled = !stepDeletion.enabled">{{stepDeletion.enabled?'Hide':'Show'}} step deleters</md-button></md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </div>
+  </md-toolbar>
+  <md-card-content>
+    <project-step data-step="project.tree" update-step="updateStep" price-update='priceUpdate' step-deletion="stepDeletion" deleted-step="updateList" show-deleter="true"></project-step>
+  </md-card-content>
+</md-card>
