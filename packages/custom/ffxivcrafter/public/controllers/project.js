@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'deliveryService', '$mdPanel', 'socket', 'MeanUser', '$q',
-  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, deliveryService, $mdPanel, socket, MeanUser, $q) {
+angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', '$mdPanel', 'socket', 'MeanUser', '$q',
+  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, $mdPanel, socket, MeanUser, $q) {
     $scope.tabList = []
     $scope.projectList = []
     $scope.projectData = {}
@@ -10,8 +10,6 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.allowed = function (perm) {
       return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) != -1
     }
-
-    $scope.deliveryService = deliveryService
 
     $scope.tabdata = {
       selectedIndex: 0,
@@ -32,7 +30,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     }
 
     socket.on('project stock changed', function (data) {
-      $scope.getProject(data.projectId, function () {})
+      if($scope.project._id === data.projectId) $scope.getProject(data.projectId, function () {})
     })
 
     socket.on('new project created', function (data) {
@@ -40,33 +38,23 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     })
 
     socket.on('project data changed', function (data) {
-      $scope.getProject(data.projectId, function () {})
+      if($scope.project._id === data.projectId) $scope.getProject(data.projectId, function () {})
     })
 
     socket.on('price data changed', function (data) {
-      $scope.getProject($scope.project._id, function () {})
+      if($scope.project._id === data.projectId) $scope.getProject($scope.project._id, function () {})
     })
 
     socket.on('project step data changed', function (data) {
-      $scope.getProject($scope.project._id, function () {})
+      if($scope.project._id === data.projectId) $scope.getProject($scope.project._id, function () {})
     })
 
     $scope.$watch('project.name', function (newValue, oldValue) {
       if ($scope.tabList[$scope.tabdata.selectedIndex]) $scope.tabList[$scope.tabdata.selectedIndex].name = newValue
     })
 
-    $scope.$watch('currentProjectData', function (newValue, oldValue) {
-      if($scope.currentProjectData) {
-        if($scope.currentProjectData.craftableSteps) $scope.craftableList = $scope.toArray($scope.currentProjectData.craftableSteps)
-        if($scope.currentProjectData.gatherList) $scope.gatherList = $scope.toArray($scope.currentProjectData.gatherList)
-      }
-    }, true)
-
-
     $scope.$watch('project', function (newValue, oldValue) {
       if ($scope.project) {
-        $scope.stockList = $scope.toArray($scope.project.stock)
-
         $scope.recalcProjectData($scope.project)
         .then(function (data) {
           $scope.currentProjectData = data
@@ -105,7 +93,6 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       })
     }
 
-    $scope.gatherFilter = ''
     $scope.gatherTotalFilter = ''
     $scope.craftableFilter = ''
     $scope.stockFilter = ''
@@ -114,16 +101,6 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
     $scope.isGatherOutsanding = function (gather) {
       return gather.outstanding > 0
-    }
-
-    $scope.addToStock = function (project, item, amount, hq) {
-      $http.post('/api/project/stock/add/' + project._id + '/' + item._id + '/' + amount + '/' + hq)
-        .then(function (result) {})
-    }
-
-    $scope.setStock = function (project, item, amount, hq) {
-      $http.post('/api/project/stock/set/' + project._id + '/' + item._id + '/' + amount + '/' + hq)
-        .then(function (result) {})
     }
 
     $scope.recalcProjectData = function (project) {
@@ -146,14 +123,6 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
     $scope.recalcVisibleProjectData = function () {
       return $scope.recalcProjectData($scope.project)
-    }
-
-    $scope.deliveryDialog = function (project, item, gathers) {
-      deliveryService.deliveryDialog(project, item, gathers, function () { $scope.updateList() })
-    }
-
-    $scope.deliveryCraftDialog = function (project, item, step, craftable) {
-      deliveryService.deliveryCraftDialog(project, item, step, craftable, function () { $scope.updateList() })
     }
 
     $scope.updateProject = function (p) {
