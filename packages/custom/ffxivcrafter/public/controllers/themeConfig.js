@@ -4,6 +4,13 @@ angular.module('mean.ffxivCrafter')
   .config(function ($mdThemingProvider) {
     var theme = $mdThemingProvider.theme('default')
 
+    var blackPalette = $mdThemingProvider.extendPalette('grey', {
+      'A400': '#000000',
+      'A200': '#303030'
+    })
+
+    $mdThemingProvider.definePalette('black', blackPalette)
+
     if(window.localStorage.getItem('primaryPalette') == null) window.localStorage.setItem('primaryPalette', 'indigo')
     if(window.localStorage.getItem('accentPalette') == null) window.localStorage.setItem('accentPalette', 'pink')
     if(window.localStorage.getItem('backgroundPalette') == null) window.localStorage.setItem('backgroundPalette', 'grey')
@@ -28,7 +35,7 @@ angular.module('mean.ffxivCrafter').controller('ThemeController',
     }
 
     $scope.paletteList = [
-      'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green', 'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey'
+      'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green', 'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey', 'black'
     ]
 
     $scope.setPrimary = function (palette) {

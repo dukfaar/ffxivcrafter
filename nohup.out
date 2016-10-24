@@ -1,0 +1,127 @@
+Invoking gulp - development
+[14:35:15] Using gulpfile C:\Projekte\ffxivcrafter\gulpfile.js
+[14:35:15] Starting 'clean'...
+[14:35:15] Starting 'cssmin'...
+in cssmin
+[14:35:17] Starting 'uglify'...
+in uglify
+[14:35:18] Starting 'env:production'...
+[14:35:18] Finished 'env:production' after 113 μs
+[14:35:18] Starting 'prodServe'...
+[14:35:18] Finished 'prodServe' after 87 ms
+[14:35:18] Finished 'clean' after 2.45 s
+[14:35:18] [nodemon] 1.10.2
+[14:35:18] [nodemon] to restart at any time, enter `rs`
+[14:35:18] [nodemon] watching: *.*
+[14:35:18] [nodemon] starting `node server.js`
+events.js:160
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: EPERM: operation not permitted, read
+  at Error (native)
+
+Client Connected
+::1 - - [24/Oct/2016:12:39:54 +0000] "GET /project/list HTTP/1.1" 200 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+Client Disconnected
+::1 - - [24/Oct/2016:12:39:55 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:55 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:56 +0000] "GET /api/users/me HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:56 +0000] "GET /ffxivCrafter/views/project/index.html HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:56 +0000] "GET /ffxivCrafter/views/system/header.html HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:56 +0000] "GET /admin/views/index.html HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:56 +0000] "GET /api/circles/mine HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+Client Connected
+::1 - - [24/Oct/2016:12:39:56 +0000] "GET /api/project?doPopulate=false HTTP/1.1" 200 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:56 +0000] "GET /api/admin/menu/main HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:56 +0000] "GET /api/admin/menu/account HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:56 +0000] "GET /api/admin/menu/admin HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:57 +0000] "GET /api/admin/menu/main HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:57 +0000] "GET /api/admin/menu/admin HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:57 +0000] "GET /api/project/57e80626c53bf82551f30985 HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:57 +0000] "GET /ffxivCrafter/views/project/itemGathers.html HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:57 +0000] "GET /ffxivCrafter/views/project/recipeTreeCard.html HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:57 +0000] "GET /ffxivCrafter/views/project/itemCrafts.html HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:57 +0000] "GET /ffxivCrafter/views/project/itemStock.html HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:57 +0000] "GET /ffxivCrafter/views/project/settingsCard.html HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:12:39:57 +0000] "GET /ffxivCrafter/views/project/revenueCard.html HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+Client Disconnected
+::1 - - [24/Oct/2016:12:39:57 +0000] "GET /ffxivCrafter/views/project/projectStep.html HTTP/1.1" 304 - "http://localhost:3000/project/list" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+Client Connected
+Client Connected
+Client Disconnected
+Client Disconnected
+::1 - - [24/Oct/2016:19:12:28 +0000] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:29 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:29 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:29 +0000] "GET /api/users/me HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:29 +0000] "GET /ffxivCrafter/views/system/header.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:29 +0000] "GET /admin/views/index.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:29 +0000] "GET /ffxivCrafter/views/system/index.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:30 +0000] "GET /api/circles/mine HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:30 +0000] "GET /api/admin/menu/account HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:30 +0000] "GET /api/admin/menu/main HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:30 +0000] "GET /api/admin/menu/admin HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:30 +0000] "GET /api/admin/menu/main HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:30 +0000] "GET /api/admin/menu/admin HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:30 +0000] "GET /api/item/oldest HTTP/1.1" 200 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:30 +0000] "GET /api/project/public HTTP/1.1" 200 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:32 +0000] "GET /ffxivCrafter/views/system/theme.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:37 +0000] "GET /theme/settings HTTP/1.1" 200 - "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:37 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:38 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:40 +0000] "GET /theme/settings HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:40 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:40 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:42 +0000] "GET /theme/settings HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:42 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:42 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:43 +0000] "GET /theme/settings HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:43 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:43 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:46 +0000] "GET /theme/settings HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:47 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:12:47 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:13:02 +0000] "GET /theme/settings HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:13:03 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:13:03 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:13:52 +0000] "GET /theme/settings HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:13:53 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:13:53 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:17:50 +0000] "GET /theme/settings HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:17:51 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:17:51 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:17:57 +0000] "GET /theme/settings HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:17:58 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:17:58 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:18:02 +0000] "GET /theme/settings HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:18:03 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:18:03 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:18:48 +0000] "GET /theme/settings HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:18:49 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:18:50 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:19:34 +0000] "GET /theme/settings HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:19:35 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:19:35 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:19:38 +0000] "GET /theme/settings HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:19:39 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:19:39 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:19:43 +0000] "GET /theme/settings HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:19:44 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:19:44 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:20:08 +0000] "GET /theme/settings HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:20:09 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:20:10 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:21:23 +0000] "GET /theme/settings HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:21:24 +0000] "GET /_getModules HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:21:24 +0000] "GET /api/get-public-config HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:21:25 +0000] "GET /api/users/me HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:21:25 +0000] "GET /ffxivCrafter/views/system/header.html HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:21:25 +0000] "GET /ffxivCrafter/views/system/theme.html HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:21:25 +0000] "GET /admin/views/index.html HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:21:25 +0000] "GET /api/circles/mine HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:21:25 +0000] "GET /api/admin/menu/main HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:21:25 +0000] "GET /api/admin/menu/account HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:21:25 +0000] "GET /api/admin/menu/admin HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:21:25 +0000] "GET /api/admin/menu/admin HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+::1 - - [24/Oct/2016:19:21:25 +0000] "GET /api/admin/menu/main HTTP/1.1" 304 - "http://localhost:3000/theme/settings" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
