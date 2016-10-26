@@ -1,15 +1,15 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('ProjectSettingsController', ['$scope',
-  function ($scope) {
-    if(window.localStorage.getItem('useProjectOverview') == null) window.localStorage.setItem('useProjectOverview', false)
+angular.module('mean.ffxivCrafter').controller('ProjectSettingsController', ['$scope', 'localStorageService',
+  function ($scope, localStorageService) {
+    if(localStorageService.get('useProjectOverview') == null) localStorageService.set('useProjectOverview', false)
 
     $scope.data = {
-      useOverview: JSON.parse(window.localStorage.getItem('useProjectOverview'))
+      useOverview: localStorageService.get('useProjectOverview')
     }
 
-    $scope.setUseProjectOverview = function(value) {
-      window.localStorage.setItem('useProjectOverview', value)
+    $scope.toggleUseProjectOverview = function() {
+      localStorageService.set('useProjectOverview', $scope.data.useOverview)
     }
   }
 ])

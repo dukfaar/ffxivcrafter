@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', '$mdPanel', 'socket', 'MeanUser', '$q',
-  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, $mdPanel, socket, MeanUser, $q) {
+angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', '$mdPanel', 'socket', 'MeanUser', '$q', 'localStorageService',
+  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, $mdPanel, socket, MeanUser, $q, localStorageService) {
     $scope.tabList = []
     $scope.projectList = []
     $scope.projectData = {}
@@ -11,14 +11,14 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) != -1
     }
 
-    if(window.localStorage.getItem('useProjectOverview') == null) window.localStorage.setItem('useProjectOverview', false)
+    if(localStorageService.get('useProjectOverview') == null) localStorageService.set('useProjectOverview', false)
 
     $scope.tabdata = {
       selectedIndex: 0,
       projectFilter: '',
       currentProjectName: 'project_0',
       showProjectOverview: true,
-      useOverview: JSON.parse(window.localStorage.getItem('useProjectOverview')),
+      useOverview: localStorageService.get('useProjectOverview'),
       fabMenuOpen: false
     }
 

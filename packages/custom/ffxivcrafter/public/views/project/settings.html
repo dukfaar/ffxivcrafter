@@ -4,9 +4,11 @@
       <md-content>
 
         <md-card flex>
-            <md-switch ng-model="data.useOverview" ng-change="setUseProjectOverview(!data.useOverview)">
-              <span ng-if="!data.useOverview">Don't </span><span>Use Project Overview</span>
-            </md-switch>
+          <md-switch ng-model="data.useOverview" ng-change="toggleUseProjectOverview()">
+            <span ng-if="!data.useOverview">Don't </span><span>Use Project Overview</span>
+          </md-switch>
+
+          {{data.useOverview}}
         </md-card>
 
       </md-content>
