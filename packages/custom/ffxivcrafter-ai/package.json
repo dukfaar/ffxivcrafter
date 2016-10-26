@@ -12,7 +12,9 @@
     "meanio-circles": "git://github.com/linnovate/meanio-circles.git",
     "meanio-system": "git://github.com/linnovate/meanio-system.git",
     "meanio-users": "git://github.com/linnovate/meanio-users.git",
-    "angular-local-storage": "latest"
+    "angular-local-storage": "latest",
+    "typescript": "latest",
+    "gulp-typescript": "latest"
   },
   "license": "MIT"
 }

@@ -17,6 +17,8 @@ import 'angular-aria';
 import 'angular-animate';
 import 'angular-material';
 
+import './built/typescriptOutput.js'
+
 window.$ = jQuery;
 
 angular.element(document).ready(function () {

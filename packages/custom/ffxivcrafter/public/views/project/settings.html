@@ -1,0 +1,15 @@
+<div ng-controller="ProjectSettingsController" flex>
+  <main style="overflow:auto">
+    <div flex>
+      <md-content>
+
+        <md-card flex>
+            <md-switch ng-model="data.useOverview" ng-change="setUseProjectOverview(!data.useOverview)">
+              <span ng-if="!data.useOverview">Don't </span><span>Use Project Overview</span>
+            </md-switch>
+        </md-card>
+
+      </md-content>
+    </div>
+  </main>
+</div>

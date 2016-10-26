@@ -8,5 +8,9 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
         url: '/project/list',
         templateUrl: 'ffxivCrafter/views/project/index.html'
       })
+      .state('project settings', {
+        url: '/project/settings',
+        templateUrl: 'ffxivCrafter/views/project/settings.html'
+      })
   }
 ])

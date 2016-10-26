@@ -3,6 +3,7 @@
 /* jshint -W040 */
 
 var gulp = require('gulp');
+var ts = require('gulp-typescript');
 var gulpLoadPlugins = require('gulp-load-plugins');
 var through = require('through');
 var gutil = require('gulp-util');
@@ -10,6 +11,7 @@ var plugins = gulpLoadPlugins();
 var path = require('path');
 var paths = {
   js: ['./*.js', 'config/**/*.js', 'gulp/**/*.js', 'tools/**/*.js', 'packages/**/*.js', '!packages/**/node_modules/**', '!packages/**/assets/**/lib/**', '!packages/**/assets/**/js/**'],
+  ts: ['./*.ts', 'config/**/*.ts', 'gulp/**/*.ts', 'tools/**/*.ts', 'packages/**/*.ts', '!packages/**/node_modules/**', '!packages/**/assets/**/lib/**', '!packages/**/assets/**/ts/**'],
   html: ['packages/**/*.html', '!packages/**/node_modules/**', '!packages/**/assets/**/lib/**'],
   css: ['packages/**/*.css', '!packages/**/node_modules/**', '!packages/**/assets/**/lib/**'],
   less: ['packages/**/*.less', '!packages/**/_*.less', '!packages/**/node_modules/**', '!packages/**/assets/**/lib/**'],
@@ -26,7 +28,7 @@ var webpackConfig = require('../webpack.config.js');
 var startupTasks = ['devServe'];
 
 gulp.task('development', startupTasks);
-gulp.task('devServe', ['env:development', 'webpack:build-dev', 'jshint', 'csslint', 'watch'], devServeTask);
+gulp.task('devServe', ['env:development', 'typescript', 'webpack:build-dev', 'jshint', 'csslint', 'watch'], devServeTask);
 gulp.task('env:development', envDevelopmentTask);
 gulp.task('webpack:build-dev', ['sass', 'less'], webpackBuild);
 gulp.task('sass', sassTask);
@@ -37,6 +39,17 @@ gulp.task('csslint', csslintTask);
 gulp.task('webpack:rebuild-dev', webpackBuild);
 gulp.task('watch', watchTask);
 gulp.task('livereload', livereloadTask);
+
+gulp.task('typescript', compileTypescript);
+
+function compileTypescript(callback) {
+	return gulp.src('packages/**/*.ts')
+        .pipe(ts({
+            noImplicitAny: true,
+            out: 'typescriptOutput.js'
+        }))
+        .pipe(gulp.dest('built'));
+}
 
 ////////////////////////////////////////////////////////////////////
 
@@ -155,6 +168,7 @@ function watchTask (callback) {
   gulp.watch(paths.html, ['livereload']);
   gulp.watch(paths.less, ['less']);
   gulp.watch(paths.sass, ['sass']);
+  gulp.watch(paths.ts, ['typescript'])
   callback();
 }
 

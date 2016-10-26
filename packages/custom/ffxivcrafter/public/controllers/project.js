@@ -11,10 +11,15 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) != -1
     }
 
+    if(window.localStorage.getItem('useProjectOverview') == null) window.localStorage.setItem('useProjectOverview', false)
+
     $scope.tabdata = {
       selectedIndex: 0,
       projectFilter: '',
-      currentProjectName: 'project_0'
+      currentProjectName: 'project_0',
+      showProjectOverview: true,
+      useOverview: JSON.parse(window.localStorage.getItem('useProjectOverview')),
+      fabMenuOpen: false
     }
 
     $scope.recalcOnPage = null
@@ -24,6 +29,8 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.gatherList = []
     $scope.craftableList = []
     $scope.stockList = []
+
+    $scope.showProjectOverview = true
 
     $scope.reqPanel = {
 
@@ -67,12 +74,13 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.stepDeletion = { enabled: false }
 
     $scope.clickProject = function (p, index) {
-      if ($scope.project._id === p._id) return
+      if ($scope.project._id === p._id && !$scope.tabdata.showProjectOverview) return
 
       $scope.getProject(p._id, function () {
         $scope.project = $scope.projectList[index]
         $scope.tabdata.currentProjectName = 'project_' + index
         $scope.tabdata.selectedIndex = index
+        $scope.tabdata.showProjectOverview = false
       })
     }
 

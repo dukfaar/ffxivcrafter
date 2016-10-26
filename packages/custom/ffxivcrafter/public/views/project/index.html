@@ -2,12 +2,11 @@
   <main style="overflow:auto">
     <div flex>
       <md-content>
-
-        <md-tabs flex md-dynamic-height md-border-bottom md-selected="tabdata.selectedIndex">
+        <md-tabs flex md-dynamic-height md-border-bottom md-selected="tabdata.selectedIndex" ng-if="!tabdata.showProjectOverview || !tabdata.useOverview">
           <md-tab ng-click="clickProject(tabproject,$index)" ng-repeat="tabproject in tabList" label="{{(tabproject.name&&tabproject.name!=='')?tabproject.name:tabproject.tree.item.name}}"></md-tab>
         </md-tabs>
 
-        <md-content layout-wrap layout="row" layout-xs="column" layout-sm="row" ng-if="project">
+        <md-content layout-wrap layout="row" layout-xs="column" layout-sm="row" ng-if="project && (!tabdata.showProjectOverview || !tabdata.useOverview)">
           <div layout="column" flex="25" flex-xs="100" flex-sm="50">
             <project-recipe-tree-card></project-recipe-tree-card>
           </div>
@@ -50,6 +49,24 @@
               </md-card-content>
             </md-card>
           </div>
+        </md-content>
+
+        <md-content ng-if="tabdata.showProjectOverview && tabdata.useOverview" layout="row" layout-wrap>
+          <md-card ng-repeat="tabproject in tabList">
+            <md-toolbar class="md-hue-2">
+              <div class="md-toolbar-tools">
+                <span>{{tabproject.name}}</span>
+              </div>
+            </md-toolbar>
+
+            <md-card-content>
+              {{tabproject.notes}}
+            </md-card-content>
+
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button ng-click="clickProject(tabproject,$index)">Go to Project</md-button>
+            </md-card-actions>
+          </md-card>
         </md-content>
       </md-content>
     </div>

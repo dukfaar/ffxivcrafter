@@ -103,6 +103,13 @@ function setupMenus () {
     roles: ['projectManager'],
     menu: 'account'
   })
+
+  FFXIVCrafter.menus.add({
+    title: 'Project Settings',
+    link: 'project settings',
+    roles: ['authenticated'],
+    menu: 'account'
+  })
 }
 
 function extendUser (database) {
@@ -150,10 +157,6 @@ FFXIVCrafter.register(function (app, users, system, admin, database, circles, ht
   FFXIVCrafter.angularDependencies(['mean.system', 'mean.users', 'mean.admin', 'ngMaterial', 'LocalStorageModule', 'ngResource'])
 
   setupCircles(circles)
-
-
-
-
 
   return FFXIVCrafter
 })
