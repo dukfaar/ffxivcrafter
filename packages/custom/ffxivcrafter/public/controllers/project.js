@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', '$mdPanel', 'socket', 'MeanUser', '$q', 'localStorageService',
-  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, $mdPanel, socket, MeanUser, $q, localStorageService) {
+angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', '$mdPanel', 'socket', 'MeanUser', '$q', 'localStorageService', 'ProjectStockChange',
+  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, $mdPanel, socket, MeanUser, $q, localStorageService, ProjectStockChange) {
     $scope.tabList = []
     $scope.projectList = []
     $scope.projectData = {}
@@ -32,12 +32,22 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
     $scope.showProjectOverview = true
 
+    $scope.currentProjectLog = []
+
     $scope.reqPanel = {
 
     }
 
+    $scope.logFilter = {
+      numLogItems: 10,
+      beginLogItems: 0
+    }
+
     socket.on('project stock changed', function (data) {
-      if($scope.project._id === data.projectId) $scope.getProject(data.projectId, function () {})
+      if($scope.project._id === data.projectId) {
+        $scope.getProject(data.projectId, function () {})
+        if($scope.allowed('projectManager')) $scope.currentProjectLog = ProjectStockChange.query({projectId: $scope.project._id})
+      }
     })
 
     socket.on('new project created', function (data) {
@@ -78,6 +88,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
       $scope.getProject(p._id, function () {
         $scope.project = $scope.projectList[index]
+        if($scope.allowed('projectManager')) $scope.currentProjectLog = ProjectStockChange.query({projectId: $scope.project._id})
         $scope.tabdata.currentProjectName = 'project_' + index
         $scope.tabdata.selectedIndex = index
         $scope.tabdata.showProjectOverview = false

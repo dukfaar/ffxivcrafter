@@ -3,6 +3,7 @@
 var mongoose = require('mongoose')
 
 var CraftingProject = mongoose.model('CraftingProject')
+var ProjectStockChange = mongoose.model('ProjectStockChange')
 var ProjectStep = mongoose.model('ProjectStep')
 var Recipe = mongoose.model('Recipe')
 var Item = mongoose.model('Item')
@@ -197,7 +198,16 @@ module.exports = function (io) {
         project.save(function (err) {
           if (err) throw err
 
-          io.emit('project stock changed', {projectId: project._id})
+          var stockChange = new ProjectStockChange()
+          stockChange.project = req.params.projectId
+          stockChange.item = req.params.itemId
+          stockChange.hq = req.params.hq
+          stockChange.amount = req.params.amount
+          stockChange.submitter = req.user._id
+          stockChange.date = new Date()
+          stockChange.save(function(err) {
+            io.emit('project stock changed', {projectId: project._id})
+          })
 
           res.send({})
         })
