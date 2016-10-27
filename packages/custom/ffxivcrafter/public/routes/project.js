@@ -12,5 +12,9 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
         url: '/project/settings',
         templateUrl: 'ffxivCrafter/views/project/settings.html'
       })
+      .state('project reporting', {
+        url: '/project/reporting/:projectId',
+        templateUrl: 'ffxivCrafter/views/project/reporting.html'
+      })
   }
 ])

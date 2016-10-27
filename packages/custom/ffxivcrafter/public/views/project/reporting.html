@@ -1,0 +1,44 @@
+<div ng-controller="ProjectReportingController" flex>
+  <main style="overflow:auto">
+    <div flex>
+      <md-content>
+        <md-card>
+          <md-card-content>
+            <table>
+
+              <tr>
+                <td></td>
+                <td><md-input-container>
+                  <label>Item Filter</label>
+                  <input ng-model="logFilter.itemNameFilter"></input>
+                </md-input-container></td>
+                <td></td>
+                <td>
+                  <md-input-container>
+                    <label>Submitter Filter</label>
+                    <input ng-model="logFilter.submitterNameFilter"></input>
+                  </md-input-container></td>
+                <td></td>
+              </tr>
+
+              <tr ng-repeat="logItem in log | filter: logFilterFunction | orderBy: date: true | limitTo:logFilter.numLogItems:logFilter.beginLogItems">
+                <td>{{logItem.amount}}</td>
+                <td>{{logItem.item.name}}</td>
+                <td><span ng-if="logItem.hq">HQ</span></td>
+                <td>{{logItem.submitter.name}}</td>
+                <td>{{logItem.date}}</td>
+              </tr>
+
+            </table>
+
+            <div layout="row">
+              <md-button class="md-primary md-raised" ng-disabled="logFilter.beginLogItems < logFilter.numLogItems" ng-click="logFilter.beginLogItems = logFilter.beginLogItems - logFilter.numLogItems">Prev 10</md-button>
+              <md-button class="md-primary md-raised" ng-disabled="logFilter.beginLogItems > (log.length - logFilter.numLogItems)" ng-click="logFilter.beginLogItems = logFilter.beginLogItems + logFilter.numLogItems">Next 10</md-button>
+            </div>
+            
+          </md-card-content>
+        </md-card>
+      </md-content>
+    </div>
+  </main>
+</div>
