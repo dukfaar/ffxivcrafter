@@ -1,0 +1,21 @@
+<md-card>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <span>Activity</span>
+      <span flex></span>
+      <md-menu>
+        <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu()">
+          <md-icon class="material-icons">more_vert</md-icon>
+        </md-button>
+        <md-menu-content>
+          <md-menu-item><md-button ng-click="setTimeUnit('day')" class="md-raised">Day</md-button></md-menu-item>
+          <md-menu-item><md-button ng-click="setTimeUnit('hour')" class="md-raised">Hour</md-button></md-menu-item>
+          <md-menu-item><md-button ng-click="setTimeUnit('minute')" class="md-raised">Minute</md-button></md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </div>
+  </md-toolbar>
+  <md-card-content>
+    <canvas width="400" height="400" class="chart chart-line" chart-data="chart.data" chart-labels="chart.labels" chart-options="chart.options"></canvas>
+  </md-card-content>
+</md-card>

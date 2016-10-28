@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('ProjectReportingController', ['$scope', '$http', 'socket', 'MeanUser', '$q', 'localStorageService', 'ProjectStockChange', 'Project', '$stateParams',
-  function ($scope, $http, socket, MeanUser, $q, localStorageService, ProjectStockChange, Project, $stateParams) {
+angular.module('mean.ffxivCrafter').controller('ProjectReportingController', ['$scope', '$http', 'socket', 'MeanUser', '$q', 'localStorageService', 'ProjectStockChange', 'Project', '$stateParams', '_',
+  function ($scope, $http, socket, MeanUser, $q, localStorageService, ProjectStockChange, Project, $stateParams, _) {
     $scope.user = MeanUser
     $scope.allowed = function (perm) {
       return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) != -1
@@ -10,20 +10,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectReportingController', ['$
     $scope.project = {}
     $scope.log = []
 
-    $scope.updateData = function() {
-      $scope.project = Project.query({ id: $stateParams.projectId })
-      $scope.log = ProjectStockChange.query({projectId: $stateParams.projectId})
-    }
-
-    $scope.updateData()
-
-
-    $scope.logFilter = {
-      numLogItems: 10,
-      beginLogItems: 0,
-      itemNameFilter: '',
-      submitterNameFilter: ''
-    }
+    $scope.filteredLog = []
 
     $scope.logFilterFunction = function (logItem) {
       var result = true
@@ -33,6 +20,28 @@ angular.module('mean.ffxivCrafter').controller('ProjectReportingController', ['$
       result = result && logItem.submitter.name.toLowerCase().search($scope.logFilter.submitterNameFilter.toLowerCase()) !== -1
 
       return result
+    }
+
+    $scope.refilterLog = function() {
+      $scope.filteredLog = _.filter($scope.log, $scope.logFilterFunction)
+    }
+
+    $scope.$watch('log',function() {
+      $scope.refilterLog()
+    }, true)
+
+    $scope.updateData = function() {
+      $scope.project = Project.get({id: $stateParams.projectId})
+      $scope.log = ProjectStockChange.query({projectId: $stateParams.projectId})
+    }
+
+    $scope.updateData()
+
+    $scope.logFilter = {
+      numLogItems: 10,
+      beginLogItems: 0,
+      itemNameFilter: '',
+      submitterNameFilter: ''
     }
 
     socket.on('project stock changed', function (data) {
