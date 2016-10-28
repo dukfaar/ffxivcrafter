@@ -17,6 +17,10 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
 
     $scope.oldItems = []
 
+    socket.on('project stock changed', function (data) {
+      $scope.updateList()
+    })
+
     $scope.deliveryDialog = function (project, item, gathers) {
       deliveryService.deliveryDialog(project, item, gathers, function () { $scope.updateList() })
     }
@@ -103,5 +107,9 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
     }
 
     $scope.updateList()
+
+    socket.on('project stock changed', function (data) {
+      $scope.updateList()
+    })
   }
 ])
