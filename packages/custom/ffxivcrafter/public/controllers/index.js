@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'MeanUser', 'deliveryService',
-  function ($scope, Global, $http, $mdDialog, projectAnalyzerService, MeanUser, deliveryService) {
+angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'MeanUser', 'deliveryService', 'socket',
+  function ($scope, Global, $http, $mdDialog, projectAnalyzerService, MeanUser, deliveryService, socket) {
     $scope.user = MeanUser
     $scope.allowed = function (perm) {
       return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) !== -1
