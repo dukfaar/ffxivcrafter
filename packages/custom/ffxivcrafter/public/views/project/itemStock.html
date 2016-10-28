@@ -7,6 +7,15 @@
         <label style="color:wheat">Itemfilter</label>
         <input style="color:wheat" ng-model="stockFilter" size="10"/>
       </md-input-container>
+
+      <md-menu>
+        <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu()">
+          <md-icon class="material-icons">more_vert</md-icon>
+        </md-button>
+        <md-menu-content>
+          <md-menu-item><md-button class="md-raised" ng-href="/project/reporting/{{project._id}}">Project Reporting</md-button></md-menu-item>
+        </md-menu-content>
+      </md-menu>
     </div>
   </md-toolbar>
   <md-card-content>
