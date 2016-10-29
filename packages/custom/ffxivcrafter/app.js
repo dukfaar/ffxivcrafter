@@ -84,6 +84,13 @@ function setupMenus () {
   })
 
   FFXIVCrafter.menus.add({
+    title: 'Reporting',
+    link: 'crafting reporting',
+    roles: ['projectManager'],
+    menu: 'main'
+  })
+
+  FFXIVCrafter.menus.add({
     title: 'Level Settings',
     link: 'doldoh config',
     roles: ['authenticated'],

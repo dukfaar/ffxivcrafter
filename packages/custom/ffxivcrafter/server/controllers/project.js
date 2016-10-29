@@ -310,16 +310,20 @@ module.exports = function (io) {
         return deferred.promise
       }
 
-      ProjectStockChange.find({project: req.params.id})
-      .exec(function(err, changes) {
-        changes.forEach(function(change) {
-          change.remove(function(err) {
-          })
-        })
-      })
-
       CraftingProject.findById(req.params.id).populate('tree').exec(function (err, project) {
         if (err) throw err
+
+        var deletedProjectName = project.name
+
+        ProjectStockChange.find({project: req.params.id})
+        .exec(function(err, changes) {
+          changes.forEach(function(change) {
+            change.project = null
+            change.deletedProjectName = deletedProjectName
+            change.save(function(err) {
+            })
+          })
+        })
 
         deleteStep(project.tree)
         .then(function () {

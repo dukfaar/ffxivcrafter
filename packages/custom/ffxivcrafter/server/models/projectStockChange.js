@@ -6,6 +6,7 @@ var Schema = mongoose.Schema
 
 var ProjectStockChangeSchema = new Schema({
   project: { type: Schema.ObjectId, ref: 'CraftingProject' },
+  deletedProjectName: { type: String, default: '' },
   submitter: { type: Schema.ObjectId, ref: 'User' },
   item: { type: Schema.ObjectId, ref: 'Item' },
   amount: { type: Number, default: 0 },
