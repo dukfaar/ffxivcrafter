@@ -7,11 +7,22 @@
 {% endblock %}
 
 {% block content %}
-  <div id="error-message-box">
-    <div id="error-stack-trace">
-      <pre>
-        <code>{{error}}</code>
-      </pre>
+<div flex>
+  <main style="overflow:auto">
+    <div flex>
+      <md-content layout="column" layout-align="center center">
+        <span>Oh no! This guy <img src="ffxivcrafter/assets/img/ffxiv_cactus.png"/> has stolen this pages content!</span>
+        <span>If you see him, report him to the local moogle authorities!</span>
+      </md-content>
     </div>
+  </main>
+</div>
+
+<div id="error-message-box">
+  <div id="error-stack-trace">
+    <pre>
+      <code>{{error}}</code>
+    </pre>
   </div>
+</div>
 {% endblock %}
