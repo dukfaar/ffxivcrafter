@@ -36,9 +36,16 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
     }
 
+    var stockChangeTimeouts = {}
+
     socket.on('project stock changed', function (data) {
       if($scope.project._id === data.projectId) {
-        $scope.getProject(data.projectId, function () {})
+        if(stockChangeTimeouts[data.projectId]) clearTimeout(stockChangeTimeouts[data.projectId])
+
+        stockChangeTimeouts[data.projectId] = setTimeout(function () {
+          $scope.getProject(data.projectId, function () {})
+          stockChangeTimeouts[data.projectId] = null
+        }, 200)
       }
     })
 

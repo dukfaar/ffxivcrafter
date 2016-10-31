@@ -44,9 +44,15 @@ angular.module('mean.ffxivCrafter').controller('ProjectReportingController', ['$
       submitterNameFilter: ''
     }
 
+    var updateTimeout = null
+
     socket.on('new project stock change', function (data) {
       if($stateParams.projectId === data.projectId) {
-        $scope.updateData()
+        if(updateTimeout) clearTimeout(updateTimeout)
+        updateTimeout = setTimeout(function () {
+          updateTimeout = null
+          $scope.updateData()
+        }, 200)
       }
     })
   }

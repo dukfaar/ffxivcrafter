@@ -47,8 +47,14 @@ angular.module('mean.ffxivCrafter').controller('CraftingReportingController', ['
       projectNameFilter: ''
     }
 
+    var updateTimeout = null
+
     socket.on('new project stock change', function (data) {
-      $scope.updateData()
+      if(updateTimeout) clearTimeout(updateTimeout)
+      updateTimeout = setTimeout(function () {
+        updateTimeout = null
+        $scope.updateData()
+      }, 200)
     })
   }
 ])

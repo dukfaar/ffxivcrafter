@@ -17,8 +17,14 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
 
     $scope.oldItems = []
 
+    var updateTimeout = null
+
     socket.on('project stock changed', function (data) {
-      $scope.updateList()
+      if(updateTimeout) clearTimeout(updateTimeout)
+      updateTimeout = setTimeout(function () {
+        updateTimeout = null
+        $scope.updateList()
+      }, 200)
     })
 
     $scope.deliveryDialog = function (project, item, gathers) {
