@@ -208,34 +208,19 @@ module.exports = function (io) {
       }
 
       function deleteStep (step) {
-        var deferred = Q.defer()
-
-        var stepItem = step.item
-
         if (step.inputs.length === 0) {
-          step.remove(function (err) {
-            if (err) deferred.reject(err)
-
-            triggerItemUpdate(stepItem)
-            .then(function() {
-              deferred.resolve()
-            })
+          return step.remove()
+          .then(function () {
+            return triggerItemUpdate(step.item)
           })
         }
 
-        Q.all(step.inputs.map(function(subStep) { return deleteStep(subStep) } ))
-        .then(function() {
-          step.remove(function (err) {
-            if (err) throw defered.reject(err)
-
-            triggerItemUpdate(stepItem)
-            .then(function() {
-              deferred.resolve()
-            })
-          })
+        return Q.all(step.inputs.map(function (subStep) { return deleteStep(subStep) }))
+        .then(function () {
+          return step.remove()
+        }).then(function () {
+          return triggerItemUpdate(step.item)
         })
-
-        return deferred.promise
       }
 
       CraftingProject.findById(req.params.id).populate('tree').exec(function (err, project) {
