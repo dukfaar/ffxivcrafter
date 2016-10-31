@@ -104,6 +104,16 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
     return deferred.promise
   }
 
+  function findInputByItem (inputs, item) {
+    var result = null
+
+    inputs.forEach(function (input) {
+      if(input.item._id === item._id) result = input
+    })
+
+    return result
+  }
+
   function getMaxCraftableSteps (step, projectData) {
     var result = {}
 
@@ -114,10 +124,10 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
 
     result.neededInputs = {}
 
-    step.recipe.inputs.forEach(function (input, index) {
+    step.recipe.inputs.forEach(function (input) {
       var neededItems = input.amount * result.neededSteps
 
-      var itemsInStock = getAmountOfItemInUnnallocatedStock(projectData, input.item, step.inputs[index].hq) // 50
+      var itemsInStock = getAmountOfItemInUnnallocatedStock(projectData, input.item, findInputByItem(step.inputs, input.item).hq) // 50
       var remainingNeeded = Math.max(0, neededItems - itemsInStock)
 
       result.neededInputs[input.item] = remainingNeeded
@@ -153,13 +163,14 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
         })
 
         // and remove every item that would be used in this crafting steps
-        step.recipe.inputs.forEach(function (input, index) {
-          markStockAsRequiredBy(projectData, input.item, step.inputs[index].hq, step)
-          deductFromUnallocatedStock(projectData, input.item, input.amount * stepData.maxSteps, step.inputs[index].hq)
+        step.recipe.inputs.forEach(function (input) {
+          var stepInput = findInputByItem(step.inputs, input.item)
+          markStockAsRequiredBy(projectData, input.item, stepInput.hq, step)
+          deductFromUnallocatedStock(projectData, input.item, input.amount * stepData.maxSteps, stepInput.hq)
         })
       } else {
         // we still need to allocate any items that COULD be used
-        step.inputs.forEach(function (input, index) {
+        step.inputs.forEach(function (input) {
           markStockAsRequiredBy(projectData, input.item._id, input.hq, step)
           var itemsInStock = getAmountOfItemInUnnallocatedStock(projectData, input.item._id, input.hq)
           var amount = Math.min(itemsInStock, input.amount)
