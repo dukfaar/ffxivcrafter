@@ -1,16 +1,14 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function ($q) {
+angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function ($q, _) {
+  function findItemInUnnallocatedStock (projectData, itemId, hq) {
+    return _.find(projectData.unallocatedStock, function (sItem) { return sItem.item._id === itemId && sItem.hq === hq })
+  }
+
   function getAmountOfItemInUnnallocatedStock (projectData, itemId, hq) {
-    for (var i in projectData.unallocatedStock) {
-      var sItem = projectData.unallocatedStock[i]
+    var item = findItemInUnnallocatedStock(projectData, itemId, hq)
 
-      if (sItem.item._id === itemId && sItem.hq === hq) {
-        return sItem.amount
-      }
-    }
-
-    return null
+    return item ? item.amount : null
   }
 
   function markStockAsRequiredBy (projectData, itemId, hq, requiredByStep) {
@@ -25,13 +23,8 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
   }
 
   function deductFromUnallocatedStock (projectData, itemId, amount, hq) {
-    for (var i in projectData.unallocatedStock) {
-      var sItem = projectData.unallocatedStock[i]
-
-      if (sItem.item._id === itemId && sItem.hq === hq) {
-        sItem.amount -= amount
-      }
-    }
+    var item = findItemInUnnallocatedStock(projectData, itemId, hq)
+    if (item) item.amount -= amount
   }
 
   function stepLookup (step) {
@@ -68,11 +61,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
 
   function stepPrice (step) {
     if (step.step === 'Meta') {
-      var sum = 0
-      step.inputs.forEach(function (input) {
-        sum += stepPrice(input)
-      })
-      return sum
+      return _.reduce(step.inputs, function (sum, input) { return sum + stepPrice(input) })
     } else {
       return itemPrice(step) * step.amount
     }
@@ -105,13 +94,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
   }
 
   function findInputByItem (inputs, itemId) {
-    var result = null
-
-    inputs.forEach(function (input) {
-      if(input.item._id === itemId) result = input
-    })
-
-    return result
+    return _.find(inputs, function (input) { return input.item._id === itemId })
   }
 
   function getMaxCraftableSteps (step, projectData) {
@@ -178,11 +161,10 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
         })
       }
 
-
-      $q.all(step.inputs.map(function(input) {
+      $q.all(step.inputs.map(function (input) {
         input.amount = stepData.neededInputs[input.item._id]
         return analyzeStep(input, projectData)
-      })).then(function() {
+      })).then(function () {
         deferred.resolve()
       })
     } else {
@@ -204,7 +186,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
   function metaStep (step, projectData) {
     var deferred = $q.defer()
 
-    $q.all(step.inputs.map(function(input) {
+    $q.all(step.inputs.map(function (input) {
       if (input.step !== 'Meta') {
         var inStock = getAmountOfItemInUnnallocatedStock(projectData, input.item._id, input.hq)
         var takeFromStock = Math.min(inStock, input.amount)
@@ -216,7 +198,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
 
        return analyzeStep(input, projectData)
     }))
-    .then(function() {
+    .then(function () {
       deferred.resolve()
     })
 
@@ -251,9 +233,9 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
     deferred.notify(result)
 
     analyzeStep($.extend(true, {}, project.tree), result)
-    .then(function() {
+    .then(function () {
       result.revenue = stepPrice(project.tree)
-      result.profit = stepPrice(project.tree) * 0.95 - result.totalCost
+      result.profit = result.revenue * 0.95 - result.totalCost
       result.relativeProfit = (result.profit / result.totalCost) * 100
 
       deferred.resolve(result)
@@ -265,7 +247,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
   function updateMaterialList (projectList, projectData) {
     projectList.forEach(function (project) {
       getProjectMaterialList(project)
-      .then(function(data) {
+      .then(function (data) {
         projectData[project._id] = data
       })
     })
