@@ -104,11 +104,11 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
     return deferred.promise
   }
 
-  function findInputByItem (inputs, item) {
+  function findInputByItem (inputs, itemId) {
     var result = null
 
     inputs.forEach(function (input) {
-      if(input.item._id === item._id) result = input
+      if(input.item._id === itemId) result = input
     })
 
     return result
