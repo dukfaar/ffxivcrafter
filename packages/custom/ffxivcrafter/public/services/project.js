@@ -61,7 +61,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
 
   function stepPrice (step) {
     if (step.step === 'Meta') {
-      return _.reduce(step.inputs, function (sum, input) { return sum + stepPrice(input) })
+      return _.reduce(step.inputs, function (sum, input) { return sum + stepPrice(input) }, 0)
     } else {
       return itemPrice(step) * step.amount
     }
