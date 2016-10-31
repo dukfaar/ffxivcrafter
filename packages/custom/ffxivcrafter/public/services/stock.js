@@ -5,10 +5,6 @@ angular.module('mean.ffxivCrafter').factory('StockService', ['$http', function (
     addToStock: function (project, item, amount, hq) {
       $http.post('/api/project/stock/add/' + project._id + '/' + item._id + '/' + amount + '/' + hq)
         .then(function (result) {})
-    },
-    setStock: function (project, item, amount, hq) {
-      $http.post('/api/project/stock/set/' + project._id + '/' + item._id + '/' + amount + '/' + hq)
-        .then(function (result) {})
     }
   }
 }])

@@ -47,10 +47,8 @@ angular.module('mean.ffxivCrafter').controller('CraftingReportingController', ['
       projectNameFilter: ''
     }
 
-    socket.on('project stock changed', function (data) {
-      if($stateParams.projectId === data.projectId) {
-        $scope.updateData()
-      }
+    socket.on('new project stock change', function (data) {
+      $scope.updateData()
     })
   }
 ])

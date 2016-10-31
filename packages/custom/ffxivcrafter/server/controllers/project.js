@@ -13,87 +13,72 @@ var nodemailer = require('nodemailer')
 
 var config = require('meanio').loadConfig()
 
+var _ = require('lodash')
+
 var Q = require('q')
+mongoose.Promise = Q.Promise
 
 module.exports = function (io) {
   var itemService = require('../services/itemService')()
 
-  function stepForItem (itemId, amount, callback) {
+  function updateItem(itemId) {
+    return Item.findById(itemId).exec().then(function (item) { return itemService.updateItemAgeMultiplier(item) })
+  }
+
+  function stepForItem (itemId, amount) {
     var step = new ProjectStep()
     step.item = itemId
     step.inputs = []
 
-    Recipe
+    return Recipe
       .find({'outputs.item': itemId})
-      .exec(function (err, recipes) {
-        if (err) throw err
-
+      .exec()
+      .then(function (recipes) {
         if (recipes.length === 0) {
           step.step = 'Gather'
           step.amount = amount
-
-          step.save(function (err) {
-            if (err) throw err
-
-            Item.findById(itemId).exec(function(err, item) {
-              itemService.updateItemAgeMultiplier(item)
-              .then(function() {
-                callback(step)
-              })
-            })
-          })
         } else {
           step.step = 'Craft'
           var recipe = recipes[0]
           step.recipe = recipe._id
+          step.amount = Math.ceil(amount / recipe.outputs[0].amount) * recipe.outputs[0].amount
 
-          var countdown = recipe.inputs.length
-
-          amount = Math.ceil(amount / recipe.outputs[0].amount) * recipe.outputs[0].amount
-          step.amount = amount
-
-          recipe.inputs.forEach(function (input) {
-            stepForItem(input.item, input.amount * amount / recipe.outputs[0].amount, function (childStep) {
-              step.inputs.push(childStep)
-
-              countdown--
-              if (countdown === 0) {
-                step.save(function (err) {
-                  if (err) throw err
-
-                  Item.findById(itemId).exec(function(err, item) {
-                    itemService.updateItemAgeMultiplier(item)
-                    .then(function() {
-                      callback(step)
-                    })
-                  })
-                })
-              }
+          return Q.all(
+            _.map(recipe.inputs, function (input) {
+              return stepForItem(input.item, input.amount * step.amount / recipe.outputs[0].amount)
+              .then(function (childStep) {
+                step.inputs.push(childStep)
+              })
             })
-          })
+          )
         }
+      })
+      .then(function () {
+        step.save()
+      })
+      .then(function () {
+        return updateItem(itemId)
+      })
+      .then(function () {
+        return step
       })
   }
 
-  function projectToMetaProject (project, callback) {
+  function projectToMetaProject (project) {
     if (project.tree.step !== 'Meta') {
       var metaStep = new ProjectStep()
       metaStep.item = null
       metaStep.step = 'Meta'
       metaStep.inputs = [project.tree]
 
-      metaStep.save(function (err) {
-        if (err) throw err
-
+      return metaStep.save()
+      .then(function () {
         project.tree = metaStep
-        project.save(function (err) {
-          if (err) throw err
-          callback(project)
-        })
+        return project.save()
       })
-    } else {
-      callback(project)
     }
+
+    return project
   }
 
   function populateAndSend (res, projectFind, doPopulate) {
@@ -110,43 +95,36 @@ module.exports = function (io) {
 
   return {
     merge: function (req, res) {
-      CraftingProject.findById(req.params.id1)
-        .populate('creator tree stock.item')
-        .exec(function (err, project1) {
-          CraftingProject.findById(req.params.id2)
-            .populate('creator tree stock.item')
-            .exec(function (err, project2) {
-              console.log('trying to merge')
+      var project1, project2
 
-              var metaStep = new ProjectStep()
-              metaStep.item = null
-              metaStep.step = 'Meta'
-              metaStep.inputs = []
+      Q.all([
+        CraftingProject.findById(req.params.id1).populate('creator tree stock.item').exec().then(function (p) { project1 = p }),
+        CraftingProject.findById(req.params.id2).populate('creator tree stock.item').exec().then(function (p) { project2 = p })
+      ]).then(function () {
+        var metaStep = new ProjectStep()
+        metaStep.item = null
+        metaStep.step = 'Meta'
+        metaStep.inputs = []
 
-              metaStep.inputs.push(project1.tree)
-              metaStep.inputs.push(project2.tree)
+        metaStep.inputs.push(project1.tree)
+        metaStep.inputs.push(project2.tree)
 
-              metaStep.save(function (err) {
-                if (err) throw err
+        return metaStep.save()
+      }).then(function (metaStep) {
+        var metaProject = new CraftingProject()
+        metaProject.name = project1.name + project2.name
+        metaProject.creator = req.user ? req.user._id : null
+        metaProject.tree = metaStep
 
-                var metaProject = new CraftingProject()
-                metaProject.name = project1.name + project2.name
-                metaProject.creator = req.user ? req.user._id : null
-                metaProject.tree = metaStep
-
-                metaProject.save(function (err) {
-                  if (err) throw err
-                  project1.remove(function (err) {
-                    if (err) throw err
-                    project2.remove(function (err) {
-                      if (err) throw err
-                      res.send('Merged')
-                    })
-                  })
-                })
-              })
-            })
-        })
+        return metaProject.save()
+      }).then(function (metaProject) {
+        return Q.all([
+          project1.remove(),
+          project2.remove()
+        ])
+      }).then(function () {
+        res.send('Merged')
+      })
     },
     list: function (req, res) {
       var criteria = {}
@@ -175,29 +153,20 @@ module.exports = function (io) {
       }), true)
     },
     addToStock: function (req, res) {
-      CraftingProject.findById(req.params.projectId, function (err, project) {
-        if (err) throw err
-        var found = false
+      CraftingProject.findById(req.params.projectId).exec()
+      .then(function (project) {
+        var stockItem = _.find(project.stock, function (stock) { return stock.item.toString() === req.params.itemId && stock.hq === (req.params.hq === 'true') })
 
-        project.stock.forEach(function (stock) {
-          if (stock.item.toString() === req.params.itemId && stock.hq === (req.params.hq === 'true' ? true : false)) {
-            found = true
-            stock.amount += parseInt(req.params.amount)
-
-            if (stock.amount <= 0) {
-              project.stock.pull(stock)
-              return
-            }
-          }
-        })
-
-        if (!found) {
-          project.stock.push({item: req.params.itemId, amount: req.params.amount, hq: (req.params.hq === 'true' ? true : false)})
+        if (stockItem) {
+          stockItem.amount += parseInt(req.params.amount)
+          if (stockItem.amount <= 0) project.stock.pull(stockItem)
+        } else {
+          project.stock.push({item: req.params.itemId, amount: req.params.amount, hq: req.params.hq === 'true'})
         }
 
-        project.save(function (err) {
-          if (err) throw err
-
+        project.save()
+        .then(function () { io.emit('project stock changed', {projectId: project._id}) })
+        .then(function () {
           var stockChange = new ProjectStockChange()
           stockChange.project = req.params.projectId
           stockChange.item = req.params.itemId
@@ -205,73 +174,32 @@ module.exports = function (io) {
           stockChange.amount = req.params.amount
           stockChange.submitter = req.user._id
           stockChange.date = new Date()
-          stockChange.save(function(err) {
-            io.emit('project stock changed', {projectId: project._id})
-          })
+          return stockChange.save()
+        }).then(function () { io.emit('new project stock change', {projectId: project._id}) })
+      }).catch(function (err) { throw err })
 
-          res.send({})
-        })
-      })
-    },
-    setStock: function (req, res) {
-      CraftingProject.findById(req.params.projectId, function (err, project) {
-        if (err) throw err
-        var found = false
-
-        project.stock.forEach(function (stock) {
-          if (stock.item === req.params.itemId && stock.hq === (req.params.hq === 'true' ? true : false)) {
-            found = true
-            stock.amount = parseInt(req.params.amount)
-
-            if (stock.amount <= 0) {
-              project.stock.pull(stock)
-              return
-            }
-          }
-        })
-
-        if (!found) {
-          project.stock.push({item: req.params.itemId,amount: req.params.amount, hq: (req.params.hq === 'true' ? true : false)})
-        }
-
-        project.save(function (err) {
-          if (err) throw err
-
-          io.emit('project stock changed', {projectId: project._id})
-
-          res.send({})
-        })
-      })
+      res.send({})
     },
     update: function (req, res) {
-      CraftingProject.findByIdAndUpdate(req.params.id, req.body, function (err, project) {
-        if (err) throw err
-
+      CraftingProject.findByIdAndUpdate(req.params.id, req.body).exec()
+      .then(function (project) {
         io.emit('project data changed', {projectId: project._id})
 
         res.send(project)
-      })
-    },
-    updateNotes: function (req, res) {
-      CraftingProject.findByIdAndUpdate(req.params.id, req.body, function (err, project) {
-        if (err) throw err
-
-        io.emit('project data changed', {projectId: project._id})
-
-        res.send(project)
-      })
+      }).catch(function (err) { throw err })
     },
     delete: function (req, res) {
       function triggerItemUpdate(itemId) {
         var deferred = Q.defer()
 
         if(itemId) {
-          Item.findById(itemId).exec(function(err, item) {
-            itemService.updateItemAgeMultiplier(item)
-            .then(function() {
-              deferred.resolve()
-            })
+          Item.findById(itemId).exec()
+          .then(function (item) {
+            return itemService.updateItemAgeMultiplier(item)
           })
+          .then(function () {
+            deferred.resolve()
+          }).catch(function (err) { throw err })
         } else {
           deferred.resolve()
         }
@@ -316,8 +244,9 @@ module.exports = function (io) {
         var deletedProjectName = project.name
 
         ProjectStockChange.find({project: req.params.id})
-        .exec(function(err, changes) {
-          changes.forEach(function(change) {
+        .exec()
+        .then(function (changes) {
+          changes.forEach(function (change) {
             change.project = null
             change.deletedProjectName = deletedProjectName
             change.save(function(err) {
@@ -327,72 +256,57 @@ module.exports = function (io) {
 
         deleteStep(project.tree)
         .then(function () {
-          project.remove(function (err) {
-            if (err) throw err
-
-            io.emit('project deleted', {projectId: project._id})
-
-            res.send({})
-          })
+          return project.remove()
         })
+        .then(function () {
+          io.emit('project deleted', {projectId: project._id})
+        })
+
+        res.send({})
       })
     },
     addToProject: function (req, res) {
       CraftingProject.findById(req.params.projectId)
         .populate('creator tree stock.item')
-        .exec(function (err, project) {
-          projectToMetaProject(project, function (metaProject) {
-            stepForItem(req.params.id, req.params.amount, function (step) {
-              metaProject.tree.inputs.push(step)
-              metaProject.tree.save(function (err) {
-                if (err) throw err
-
-                io.emit('project data changed', {projectId: project._id})
-
-                res.send(metaProject)
-              })
-            })
+        .exec()
+        .then(function (project) {
+          return projectToMetaProject(project)
+        })
+        .then(function (metaProject) {
+          return stepForItem(req.params.id, req.params.amount)
+          .then(function (step) {
+            metaProject.tree.inputs.push(step)
+            return metaProject.tree.save()
+          }).then(function() {
+            return metaProject
           })
+        })
+        .then(function (project) {
+          io.emit('project data changed', {projectId: project._id})
+
+          res.send({})
         })
     },
     fromItem: function (req, res) {
-      stepForItem(req.params.id, req.params.amount, function (step) {
+      stepForItem(req.params.id, req.params.amount)
+      .then(function (step) {
         var project = new CraftingProject()
         project.creator = req.user._id
         project.tree = step._id
 
-        Item.findById(step.item, function (err, item) {
+        if (req.body.comment) {
+          project.comment = req.body.comment
+        }
+
+        Item.findById(step.item).exec()
+        .then(function (item) {
           project.name = item.name
-
-          if (req.body.comment) {
-            project.comment = req.body.comment
-          }
-
-          project.save(function (err) {
-            if (err) throw err
-
-            io.emit('new project created', {projectId: project._id})
-
-            if (req.body.orderedViaOrderView) {
-              User.find({roles: 'projectManager' })
-                .exec(function (err, users) {
-                  if (err) throw err
-
-                  var transport = nodemailer.createTransport(config.mailer)
-
-                /*users.forEach(function(user) {
-                  transport.sendMail({
-                    from: config.emailFrom,
-                    to: user.email,
-                    subject: 'New Crafting order',
-                    html: '<p>A new crafting order has been placed by '+req.user.name+'. Please check the RainCollector</p>'
-                  }, function(err, response) {
-                    if (err) return err
-                  })
-                })*/
-                })
-            }
-          })
+        })
+        .then(function () {
+          return project.save()
+        })
+        .then(function () {
+          io.emit('new project created', {projectId: project._id})
         })
       })
 

@@ -21,9 +21,6 @@ module.exports = function (myPackage, app, auth, db, io) {
   app.route('/api/project/stock/add/:projectId/:itemId/:amount/:hq')
     .post(projectController.addToStock)
 
-  app.route('/api/project/stock/set/:projectId/:itemId/:amount/:hq')
-    .post(projectController.setStock)
-
   app.route('/api/project/:id')
     .put(projectController.update)
 
@@ -31,7 +28,7 @@ module.exports = function (myPackage, app, auth, db, io) {
     .get(projectController.get)
 
   app.route('/api/project/notes/:id')
-    .put(projectController.updateNotes)
+    .put(projectController.update)
 
   app.route('/api/project/:id')
     .delete(projectController.delete)
