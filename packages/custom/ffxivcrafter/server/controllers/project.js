@@ -189,29 +189,11 @@ module.exports = function (io) {
       }).catch(function (err) { throw err })
     },
     delete: function (req, res) {
-      function triggerItemUpdate(itemId) {
-        var deferred = Q.defer()
-
-        if(itemId) {
-          Item.findById(itemId).exec()
-          .then(function (item) {
-            return itemService.updateItemAgeMultiplier(item)
-          })
-          .then(function () {
-            deferred.resolve()
-          }).catch(function (err) { throw err })
-        } else {
-          deferred.resolve()
-        }
-
-        return deferred.promise
-      }
-
       function deleteStep (step) {
         if (step.inputs.length === 0) {
           return step.remove()
           .then(function () {
-            return triggerItemUpdate(step.item)
+            return updateItem(step.item)
           })
         }
 
@@ -219,7 +201,7 @@ module.exports = function (io) {
         .then(function () {
           return step.remove()
         }).then(function () {
-          return triggerItemUpdate(step.item)
+          return updateItem(step.item)
         })
       }
 
