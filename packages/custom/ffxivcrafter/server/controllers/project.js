@@ -27,40 +27,45 @@ module.exports = function (io) {
 
   function stepForItem (itemId, amount) {
     var step = new ProjectStep()
-    step.item = itemId
+
     step.inputs = []
 
-    return Recipe
-      .find({'outputs.item': itemId})
-      .exec()
-      .then(function (recipes) {
-        if (recipes.length === 0) {
-          step.step = 'Gather'
-          step.amount = amount
-        } else {
-          step.step = 'Craft'
-          var recipe = recipes[0]
-          step.recipe = recipe._id
-          step.amount = Math.ceil(amount / recipe.outputs[0].amount) * recipe.outputs[0].amount
+    return Item.findById(itemId).exec()
+    .then(function(item) {
+      step.item = item
 
-          return Q.all(
-            _.map(recipe.inputs, function (input) {
-              return stepForItem(input.item, input.amount * step.amount / recipe.outputs[0].amount)
-              .then(function (childStep) {
-                step.inputs.push(childStep)
+      return Recipe
+        .find({'outputs.item': itemId})
+        .exec()
+        .then(function (recipes) {
+          if (recipes.length === 0) {
+            step.step = step.item.availableFromNpc?'Buy':'Gather'
+            step.amount = amount
+          } else {
+            step.step = step.item.availableFromNpc?'Buy':'Craft'
+            var recipe = recipes[0]
+            step.recipe = recipe._id
+            step.amount = Math.ceil(amount / recipe.outputs[0].amount) * recipe.outputs[0].amount
+
+            return Q.all(
+              _.map(recipe.inputs, function (input) {
+                return stepForItem(input.item, input.amount * step.amount / recipe.outputs[0].amount)
+                .then(function (childStep) {
+                  step.inputs.push(childStep)
+                })
               })
-            })
-          )
-        }
-      })
-      .then(function () {
-        step.save()
-      })
-      .then(function () {
-        return updateItem(itemId)
-      })
-      .then(function () {
-        return step
+            )
+          }
+        })
+        .then(function () {
+          step.save()
+        })
+        .then(function () {
+          return updateItem(itemId)
+        })
+        .then(function () {
+          return step
+        })
       })
   }
 

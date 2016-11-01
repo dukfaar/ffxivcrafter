@@ -17,7 +17,8 @@ var ItemSchema = new Schema({
   soldOnMarket: { type: Boolean, default: false },
   inStock: { type: Number, default: 0 },
   discount: { type: Number, default: 0 },
-  datedObject: { type: Boolean, default: false }
+  datedObject: { type: Boolean, default: false },
+  availableFromNpc: { type: Boolean, default: false }
 })
 
 mongoose.model('Item', ItemSchema)
