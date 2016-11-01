@@ -41,6 +41,8 @@
                     <label>Amount</label>
                     <input ng-model="input.amount" ng-model-options="{debounce:300}" ng-change="updateRecipe(recipe)">
                   </md-input-container>
+
+                  <md-icon ng-show="editMode" ng-click="removeInput(recipe, input.item)" class="material-icons">delete</md-icon>
                 </md-list-item>
 
                 <md-divider></md-divider>

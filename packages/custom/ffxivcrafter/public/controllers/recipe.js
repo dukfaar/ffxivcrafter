@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('RecipeController', ['$scope', 'Global', '$http', '$mdDialog',
-  function ($scope, Global, $http, $mdDialog) {
+angular.module('mean.ffxivCrafter').controller('RecipeController', ['$scope', 'Global', '$http', '$mdDialog', '_',
+  function ($scope, Global, $http, $mdDialog, _) {
     $scope.recipeList = []
 
     $scope.filter = ''
@@ -64,6 +64,11 @@ angular.module('mean.ffxivCrafter').controller('RecipeController', ['$scope', 'G
           recipe.inputs.push({item: item,amount: 1})
           $scope.updateRecipe(recipe)
         })
+    }
+
+    $scope.removeInput = function (recipe, item) {
+      recipe.inputs = _.reject(recipe.inputs,function(input) { return input.item._id === item._id })
+      $scope.updateRecipe(recipe)
     }
 
     $scope.addOutput = function (recipe) {
