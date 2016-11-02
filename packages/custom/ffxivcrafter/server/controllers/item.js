@@ -2,8 +2,10 @@
 
 var mongoose = require('mongoose')
 var Item = mongoose.model('Item')
+var ItemPriceUpdate = mongoose.model('ItemPriceUpdate')
 var ProjectStep = mongoose.model('ProjectStep')
 var Q = require('q')
+mongoose.Promise = Q.Promise
 
 var httpreq = require('httpreq')
 
@@ -95,20 +97,24 @@ module.exports = function (io) {
       })
     },
     updatePrice: function (req, res) {
-      Item.findById(req.params.id, function (err, item) {
-        if (err) throw err
-
+      Item.findById(req.params.id).exec().then(function (item) {
         item.price = req.params.price
         item.priceHQ = req.params.priceHQ
         item.lastPriceUpdate = Date.now()
 
-        item.save(function (err) {
-          if (err) res.status(500).send('Could not save new price: ' + err)
-          else {
-            io.emit('price data changed',{item: item})
-            res.send({})
-          }
-        })
+        var change = new ItemPriceUpdate()
+        change.item = item
+        change.price = req.params.price
+        change.priceHQ = req.params.priceHQ
+        change.date = item.lastPriceUpdate
+        change.save().then(function (change) { io.emit('new price change entry', {item: item}) })
+
+        return item.save()
+      }).then(function (item) {
+        io.emit('price data changed', {item: item})
+        res.send({})
+      }).catch(function (err) {
+        if (err) res.status(500).send('Could not save new price: ' + err)
       })
     },
     update: function (req, res) {
