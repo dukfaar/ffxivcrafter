@@ -6,7 +6,6 @@ var ItemPriceUpdate = mongoose.model('ItemPriceUpdate')
 module.exports = function () {
   return {
     list: function (req, res) {
-      console.log(req.query)
       ItemPriceUpdate.find(req.query)
       .exec()
       .then(function (result) {
