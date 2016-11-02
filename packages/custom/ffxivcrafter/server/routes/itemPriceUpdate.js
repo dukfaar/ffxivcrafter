@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = function (myPackage, app, auth, db) {
-  var itemPriceUpdateController = require('../controllers/ItemPriceUpdate')()
+  var itemPriceUpdateController = require('../controllers/itemPriceUpdate')()
 
   app.route('/api/itemPriceUpdate')
   .get(itemPriceUpdateController.list)
