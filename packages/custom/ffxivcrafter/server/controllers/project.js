@@ -195,24 +195,25 @@ module.exports = function (io) {
     },
     delete: function (req, res) {
       function deleteStep (step) {
-        if (step.inputs.length === 0) {
+        if(step == null) {
+          return Q.fcall(function () {})
+        } else if (step.inputs.length === 0) {
           return step.remove()
           .then(function () {
-            return updateItem(step.item)
+            if(step.item) return updateItem(step.item)
+          })
+        } else {
+          return Q.all(step.inputs.map(function (subStep) { return deleteStep(subStep) }))
+          .then(function () {
+            return step.remove()
+          }).then(function () {
+            if(step.item) return updateItem(step.item)
           })
         }
-
-        return Q.all(step.inputs.map(function (subStep) { return deleteStep(subStep) }))
-        .then(function () {
-          return step.remove()
-        }).then(function () {
-          return updateItem(step.item)
-        })
       }
 
-      CraftingProject.findById(req.params.id).populate('tree').exec(function (err, project) {
-        if (err) throw err
-
+      CraftingProject.findById(req.params.id).populate('tree').exec()
+      .then(function (project) {
         var deletedProjectName = project.name
 
         ProjectStockChange.find({project: req.params.id})
@@ -233,9 +234,11 @@ module.exports = function (io) {
         .then(function () {
           io.emit('project deleted', {projectId: project._id})
         })
-
-        res.send({})
+      }).catch(function (err) {
+        throw err
       })
+
+      res.send('deleting project')
     },
     addToProject: function (req, res) {
       CraftingProject.findById(req.params.projectId)

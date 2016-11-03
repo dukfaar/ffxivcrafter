@@ -10,23 +10,17 @@ module.exports = function () {
   var lastAgeMultiplierUpdate = null
 
   function updateItemAgeMultiplier (item) {
-    var deferred = Q.defer()
-
-    ProjectStep.find({item: item._id})
-    .exec(function(err, steps) {
+    return ProjectStep.find({item: item._id})
+    .exec()
+    .then(function (steps) {
       item.ageMultiplier = 1.0 + 0.1 * steps.length
 
       steps.forEach(function(step) {
         item.ageMultiplier += step.amount * 0.01
       })
 
-      item.save(function(err) {
-        if(err) deferred.reject(err)
-        deferred.resolve(item)
-      })
+      return item.save()
     })
-
-    return deferred.promise
   }
 
   return {
