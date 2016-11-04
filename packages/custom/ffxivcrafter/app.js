@@ -38,6 +38,13 @@ function setupCircles (circles) {
 
 function setupMenus () {
   FFXIVCrafter.menus.add({
+    title: 'Delivery',
+    link: 'home',
+    roles: ['authenticated'],
+    menu: 'main'
+  })
+
+  FFXIVCrafter.menus.add({
     title: 'Order',
     link: 'order home',
     roles: ['see order'],

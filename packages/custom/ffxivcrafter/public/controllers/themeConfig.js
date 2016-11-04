@@ -11,10 +11,10 @@ angular.module('mean.ffxivCrafter')
 
     $mdThemingProvider.definePalette('black', blackPalette)
 
-    if(window.localStorage.getItem('primaryPalette') == null) window.localStorage.setItem('primaryPalette', 'indigo')
-    if(window.localStorage.getItem('accentPalette') == null) window.localStorage.setItem('accentPalette', 'pink')
-    if(window.localStorage.getItem('backgroundPalette') == null) window.localStorage.setItem('backgroundPalette', 'grey')
-    if(window.localStorage.getItem('darkPalette') == null) window.localStorage.setItem('darkPalette', false)
+    if(window.localStorage.getItem('primaryPalette') === null) window.localStorage.setItem('primaryPalette', 'indigo')
+    if(window.localStorage.getItem('accentPalette') === null) window.localStorage.setItem('accentPalette', 'pink')
+    if(window.localStorage.getItem('backgroundPalette') === null) window.localStorage.setItem('backgroundPalette', 'grey')
+    if(window.localStorage.getItem('darkPalette') === null) window.localStorage.setItem('darkPalette', false)
 
 
     theme.primaryPalette(window.localStorage.getItem('primaryPalette'))
@@ -27,11 +27,17 @@ angular.module('mean.ffxivCrafter')
 
 angular.module('mean.ffxivCrafter').controller('ThemeController',
   function ($scope) {
+    if (window.localStorage.getItem('navigation.mode') === null) window.localStorage.setItem('navigation.mode', 'top')
+
     $scope.palettes = {
       primary: window.localStorage.getItem('primaryPalette'),
       accent: window.localStorage.getItem('accentPalette'),
       background: window.localStorage.getItem('backgroundPalette'),
       dark: JSON.parse(window.localStorage.getItem('darkPalette'))
+    }
+
+    $scope.navigation = {
+      mode: window.localStorage.getItem('navigation.mode')
     }
 
     $scope.paletteList = [
@@ -52,6 +58,10 @@ angular.module('mean.ffxivCrafter').controller('ThemeController',
 
     $scope.setDark = function (palette) {
       window.localStorage.setItem('darkPalette',palette)
+    }
+
+    $scope.setNavigationMode = function () {
+      window.localStorage.setItem('navigation.mode', $scope.navigation.mode)
     }
   }
 )

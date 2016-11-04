@@ -4,7 +4,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectReportingController', ['$
   function ($scope, $http, socket, MeanUser, $q, localStorageService, ProjectStockChange, Project, $stateParams, _) {
     $scope.user = MeanUser
     $scope.allowed = function (perm) {
-      return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) != -1
+      return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) !== -1
     }
 
     $scope.project = {}
@@ -22,15 +22,15 @@ angular.module('mean.ffxivCrafter').controller('ProjectReportingController', ['$
       return result
     }
 
-    $scope.refilterLog = function() {
+    $scope.refilterLog = function () {
       $scope.filteredLog = _.filter($scope.log, $scope.logFilterFunction)
     }
 
-    $scope.$watch('log',function() {
+    $scope.$watch('log',function () {
       $scope.refilterLog()
     }, true)
 
-    $scope.updateData = function() {
+    $scope.updateData = function () {
       $scope.project = Project.get({id: $stateParams.projectId})
       $scope.log = ProjectStockChange.query({projectId: $stateParams.projectId})
     }
@@ -47,8 +47,8 @@ angular.module('mean.ffxivCrafter').controller('ProjectReportingController', ['$
     var updateTimeout = null
 
     socket.on('new project stock change', function (data) {
-      if($stateParams.projectId === data.projectId) {
-        if(updateTimeout) clearTimeout(updateTimeout)
+      if ($stateParams.projectId === data.projectId) {
+        if (updateTimeout) clearTimeout(updateTimeout)
         updateTimeout = setTimeout(function () {
           updateTimeout = null
           $scope.updateData()
