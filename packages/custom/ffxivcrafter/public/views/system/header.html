@@ -1,8 +1,18 @@
 <div class="md-toolbar-tools" ng-controller="HeaderController as hdrctr">
   <h2 class="pressed-text" mean-token="'site-title'">RainCollector</h2>
-  <md-button class="md-button" aria-label="{{item.link}}" ui-route="/{{item.link}}" ng-class="{active: $uiRoute}" ng-repeat="item in hdrctr.menus.main" ui-sref="{{item.link}}" mean-token="item.link">
-    {{item.title}}
-  </md-button>
+
+  <div ng-repeat="item in hdrctr.menus.main" ng-if="item.link || item.submenus.length > 0" layout="row">
+    <md-button ng-if="item.link" class="md-button" aria-label="{{item.link}}" ui-route="/{{item.link}}" ng-class="{active: $uiRoute}"  ui-sref="{{item.link}}" mean-token="item.link">
+      {{item.title}}
+    </md-button>
+
+    <div ng-repeat="subitem in item.submenus" layout="row">
+      <md-button class="md-button" aria-label="{{subitem.link}}" ui-route="/{{subitem.link}}" ng-class="{active: $uiRoute}"  ui-sref="{{subitem.link}}" mean-token="subitem.link">
+        {{subitem.title}}
+      </md-button>
+    </div>
+  </div>
+
   <span flex></span>
   <md-button class="md-button" aria-label="Sign Up" ui-sref="auth.register" ng-if="!hdrctr.hdrvars.authenticated">
     Join

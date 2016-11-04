@@ -45,42 +45,41 @@ function setupMenus () {
   })
 
   FFXIVCrafter.menus.add({
-    title: 'Order',
-    link: 'order home',
-    roles: ['see order'],
-    menu: 'main'
-  })
-
-  FFXIVCrafter.menus.add({
-    title: 'Market',
-    link: 'market home',
-    roles: ['see market'],
-    menu: 'main'
-  })
-
-  FFXIVCrafter.menus.add({
-    title: 'ItemList',
-    link: 'item list',
-    roles: ['see items'],
-    menu: 'main'
-  })
-  FFXIVCrafter.menus.add({
-    title: 'RecipeList',
-    link: 'recipe list',
-    roles: ['see recipes'],
-    menu: 'main'
-  })
-  FFXIVCrafter.menus.add({
     title: 'Crafting',
+    roles: ['authenticated'],
+    menu: 'main',
+    name: 'crafting'
+  })
+  FFXIVCrafter.menus.add({
+    title: 'Project Creation',
     link: 'crafting home',
     roles: ['see crafting'],
-    menu: 'main'
+    path: 'main/crafting'
   })
   FFXIVCrafter.menus.add({
     title: 'Projects',
     link: 'project list',
     roles: ['see projects'],
-    menu: 'main'
+    path: 'main/crafting'
+  })
+
+  FFXIVCrafter.menus.add({
+    title: 'App Management',
+    roles: ['authenticated'],
+    path: 'main',
+    name: 'manage'
+  })
+  FFXIVCrafter.menus.add({
+    title: 'Items',
+    link: 'item list',
+    roles: ['see items'],
+    path: 'main/manage'
+  })
+  FFXIVCrafter.menus.add({
+    title: 'Recipes',
+    link: 'recipe list',
+    roles: ['see recipes'],
+    path: 'main/manage'
   })
 
   FFXIVCrafter.menus.add({
@@ -95,6 +94,25 @@ function setupMenus () {
     link: 'crafting reporting',
     roles: ['projectManager'],
     menu: 'main'
+  })
+
+  FFXIVCrafter.menus.add({
+    title: 'Hidden',
+    roles: ['authenticated'],
+    path: 'main',
+    name: 'hidden'
+  })
+  FFXIVCrafter.menus.add({
+    title: 'Order',
+    link: 'order home',
+    roles: ['see order'],
+    path: 'main/hidden'
+  })
+  FFXIVCrafter.menus.add({
+    title: 'Market',
+    link: 'market home',
+    roles: ['see market'],
+    path: 'main/hidden'
   })
 
   FFXIVCrafter.menus.add({
