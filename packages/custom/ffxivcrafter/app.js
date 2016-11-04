@@ -62,6 +62,12 @@ function setupMenus () {
     roles: ['see projects'],
     path: 'main/crafting'
   })
+  FFXIVCrafter.menus.add({
+    title: 'Reporting',
+    link: 'crafting reporting',
+    roles: ['projectManager'],
+    path: 'main/crafting'
+  })
 
   FFXIVCrafter.menus.add({
     title: 'App Management',
@@ -89,12 +95,7 @@ function setupMenus () {
     menu: 'main'
   })
 
-  FFXIVCrafter.menus.add({
-    title: 'Reporting',
-    link: 'crafting reporting',
-    roles: ['projectManager'],
-    menu: 'main'
-  })
+
 
   FFXIVCrafter.menus.add({
     title: 'Hidden',
