@@ -1,12 +1,12 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').directive('reportingTodActivityChart',function() {
+angular.module('mean.ffxivCrafter').directive('reportingTodActivityChart', function () {
   return {
-    templateUrl:'/ffxivCrafter/views/reporting/todActivityChart.html',
+    templateUrl: '/ffxivCrafter/views/reporting/todActivityChart.html',
     scope: {
-      log: "="
+      log: '='
     },
-    controller: function($scope, _, ChartService) {
+    controller: function ($scope, _, ChartService) {
       $scope.chart = {
         data: [],
         labels: [],

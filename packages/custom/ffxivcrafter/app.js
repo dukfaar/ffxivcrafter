@@ -95,8 +95,6 @@ function setupMenus () {
     menu: 'main'
   })
 
-
-
   FFXIVCrafter.menus.add({
     title: 'Hidden',
     roles: ['authenticated'],
@@ -173,11 +171,16 @@ FFXIVCrafter.register(function (app, users, system, admin, database, circles, ht
 
   FFXIVCrafter.io = io
 
-  io.sockets.on('connection', function(socket) {
-    console.log('Client Connected');
+  io.sockets.on('connection', function (socket) {
+    console.log('Client Connected')
 
-    socket.on('disconnect',function(socket) {
+    socket.on('disconnect', function (socket) {
       console.log('Client Disconnected')
+    })
+
+    socket.on('error', function (err) {
+      console.log('Error with socket:')
+      console.log(err)
     })
   })
 

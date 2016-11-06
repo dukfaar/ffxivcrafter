@@ -2,7 +2,7 @@
 
 // Karma configuration
 module.exports = function (config) {
-  var basePath = '.'
+  var basePath = './'
 
   config.set({
 
@@ -20,7 +20,7 @@ module.exports = function (config) {
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: ['progress', 'coverage', 'junit'],
+    reporters: ['progress', 'coverage', 'html'],
 
     junitReporter: {
       outputDir: 'tests/results/public/junit/'
@@ -31,14 +31,14 @@ module.exports = function (config) {
       // source files that you want to generate coverage for
       // do not include tests or libraries
       // (these files will be instrumented by Istanbul)
-      'packages/**/public/controllers/**/*.js': ['coverage'],
-      'packages/**/public/services/**/*.js': ['coverage'],
-      'packages/**/public/directives/**/*.js': ['coverage'],
+      './packages/**/public/controllers/**/*.js': ['coverage'],
+      './packages/**/public/services/**/*.js': ['coverage'],
+      './packages/**/public/directives/**/*.js': ['coverage'],
 
-      'packages/**/public/**/*.html': ['ng-html2js'],
+      './packages/**/public/**/*.html': ['ng-html2js'],
 
       // 'packages/**/public/tests/**/*.js': ['webpack', 'babel'],
-      'app.js': ['webpack']
+      './app.js': ['webpack']
     },
 
     webpack: require('./webpack.test.js'),
@@ -49,6 +49,20 @@ module.exports = function (config) {
     coverageReporter: {
       type: 'html',
       dir: 'tests/results/coverage/'
+    },
+	
+	htmlReporter: {
+      outputDir: 'tests/results/karma/', // where to put the reports  
+      templatePath: null, // set if you moved jasmine_template.html 
+      focusOnFailures: true, // reports show failures on start 
+      namedFiles: false, // name files instead of creating sub-directories 
+      pageTitle: null, // page title for reports; browser info by default 
+      urlFriendlyName: false, // simply replaces spaces with _ for files/dirs 
+      
+      
+      // experimental 
+      preserveDescribeNesting: false, // folded suites stay folded  
+      foldAll: false, // reports start folded (only with preserveDescribeNesting) 
     },
 
     ngHtml2JsPreprocessor: {
@@ -102,8 +116,11 @@ module.exports = function (config) {
       'karma-webpack',
       'karma-ng-html2js-preprocessor',
       'karma-phantomjs-launcher',
+	  'karma-chrome-launcher',
+	  'karma-firefox-launcher',
       'karma-coverage',
-      'karma-junit-reporter'
+      'karma-junit-reporter',
+	  'karma-html-reporter'
     ]
   })
 }

@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('AirshipController', ['$scope', 'Global', '$http', 'AirshipPart', '$timeout',
-  function ($scope, Global, $http, AirshipPart, $timeout) {
+angular.module('mean.ffxivCrafter').controller('AirshipController', ['$scope', 'Global', '$http', 'AirshipPart', '$timeout', '$q',
+  function ($scope, Global, $http, AirshipPart, $timeout, $q) {
     $scope.AirshipPart = AirshipPart
 
     $scope.partList = AirshipPart.query()
@@ -28,27 +28,35 @@ angular.module('mean.ffxivCrafter').controller('AirshipController', ['$scope', '
       }
     }
 
-    $scope.$watch('partList', function (newParts, oldParts) {
-      $scope.shipList = []
+    function calculateShiplist(parts) {
+      return $q(function(resolve, reject) {
+        var shipList = []
 
-      $scope.partList.filter(function (v) { return v.slot === 'Hull' }).forEach(function (hull) {
-        $scope.partList.filter(function (v) { return v.slot === 'Rigging' }).forEach(function (rigging) {
-          $scope.partList.filter(function (v) { return v.slot === 'Forecastle' }).forEach(function (forecastle) {  $timeout(function() {
-            $scope.partList.filter(function (v) { return v.slot === 'Aftercastle' }).forEach(function (aftercastle) {
-              $scope.shipList.push({
-                name: hull.name + ', ' + rigging.name + ', ' + forecastle.name + ', ' + aftercastle.name,
-                minRank: Math.max(Number(hull.rank), Number(rigging.rank), Number(forecastle.rank), Number(aftercastle.rank)),
-                components: Number(hull.components) + Number(rigging.components) + Number(forecastle.components) + Number(aftercastle.components),
-                survaillance: Number(hull.survaillance) + Number(rigging.survaillance) + Number(forecastle.survaillance) + Number(aftercastle.survaillance),
-                retrieval: Number(hull.retrieval) + Number(rigging.retrieval) + Number(forecastle.retrieval) + Number(aftercastle.retrieval),
-                speed: Number(hull.speed) + Number(rigging.speed) + Number(forecastle.speed) + Number(aftercastle.speed),
-                range: Number(hull.range) + Number(rigging.range) + Number(forecastle.range) + Number(aftercastle.range),
-                favor: Number(hull.favor) + Number(rigging.favor) + Number(forecastle.favor) + Number(aftercastle.favor)
+        parts.filter(function (v) { return v.slot === 'Hull' }).forEach(function (hull) {
+          parts.filter(function (v) { return v.slot === 'Rigging' }).forEach(function (rigging) {
+            parts.filter(function (v) { return v.slot === 'Forecastle' }).forEach(function (forecastle) {
+              parts.filter(function (v) { return v.slot === 'Aftercastle' }).forEach(function (aftercastle) {
+                shipList.push({
+                  name: hull.name + ', ' + rigging.name + ', ' + forecastle.name + ', ' + aftercastle.name,
+                  minRank: Math.max(Number(hull.rank), Number(rigging.rank), Number(forecastle.rank), Number(aftercastle.rank)),
+                  components: Number(hull.components) + Number(rigging.components) + Number(forecastle.components) + Number(aftercastle.components),
+                  survaillance: Number(hull.survaillance) + Number(rigging.survaillance) + Number(forecastle.survaillance) + Number(aftercastle.survaillance),
+                  retrieval: Number(hull.retrieval) + Number(rigging.retrieval) + Number(forecastle.retrieval) + Number(aftercastle.retrieval),
+                  speed: Number(hull.speed) + Number(rigging.speed) + Number(forecastle.speed) + Number(aftercastle.speed),
+                  range: Number(hull.range) + Number(rigging.range) + Number(forecastle.range) + Number(aftercastle.range),
+                  favor: Number(hull.favor) + Number(rigging.favor) + Number(forecastle.favor) + Number(aftercastle.favor)
+                })
               })
-            }) })
+            })
           })
         })
+
+        resolve(shipList)
       })
+    }
+
+    $scope.$watch('partList', function (newParts, oldParts) {
+      calculateShiplist($scope.partList).then(function(ships) { $scope.shipList = ships })
     }, true)
 
     $scope.shipListFilter = function (ship) {

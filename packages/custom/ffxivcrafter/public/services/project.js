@@ -16,12 +16,6 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
     projectData.stockRequirements[itemId + '_' + hq].push(requiredByStep)
   }
 
-  function itemInUnallocatedStock (projectData, itemId, amount, hq) {
-    var storedAmount = getAmountOfItemInUnnallocatedStock(projectData, itemId, amount, hq)
-
-    return storedAmount != null && storedAmount >= amount
-  }
-
   function deductFromUnallocatedStock (projectData, itemId, amount, hq) {
     var item = findItemInUnnallocatedStock(projectData, itemId, hq)
     if (item) item.amount -= amount
@@ -217,10 +211,8 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
     }
   }
 
-  function getProjectMaterialList (project) {
-    var deferred = $q.defer()
-
-    var result = {
+  function createBaseProjectData (project) {
+    return {
       project: project,
       stockRequirements: {},
       gatherList: {},
@@ -229,6 +221,12 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
       unallocatedStock: $.extend(true, {}, project.stock),
       totalCost: 0
     }
+  }
+
+  function getProjectMaterialList (project) {
+    var deferred = $q.defer()
+
+    var result = createBaseProjectData(project)
 
     deferred.notify(result)
 
@@ -257,7 +255,12 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
     analyzeStep: analyzeStep,
     getProjectMaterialList: getProjectMaterialList,
     updateMaterialList: updateMaterialList,
+    getMaxCraftableSteps: getMaxCraftableSteps,
     itemPrice: itemPrice,
-    stepPrice: stepPrice
+    stepPrice: stepPrice,
+    findItemInUnnallocatedStock: findItemInUnnallocatedStock,
+    getAmountOfItemInUnnallocatedStock: getAmountOfItemInUnnallocatedStock,
+    deductFromUnallocatedStock: deductFromUnallocatedStock,
+    createBaseProjectData: createBaseProjectData
   }
 })

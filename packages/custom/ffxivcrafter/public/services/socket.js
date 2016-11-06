@@ -4,6 +4,11 @@ angular.module('mean.ffxivCrafter').factory('socket', ['$rootScope', function ($
   var io = require('socket.io-client')
   var socket = io.connect()
 
+  socket.on('error', function (err) {
+    console.log('Error with the socket')
+    console.log(err)
+  })
+
   return {
     on: function (eventName, callback) {
       socket.on(eventName, callback)

@@ -1,12 +1,12 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').directive('reportingActivityChart',function() {
+angular.module('mean.ffxivCrafter').directive('reportingActivityChart', function () {
   return {
-    templateUrl:'/ffxivCrafter/views/reporting/activityChart.html',
+    templateUrl: '/ffxivCrafter/views/reporting/activityChart.html',
     scope: {
-      log: "="
+      log: '='
     },
-    controller: function($scope, _) {
+    controller: function ($scope, _) {
       $scope.chart = {
         data: [],
         options: {
@@ -26,21 +26,21 @@ angular.module('mean.ffxivCrafter').directive('reportingActivityChart',function(
 
       $scope.timeUnit = 'day'
 
-      $scope.setTimeUnit = function(unit) {
+      $scope.setTimeUnit = function (unit) {
         $scope.timeUnit = unit
         $scope.updateGraph()
       }
 
       function incrementDate (d) {
-        if($scope.timeUnit === 'minute') d.setMinutes(d.getMinutes()+1)
-        else if($scope.timeUnit === 'hour') d.setHours(d.getHours()+1)
-        else if($scope.timeUnit === 'day') d.setDate(d.getDate()+1)
+        if ($scope.timeUnit === 'minute') d.setMinutes(d.getMinutes() + 1)
+        else if ($scope.timeUnit === 'hour') d.setHours(d.getHours() + 1)
+        else if ($scope.timeUnit === 'day') d.setDate(d.getDate() + 1)
       }
 
       $scope.updateGraph = function () {
         var countedByDateWithZero = {}
-        
-        if($scope.log.length !== 0) {
+
+        if ($scope.log.length !== 0) {
           var countedByDate = _.countBy($scope.log, function (logItem) {
             var d = new Date(logItem.date)
             if($scope.timeUnit === 'day') d.setHours(0)
@@ -51,7 +51,7 @@ angular.module('mean.ffxivCrafter').directive('reportingActivityChart',function(
             return d
           })
 
-          var keys= _.map(_.keys(countedByDate),function(d) { return new Date(d) })
+          var keys = _.map(_.keys(countedByDate), function (d) { return new Date(d) })
 
           var minDate = _.min(keys)
           var maxDate = _.max(keys)
