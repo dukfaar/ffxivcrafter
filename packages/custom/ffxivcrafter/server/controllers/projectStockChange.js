@@ -43,7 +43,6 @@ module.exports = function () {
           })
 
           Q.all(tasks).then(function(modifiedResult) {
-            console.log(modifiedResult)
             res.send(result)
           })
         }
