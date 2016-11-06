@@ -18,7 +18,9 @@ angular.module('mean.ffxivCrafter').directive('reportingUserContributionChart', 
         var countedByUser = _.mapValues(groupedByUser, function (userLogs) {
           return _.reduce(userLogs, function (sum, logEntry) {
             var logValue = 0
-            if(logEntry.amount > 0) logValue = logEntry.amount * (Math.log(logEntry.item.gatheringLevel + logEntry.item.gatheringEffort))
+            var levelValue = logEntry.item.gatheringLevel + logEntry.item.gatheringEffort
+            if(logEntry.recipe) levelValue += logEntry.recipe.craftingLevel
+            if(logEntry.amount > 0) logValue = logEntry.amount * (Math.log(levelValue))
             return sum + logValue
           }, 0)
         })

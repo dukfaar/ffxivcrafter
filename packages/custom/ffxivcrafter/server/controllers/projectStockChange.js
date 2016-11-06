@@ -2,6 +2,12 @@
 
 var mongoose = require('mongoose')
 var ProjectStockChange = mongoose.model('ProjectStockChange')
+var Recipe = mongoose.model('Recipe')
+
+var Q = require('q')
+var _ = require('lodash')
+
+mongoose.Promise = Q.Promise
 
 module.exports = function () {
   return {
@@ -15,11 +21,31 @@ module.exports = function () {
 
       ProjectStockChange.find(q)
       .populate('submitter item project')
+      .lean()
       .exec(function (err, result) {
         if (err) {
           res.status(500).send(err)
         } else {
-          res.send(result)
+          var tasks = _.map(result, function(logItem) {
+            return Recipe
+             .find({'outputs.item': logItem.item._id })
+             .exec()
+             .then(function (recipes) {
+               var item = _.find(result, function (i) { return i._id === logItem._id })
+               if (recipes.length === 0) {
+                 item.recipe = null
+               } else {
+                 item.recipe = recipes[0]
+               }
+
+               return item
+             })
+          })
+
+          Q.all(tasks).then(function(modifiedResult) {
+            console.log(modifiedResult)
+            res.send(result)
+          })
         }
       })
     },
