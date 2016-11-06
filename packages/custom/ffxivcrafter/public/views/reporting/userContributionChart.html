@@ -5,7 +5,21 @@
       <span flex></span>
     </div>
   </md-toolbar>
-  <md-card-content>
-    <canvas width="400" height="400" class="chart chart-pie" chart-data="chart.data" chart-labels="chart.labels" chart-options="chart.options"></canvas>
+  <md-card-content layout="column">
+    <div style="width:400px; height:400px;">
+      <canvas width="400" height="400" class="chart chart-pie" chart-data="chart.data" chart-labels="chart.labels" chart-options="chart.options"></canvas>
+    </div>
+    <table>
+      <tr>
+        <th>User</th>
+        <th>Contribution</th>
+        <th>Contribution%</th>
+      </tr>
+      <tr ng-repeat="user in chart.labels">
+        <td>{{user}}</td>
+        <td>{{chart.data[$index]}}</td>
+        <td>{{(chart.data[$index]/chart.summedContribution)*100}} %</td>
+      </tr>
+    </table>
   </md-card-content>
 </md-card>
