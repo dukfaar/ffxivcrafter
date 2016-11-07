@@ -11,7 +11,8 @@ angular.module('mean.ffxivCrafter').directive('reportingUserContributionChart', 
         data: [],
         labels: [],
         options: {},
-        summedContribution: 0
+        summedContribution: 0,
+        dataArray: []
       }
 
       $scope.updateGraph = function () {
@@ -27,7 +28,8 @@ angular.module('mean.ffxivCrafter').directive('reportingUserContributionChart', 
         })
         $scope.chart.data = _.values(countedByUser)
         $scope.chart.labels = _.keys(countedByUser)
-        $scope.chart.summedContribution = _.reduce($scope.chart.data, function(sum, d) { return sum + d }, 0)
+        $scope.chart.dataArray = _.values(_.mapValues(countedByUser, function (value, key) { return { user: key, value: value } }))
+        $scope.chart.summedContribution = _.reduce($scope.chart.data, function (sum, d) { return sum + d }, 0)
       }
 
       $scope.$watch('log', $scope.updateGraph, true)

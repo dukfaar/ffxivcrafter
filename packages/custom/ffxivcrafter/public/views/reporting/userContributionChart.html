@@ -15,10 +15,10 @@
         <th>Contribution</th>
         <th>Contribution%</th>
       </tr>
-      <tr ng-repeat="user in chart.labels">
-        <td>{{user}}</td>
-        <td>{{chart.data[$index]}}</td>
-        <td>{{(chart.data[$index]/chart.summedContribution)*100}} %</td>
+      <tr ng-repeat="entry in chart.dataArray | orderBy:value:false">
+        <td>{{entry.user}}</td>
+        <td>{{entry.value.toFixed(2)}}</td>
+        <td>{{((entry.value/chart.summedContribution)*100).toFixed(2)}} %</td>
       </tr>
     </table>
   </md-card-content>
