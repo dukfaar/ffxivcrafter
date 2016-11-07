@@ -18,7 +18,7 @@ angular.module('mean.ffxivCrafter').controller('CraftingReportingController', ['
 
       result = result && (logItem.submitter.name.toLowerCase().search($scope.logFilter.submitterNameFilter.toLowerCase()) !== -1)
 
-      var projectName = logItem.project?logItem.project.name:logItem.deletedProjectName
+      var projectName = (logItem.project&&logItem.project.name)?logItem.project.name:(logItem.deletedProjectName?logItem.deletedProjectName:'')
 
       result = result && (projectName.toLowerCase().search($scope.logFilter.projectNameFilter.toLowerCase()) !== -1)
 
