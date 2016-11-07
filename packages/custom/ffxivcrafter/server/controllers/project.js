@@ -179,7 +179,18 @@ module.exports = function (io) {
           stockChange.amount = req.params.amount
           stockChange.submitter = req.user._id
           stockChange.date = new Date()
-          return stockChange.save()
+          return Recipe
+           .find({'outputs.item': req.params.itemId })
+           .exec()
+           .then(function (recipes) {
+             if (recipes.length === 0) {
+               stockChange.recipe = null
+             } else {
+               stockChange.recipe = recipes[0]
+             }
+
+             return stockChange.save()
+           })
         }).then(function () { io.emit('new project stock change', {projectId: project._id}) })
       }).catch(function (err) { throw err })
 

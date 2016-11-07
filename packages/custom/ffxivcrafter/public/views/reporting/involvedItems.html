@@ -1,0 +1,38 @@
+<md-card>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <span>Involved Items</span>
+      <span flex></span>
+    </div>
+  </md-toolbar>
+  <md-card-content layout="column">
+    <table>
+      <tr>
+        <th>Item Name</th>
+        <th>Gathering Level</th>
+        <th>Gathering Effort</th>
+        <th>Crafting Level</th>
+      </tr>
+      <tr ng-repeat="item in data.itemList">
+        <td>
+          {{item.item.name}}
+        </td>
+        <td>
+          <span ng-if="!allowed('edit itemdata')">{{item.item.gatheringLevel}}</span>
+          <md-input-container ng-if="allowed('edit itemdata')">
+            <input ng-model="item.item.gatheringLevel" ng-model-options="{debounce: 300}" ng-change="updateItem(item.item)"/>
+          </md-input-container>
+        </td>
+        <td>
+          <span ng-if="!allowed('edit itemdata')">{{item.item.gatheringEffort}}</span>
+          <md-input-container ng-if="allowed('edit itemdata')">
+            <input ng-model="item.item.gatheringEffort" ng-model-options="{debounce: 300}" ng-change="updateItem(item.item)"/>
+          </md-input-container>
+        </td>
+        <td>
+          <span>{{item.recipe?item.recipe.craftingLevel:''}}</span>
+        </td>
+      </tr>
+    </table>
+  </md-card-content>
+</md-card>

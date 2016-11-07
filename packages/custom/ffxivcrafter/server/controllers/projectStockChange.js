@@ -20,31 +20,13 @@ module.exports = function () {
       }
 
       ProjectStockChange.find(q)
-      .populate('submitter item project')
+      .populate('submitter item project recipe')
       .lean()
       .exec(function (err, result) {
         if (err) {
           res.status(500).send(err)
         } else {
-          var tasks = _.map(result, function(logItem) {
-            return Recipe
-             .find({'outputs.item': logItem.item._id })
-             .exec()
-             .then(function (recipes) {
-               var item = _.find(result, function (i) { return i._id === logItem._id })
-               if (recipes.length === 0) {
-                 item.recipe = null
-               } else {
-                 item.recipe = recipes[0]
-               }
-
-               return item
-             })
-          })
-
-          Q.all(tasks).then(function(modifiedResult) {
-            res.send(result)
-          })
+          res.send(result)
         }
       })
     },
