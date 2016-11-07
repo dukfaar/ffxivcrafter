@@ -15,7 +15,7 @@
         <th>Contribution</th>
         <th>Contribution%</th>
       </tr>
-      <tr ng-repeat="entry in chart.dataArray | orderBy:value:false">
+      <tr ng-repeat="entry in chart.dataArray | orderBy:'value':true">
         <td>{{entry.user}}</td>
         <td>{{entry.value.toFixed(2)}}</td>
         <td>{{((entry.value/chart.summedContribution)*100).toFixed(2)}} %</td>
