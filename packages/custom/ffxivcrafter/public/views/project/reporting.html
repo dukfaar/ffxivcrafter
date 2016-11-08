@@ -1,7 +1,7 @@
 <div ng-controller="ProjectReportingController" flex>
   <main style="overflow:auto">
     <div flex>
-      <md-content layout="row" layout-wrap>
+      <md-content id="reportingChartContainer" layout="row" layout-wrap>
         <md-card>
           <md-card-content>
             <table>
@@ -46,19 +46,7 @@
               <md-button class="md-primary md-raised" ng-disabled="logFilter.beginLogItems > (filteredLog.length - logFilter.numLogItems)" ng-click="logFilter.beginLogItems = logFilter.beginLogItems + logFilter.numLogItems">Next 10</md-button>
             </div>
           </md-card-content>
-        </md-card>
-
-        <reporting-activity-chart log='filteredLog'></reporting-activity-chart>
-
-        <reporting-user-activity-chart log='filteredLog'></reporting-user-activity-chart>
-
-        <reporting-tod-activity-chart log='filteredLog'></reporting-tod-activity-chart>
-
-        <reporting-dow-activity-chart log='filteredLog'></reporting-dow-activity-chart>
-
-        <reporting-user-contribution-chart log='filteredLog'></reporting-user-contribution-chart>
-
-        <reporting-involved-items log='filteredLog'></reporting-involved-items>
+        </md-card>        
       </md-content>
     </div>
   </main>

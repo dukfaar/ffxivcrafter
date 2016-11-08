@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('CraftingReportingController', ['$scope', '$http', 'socket', 'MeanUser', '$q', 'localStorageService', 'ProjectStockChange', 'Project', '$stateParams', '_',
-  function ($scope, $http, socket, MeanUser, $q, localStorageService, ProjectStockChange, Project, $stateParams, _) {
+angular.module('mean.ffxivCrafter').controller('CraftingReportingController', ['$scope', '$http', 'socket', 'MeanUser', '$q', 'localStorageService', 'ProjectStockChange', 'Project', '$stateParams', '_', '$compile', '$document',
+  function ($scope, $http, socket, MeanUser, $q, localStorageService, ProjectStockChange, Project, $stateParams, _, $compile, $document) {
     $scope.user = MeanUser
     $scope.allowed = function (perm) {
       return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) != -1
@@ -19,6 +19,15 @@ angular.module('mean.ffxivCrafter').controller('CraftingReportingController', ['
       projectNameFilter: '',
       ignoreContributionFilter: 'dontCare'
     }
+
+    if(!localStorageService.get('customCraftingReportingCharts')) localStorageService.set('customCraftingReportingCharts', [])
+
+    $scope.directives = localStorageService.get('customCraftingReportingCharts')
+
+    $scope.directives.forEach(function (directiveName) {
+      var newElement = $compile('<' + directiveName + ' log="filteredLog" class="customCraftingReportingChart"></' + directiveName + '>')($scope)
+      angular.element($document[0].querySelector('#reportingChartContainer')).append(newElement)
+    })
 
     $scope.logFilterFunction = function (logItem) {
       var result = true
