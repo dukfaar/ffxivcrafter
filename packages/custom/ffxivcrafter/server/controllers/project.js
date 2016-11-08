@@ -178,6 +178,7 @@ module.exports = function (io) {
           stockChange.hq = req.params.hq
           stockChange.amount = req.params.amount
           stockChange.submitter = req.user._id
+          stockChange.dontUseForContribution = req.body.dontUseForContribution
           stockChange.date = new Date()
           return Recipe
            .find({'outputs.item': req.params.itemId })

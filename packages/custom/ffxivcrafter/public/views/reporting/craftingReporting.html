@@ -23,6 +23,16 @@
                     <input ng-model="logFilter.projectNameFilter" ng-change="refilterLog()"></input>
                   </md-input-container></td>
                 </td>
+                <td>
+                  <md-input-container>
+                    <label>Ignore Contribution Filter</label>
+                    <md-select ng-model="logFilter.ignoreContributionFilter" ng-change="refilterLog()">
+                      <md-option value="dontCare">Dont Care</md-option>
+                      <md-option value="true">True</md-option>
+                      <md-option value="false">False</md-option>
+                    </md-select>
+                  </md-input-container>
+                </td>
                 <td></td>
               </tr>
 
@@ -31,6 +41,7 @@
                 <td>{{logItem.item.name}} <span ng-if="logItem.hq">HQ</span></td>
                 <td>{{logItem.submitter.name}}</td>
                 <td>{{logItem.project?logItem.project.name:logItem.deletedProjectName}}</td>
+                <td><md-checkbox ng-model="logItem.dontUseForContribution" ng-change="updateChange(logItem)"></md-checkbox></td>
                 <td>{{logItem.date}}</td>
               </tr>
 

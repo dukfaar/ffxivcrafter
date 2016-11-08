@@ -12,7 +12,8 @@ var ProjectStockChangeSchema = new Schema({
   amount: { type: Number, default: 0 },
   hq: { type: Boolean, default: false },
   date: { type: Date, default: new Date() },
-  recipe: { type: Schema.ObjectId, ref: 'Recipe' }
+  recipe: { type: Schema.ObjectId, ref: 'Recipe' },
+  dontUseForContribution: { type: Boolean, default: false }
 })
 
 mongoose.model('ProjectStockChange', ProjectStockChangeSchema)

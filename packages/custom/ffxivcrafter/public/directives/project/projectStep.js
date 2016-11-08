@@ -79,7 +79,7 @@ angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog
 
       $scope.priceDialog = function (item) {
         $mdDialog.show({
-          templateUrl: 'ffxivCrafter/views/item/priceDialog.html',
+          templateUrl: 'ffxivCrafter/views/item/priceDialogFront.html',
           parent: angular.element(document.body),
           controller: 'ItemPriceDialogController',
           clickOutsideToClose: true,

@@ -14,9 +14,10 @@ angular.module('mean.ffxivCrafter').factory('deliveryService', [ '$http', '$mdDi
           item: item,
           gathers: gathers
         }
-      }).then(function (amount) {
-        if (amount > 0) {
-          $http.post('/api/project/stock/add/' + project._id + '/' + item._id + '/' + amount + '/' + (gathers.hq ? 'true' : 'false'))
+      }).then(function (data) {
+        if (data.amount > 0) {
+
+          $http.post('/api/project/stock/add/' + project._id + '/' + item._id + '/' + data.amount + '/' + (gathers.hq ? 'true' : 'false'), { dontUseForContribution: data.dontUseForContribution })
             .then(function (result) {
               callback()
             })
@@ -42,14 +43,14 @@ angular.module('mean.ffxivCrafter').factory('deliveryService', [ '$http', '$mdDi
             if (index >= step.recipe.inputs.length) {
               callback()
             } else {
-              $http.post('/api/project/stock/add/' + project._id + '/' + step.recipe.inputs[index].item + '/' + (-stepsDone * step.recipe.inputs[index].amount) + '/' + (craftable.step.inputs[index].hq ? 'true' : 'false'))
+              $http.post('/api/project/stock/add/' + project._id + '/' + step.recipe.inputs[index].item + '/' + (-stepsDone * step.recipe.inputs[index].amount) + '/' + (craftable.step.inputs[index].hq ? 'true' : 'false'), { dontUseForContribution: data.dontUseForContribution })
                 .then(function (result) {
                   handleInput(index + 1)
                 })
             }
           }
 
-          $http.post('/api/project/stock/add/' + project._id + '/' + item._id + '/' + data.amount + '/' + (craftable.step.hq ? 'true' : 'false'))
+          $http.post('/api/project/stock/add/' + project._id + '/' + item._id + '/' + data.amount + '/' + (craftable.step.hq ? 'true' : 'false'), { dontUseForContribution: data.dontUseForContribution })
             .then(function (result) {
               if (data.craftedFromStock) {
                 handleInput(0)

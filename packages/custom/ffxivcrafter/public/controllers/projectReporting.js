@@ -12,6 +12,14 @@ angular.module('mean.ffxivCrafter').controller('ProjectReportingController', ['$
 
     $scope.filteredLog = []
 
+    $scope.logFilter = {
+      numLogItems: 10,
+      beginLogItems: 0,
+      itemNameFilter: '',
+      submitterNameFilter: '',
+      ignoreContributionFilter: 'dontCare'
+    }
+
     $scope.logFilterFunction = function (logItem) {
       var result = true
 
@@ -19,7 +27,22 @@ angular.module('mean.ffxivCrafter').controller('ProjectReportingController', ['$
 
       result = result && logItem.submitter.name.toLowerCase().search($scope.logFilter.submitterNameFilter.toLowerCase()) !== -1
 
+      switch($scope.logFilter.ignoreContributionFilter) {
+        case 'dontCare':
+          break
+        case 'true':
+          result = result && logItem.dontUseForContribution
+          break
+        case 'false':
+          result = result && !logItem.dontUseForContribution
+          break
+      }
+
       return result
+    }
+
+    $scope.updateChange = function (logItem) {
+      ProjectStockChange.update({id: logItem._id}, logItem)
     }
 
     $scope.refilterLog = function () {
@@ -36,13 +59,6 @@ angular.module('mean.ffxivCrafter').controller('ProjectReportingController', ['$
     }
 
     $scope.updateData()
-
-    $scope.logFilter = {
-      numLogItems: 10,
-      beginLogItems: 0,
-      itemNameFilter: '',
-      submitterNameFilter: ''
-    }
 
     var updateTimeout = null
 
