@@ -9,7 +9,8 @@ angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog
       updateStep: '&',
       priceUpdate: '&',
       deletedStep: '&',
-      showDeleter: '='
+      showDeleter: '=',
+      projectData: '='
     },
     controller: function ($scope) {
       $scope.update = function () {
@@ -64,6 +65,10 @@ angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog
         })
 
         return sum
+      }
+
+      $scope.percentageDone = function () {
+        return 100 * (Math.min(1, $scope.projectData.stepData[$scope.step._id].amountDone / $scope.step.amount))
       }
 
       $scope.isCheaperToBuy = function (step) {

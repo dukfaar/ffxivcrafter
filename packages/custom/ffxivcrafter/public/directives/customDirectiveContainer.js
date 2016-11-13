@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').directive('customDirectiveContainer', function ($compile, localStorageService, _, $timeout) {
+angular.module('mean.ffxivCrafter').directive('rcCustomDirectiveContainer', function ($compile, localStorageService, _, $timeout) {
   var storageName = ''
   var directiveScope = null
   var directiveElement = null
@@ -13,25 +13,36 @@ angular.module('mean.ffxivCrafter').directive('customDirectiveContainer', functi
     clearDirectives()
 
     var directives = localStorageService.get(storageName)
-    directives.forEach(function (directiveName, index) {
-      var newElement = $compile('<' + directiveName + ' id="' + storageName + '_' + index + '" log="filteredLog" class="' + storageName + '"></' + directiveName + '>')(directiveScope)
+    directives = _.filter(directives, function (directive) {
+      return (typeof directive === 'object')
+    })
+    localStorageService.set(storageName, directives)
+
+    directives.forEach(function (directive, index) {
+      var paramsString = ''
+
+      if(directive.params) {
+        paramsString = _.join(_.map(directive.params, function (value, key) { return key + '="' + value + '"' }), ' ')
+      }
+
+      var newElement = $compile('<' + directive.name + ' id="' + storageName + '_' + index + '" ' + paramsString + ' class="' + storageName + '"></' + directive.name + '>')(directiveScope)
       directiveElement.append(newElement)
     })
 
     $timeout(function () {
-      directives.forEach(function (directiveName, index) {
+      directives.forEach(function (directive, index) {
         var id = '#' + storageName + '_' + index
         var toolbar = $(id + ' md-toolbar .md-toolbar-tools')
 
         var deleteElement = $compile('<md-button class="md-icon-button" ng-click="removeDirective(' + index + ')"><md-icon class="material-icons">delete</md-icon></md-button>')(directiveScope)
         toolbar.append(deleteElement)
       })
-    }, 200, false)
+    }, 2000, false)
   }
 
-  function addDirective (directiveName) {
+  function addDirective (directive) {
     var directives = localStorageService.get(storageName)
-    directives.push(directiveName)
+    directives.push(directive)
     localStorageService.set(storageName, directives)
 
     addDirectives()
@@ -47,10 +58,12 @@ angular.module('mean.ffxivCrafter').directive('customDirectiveContainer', functi
 
   return {
     restrict: 'A',
-    link: function (scope, element, attrs) {
+    link: function (scope, element, attrs, ctrl) {
       directiveScope = scope
       directiveElement = element
-      storageName = attrs.customDirectiveContainer
+      storageName = attrs.rcCustomDirectiveContainer
+      ctrl.allowedDirectives = scope.$eval(attrs.rcAllowedDirectives)
+
       scope.removeDirective = removeDirective
 
       if(!localStorageService.get(storageName)) localStorageService.set(storageName, [])
@@ -62,15 +75,6 @@ angular.module('mean.ffxivCrafter').directive('customDirectiveContainer', functi
     controller: function ($scope) {
       this.addDirective = addDirective
       this.removeDirective = removeDirective
-
-      this.allowedDirectives = [
-        {title: 'Activity', name: 'reporting-activity-chart'},
-        {title: 'User Activity', name: 'reporting-user-activity-chart'},
-        {title: 'Day of the Week Activity', name: 'reporting-dow-activity-chart'},
-        {title: 'Time of Day Activity', name: 'reporting-tod-activity-chart'},
-        {title: 'User Contribution', name: 'reporting-user-contribution-chart'},
-        {title: 'Involved Items', name: 'reporting-involved-items'}
-      ]
     }
   }
 })

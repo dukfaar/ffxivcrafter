@@ -91,15 +91,26 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
     return _.find(inputs, function (input) { return input.item._id === itemId })
   }
 
+  function getStepData (step, projectData) {
+    if (!projectData.stepData[step._id]) {
+      projectData.stepData[step._id] = {
+        amountDone: 0
+      }
+    }
+    return projectData.stepData[step._id]
+  }
+
   function getMaxCraftableSteps (step, projectData) {
     var result = {}
 
-    result.neededAmount = step.amount - getAmountOfItemInUnnallocatedStock(projectData, step.item._id, step.hq)
+    result.amountDone = getAmountOfItemInUnnallocatedStock(projectData, step.item._id, step.hq)
+    result.neededAmount = step.amount - result.amountDone
 
     result.neededSteps = Math.ceil(result.neededAmount / step.recipe.outputs[0].amount) // how often we need to craft the recipe to fulfill the need
     result.maxSteps = result.neededSteps // how often we can craft the recipe, with our input materials
 
     result.neededInputs = {}
+    result.availableInputs = {}
 
     step.recipe.inputs.forEach(function (input) {
       var neededItems = input.amount * result.neededSteps
@@ -107,10 +118,10 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
       var itemsInStock = getAmountOfItemInUnnallocatedStock(projectData, input.item, findInputByItem(step.inputs, input.item).hq) // 50
       var remainingNeeded = Math.max(0, neededItems - itemsInStock)
 
-      result.neededInputs[input.item] = remainingNeeded
-
       var possibleSteps = itemsInStock > 0 ? itemsInStock / input.amount : 0
 
+      result.availableInputs[input.item] = itemsInStock
+      result.neededInputs[input.item] = remainingNeeded
       result.maxSteps = Math.min(result.maxSteps, possibleSteps)
     })
 
@@ -216,6 +227,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
       project: project,
       stockRequirements: {},
       gatherList: {},
+      stepData: {},
       buyList: {},
       craftableSteps: [],
       unallocatedStock: $.extend(true, {}, project.stock),

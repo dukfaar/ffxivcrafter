@@ -4,11 +4,11 @@
     <md-icon class="material-icons" ng-if="step.inputs.length===0"></md-icon>
     <div layout="column" flex>
 
-      <div layout="row" >
+      <div layout="row">
         <span>{{step.amount}}</span>
         <span flex style="margin-left:8px">{{step.item.name}}</span>
 
-        <md-icon ng-if="stepDeletion.enabled&&showDeleter" ng-click="deleteStep()" class="material-icons">delete</md-icon>
+        <md-icon ng-if="stepDeletion.enabled && showDeleter" ng-click="deleteStep()" class="material-icons">delete</md-icon>
 
         <span>
           <select ng-model="step.step" ng-change="update()">
@@ -23,20 +23,20 @@
       </div>
 
       <div layout="row" style="margin-bottom:0.5em;" ng-class="suggestionClass(step)">
-        <md-tooltip ng-if="step.inputs.length>0&&isCheaperToBuy(step)">It's cheaper to buy this, than crafting it</md-tooltip>
+        <md-tooltip ng-if="step.inputs.length>0 && isCheaperToBuy(step)">It's cheaper to buy this, than crafting it</md-tooltip>
         <span flex ng-click="priceDialog(step.item)">{{(step.hq?step.item.priceHQ:step.item.price).toLocaleString()}}gil/pc</span>
         <span>{{((step.hq?step.item.priceHQ:step.item.price) * step.amount).toLocaleString()}}gil</span>
       </div>
     </div>
   </div>
 
-  <div ng-if="step.inputs.length>0&&!hideChildren" class="stepList">
-    <project-step data-step="childStep" ng-repeat="childStep in step.inputs" update-step="updateStep()" price-update="priceUpdate()" step-deletion="stepDeletion" deleted-step="deletedStep()" show-deleter="step.step==='Meta'"></project-step>
+  <div ng-if="step.inputs.length>0 && !hideChildren" class="stepList">
+    <project-step data-step="childStep" ng-repeat="childStep in step.inputs" update-step="updateStep()" price-update="priceUpdate()" step-deletion="stepDeletion" deleted-step="deletedStep()" show-deleter="step.step==='Meta'" project-data="projectData"></project-step>
   </div>
 </div>
 
 <div ng-if="step.step==='Meta'">
   <div ng-if="step.inputs.length>0">
-    <project-step data-step="childStep" ng-repeat="childStep in step.inputs" update-step="updateStep()" price-update="priceUpdate()" step-deletion="stepDeletion" deleted-step="deletedStep()" show-deleter="step.step==='Meta'"></project-step>
+    <project-step data-step="childStep" ng-repeat="childStep in step.inputs" update-step="updateStep()" price-update="priceUpdate()" step-deletion="stepDeletion" deleted-step="deletedStep()" show-deleter="step.step==='Meta'" project-data="projectData"></project-step>
   </div>
 </div>

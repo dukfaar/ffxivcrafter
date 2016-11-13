@@ -8,7 +8,6 @@ angular.module('mean.ffxivCrafter').controller('ProjectReportingController',
       return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) !== -1
     }
 
-    $scope.project = {}
     $scope.log = []
     $scope.filteredLog = []
     $scope.ReportingFilterService = ReportingFilterService
@@ -26,7 +25,6 @@ angular.module('mean.ffxivCrafter').controller('ProjectReportingController',
     }, true)
 
     $scope.updateData = function () {
-      $scope.project = Project.get({id: $stateParams.projectId})
       $scope.log = ProjectStockChange.query({projectId: $stateParams.projectId})
     }
 

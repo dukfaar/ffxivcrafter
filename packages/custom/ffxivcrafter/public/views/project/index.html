@@ -3,7 +3,7 @@
     <div flex>
       <md-content>
         <md-tabs flex md-dynamic-height md-border-bottom md-selected="tabdata.selectedIndex" ng-if="!tabdata.showProjectOverview || !tabdata.useOverview">
-          <md-tab ng-click="clickProject(tabproject,$index)" ng-repeat="tabproject in tabList" label="{{(tabproject.name&&tabproject.name!=='')?tabproject.name:tabproject.tree.item.name}}"></md-tab>
+          <md-tab ng-click="clickProject(tabproject,$index)" ng-repeat="tabproject in tabList" label="{{(tabproject.name && tabproject.name!=='')?tabproject.name:tabproject.tree.item.name}}"></md-tab>
         </md-tabs>
 
         <md-content layout-wrap layout="row" layout-xs="column" layout-sm="row" ng-if="project && (!tabdata.showProjectOverview || !tabdata.useOverview)">

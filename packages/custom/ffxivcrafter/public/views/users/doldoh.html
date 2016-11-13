@@ -7,15 +7,25 @@
         </md-card-header-text>
       </md-card-header>
       <md-card-content layout="row" >
-        <md-input-container>
-          <label>Botanist Level</label>
-          <input ng-model="user.user.botanistLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-        </md-input-container>
+        <div layout="column">
+          <md-input-container>
+            <label>Botanist Level</label>
+            <input ng-model="user.user.botanistLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
+          </md-input-container>
+          <md-checkbox ng-model="user.user.botanistFolklore.coerthas" ng-change="updateLevels()">Coerthas Folklore</md-checkbox>
+          <md-checkbox ng-model="user.user.botanistFolklore.dravania" ng-change="updateLevels()">Dravania Folklore</md-checkbox>
+          <md-checkbox ng-model="user.user.botanistFolklore.abalathia" ng-change="updateLevels()">Abalathia Folklore</md-checkbox>
+        </div>
 
-        <md-input-container>
-          <label>Miner Level</label>
-          <input ng-model="user.user.minerLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-        </md-input-container>
+        <div layout="column">
+          <md-input-container>
+            <label>Miner Level</label>
+            <input ng-model="user.user.minerLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
+          </md-input-container>
+          <md-checkbox ng-model="user.user.minerFolklore.coerthas" ng-change="updateLevels()">Coerthas Folklore</md-checkbox>
+          <md-checkbox ng-model="user.user.minerFolklore.dravania" ng-change="updateLevels()">Dravania Folklore</md-checkbox>
+          <md-checkbox ng-model="user.user.minerFolklore.abalathia" ng-change="updateLevels()">Abalathia Folklore</md-checkbox>
+        </div>
       </md-card-content>
     </md-card>
 
@@ -26,38 +36,26 @@
         </md-card-header-text>
       </md-card-header>
       <md-card-content layout="row">
-        <md-input-container>
-          <label>Weaver Level</label>
-          <input ng-model="user.user.weaverLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-        </md-input-container>
-        <md-input-container>
-          <label>Culinarian Level</label>
-          <input ng-model="user.user.culinarianLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-        </md-input-container>
-        <md-input-container>
-          <label>Alchemist Level</label>
-          <input ng-model="user.user.alchimistLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-        </md-input-container>
-        <md-input-container>
-          <label>Blacksmith Level</label>
-          <input ng-model="user.user.blacksmithLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-        </md-input-container>
-        <md-input-container>
-          <label>Carpenter Level</label>
-          <input ng-model="user.user.carpenterLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-        </md-input-container>
-        <md-input-container>
-          <label>Armorer Level</label>
-          <input ng-model="user.user.armorerLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-        </md-input-container>
-        <md-input-container>
-          <label>Goldsmith Level</label>
-          <input ng-model="user.user.goldsmithLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-        </md-input-container>
-        <md-input-container>
-          <label>Leatherworker Level</label>
-          <input ng-model="user.user.leatherworkerLevel" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
-        </md-input-container>
+        <div layout="column" ng-repeat="crafter in [
+        {name: 'Weaver', short: 'weaver'},
+        {name: 'Culinarian', short: 'culinarian'},
+        {name: 'Alchemist', short: 'alchimist'},
+        {name: 'Blacksmith', short: 'blacksmith'},
+        {name: 'Carpenter', short: 'carpenter'},
+        {name: 'Armorer', short: 'armorer'},
+        {name: 'Goldsmith', short: 'goldsmith'},
+        {name: 'Leatherworker', short: 'leatherworker'}
+        ]">
+          <md-input-container>
+            <label>{{crafter.name}} Level</label>
+            <input ng-model="user.user[crafter.short+'Level']" ng-model-options="{debounce:300}" ng-change="updateLevels()"></input>
+          </md-input-container>
+          <md-checkbox ng-model="user.user[crafter.short+'Specialist']" ng-change="updateLevels()">Specialist</md-checkbox>
+          <md-checkbox ng-model="user.user[crafter.short+'Master'][0]" ng-change="updateLevels()">Master 1</md-checkbox>
+          <md-checkbox ng-model="user.user[crafter.short+'Master'][1]" ng-change="updateLevels()">Master 2</md-checkbox>
+          <md-checkbox ng-model="user.user[crafter.short+'Master'][2]" ng-change="updateLevels()">Master 3</md-checkbox>
+          <md-checkbox ng-model="user.user[crafter.short+'Master'][3]" ng-change="updateLevels()">Master 4</md-checkbox>
+        </div>
       </md-card-content>
     </md-card>
   </md-content>

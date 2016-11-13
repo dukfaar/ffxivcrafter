@@ -1,7 +1,17 @@
 <div ng-controller="ProjectReportingController" flex>
   <main style="overflow:auto">
     <div flex>
-      <md-content custom-directive-container="customProjectReportingCharts" layout="row" layout-wrap>
+      <md-content
+        rc-custom-directive-container="customProjectReportingCharts"
+        rc-allowed-directives="[
+          {title: 'Activity', name: 'reporting-activity-chart', params: {log: 'filteredLog' }},
+          {title: 'User Activity', name: 'reporting-user-activity-chart', params: {log: 'filteredLog' }},
+          {title: 'Day of the Week Activity', name: 'reporting-dow-activity-chart', params: {log: 'filteredLog' }},
+          {title: 'Time of Day Activity', name: 'reporting-tod-activity-chart', params: {log: 'filteredLog' }},
+          {title: 'User Contribution', name: 'reporting-user-contribution-chart', params: {log: 'filteredLog' }},
+          {title: 'Involved Items', name: 'reporting-involved-items', params: {log: 'filteredLog' }}
+        ]"
+        layout="row" layout-wrap>
         <md-card>
           <md-card-content>
             <table>
