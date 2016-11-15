@@ -15,7 +15,7 @@ angular.module('mean.ffxivCrafter').factory('ReportingFilterService',
     function logFilterFunction (logItem) {
       var result = true
 
-      result = result && (logItem.item.name.toLowerCase().search(logFilter.itemNameFilter.toLowerCase()) !== -1)
+      if(logItem.item.name && logFilter.itemNameFilter.length > 0) result = result && (logItem.item.name.toLowerCase().search(logFilter.itemNameFilter.toLowerCase()) !== -1)
 
       result = result && (logItem.submitter.name.toLowerCase().search(logFilter.submitterNameFilter.toLowerCase()) !== -1)
 

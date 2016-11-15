@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-var mongoose=require('mongoose');
+var mongoose = require('mongoose')
 
-var Schema=mongoose.Schema;
+var Schema = mongoose.Schema
 
 var RecipeSchema = new Schema({
   inputs: [{
@@ -15,6 +15,6 @@ var RecipeSchema = new Schema({
   }],
   craftingJob: { type: String, enum:['Armorer','Alchemist','Blacksmith','Carpenter','Weaver','Leatherworker','Goldsmith','Culinarian'], default: 'Armorer'},
   craftingLevel: { type: Number, min: 1, max: 60, default: 1}
-});
+})
 
-mongoose.model('Recipe',RecipeSchema);
+mongoose.model('Recipe',RecipeSchema)

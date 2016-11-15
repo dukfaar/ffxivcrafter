@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', '$mdPanel', 'socket', 'MeanUser', '$q', 'localStorageService', 'ProjectStockChange',
-  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, $mdPanel, socket, MeanUser, $q, localStorageService, ProjectStockChange) {
+angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', '$mdPanel', 'socket', 'MeanUser', '$q', 'localStorageService', 'ProjectStockChange', 'ItemDatabase',
+  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, $mdPanel, socket, MeanUser, $q, localStorageService, ProjectStockChange, ItemDatabase) {
     $scope.tabList = []
     $scope.projectList = []
     $scope.projectData = {}

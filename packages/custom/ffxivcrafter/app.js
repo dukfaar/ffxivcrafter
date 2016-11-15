@@ -34,6 +34,8 @@ function setupCircles (circles) {
   circles.registerCircle('see order', ['admin'])
 
   circles.registerCircle('manage airships', ['admin'])
+
+  circles.registerCircle('use inventory', ['authenticated'])
 }
 
 function setupMenus () {
@@ -96,6 +98,13 @@ function setupMenus () {
   })
 
   FFXIVCrafter.menus.add({
+    title: 'Inventory',
+    link: 'inventory index',
+    roles: ['use inventory'],
+    menu: 'main'
+  })
+
+  FFXIVCrafter.menus.add({
     title: 'Hidden',
     roles: ['authenticated'],
     path: 'main',
@@ -152,7 +161,7 @@ function extendUser (database) {
       dravania: { type: Boolean, default: false },
       abalathia: { type: Boolean, default: false }
     },
-    
+
     botanistLevel: { type: Number, min: 1, max: 60, default: 1 },
     botanistFolklore: {
       coerthas: { type: Boolean, default: false },

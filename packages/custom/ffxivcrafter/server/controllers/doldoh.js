@@ -3,6 +3,10 @@
 var mongoose=require('mongoose')
 var User = mongoose.model('User')
 
+var Q = require('q')
+mongoose.Promise = Q.Promise
+var _ = require('lodash')
+
 module.exports = function() {
 
   return {

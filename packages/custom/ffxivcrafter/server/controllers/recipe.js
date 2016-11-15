@@ -6,6 +6,10 @@ var Item = mongoose.model('Item')
 
 var httpreq = require('httpreq')
 
+var Q = require('q')
+mongoose.Promise = Q.Promise
+var _ = require('lodash')
+
 module.exports = function () {
   var itemImport = require('../services/itemImport')()
 
@@ -19,6 +23,7 @@ module.exports = function () {
         path: 'inputs.item',
         select: 'name'
       })
+      .lean()
       .exec(function (err, result) {
         if (err) throw err
 
@@ -79,9 +84,20 @@ module.exports = function () {
     })
   }
 
+
+  var RestService = require('../services/RestService')()
+
   return {
     list: function (req, res) {
-      populateAndSend(Recipe.find({}), res, req)
+      var find = Recipe.find({})
+
+      RestService.list(Recipe.find({}), req)
+      .then(function (data) {
+        res.send(data)
+      })
+      .catch(function (err) {
+        res.status(500).send({})
+      })
     },
     filteredList: function (req, res) {
       Item.find({'name': {$regex: req.params.q, $options: 'i'}}, function (err, result) {

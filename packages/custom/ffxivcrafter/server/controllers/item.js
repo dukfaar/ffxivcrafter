@@ -31,7 +31,7 @@ module.exports = function (io) {
       if (limit && limit > 0) q = q.limit(limit)
       if (page && page > -1) q = q.skip(page * limit)
 
-      q.exec(function (err, data) {
+      q.lean().exec(function (err, data) {
         if (err) throw err
 
         var result = {

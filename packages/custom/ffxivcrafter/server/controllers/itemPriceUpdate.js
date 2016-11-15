@@ -3,6 +3,10 @@
 var mongoose = require('mongoose')
 var ItemPriceUpdate = mongoose.model('ItemPriceUpdate')
 
+var Q = require('q')
+mongoose.Promise = Q.Promise
+var _ = require('lodash')
+
 module.exports = function () {
   return {
     list: function (req, res) {

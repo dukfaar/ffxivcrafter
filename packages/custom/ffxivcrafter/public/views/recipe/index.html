@@ -32,7 +32,7 @@
               <md-list flex>
                 <!--<md-subheader>Inputs</md-subheader>-->
                 <md-list-item ng-repeat="input in recipe.inputs" layout="row">
-                  <span flex>{{input.item.name}}</span>
+                  <span flex>{{ItemDatabase.get(input.item).name}}</span>
 
                   <span ng-show="!editMode">
                     Amount: {{input.amount}}

@@ -10,6 +10,9 @@ var _ = require('lodash')
 mongoose.Promise = Q.Promise
 
 module.exports = function () {
+
+  var RestService = require('../services/RestService')()
+
   return {
     list: function (req, res) {
       var q = {
@@ -19,15 +22,9 @@ module.exports = function () {
         q.project = req.query.projectId
       }
 
-      ProjectStockChange.find(q)
-      .populate('submitter item project recipe')
-      .lean()
-      .exec(function (err, result) {
-        if (err) {
-          res.status(500).send(err)
-        } else {
+      RestService.list(ProjectStockChange.find(q), req)
+      .then(function (result) {
           res.send(result)
-        }
       })
     },
     create: function (req, res) {

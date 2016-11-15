@@ -1,9 +1,13 @@
 'use strict';
 
-var mongoose=require('mongoose');
+var mongoose=require('mongoose')
 
-var Recipe = mongoose.model('Recipe');
-var Item = mongoose.model('Item');
+var Recipe = mongoose.model('Recipe')
+var Item = mongoose.model('Item')
+
+var Q = require('q')
+mongoose.Promise = Q.Promise
+var _ = require('lodash')
 
 function buildCraftingTree(item,amount,callback) {
   var returnValue={

@@ -1,7 +1,9 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('RecipeController', ['$scope', 'Global', '$http', '$mdDialog', '_',
-  function ($scope, Global, $http, $mdDialog, _) {
+angular.module('mean.ffxivCrafter').controller('RecipeController', ['$scope', 'Global', '$http', '$mdDialog', '_', 'Recipe', 'ItemDatabase',
+  function ($scope, Global, $http, $mdDialog, _, Recipe, ItemDatabase) {
+    $scope.ItemDatabase = ItemDatabase
+
     $scope.recipeList = []
 
     $scope.filter = ''
@@ -22,10 +24,7 @@ angular.module('mean.ffxivCrafter').controller('RecipeController', ['$scope', 'G
     }
 
     $scope.updateList = function () {
-      $http.get('/api/recipe')
-        .then(function (response) {
-          $scope.recipeList = response.data
-        })
+      $scope.recipeList = Recipe.query({populate:'outputs.item'})
     }
 
     $scope.createRecipe = function () {

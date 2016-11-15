@@ -1,32 +1,32 @@
 'use strict';
 
 module.exports = function(myPackage,app,auth,db) {
-  var recipeController=require('../controllers/recipe')();
+  var recipeController=require('../controllers/recipe')()
 
   app.route('/api/recipe')
-  .get(recipeController.list);
+  .get(recipeController.list)
 
   app.route('/api/recipe/filteredList/:q')
-  .get(recipeController.filteredList);
+  .get(recipeController.filteredList)
 
   app.route('/api/recipe')
-  .post(recipeController.create);
+  .post(recipeController.create)
 
   app.route('/api/recipe/:id')
-  .get(recipeController.get);
+  .get(recipeController.get)
 
   app.route('/api/recipe/:id')
-  .delete(recipeController.delete);
+  .delete(recipeController.delete)
 
   app.route('/api/recipe/:id')
-  .put(recipeController.update);
+  .put(recipeController.update)
 
   app.route('/api/recipe/by_output/:id')
-  .get(recipeController.findByOutput);
+  .get(recipeController.findByOutput)
 
   app.route('/api/recipe/xivdbImport/:id')
-  .post(recipeController.xivdbImport);
+  .post(recipeController.xivdbImport)
 
   app.route('/api/import/recipe')
-  .get(recipeController.fullXivdbImport);
+  .get(recipeController.fullXivdbImport)
 }
