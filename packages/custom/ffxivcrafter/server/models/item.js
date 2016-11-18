@@ -11,7 +11,14 @@ var ItemSchema = new Schema({
   lastPriceUpdate: { type: Date, default: '1/1/1980' },
   ageMultiplier: { type: Number, default: 1 },
   gatheringEffort: { type: Number, default: 0 },
-  gatheringJob: { type: String, enum: ['None', 'Botanist', 'Miner'], default: 'None' },
+  gatheringJob: { type: String, enum: ['None', 'Botanist', 'Miner', 'FC'], default: 'None' },
+  unspoiledNode: { type: Boolean },
+  unspoiledNodeTime: {
+    time: { type: Number, default: 0 },
+    duration: { type: Number, default: 60 },
+    ampm: { type: String, enum: ['AM', 'PM', 'AM/PM'] },
+    folkloreNeeded: { type: String, default: '' }
+  },
   gatheringLevel: { type: Number, default: 0 },
   canBeOrderedByUnprivileged: { type: Boolean, default: false },
   soldOnMarket: { type: Boolean, default: false },

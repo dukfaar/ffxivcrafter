@@ -1,8 +1,8 @@
 'use strict'
 
 angular.module('mean.ffxivCrafter').controller('CraftingReportingController',
-  ['$scope', '$http', 'socket', 'MeanUser', '$q', 'localStorageService', 'ProjectStockChange', 'Project', '$stateParams', '_', '$compile', '$document', 'ReportingFilterService', 'ItemDatabase',
-  function ($scope, $http, socket, MeanUser, $q, localStorageService, ProjectStockChange, Project, $stateParams, _, $compile, $document, ReportingFilterService, ItemDatabase) {
+  ['$scope', '$http', 'socket', 'MeanUser', '$q', 'localStorageService', 'ProjectStockChange', 'Project', '$stateParams', '_', '$compile', '$document', 'ReportingFilterService', 'ItemDatabase', 'RecipeDatabase', 'ProjectDatabase',
+  function ($scope, $http, socket, MeanUser, $q, localStorageService, ProjectStockChange, Project, $stateParams, _, $compile, $document, ReportingFilterService, ItemDatabase, RecipeDatabase, ProjectDatabase) {
     $scope.ItemDatabase = ItemDatabase
     $scope.user = MeanUser
     $scope.allowed = function (perm) {
@@ -26,10 +26,12 @@ angular.module('mean.ffxivCrafter').controller('CraftingReportingController',
     }, true)
 
     $scope.updateData = function() {
-      $scope.log = ProjectStockChange.query({populate: 'submitter project recipe'})
-      $scope.log.$promise.then(function () { 
+      $scope.log = ProjectStockChange.query({populate: 'submitter'})
+      $scope.log.$promise.then(function () {
         _.forEach($scope.log, function (logEntry) {
-          logEntry.item = ItemDatabase.get(legEntry.item)
+          logEntry.item = ItemDatabase.get(logEntry.item)
+          logEntry.project = logEntry.project?ProjectDatabase.get(logEntry.project):null
+          logEntry.recipe = logEntry.recipe?RecipeDatabase.get(logEntry.recipe):null
         })
       })
     }

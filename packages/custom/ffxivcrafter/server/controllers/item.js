@@ -121,6 +121,7 @@ module.exports = function (io) {
       Item.findByIdAndUpdate(req.params.id, req.body, function (err, item) {
         if (err) throw err
 
+        io.emit('item data changed', {item: item})
         res.send(item)
       })
     },
