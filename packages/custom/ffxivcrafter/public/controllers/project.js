@@ -1,14 +1,42 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', '$mdPanel', 'socket', 'MeanUser', '$q', 'localStorageService', 'ProjectStockChange', 'ItemDatabase',
-  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, $mdPanel, socket, MeanUser, $q, localStorageService, ProjectStockChange, ItemDatabase) {
+angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', '$mdPanel', 'socket', 'MeanUser', '$q', 'localStorageService', 'ProjectStockChange', 'ItemDatabase', '_',
+  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, $mdPanel, socket, MeanUser, $q, localStorageService, ProjectStockChange, ItemDatabase, _) {
+    $scope._ = _
     $scope.tabList = []
     $scope.projectList = []
     $scope.projectData = {}
 
+    $scope.users = []
+    $http.get('/api/users')
+      .then(function (response) {
+        $scope.users = response.data
+      })
+
+    $scope.getUser = function (id) {
+      return _.find($scope.users, function(u) { return u._id == id })
+    }
+
+    $scope.shareUserSelection = {}
+
     $scope.user = MeanUser
     $scope.allowed = function (perm) {
       return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) != -1
+    }
+
+    $scope.doShare = function (project, user) {
+      if (!project.sharedWith) project.sharedWith = []
+      if (project.sharedWith.findIndex(function (u) { return u == user._id }) === -1)
+        project.sharedWith.push(user._id)
+
+      $scope.updateProject(project)
+    }
+
+    $scope.removeShare = function (project, id) {
+      if (!project.sharedWith) project.sharedWith = []
+      _.pull(project.sharedWith, id)
+
+      $scope.updateProject(project)
     }
 
     if(localStorageService.get('useProjectOverview') == null) localStorageService.set('useProjectOverview', false)

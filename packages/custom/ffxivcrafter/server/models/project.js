@@ -8,6 +8,7 @@ var CraftingProjectSchema = new Schema({
   name: { type: String, default: ''},
   tree: { type: Schema.ObjectId, ref: 'ProjectStep' },
   creator: { type: Schema.ObjectId, ref: 'User'},
+  sharedWith: [{ type: Schema.ObjectId, ref: 'User'}],
   stock: [{
     item: { type: Schema.ObjectId, ref: 'Item'},
     amount: { type: Number, default: 0 },

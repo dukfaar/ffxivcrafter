@@ -135,11 +135,17 @@ module.exports = function (io) {
       var criteria = {}
 
       if (req.user.roles.indexOf('projectManager') < 0) {
-        criteria = {private: true, creator: req.user._id}
+        criteria = {$or: [
+            {private: false, public: true},
+            {private: true, creator: req.user._id},
+            {sharedWith: req.user._id}
+          ]
+        }
       } else {
         criteria = {$or: [
             {private: false},
-            {private: true, creator: req.user._id}
+            {private: true, creator: req.user._id},
+            {sharedWith: req.user._id}
           ]
         }
       }
@@ -147,13 +153,20 @@ module.exports = function (io) {
       populateAndSend(res, CraftingProject.find(criteria), req.query.doPopulate === 'true')
     },
     publicList: function (req, res) {
-      populateAndSend(res, CraftingProject.find({public: true, private: false}), true)
+      populateAndSend(res, CraftingProject.find({
+        $or:[
+          {public: true, private: false},
+          {sharedWith: req.user._id},
+          {creator: req.user._id}
+          ]
+      }), true)
     },
     get: function (req, res) {
       populateAndSend(res, CraftingProject.findOne({_id: req.params.id,
         $or: [
-          {private: false},
-          {private: true, creator: req.user._id}
+          {private: false, public: true},
+          {creator: req.user._id},
+          {sharedWith: req.user._id},
         ]
       }), true)
     },
