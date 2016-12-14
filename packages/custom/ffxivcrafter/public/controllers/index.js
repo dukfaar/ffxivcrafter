@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'MeanUser', 'deliveryService', 'socket',
-  function ($scope, Global, $http, $mdDialog, projectAnalyzerService, MeanUser, deliveryService, socket) {
+angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'MeanUser', 'deliveryService', 'socket', '_',
+  function ($scope, Global, $http, $mdDialog, projectAnalyzerService, MeanUser, deliveryService, socket, _) {
     $scope.user = MeanUser
     $scope.allowed = function (perm) {
       return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) !== -1
@@ -10,8 +10,10 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
     $scope.projectList = []
     $scope.projectData = {}
 
-    $scope.gatherFilter = ''
-    $scope.craftableFilter = ''
+    $scope.filters = {
+      gatherFilter: '',
+      craftableFilter: ''
+    }
 
     $scope.mergeSelection=null
 
@@ -73,6 +75,22 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
       return Object.keys(obj).map(function (key) {
         return obj[key]
       })
+    }
+
+    $scope.gatheringFilter = function (step) {
+      var filter = _.lowerCase($scope.filters.gatherFilter)
+      console.log(filter)
+      console.log(_.lowerCase(step.item.name))
+      console.log(_.lowerCase(step.item.name).indexOf(filter))
+      console.log(_.lowerCase(step.item.gatheringJob))
+      console.log(_.lowerCase(step.item.gatheringJob).indexOf(filter))
+
+      return _.lowerCase(step.item.name).indexOf(filter) !== -1 || _.lowerCase(step.item.gatheringJob).indexOf(filter) !== -1
+    }
+
+    $scope.craftingFilter = function (step) {
+      var filter = _.lowerCase($scope.filters.craftableFilter)
+      return _.lowerCase(step.step.item.name).indexOf(filter) !== -1 || _.lowerCase(step.step.recipe.craftingJob).indexOf(filter) !== -1
     }
 
     $scope.canHarvest = function (step) {

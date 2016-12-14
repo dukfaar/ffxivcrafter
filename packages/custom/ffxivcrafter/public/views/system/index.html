@@ -9,7 +9,7 @@
               <span flex></span>
               <md-input-container class="md-accent" style="padding-bottom:0px;margin-left:25px">
                 <label style="color:wheat">Itemfilter</label>
-                <input style="color:wheat" ng-model="gatherFilter" size="10"/>
+                <input style="color:wheat" ng-model="filters.gatherFilter" size="10"/>
               </md-input-container>
             </div>
           </md-toolbar>
@@ -18,7 +18,7 @@
               <div ng-repeat="project in projectList">
                 <md-list-item
                   ng-click="deliveryDialog(project,gathers.item,gathers)"
-                  ng-repeat="gathers in toArray(projectData[project._id].gatherList) | filter: { item: { name:gatherFilter } } | filter:canHarvest | orderBy:'item.gatheringLevel':true"
+                  ng-repeat="gathers in toArray(projectData[project._id].gatherList) | filter: gatheringFilter | filter:canHarvest | orderBy:'item.gatheringLevel':true"
                   ng-if="gathers.outstanding>0" layout="row">
                   <span flex>
                     <span>{{gathers.outstanding}} {{gathers.item.name}}</span>
@@ -39,7 +39,7 @@
               <span flex></span>
               <md-input-container class="md-accent" style="padding-bottom:0px;margin-left:25px">
                 <label style="color:wheat">Itemfilter</label>
-                <input style="color:wheat" ng-model="craftableFilter" size="10"/>
+                <input style="color:wheat" ng-model="filters.craftableFilter" size="10"/>
               </md-input-container>
             </div>
           </md-toolbar>
@@ -49,7 +49,7 @@
               <div ng-repeat="project in projectList">
                 <md-list-item
                   ng-click="deliveryCraftDialog(project,craftable.step.item,craftable.step,craftable)"
-                  ng-repeat="craftable in toArray(projectData[project._id].craftableSteps) | filter: { step: { item: { name: craftableFilter }}} | filter:canCraft" layout="row">
+                  ng-repeat="craftable in toArray(projectData[project._id].craftableSteps) | filter: craftingFilter | filter:canCraft" layout="row">
                   <span flex>
                     <span>{{craftable.step.amount}} {{craftable.step.item.name}}</span>
                     <span ng-if="craftable.step.hq">HQ</span>
