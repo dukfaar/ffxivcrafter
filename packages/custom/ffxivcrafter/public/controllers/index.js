@@ -79,12 +79,6 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
 
     $scope.gatheringFilter = function (step) {
       var filter = _.lowerCase($scope.filters.gatherFilter)
-      console.log(filter)
-      console.log(_.lowerCase(step.item.name))
-      console.log(_.lowerCase(step.item.name).indexOf(filter))
-      console.log(_.lowerCase(step.item.gatheringJob))
-      console.log(_.lowerCase(step.item.gatheringJob).indexOf(filter))
-
       return _.lowerCase(step.item.name).indexOf(filter) !== -1 || _.lowerCase(step.item.gatheringJob).indexOf(filter) !== -1
     }
 
