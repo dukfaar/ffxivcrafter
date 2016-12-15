@@ -34,16 +34,25 @@ angular.module('mean.ffxivCrafter').directive('rcInventory',function() {
         return _.reduce(prices, function (sum, price) { return sum + price }, 0)
       }
 
-      $scope.selectItem = function(item) {
-        $scope.inventory.items.push({item: item._id, amount: 1})
+      $scope.updateInventory = function() {
         Inventory.update({ id: $scope.inventory._id }, $scope.inventory)
+      }
+
+      $scope.pushUpdateAndUpdateCraftables = function () {
+        $scope.updateInventory()
         updateCraftables()
       }
 
+      $scope.selectItem = function(item) {
+        if(!$scope.inventory.items) $scope.inventory.items = []
+        $scope.inventory.items.push({item: item._id, amount: 1})
+        $scope.pushUpdateAndUpdateCraftables()
+      }
+
       $scope.removeItem = function(item) {
-        $scope.inventory.items = _.reject($scope.inventory.items, function (invItem) { return item._id === invItem })
-        Inventory.update({ id: $scope.inventory._id }, $scope.inventory)
-        updateCraftables()
+        if(!$scope.inventory.items) $scope.inventory.items = []
+        $scope.inventory.items = _.reject($scope.inventory.items, function (invItem) { return item._id === invItem._id })
+        $scope.pushUpdateAndUpdateCraftables()
       }
 
       Inventory.query({userInventory: true }).$promise.then(function (result) {
@@ -60,10 +69,6 @@ angular.module('mean.ffxivCrafter').directive('rcInventory',function() {
           $scope.inventory = result[0]
         }
       })
-
-      $scope.updateInventory = function() {
-        Inventory.update({ id: $scope.inventory._id }, $scope.inventory)
-      }
     }
   }
 })

@@ -11,7 +11,7 @@
       <div ng-repeat="item in inventory.items">
         <span>
           <md-input-container>
-            <input ng-model="item.amount" ng-change="updateInventory()" ng-model-options="{debounce:300}" size="4"/>
+            <input ng-model="item.amount" ng-change="pushUpdateAndUpdateCraftables()" ng-model-options="{debounce:300}" size="4"/>
           </md-input-container>
         </span>
         <span>{{ItemDatabase.get(item.item).name}}</span>
