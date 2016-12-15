@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'MeanUser', 'deliveryService', 'socket', '_',
-  function ($scope, Global, $http, $mdDialog, projectAnalyzerService, MeanUser, deliveryService, socket, _) {
+angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'MeanUser', 'deliveryService', 'socket', '_', 'localStorageService',
+  function ($scope, Global, $http, $mdDialog, projectAnalyzerService, MeanUser, deliveryService, socket, _, localStorageService) {
     $scope.user = MeanUser
     $scope.allowed = function (perm) {
       return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) !== -1
@@ -14,6 +14,10 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
       gatherFilter: '',
       craftableFilter: ''
     }
+
+    //possible modes: unifiedProjects, separateProjects
+    if(localStorageService.get('indexMode') == null) localStorageService.set('indexMode', 'separateProjects')
+    $scope.indexMode = localStorageService.get('indexMode')
 
     $scope.mergeSelection=null
 
@@ -87,6 +91,14 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
       return _.lowerCase(step.step.item.name).indexOf(filter) !== -1 || _.lowerCase(step.step.recipe.craftingJob).indexOf(filter) !== -1
     }
 
+    $scope.getGatherArray = function (project) {
+      return _.filter(_.filter(_.filter($scope.toArray($scope.projectData[project._id].gatherList), $scope.gatheringFilter), $scope.canHarvest), function (g) { return g.outstanding > 0 })
+    }
+
+    $scope.getCraftArray = function (project) {
+      return _.filter(_.filter($scope.toArray($scope.projectData[project._id].craftableSteps), $scope.craftingFilter), $scope.canCraft)
+    }
+
     $scope.canHarvest = function (step) {
       var map = [['Miner', 'minerLevel'], ['Botanist', 'botanistLevel']]
 
@@ -101,6 +113,7 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
 
       return false
     }
+
     $scope.canCraft = function (step) {
       var map = [
         ['Weaver', 'weaverLevel'],

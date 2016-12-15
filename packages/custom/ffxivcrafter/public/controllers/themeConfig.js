@@ -26,8 +26,17 @@ angular.module('mean.ffxivCrafter')
   })
 
 angular.module('mean.ffxivCrafter').controller('ThemeController',
-  function ($scope) {
+  function ($scope, localStorageService) {
     if (window.localStorage.getItem('navigation.mode') === null) window.localStorage.setItem('navigation.mode', 'top')
+
+    if(localStorageService.get('indexMode') == null) localStorageService.set('indexMode', 'separateProjects')
+    $scope.indexMode = {
+      mode: $scope.indexMode = localStorageService.get('indexMode')
+    }
+
+    $scope.saveIndexMode = function () {
+      localStorageService.set('indexMode', $scope.indexMode.mode)
+    }
 
     $scope.palettes = {
       primary: window.localStorage.getItem('primaryPalette'),
@@ -45,19 +54,19 @@ angular.module('mean.ffxivCrafter').controller('ThemeController',
     ]
 
     $scope.setPrimary = function (palette) {
-      window.localStorage.setItem('primaryPalette',palette)
+      window.localStorage.setItem('primaryPalette', palette)
     }
 
     $scope.setAccent = function (palette) {
-      window.localStorage.setItem('accentPalette',palette)
+      window.localStorage.setItem('accentPalette', palette)
     }
 
     $scope.setBackground = function (palette) {
-      window.localStorage.setItem('backgroundPalette',palette)
+      window.localStorage.setItem('backgroundPalette', palette)
     }
 
     $scope.setDark = function (palette) {
-      window.localStorage.setItem('darkPalette',palette)
+      window.localStorage.setItem('darkPalette', palette)
     }
 
     $scope.setNavigationMode = function () {

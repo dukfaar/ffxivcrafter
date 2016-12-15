@@ -13,6 +13,10 @@ angular.module('mean.ffxivCrafter').controller('ProjectReportingController',
     $scope.filteredLog = []
     $scope.ReportingFilterService = ReportingFilterService
 
+    $scope.data = {
+      itemGetsInProgress: 0
+    }
+
     $scope.updateChange = function (logItem) {
       ProjectStockChange.update({id: logItem._id}, logItem)
     }
@@ -22,14 +26,24 @@ angular.module('mean.ffxivCrafter').controller('ProjectReportingController',
     }
 
     $scope.$watch('log', function () {
-      $scope.refilterLog()
+      if($scope.data.itemGetsInProgress == 0) $scope.refilterLog()
     }, true)
+
+    $scope.$watch('data.itemGetsInProgress', function () {
+      if($scope.data.itemGetsInProgress == 0) $scope.refilterLog()
+    })
+
 
     $scope.updateData = function () {
       $scope.log = ProjectStockChange.query({projectId: $stateParams.projectId, populate: 'submitter'})
       $scope.log.$promise.then(function () {
+        $scope.data.itemGetsInProgress = $scope.log.length
+
         _.forEach($scope.log, function (logEntry) {
           logEntry.item = ItemDatabase.get(logEntry.item)
+          logEntry.item.$promise.then(function() {
+            $scope.data.itemGetsInProgress--
+          })
           logEntry.project = logEntry.project?ProjectDatabase.get(logEntry.project):null
           logEntry.recipe = logEntry.recipe?RecipeDatabase.get(logEntry.recipe):null
         })

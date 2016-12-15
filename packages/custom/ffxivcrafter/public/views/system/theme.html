@@ -33,6 +33,14 @@
           </md-select>
         </md-input-container>
 
+        <md-input-container flex="33%">
+          <label>IndexMode</label>
+          <md-select ng-model="indexMode.mode" ng-change="saveIndexMode()">
+            <md-option value="unifiedProjects">Unified Projects</md-option>
+            <md-option value="separateProjects">Separate Projects</md-option>
+          </md-select>
+        </md-input-container>
+
       </md-card-content>
     </md-card>
   </md-content>
