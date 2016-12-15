@@ -22,7 +22,7 @@ module.exports = function () {
     return req.query.populate ? find.populate(req.query.populate) : find
   }
 
-  function list (find, req) {
+  function doList (find, req) {
     return populateFind(limitFind(skipFind(find, req), req), req).lean().exec()
   }
 
@@ -49,8 +49,9 @@ module.exports = function () {
     var Model = mongoose.model(modelName)
 
     return {
+      Model: Model,
       list: function (req, res) {
-        list(Model.find({}), req)
+        doList(Model.find({}), req)
         .then(function (result) {
           res.send(result)
         })
@@ -100,7 +101,7 @@ module.exports = function () {
   }
 
   return {
-    list: list,
+    list: doList,
     skipFind: skipFind,
     limitFind: limitFind,
     populateFind: populateFind,

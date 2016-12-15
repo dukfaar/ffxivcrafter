@@ -10,7 +10,7 @@ InventoryController.list = function (req, res) {
     q.user = req.user._id
   }
 
-  RestService.list(Inventory.find(q))
+  RestService.list(InventoryController.Model.find(q), req)
   .then(function (result) {
     res.send(result)
   })
