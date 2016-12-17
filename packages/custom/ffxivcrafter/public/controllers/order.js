@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('OrderController', ['$scope', 'Global', '$http', '$mdDialog', 'ItemService', 
+angular.module('mean.ffxivCrafter').controller('OrderController', ['$scope', 'Global', '$http', '$mdDialog', 'ItemService',
   function ($scope, Global, $http, $mdDialog, ItemService) {
     $scope.itemService = ItemService
 
@@ -10,7 +10,8 @@ angular.module('mean.ffxivCrafter').controller('OrderController', ['$scope', 'Gl
     }
 
     $scope.updateList = function () {
-      ItemService.updateList({privileged:true})
+      //ItemService.updateList({privileged:true})
+      ItemService.updateList()
     }
 
     $scope.updateList()
@@ -36,11 +37,6 @@ angular.module('mean.ffxivCrafter').controller('OrderController', ['$scope', 'Gl
 
     $scope.selectItem = function (item) {
       $scope.selectedItem = item
-
-    /*$http.get('/api/crafting/'+item._id)
-    .then(function(response) {
-      $scope.craftingData=response.data
-    });*/
     }
 
     $scope.orderItem = function (item) {

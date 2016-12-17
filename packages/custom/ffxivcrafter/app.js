@@ -105,19 +105,26 @@ function setupMenus () {
   })
 
   FFXIVCrafter.menus.add({
+    title: 'Market',
+    roles: ['authenticated'],
+    path: 'main',
+    name: 'market'
+  })
+  FFXIVCrafter.menus.add({
+    title: 'Order',
+    link: 'order home',
+    roles: ['see order'],
+    path: 'main/market'
+  })
+
+  FFXIVCrafter.menus.add({
     title: 'Hidden',
     roles: ['authenticated'],
     path: 'main',
     name: 'hidden'
   })
   FFXIVCrafter.menus.add({
-    title: 'Order',
-    link: 'order home',
-    roles: ['see order'],
-    path: 'main/hidden'
-  })
-  FFXIVCrafter.menus.add({
-    title: 'Market',
+    title: 'Buy & Sell',
     link: 'market home',
     roles: ['see market'],
     path: 'main/hidden'

@@ -49,6 +49,6 @@
     </md-input-container>
     <md-button class="md-raised md-primary" ng-click="doShare(project, shareUserSelection)">Share</md-button>
 
-    <div layout="row"><span flex></span><span>Project created By {{project.creator.name}}</span></div>
+    <div layout="row"><span flex></span><span>Project {{project.order?'ordered':'created'}} by {{project.creator.name}}</span></div>
   </md-card-content>
 </md-card>

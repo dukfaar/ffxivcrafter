@@ -59,9 +59,15 @@
               </div>
             </md-toolbar>
 
-            <md-card-content style="white-space: pre">{{tabproject.notes}}</md-card-content>
+            <md-card-content>
+              <div style="white-space: pre">{{tabproject.notes}}</div>
+            </md-card-content>
 
             <md-card-actions layout="row" layout-align="end center">
+              <div ng-if="tabproject.order">
+                <i>ordered by {{tabproject.creator.name}}</i>
+              </div>
+              <div style="width:1em"></div>
               <md-button ng-click="clickProject(tabproject,$index)">Go to Project</md-button>
             </md-card-actions>
           </md-card>

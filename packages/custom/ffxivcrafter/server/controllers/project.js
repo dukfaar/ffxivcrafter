@@ -21,7 +21,7 @@ mongoose.Promise = Q.Promise
 module.exports = function (io) {
   var itemService = require('../services/itemService')()
 
-  function updateItem(itemId) {
+  function updateItem (itemId) {
     return Item.findById(itemId).exec().then(function (item) { return itemService.updateItemAgeMultiplier(item) })
   }
 
@@ -31,7 +31,7 @@ module.exports = function (io) {
     step.inputs = []
 
     return Item.findById(itemId).exec()
-    .then(function(item) {
+    .then(function (item) {
       step.item = item
 
       return Recipe
@@ -39,10 +39,10 @@ module.exports = function (io) {
         .exec()
         .then(function (recipes) {
           if (recipes.length === 0) {
-            step.step = step.item.availableFromNpc?'Buy':'Gather'
+            step.step = step.item.availableFromNpc ? 'Buy' : 'Gather'
             step.amount = amount
           } else {
-            step.step = step.item.availableFromNpc?'Buy':'Craft'
+            step.step = step.item.availableFromNpc ? 'Buy' : 'Craft'
             var recipe = recipes[0]
             step.recipe = recipe._id
             step.amount = Math.ceil(amount / recipe.outputs[0].amount) * recipe.outputs[0].amount
@@ -66,7 +66,7 @@ module.exports = function (io) {
         .then(function () {
           return step
         })
-      })
+    })
   }
 
   function projectToMetaProject (project) {
@@ -135,40 +135,45 @@ module.exports = function (io) {
       var criteria = {}
 
       if (req.user.roles.indexOf('projectManager') < 0) {
-        criteria = {$or: [
+        criteria = {
+          $or: [
             {private: false, public: true},
             {private: true, creator: req.user._id},
             {sharedWith: req.user._id}
           ]
         }
       } else {
-        criteria = {$or: [
+        criteria = {
+          $or: [
             {private: false},
             {private: true, creator: req.user._id},
-            {sharedWith: req.user._id}
+            {sharedWith: req.user._id},
+            {order: true}
           ]
         }
       }
 
-      populateAndSend(res, CraftingProject.find(criteria), req.query.doPopulate === 'true')
+      populateAndSend(res, CraftingProject.find(criteria).populate('creator'), req.query.doPopulate === 'true')
     },
     publicList: function (req, res) {
       populateAndSend(res, CraftingProject.find({
-        $or:[
+        $or: [
           {public: true, private: false},
           {sharedWith: req.user._id},
           {creator: req.user._id}
-          ]
+        ]
       }), true)
     },
     get: function (req, res) {
-      populateAndSend(res, CraftingProject.findOne({_id: req.params.id,
-        $or: [
-          {private: false, public: true},
-          {creator: req.user._id},
-          {sharedWith: req.user._id},
-        ]
-      }), true)
+      var criteria = { _id: req.params.id }
+      criteria.$or = [
+        {private: false, public: true},
+        {creator: req.user._id},
+        {sharedWith: req.user._id}
+      ]
+      if (req.user.roles.indexOf('projectManager') >= 0) criteria.$or.push({order: true})
+
+      populateAndSend(res, CraftingProject.findOne(criteria), true)
     },
     addToStock: function (req, res) {
       CraftingProject.findById(req.params.projectId).exec()
@@ -220,19 +225,19 @@ module.exports = function (io) {
     },
     delete: function (req, res) {
       function deleteStep (step) {
-        if(step == null) {
+        if (step == null) {
           return Q.fcall(function () {})
         } else if (step.inputs.length === 0) {
           return step.remove()
           .then(function () {
-            if(step.item) return updateItem(step.item)
+            if (step.item) return updateItem(step.item)
           })
         } else {
           return Q.all(step.inputs.map(function (subStep) { return deleteStep(subStep) }))
           .then(function () {
             return step.remove()
           }).then(function () {
-            if(step.item) return updateItem(step.item)
+            if (step.item) return updateItem(step.item)
           })
         }
       }
@@ -247,7 +252,7 @@ module.exports = function (io) {
           changes.forEach(function (change) {
             change.project = null
             change.deletedProjectName = deletedProjectName
-            change.save(function(err) {
+            change.save(function (err) {
             })
           })
         })
@@ -277,7 +282,7 @@ module.exports = function (io) {
           .then(function (step) {
             metaProject.tree.inputs.push(step)
             return metaProject.tree.save()
-          }).then(function() {
+          }).then(function () {
             return metaProject
           })
         })
@@ -296,6 +301,10 @@ module.exports = function (io) {
 
         if (req.body.comment) {
           project.comment = req.body.comment
+        }
+
+        if (req.body.orderedViaOrderView) {
+          project.order = req.body.orderedViaOrderView
         }
 
         Item.findById(step.item).exec()
