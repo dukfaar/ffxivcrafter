@@ -134,21 +134,22 @@ module.exports = function (io) {
     list: function (req, res) {
       var criteria = {}
 
-      if (req.user.roles.indexOf('projectManager') < 0) {
-        criteria = {
-          $or: [
-            {private: false, public: true},
-            {private: true, creator: req.user._id},
-            {sharedWith: req.user._id}
-          ]
-        }
-      } else {
+      var isPM = req.user.roles.indexOf('projectManager') >= 0
+
+      if (isPM) {
         criteria = {
           $or: [
             {private: false},
             {private: true, creator: req.user._id},
             {sharedWith: req.user._id},
             {order: true}
+          ]
+        }
+      } else {
+        criteria = {
+          $or: [
+            {creator: req.user._id},
+            {sharedWith: req.user._id}
           ]
         }
       }
