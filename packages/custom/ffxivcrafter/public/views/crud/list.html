@@ -1,0 +1,10 @@
+<div ng-controller="CrudController">
+  <table>
+    <tr>
+      <th ng-repeat="column in schema">{{column.path}}</th>
+    </tr>
+    <tr ng-repeat="row in data">
+      <th ng-repeat="column in schema">{{row[column.path]}}</th>
+    </tr>
+  </table>
+</div>

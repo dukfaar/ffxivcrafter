@@ -41,6 +41,4 @@ module.exports = function (myPackage, app, auth, db, io) {
 
   app.route('/api/import/item/')
     .get(itemController.fullXivdbImport)
-
-
 }
