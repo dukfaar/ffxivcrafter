@@ -1,0 +1,18 @@
+<md-dialog layout-padding>
+  <md-dialog-content>
+    <h2>
+      Do you really want to order this?
+    </h2>
+
+    <md-list>
+      <md-list-item ng-repeat="orderItem in data.order">
+        {{orderItem.amount}} {{orderItem.hq?'HQ':''}} {{orderItem.item.name}}
+      </md-list-item>
+    </md-list>
+  </md-dialog-content>
+
+  <md-dialog-actions>
+    <md-button ng-click="order()">Yes!</md-button>
+    <md-button ng-click="cancel()">Uhm, no?</md-button>
+  </md-dialog-actions>
+</md-dialog>

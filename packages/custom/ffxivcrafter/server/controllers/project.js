@@ -25,7 +25,7 @@ module.exports = function (io) {
     return Item.findById(itemId).exec().then(function (item) { return itemService.updateItemAgeMultiplier(item) })
   }
 
-  function stepForItem (itemId, amount) {
+  function stepForItem (itemId, amount, hq) {
     var step = new ProjectStep()
 
     step.inputs = []
@@ -33,6 +33,7 @@ module.exports = function (io) {
     return Item.findById(itemId).exec()
     .then(function (item) {
       step.item = item
+      step.hq = hq?hq:false
 
       return Recipe
         .find({'outputs.item': itemId})
@@ -49,7 +50,7 @@ module.exports = function (io) {
 
             return Q.all(
               _.map(recipe.inputs, function (input) {
-                return stepForItem(input.item, input.amount * step.amount / recipe.outputs[0].amount)
+                return stepForItem(input.item, input.amount * step.amount / recipe.outputs[0].amount, false)
                 .then(function (childStep) {
                   step.inputs.push(childStep)
                 })
@@ -279,7 +280,7 @@ module.exports = function (io) {
           return projectToMetaProject(project)
         })
         .then(function (metaProject) {
-          return stepForItem(req.params.id, req.params.amount)
+          return stepForItem(req.params.id, req.params.amount, req.body.hq)
           .then(function (step) {
             metaProject.tree.inputs.push(step)
             return metaProject.tree.save()
@@ -294,7 +295,7 @@ module.exports = function (io) {
         })
     },
     fromItem: function (req, res) {
-      stepForItem(req.params.id, req.params.amount)
+      stepForItem(req.params.id, req.params.amount, req.body.hq)
       .then(function (step) {
         var project = new CraftingProject()
         project.creator = req.user._id
@@ -317,10 +318,9 @@ module.exports = function (io) {
         })
         .then(function () {
           io.emit('new project created', {projectId: project._id})
+          res.send({projectId: project._id})
         })
       })
-
-      res.send({status: 'Working on it'})
     }
   }
 }
