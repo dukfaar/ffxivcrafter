@@ -6,7 +6,10 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
     $meanStateProvider
     .state('airship home', {
       url: '/airship/home',
-      templateUrl: 'ffxivCrafter/views/airship/index.html'
+      templateUrl: 'ffxivCrafter/views/airship/index.html',
+      requiredCircles: {
+        circles: ['manage airships']
+      }
     });
   }
 ]);

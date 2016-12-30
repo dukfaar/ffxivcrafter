@@ -6,7 +6,10 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
     $meanStateProvider
     .state('inventory index', {
       url: '/user/inventory',
-      template: '<rc-inventory></rc-inventory>'
+      template: '<rc-inventory></rc-inventory>',
+      requiredCircles: {
+        circles: ['use inventory']
+      }
     })
   }
 ])

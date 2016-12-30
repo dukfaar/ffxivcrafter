@@ -5,7 +5,10 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
     $meanStateProvider
     .state('crud list', {
       url: '/crud/list/:modelName',
-      templateUrl: 'ffxivCrafter/views/crud/list.html'
+      templateUrl: 'ffxivCrafter/views/crud/list.html',
+      requiredCircles: {
+        circles: ['admin']
+      }
     })
   }
 ])

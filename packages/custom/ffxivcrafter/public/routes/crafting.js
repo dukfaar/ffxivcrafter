@@ -6,10 +6,16 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
     $meanStateProvider
     .state('crafting home', {
       url: '/crafting/home',
-      templateUrl: 'ffxivCrafter/views/crafting/index.html'
+      templateUrl: 'ffxivCrafter/views/crafting/index.html',
+      requiredCircles: {
+        circles: ['see crafting']
+      }
     }).state('crafting reporting', {
       url: '/crafting/reporting',
-      templateUrl: 'ffxivCrafter/views/reporting/craftingReporting.html'
+      templateUrl: 'ffxivCrafter/views/reporting/craftingReporting.html',
+      requiredCircles: {
+        circles: ['projectManager']
+      }
     })
   }
 ])

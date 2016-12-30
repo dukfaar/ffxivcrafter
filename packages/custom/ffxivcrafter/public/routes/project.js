@@ -6,15 +6,24 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
     $meanStateProvider
       .state('project list', {
         url: '/project/list',
-        templateUrl: 'ffxivCrafter/views/project/index.html'
+        templateUrl: 'ffxivCrafter/views/project/index.html',
+        requiredCircles: {
+          circles: ['see projects']
+        }
       })
       .state('project settings', {
         url: '/project/settings',
-        templateUrl: 'ffxivCrafter/views/project/settings.html'
+        templateUrl: 'ffxivCrafter/views/project/settings.html',
+        requiredCircles: {
+          circles: ['see projects']
+        }
       })
       .state('project reporting', {
         url: '/project/reporting/:projectId',
-        templateUrl: 'ffxivCrafter/views/project/reporting.html'
+        templateUrl: 'ffxivCrafter/views/project/reporting.html',
+        requiredCircles: {
+          circles: ['see projects']
+        }
       })
   }
 ])

@@ -6,7 +6,10 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
     $meanStateProvider
       .state('recipe list', {
         url: '/recipe/list',
-        templateUrl: 'ffxivCrafter/views/recipe/index.html'
+        templateUrl: 'ffxivCrafter/views/recipe/index.html',
+        requiredCircles: {
+          circles: ['see recipes']
+        }
       });
   }
 ]);

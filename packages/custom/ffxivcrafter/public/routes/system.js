@@ -16,7 +16,10 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider', '$urlRouterPro
     $meanStateProvider
       .state('doldoh overview', {
         url: '/doldoh/overview',
-        templateUrl: 'ffxivCrafter/views/system/doldoh-overview.html'
+        templateUrl: 'ffxivCrafter/views/system/doldoh-overview.html',
+        requiredCircles: {
+          circles: ['projectManager']
+        }
       })
 
     $meanStateProvider
