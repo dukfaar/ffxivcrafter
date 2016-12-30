@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('OrderController', ['$scope', 'Global', '$http', '$mdDialog', 'ItemService', '$mdToast', '$q',
-  function ($scope, Global, $http, $mdDialog, ItemService, $mdToast, $q) {
+angular.module('mean.ffxivCrafter').controller('OrderController', ['$scope', 'Global', '$http', '$mdDialog', 'ItemService', '$mdToast', '$q', '_',
+  function ($scope, Global, $http, $mdDialog, ItemService, $mdToast, $q , _) {
     $scope.itemService = ItemService
 
     $scope.order = {
@@ -74,6 +74,10 @@ angular.module('mean.ffxivCrafter').controller('OrderController', ['$scope', 'Gl
 
     $scope.addItemToCart = function(item, amount, hq) {
       $scope.cart.push({item: item, amount: amount, hq: hq})
+    }
+
+    $scope.removeItemFromCart = function(removeIndex) {
+      _.remove($scope.cart, function(item, index) { return index == removeIndex })
     }
 
     $scope.orderCart = function (cart) {

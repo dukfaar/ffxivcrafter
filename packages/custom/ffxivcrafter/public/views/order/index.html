@@ -72,7 +72,10 @@
           </md-card-header>
           <md-card-content>
             <md-list>
-              <md-list-item ng-repeat="orderItem in cart">{{orderItem.amount}} {{orderItem.hq?'HQ':''}} {{orderItem.item.name}}</md-list-item>
+              <md-list-item ng-repeat="orderItem in cart">
+                <span flex>{{orderItem.amount}} {{orderItem.hq?'HQ':''}} {{orderItem.item.name}}</span>
+                <md-icon class="material-icons" ng-click="removeItemFromCart($index)">delete</md-icon>
+              </md-list-item>
             </md-list>
           </md-card-content>
           <md-card-actions layout="row" layout-align="end center">
