@@ -6,7 +6,10 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
     $meanStateProvider
     .state('order home', {
       url: '/order/home',
-      templateUrl: 'ffxivCrafter/views/order/index.html'
+      templateUrl: 'ffxivCrafter/views/order/index.html',
+      requiredCircles: {
+        circles: ['see order']
+      }
     });
   }
 ]);
