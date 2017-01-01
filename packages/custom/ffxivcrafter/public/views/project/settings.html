@@ -8,6 +8,10 @@
             <md-switch ng-model="data.useOverview" ng-change="toggleUseProjectOverview()">
               <span ng-if="!data.useOverview">Don't </span><span>Use Project Overview</span>
             </md-switch>
+
+            <md-switch ng-model="data.editKanbanColumns" ng-change="toggleEditKanbanColumns()">
+              <span ng-if="!data.editKanbanColumns">Don't </span><span>Edit Kanban Columns</span>
+            </md-switch>
           </md-card-content>
         </md-card>
 

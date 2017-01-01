@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', '$mdPanel', 'socket', 'MeanUser', '$q', 'localStorageService', 'ProjectStockChange', 'ItemDatabase', '_',
-  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, $mdPanel, socket, MeanUser, $q, localStorageService, ProjectStockChange, ItemDatabase, _) {
+angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', '$mdPanel', 'socket', 'MeanUser', '$q', 'localStorageService', 'ProjectStockChange', 'ItemDatabase', '_', '$stateParams',
+  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, $mdPanel, socket, MeanUser, $q, localStorageService, ProjectStockChange, ItemDatabase, _, $stateParams) {
     $scope._ = _
     $scope.tabList = []
     $scope.projectList = []
@@ -114,6 +114,16 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       if ($scope.project._id === p._id && !$scope.tabdata.showProjectOverview) return
 
       $scope.getProject(p._id, function () {
+        $scope.project = $scope.projectList[index]
+        $scope.tabdata.currentProjectName = 'project_' + index
+        $scope.tabdata.selectedIndex = index
+        $scope.tabdata.showProjectOverview = false
+      })
+    }
+
+    $scope.goToProject = function(id) {
+      $scope.getProject(id, function () {
+        var index = _.findIndex($scope.projectList, function (project) { return project._id == id })
         $scope.project = $scope.projectList[index]
         $scope.tabdata.currentProjectName = 'project_' + index
         $scope.tabdata.selectedIndex = index
@@ -308,11 +318,15 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     }
 
     $scope.updateList(function () {
-      $scope.getProject($scope.projectList[0]._id,
-        function () {
-          $scope.project = $scope.projectList[0]
-          $scope.tabdata.currentProjectName = 'project_0'
-        })
+      if($stateParams.projectId) {
+        $scope.goToProject($stateParams.projectId)
+      } else {
+        $scope.getProject($scope.projectList[0]._id,
+          function () {
+            $scope.project = $scope.projectList[0]
+            $scope.tabdata.currentProjectName = 'project_0'
+          })
+      }
     })
   }
 ])

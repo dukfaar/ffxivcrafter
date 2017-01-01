@@ -13,7 +13,8 @@
     "meanio-system": "git://github.com/linnovate/meanio-system.git",
     "meanio-users": "git://github.com/linnovate/meanio-users.git",
     "angular-local-storage": "latest",
-    "angular-chart.js": "latest"
+    "angular-chart.js": "latest",
+    "angular-drag-and-drop-lists": "latest"
   },
   "license": "MIT"
 }

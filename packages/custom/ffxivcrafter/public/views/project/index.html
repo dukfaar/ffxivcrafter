@@ -6,21 +6,21 @@
           <md-tab ng-click="clickProject(tabproject,$index)" ng-repeat="tabproject in tabList" label="{{(tabproject.name && tabproject.name!=='')?tabproject.name:tabproject.tree.item.name}}"></md-tab>
         </md-tabs>
 
-        <md-content layout-wrap layout="row" layout-xs="column" layout-sm="row" ng-if="project && (!tabdata.showProjectOverview || !tabdata.useOverview)">
-          <div layout="column" flex="25" flex-xs="100" flex-sm="50">
+        <column-layout ng-if="project && (!tabdata.showProjectOverview || !tabdata.useOverview)">
+          <column>
             <project-recipe-tree-card></project-recipe-tree-card>
-          </div>
+          </column>
 
-          <div layout="column" flex="25" flex-xs="100" flex-sm="50">
+          <column>
             <project-item-crafts project="project" project-data="projectData[project._id]"></project-item-crafts>
             <project-item-gathers project="project" project-data="projectData[project._id]"></project-item-gathers>
-          </div>
+          </column>
 
-          <div layout="column" flex="25" flex-xs="100" flex-sm="50">
+          <column>
             <project-item-stock project="project" project-data="projectData[project._id]"></project-item-stock>
-          </div>
+          </column>
 
-          <div layout="column" flex="25" flex-xs="100" flex-sm="50">
+          <column>
             <project-settings-card></project-settings-card>
 
             <revenue-card project="project" project-data="projectData[project._id]"></revenue-card>
@@ -48,7 +48,7 @@
                 </md-input-container>
               </md-card-content>
             </md-card>
-          </div>
+          </column>
         </md-content>
 
         <md-content ng-if="tabdata.showProjectOverview && tabdata.useOverview" layout="row" layout-wrap>

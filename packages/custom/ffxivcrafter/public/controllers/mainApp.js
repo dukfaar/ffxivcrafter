@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('mean.ffxivCrafter').controller('MainAppController', ['$scope', '$mdSidenav',
-  function ($scope, $mdSidenav) {
+  function ($scope, $mdSidenav, $q) {
     if (window.localStorage.getItem('navigation.mode') === null) window.localStorage.setItem('navigation.mode', 'top')
 
     $scope.navigation = {

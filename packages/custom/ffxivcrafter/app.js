@@ -10,6 +10,8 @@ var FFXIVCrafter = new Module('ffxivCrafter')
 function setupCircles (circles) {
   circles.registerCircle('projectManager', ['admin'])
 
+  circles.registerCircle('see kanban board', ['admin'])
+
   circles.registerCircle('manage items', ['admin'])
   circles.registerCircle('see items', ['manage items'])
   circles.registerCircle('edit itemdata', ['manage items'])
@@ -44,6 +46,25 @@ function setupMenus () {
     link: 'home',
     roles: ['authenticated'],
     menu: 'main'
+  })
+
+  FFXIVCrafter.menus.add({
+    title: 'Project Manager',
+    roles: ['projectManager'],
+    menu: 'main',
+    name: 'pm'
+  })
+  FFXIVCrafter.menus.add({
+    title: 'Overview',
+    link: 'pm overview',
+    roles: ['projectManager'],
+    path: 'main/pm'
+  })
+  FFXIVCrafter.menus.add({
+    title: 'Kanban',
+    link: 'pm kanban',
+    roles: ['see kanban board'],
+    path: 'main/pm'
   })
 
   FFXIVCrafter.menus.add({
@@ -241,7 +262,7 @@ FFXIVCrafter.register(function (app, users, system, admin, database, circles, ht
 
   extendUser(database)
 
-  FFXIVCrafter.angularDependencies(['mean.system', 'mean.users', 'mean.admin', 'ngMaterial', 'LocalStorageModule', 'ngResource', 'chart.js'])
+  FFXIVCrafter.angularDependencies(['mean.system', 'mean.users', 'mean.admin', 'ngMaterial', 'LocalStorageModule', 'ngResource', 'chart.js', 'dndLists' ])
 
   setupCircles(circles)
 

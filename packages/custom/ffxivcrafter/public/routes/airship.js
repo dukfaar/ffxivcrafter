@@ -1,8 +1,7 @@
-'use strict';
+'use strict'
 
-//Setting up route
 angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
-  function($meanStateProvider) {
+  function ($meanStateProvider) {
     $meanStateProvider
     .state('airship home', {
       url: '/airship/home',
@@ -10,6 +9,6 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
       requiredCircles: {
         circles: ['manage airships']
       }
-    });
+    })
   }
-]);
+])

@@ -6,6 +6,8 @@ var Q = require('q')
 
 mongoose.Promise = Q.Promise
 
+var io = require('../config/socket')()
+
 module.exports = function () {
 
   function skipFind(find, req) {
@@ -51,7 +53,7 @@ module.exports = function () {
     return {
       Model: Model,
       list: function (req, res) {
-        doList(Model.find({}), req)
+        doList(Model.find(req.query), req)
         .then(function (result) {
           res.send(result)
         })
@@ -60,11 +62,12 @@ module.exports = function () {
         })
       },
       create: function (req, res) {
-        var instance = new Model()
+        var instance = new Model(req.body)
 
         instance.save()
         .then(function () {
-          res.json({text: 'instance created'})
+          res.send(instance)
+          io.emit(modelName + ' created', instance)
         })
         .catch(function (err) {
           res.status(500).send(err)
@@ -80,9 +83,10 @@ module.exports = function () {
         })
       },
       update: function (req, res) {
-        Model.findByIdAndUpdate(req.params.id, req.body).exec()
-        .then(function (part) {
+        Model.findByIdAndUpdate(req.params.id, req.body, {new: true}).exec()
+        .then(function (instance) {
           res.send({})
+          io.emit(modelName + ' updated', instance)
         })
         .catch(function (err) {
           res.status(500).send(err)
@@ -92,6 +96,7 @@ module.exports = function () {
         Model.findByIdAndRemove(req.params.id).exec()
         .then(function () {
           res.send({})
+          io.emit(modelName + ' deleted', req.params._id)
         })
         .catch(function (err) {
           res.status(500).send(err)

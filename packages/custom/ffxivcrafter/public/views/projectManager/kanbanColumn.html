@@ -1,0 +1,30 @@
+<div dnd-list="cards" dnd-drop="cardDropped(event, index, item, external, type)">
+  <h2>
+    <md-input-container ng-if="editKanbanColumns">
+      <input ng-model="column.name" ng-model-options="{debounce: 500}" ng-change="updateColumn(column)"/>
+    </md-input-container>
+    <span ng-if="!editKanbanColumns">{{column.name}}</span>
+
+    <md-button class="md-icon-button" ng-click="addCardToColumn(column)">
+      <md-icon class="material-icons">add</md-icon>
+      <md-tooltip>Add a new card to this column</md-tooltip>
+    </md-button>
+
+    <md-button class="md-icon-button" ng-click="deleteColumn(column)" ng-if="editKanbanColumns"><md-icon class="material-icons">close</md-icon></md-button>
+  </h2>
+
+  <div>
+    <md-card ng-repeat="card in cards" dnd-draggable="card">
+      <md-toolbar class="md-hue-2">
+        <div class="md-toolbar-tools">
+          <span flex>{{card.title}}</span>
+          <md-button class="md-icon-button" ng-click="editCard(card)"> <md-icon class="material-icons">edit</md-icon></md-button>
+          <md-button class="md-icon-button" ng-click="deleteCard(card)"> <md-icon class="material-icons">close</md-icon></md-button>
+        </div>
+      </md-toolbar>
+      <md-card-content flex>
+        <pre>{{card.description}}</pre>
+      </md-card-content>
+    </md-card>
+  </div>
+</div>

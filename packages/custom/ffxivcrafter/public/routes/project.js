@@ -5,7 +5,7 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
   function ($meanStateProvider) {
     $meanStateProvider
       .state('project list', {
-        url: '/project/list',
+        url: '/project/list/:projectId',
         templateUrl: 'ffxivCrafter/views/project/index.html',
         requiredCircles: {
           circles: ['see projects']
