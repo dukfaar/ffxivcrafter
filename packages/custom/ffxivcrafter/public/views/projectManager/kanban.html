@@ -1,6 +1,6 @@
 <page-base>
   <div layout="row" layout-padding>
-    <kanban-column column-data="column" ng-repeat="column in columns"></kanban-column>
+    <kanban-column flex column-data="column" ng-repeat="column in columns"></kanban-column>
   </div>
 
   <md-button ng-if="editKanbanColumns" ng-click="addColumn()">Add Column</md-button>

@@ -1,4 +1,4 @@
-<div dnd-list="cards" dnd-drop="cardDropped(event, index, item, external, type)">
+<div dnd-list="cards" dnd-drop="cardDropped(event, index, item, external, type)" layout="column" layout-fill>
   <h2>
     <md-input-container ng-if="editKanbanColumns">
       <input ng-model="column.name" ng-model-options="{debounce: 500}" ng-change="updateColumn(column)"/>
