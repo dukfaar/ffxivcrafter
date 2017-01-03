@@ -173,7 +173,10 @@ module.exports = function (io) {
         {creator: req.user._id},
         {sharedWith: req.user._id}
       ]
-      if (req.user.roles.indexOf('projectManager') >= 0) criteria.$or.push({order: true})
+      if (req.user.roles.indexOf('projectManager') >= 0) {
+        criteria.$or.push({private: false, public: false})
+        criteria.$or.push({order: true})
+      }
 
       populateAndSend(res, CraftingProject.findOne(criteria), true)
     },
