@@ -96,7 +96,7 @@ module.exports = function () {
         Model.findByIdAndRemove(req.params.id).exec()
         .then(function () {
           res.send({})
-          io.emit(modelName + ' deleted', req.params._id)
+          io.emit(modelName + ' deleted', req.params.id)
         })
         .catch(function (err) {
           res.status(500).send(err)

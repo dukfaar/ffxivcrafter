@@ -2,8 +2,14 @@
   <div layout-wrap flex layout="row" layout-xs="column" layout-sm="row">
     <column>
       <md-card>
+        <md-toolbar class="md-hue-2">
+          <div class="md-toolbar-tools">
+            <span flex>{{orderProjects.length}} current orders</span>
+          </div>
+        </md-toolbar>
+
         <md-card-content>
-          {{orderProjects.length}} current orders
+
 
           <md-list>
             <md-list-item ng-repeat="project in orderProjects" ng-href="/project/list/{{project._id}}">
@@ -16,12 +22,34 @@
 
     <column>
       <md-card>
-        <md-card-content>
-          {{publicProjects.length}} public projects
+        <md-toolbar class="md-hue-2">
+          <div class="md-toolbar-tools">
+            <span flex>{{publicProjects.length}} public projects</span>
+          </div>
+        </md-toolbar>
 
+        <md-card-content>
           <md-list>
             <md-list-item ng-repeat="project in publicProjects" ng-href="/project/list/{{project._id}}">
               {{project.name}}
+            </md-list-item>
+          </md-list>
+        </md-card-content>
+      </md-card>
+    </column>
+
+    <column>
+      <md-card>
+        <md-toolbar class="md-hue-2">
+          <div class="md-toolbar-tools">
+            <span flex>Public Projects Stockoverview</span>
+          </div>
+        </md-toolbar>
+
+        <md-card-content>
+          <md-list>
+            <md-list-item ng-repeat="stockItem in ccStock">
+              {{stockItem.amount}} {{stockItem.hq?'HQ':''}} {{ItemDatabase.get(stockItem.item).name}}
             </md-list-item>
           </md-list>
         </md-card-content>

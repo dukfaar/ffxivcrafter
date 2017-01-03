@@ -11,16 +11,53 @@ angular.module('mean.ffxivCrafter').directive('kanbanColumn', function () {
         return KanbanCard.query({column: $scope.column._id})
       }
 
+      $scope.cards = []
+
+      function assignCardOrder() {
+        _.forEach($scope.cards,function (card, index) {
+          if(!card.order) {
+            card.order = index
+            KanbanCard.update({id: card._id}, card)
+          }
+        })
+      }
+
+      function assignCardOrderByIndex() {
+        _.forEach($scope.cards,function (card, index) {
+          if(card.order != index) {
+            card.order = index
+            KanbanCard.update({id: card._id}, card)
+          }
+        })
+      }
+
+      function sortCards() {
+        $scope.cards = _.sortBy($scope.cards, function(card) {
+          return card.order?card.order:card._id
+        })
+      }
+
+      function orderScopeCards() {
+        sortCards()
+        assignCardOrder()
+      }
+
+      function getAndOrderCards() {
+        $scope.cards = getCards()
+        $scope.cards.$promise.then(function(cards) {
+          orderScopeCards()
+        })
+      }
+
       if (localStorageService.get('editKanbanColumns') === null) localStorageService.set('editKanbanColumns', false)
 
       $scope.editKanbanColumns = localStorageService.get('editKanbanColumns')
 
-      $scope.cards = getCards()
+      getAndOrderCards()
 
       $scope.addCardToColumn = function (column) {
-        var newCard = new KanbanCard({name: 'New Card', column: column._id})
+        var newCard = new KanbanCard({title: 'New Card', column: column._id, order: $scope.cards.length})
         newCard.$save()
-        $scope.cards = getCards()
       }
 
       $scope.updateCard = function (card) {
@@ -64,13 +101,10 @@ angular.module('mean.ffxivCrafter').directive('kanbanColumn', function () {
       }
 
       $scope.cardDropped = function(event, index, card, external, type) {
-        if(card.column != $scope.column._id) {
-          card.column = $scope.column._id
-          KanbanCard.update({id: card._id}, card)
-          return true
-        } else {
-          return false
-        }
+        card.column = $scope.column._id
+        card.order = index
+        KanbanCard.update({id: card._id}, card)
+        return true
       }
 
       socket.on('KanbanColumn updated', function (data) {
@@ -82,30 +116,41 @@ angular.module('mean.ffxivCrafter').directive('kanbanColumn', function () {
 
       socket.on('KanbanCard created', function (data) {
         if(data.column == $scope.column._id)
-          $scope.cards = getCards()
+          getAndOrderCards()
       })
 
+      function removeCardFromArrayAndReindex(id) {
+        _.remove($scope.cards, function(card) { return card._id == id })
+        assignCardOrderByIndex()
+      }
+
       socket.on('KanbanCard deleted', function (data) {
-        if(data.column == $scope.column._id)
-          $scope.cards = getCards()
+        removeCardFromArrayAndReindex(data)
       })
 
       socket.on('KanbanCard updated', function (data) {
         var cardInThisColumn = _.find($scope.cards, function (card) { return card._id == data._id })
 
+        //card removed?
         if(cardInThisColumn && $scope.column._id != data.column) {
-          //card was removed from this column
-          $scope.cards = getCards()
+          removeCardFromArrayAndReindex(data._id)
         }
 
+        //card added
         if(!cardInThisColumn && $scope.column._id == data.column) {
-          //card is new in this column
-          $scope.cards = getCards()
+          $scope.cards.push(data)
+          _.forEach($scope.cards, function(card) {
+            if (card.order > data.order) {
+              card.order++
+              KanbanCard.update({id: card._id}, card)
+            }
+          })
         }
 
         if(cardInThisColumn && data.column == $scope.column._id)
           //card was in this column and it still is
           _.assign(_.find($scope.cards, function (card) { return card._id == data._id }), data)
+          sortCards()
 
           $scope.$digest()
       })

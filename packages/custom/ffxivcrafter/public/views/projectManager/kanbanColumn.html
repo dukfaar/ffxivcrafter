@@ -1,4 +1,4 @@
-<div dnd-list="cards" dnd-drop="cardDropped(event, index, item, external, type)" layout="column" layout-fill>
+<div layout="column" layout-fill>
   <h2>
     <md-input-container ng-if="editKanbanColumns">
       <input ng-model="column.name" ng-model-options="{debounce: 500}" ng-change="updateColumn(column)"/>
@@ -13,7 +13,7 @@
     <md-button class="md-icon-button" ng-click="deleteColumn(column)" ng-if="editKanbanColumns"><md-icon class="material-icons">close</md-icon></md-button>
   </h2>
 
-  <div>
+  <div dnd-list="cards" dnd-drop="cardDropped(event, index, item, external, type)" layout-fill>
     <md-card ng-repeat="card in cards" dnd-draggable="card">
       <md-toolbar class="md-hue-2">
         <div class="md-toolbar-tools">
