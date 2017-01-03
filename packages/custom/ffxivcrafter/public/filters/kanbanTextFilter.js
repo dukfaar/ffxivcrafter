@@ -15,6 +15,28 @@ angular.module('mean.ffxivCrafter').filter('kanbanText', function ($sce, _) {
       return '<table><tr><td>' + tableBodyContent + '</td></tr></table>'
     })
 
+    var price = 0
+    var cc = 0
+
+    resultText = _.replace(resultText, /\[price\s*=\s*(\d+\.?\d*)\]/g, function(match, p1, offset, string) {
+      price = Number.parseFloat(p1)
+
+      return p1
+    })
+
+    resultText = _.replace(resultText, /\[cc\s*\+\s*(\d+\.?\d*)\]/g, function(match, p1, offset, string) {
+      cc += Number.parseFloat(p1)
+
+      return p1
+    })
+
+    resultText = _.replace(resultText, /\[portion\s*=\s*(\d+\.?\d*)\]/g, function(match, p1, offset, string) {
+      var value = Number.parseFloat(p1)
+      var portion = (price - cc) * (value / 100)
+
+      return portion
+    })
+
     resultText = _.replace(resultText, /\[project:(\w+)\:(.*)\]/g, '<a href="/project/list/$1">$2</a>')
     return $sce.trustAsHtml(resultText)
   }
