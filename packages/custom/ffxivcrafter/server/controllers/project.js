@@ -158,13 +158,17 @@ module.exports = function (io) {
       populateAndSend(res, CraftingProject.find(criteria).populate('creator'), req.query.doPopulate === 'true')
     },
     publicList: function (req, res) {
-      populateAndSend(res, CraftingProject.find({
-        $or: [
-          {public: true, private: false},
-          {sharedWith: req.user._id},
-          {creator: req.user._id}
-        ]
-      }), true)
+      if(!req.user) {
+          res.send([])
+      } else {
+          populateAndSend(res, CraftingProject.find({
+          $or: [
+            {public: true, private: false},
+            {sharedWith: req.user._id},
+            {creator: req.user._id}
+          ]
+        }), true)
+      }
     },
     get: function (req, res) {
       var criteria = { _id: req.params.id }

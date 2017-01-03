@@ -19,22 +19,24 @@ angular.module('mean.ffxivCrafter').filter('kanbanText', function ($sce, _) {
     var cc = 0
 
     resultText = _.replace(resultText, /\[price\s*=\s*(\d+\.?\d*)\]/g, function(match, p1, offset, string) {
-      price = Number.parseFloat(p1)
+      var value = Number.parseFloat(p1)
+      price = value
 
-      return p1
+      return value.toLocaleString()
     })
 
     resultText = _.replace(resultText, /\[cc\s*\+\s*(\d+\.?\d*)\]/g, function(match, p1, offset, string) {
-      cc += Number.parseFloat(p1)
+      var value = Number.parseFloat(p1)
+      cc += value
 
-      return p1
+      return value.toLocaleString()
     })
 
     resultText = _.replace(resultText, /\[portion\s*=\s*(\d+\.?\d*)\]/g, function(match, p1, offset, string) {
       var value = Number.parseFloat(p1)
       var portion = (price - cc) * (value / 100)
 
-      return portion
+      return portion.toLocaleString()
     })
 
     resultText = _.replace(resultText, /\[project:(\w+)\:(.*)\]/g, '<a href="/project/list/$1">$2</a>')
