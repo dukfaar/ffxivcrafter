@@ -42,14 +42,19 @@
       <md-card>
         <md-toolbar class="md-hue-2">
           <div class="md-toolbar-tools">
-            <span flex>Public Projects Stockoverview</span>
+            <span flex>Public Stockoverview</span>
+
+            <md-input-container class="md-accent" style="padding-bottom:0px;margin-left:25px">
+              <label style="color:wheat">Filter</label>
+              <input style="color:wheat" ng-model="overviewFilter" size="10"/>
+            </md-input-container>
           </div>
         </md-toolbar>
 
         <md-card-content>
           <md-list>
-            <md-list-item ng-repeat="stockItem in ccStock">
-              {{stockItem.amount}} {{stockItem.hq?'HQ':''}} {{ItemDatabase.get(stockItem.item).name}}
+            <md-list-item ng-repeat="stockItem in ccStockArray | filter: { item: { name: overviewFilter } }">
+              {{stockItem.amount}} {{stockItem.hq?'HQ':''}} {{stockItem.item.name}}
             </md-list-item>
           </md-list>
         </md-card-content>

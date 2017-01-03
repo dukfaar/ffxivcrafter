@@ -8,7 +8,8 @@ angular.module('mean.ffxivCrafter').directive('projectManagerOverview', function
       $scope.orderProjects = []
       $scope.publicProjects = []
       $scope.ItemDatabase = ItemDatabase
-      
+      $scope.overviewFilter = ''
+
       $scope.ccStock = {}
 
       $scope.allProjects.$promise.then(function () {
@@ -19,11 +20,15 @@ angular.module('mean.ffxivCrafter').directive('projectManagerOverview', function
         _.forEach($scope.publicProjects, function (project) {
           _.forEach(project.stock, function (stockItem) {
             if (!$scope.ccStock[stockItem.item + '_' + stockItem.hq]) {
-              $scope.ccStock[stockItem.item + '_' + stockItem.hq] = {item: stockItem.item, hq: stockItem.hq, amount: stockItem.amount}
+              $scope.ccStock[stockItem.item + '_' + stockItem.hq] = {item: ItemDatabase.get(stockItem.item), hq: stockItem.hq, amount: stockItem.amount}
             } else {
               $scope.ccStock[stockItem.item + '_' + stockItem.hq].amount += stockItem.amount
             }
           })
+        })
+
+        $scope.ccStockArray = Object.keys($scope.ccStock).map(function (key) {
+          return $scope.ccStock[key]
         })
       })
     }
