@@ -15,7 +15,7 @@ angular.module('mean.ffxivCrafter').directive('kanbanColumn', function () {
 
       function assignCardOrder() {
         _.forEach($scope.cards,function (card, index) {
-          if(!card.order) {
+          if(card.order == null || card.order == undefined) {
             card.order = index
             KanbanCard.update({id: card._id}, card)
           }
@@ -138,18 +138,39 @@ angular.module('mean.ffxivCrafter').directive('kanbanColumn', function () {
 
         //card added
         if(!cardInThisColumn && $scope.column._id == data.column) {
-          $scope.cards.push(data)
+          console.log($scope.cards)
           _.forEach($scope.cards, function(card) {
-            if (card.order > data.order) {
+            if (card.order >= data.order) {
               card.order++
-              KanbanCard.update({id: card._id}, card)
             }
           })
+          console.log($scope.cards)
+          $scope.cards.push(data)
+          console.log($scope.cards)
+          sortCards()
+          assignCardOrderByIndex()
         }
 
         if(cardInThisColumn && data.column == $scope.column._id)
           //card was in this column and it still is
-          _.assign(_.find($scope.cards, function (card) { return card._id == data._id }), data)
+          if(cardInThisColumn.order > data.order) {
+            for(var i = data.order; i < cardInThisColumn.order; i++) {
+              $scope.cards[i].order++
+
+              KanbanCard.update({id: $scope.cards[i]._id}, $scope.cards[i])
+            }
+          }
+
+          //moved down
+          else if(cardInThisColumn.order < data.order) {
+            for(var i = cardInThisColumn.order + 1; i < data.order; i++) {
+              $scope.cards[i].order--
+
+              KanbanCard.update({id: $scope.cards[i]._id}, $scope.cards[i])
+            }
+          }
+
+          _.assign(cardInThisColumn, data)
           sortCards()
 
           $scope.$digest()
