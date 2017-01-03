@@ -1,12 +1,10 @@
-<md-dialog layout-padding>
-  <md-dialog-content layout="column">
-
+<md-dialog style="width: 80%; height: 80%">
+  <md-dialog-content flex layout-padding layout="column">
     <md-input-container>
       <label>Title</label>
       <input ng-model="card.title"/>
     </md-input-container>
-
-    <md-input-container>
+    <md-input-container flex>
       <label>Description</label>
       <textarea ng-model="card.description"></textarea>
     </md-input-container>
