@@ -570,6 +570,572 @@ describe('functions of the projectAnalyzerService', function () {
     '__v': 0
   }
 
+  var cassiaBlockStep = {
+    '_id': '586c206f25fb900f3f6883f5',
+    'amount': 36,
+    'recipe': {
+      '_id': '57dd38e50febcb5d9dde9720',
+      'craftingLevel': 60,
+      'craftingJob': 'Carpenter',
+      'outputs': [
+        {
+          'item': '57dd3165ec158f5b6b75b43c',
+          '_id': '57dd38e50febcb5d9dde9721',
+          'amount': 1
+        }
+      ],
+      'inputs': [
+        {
+          'item': '57cfbd439567fb328521568f',
+          '_id': '57dd38e50febcb5d9dde9726',
+          'amount': 2
+        },
+        {
+          'item': '57dd38e50febcb5d9dde9722',
+          '_id': '57dd38e60febcb5d9dde9727',
+          'amount': 1
+        },
+        {
+          'item': '57dd38e50febcb5d9dde9725',
+          '_id': '57dd38e60febcb5d9dde9728',
+          'amount': 1
+        },
+        {
+          'item': '57dd38e50febcb5d9dde9724',
+          '_id': '57dd38e60febcb5d9dde9729',
+          'amount': 1
+        },
+        {
+          'item': '57dd38e50febcb5d9dde9723',
+          '_id': '57dd38e70febcb5d9dde972a',
+          'amount': 1
+        }
+      ],
+      '__v': 0
+    },
+    'step': 'Craft',
+    'item': {
+      '_id': '57dd3165ec158f5b6b75b43c',
+      'name': 'Cassia Block',
+      'discount': 0,
+      'inStock': 0,
+      'soldOnMarket': false,
+      'canBeOrderedByUnprivileged': false,
+      'gatheringLevel': 0,
+      'gatheringJob': 'None',
+      'gatheringEffort': 0,
+      'priceHQ': 0,
+      'price': 200000,
+      '__v': 0,
+      'lastPriceUpdate': '2016-09-26T08:06:48.237Z',
+      'ageMultiplier': 4.15,
+      'unspoiledNodeTime': {
+        'duration': 60
+      }
+    },
+    'inputs': [
+      {
+        '_id': '586c206f25fb900f3f688419',
+        'amount': 72,
+        'step': 'Gather',
+        'item': {
+          '_id': '57cfbd439567fb328521568f',
+          'name': 'Wind Cluster',
+          'gatheringLevel': 50,
+          'gatheringJob': 'None',
+          'gatheringEffort': -45,
+          'priceHQ': 0,
+          'price': 1500,
+          '__v': 0,
+          'canBeOrderedByUnprivileged': false,
+          'lastPriceUpdate': '2017-01-01T17:04:26.325Z',
+          'ageMultiplier': 19.63,
+          'soldOnMarket': false,
+          'inStock': 0,
+          'discount': 0,
+          'datedObject': false,
+          'availableFromNpc': false,
+          'unspoiledNodeTime': {
+            'duration': 60
+          }
+        },
+        'inputs': [
+
+        ],
+        'hq': false,
+        '__v': 0
+      },
+      {
+        '_id': '586c206f25fb900f3f68841a',
+        'amount': 36,
+        'step': 'Gather',
+        'item': {
+          '_id': '57dd38e50febcb5d9dde9722',
+          'name': 'Ice Cluster',
+          'discount': 0,
+          'inStock': 0,
+          'soldOnMarket': false,
+          'canBeOrderedByUnprivileged': false,
+          'gatheringLevel': 50,
+          'gatheringJob': 'None',
+          'gatheringEffort': -45,
+          'priceHQ': 0,
+          'price': 500,
+          '__v': 0,
+          'lastPriceUpdate': '2017-01-01T17:04:54.186Z',
+          'ageMultiplier': 9.93,
+          'datedObject': false,
+          'availableFromNpc': false,
+          'unspoiledNodeTime': {
+            'duration': 60
+          }
+        },
+        'inputs': [
+
+        ],
+        'hq': false,
+        '__v': 0
+      },
+      {
+        '_id': '586c206f25fb900f3f68841d',
+        'amount': 36,
+        'step': 'Gather',
+        'item': {
+          '_id': '57dd38e50febcb5d9dde9723',
+          'name': 'Dawnborne Aethersand',
+          'discount': 0,
+          'inStock': 0,
+          'soldOnMarket': false,
+          'canBeOrderedByUnprivileged': false,
+          'gatheringLevel': 0,
+          'gatheringJob': 'None',
+          'gatheringEffort': 100,
+          'priceHQ': 54000,
+          'price': 25000,
+          '__v': 0,
+          'lastPriceUpdate': '2016-10-02T11:38:41.453Z',
+          'ageMultiplier': 4.57,
+          'unspoiledNodeTime': {
+            'duration': 60
+          }
+        },
+        'inputs': [
+
+        ],
+        'hq': false,
+        '__v': 0
+      },
+      {
+        '_id': '586c206f25fb900f3f68841c',
+        'amount': 36,
+        'recipe': {
+          '_id': '57dd422c0febcb5d9dde979a',
+          'craftingLevel': 60,
+          'craftingJob': 'Alchemist',
+          'outputs': [
+            {
+              'item': '57dd38e50febcb5d9dde9724',
+              '_id': '57dd422c0febcb5d9dde979b',
+              'amount': 1
+            }
+          ],
+          'inputs': [
+            {
+              'item': '57cfbd439567fb3285215691',
+              '_id': '57dd422c0febcb5d9dde979c',
+              'amount': 1
+            },
+            {
+              'item': '57cfbd969567fb32852156b7',
+              '_id': '57dd422c0febcb5d9dde979d',
+              'amount': 2
+            },
+            {
+              'item': '57dd422c0febcb5d9dde979e',
+              '_id': '57dd422d0febcb5d9dde97a1',
+              'amount': 2
+            },
+            {
+              'item': '57dd422c0febcb5d9dde97a0',
+              '_id': '57dd422d0febcb5d9dde97a2',
+              'amount': 2
+            },
+            {
+              'item': '57dd422c0febcb5d9dde979f',
+              '_id': '57dd422d0febcb5d9dde97a3',
+              'amount': 1
+            }
+          ],
+          '__v': 0
+        },
+        'step': 'Craft',
+        'item': {
+          '_id': '57dd38e50febcb5d9dde9724',
+          'name': 'Astral Oil',
+          'discount': 0,
+          'inStock': 0,
+          'soldOnMarket': false,
+          'canBeOrderedByUnprivileged': false,
+          'gatheringLevel': 0,
+          'gatheringJob': 'None',
+          'gatheringEffort': 0,
+          'priceHQ': 60000,
+          'price': 60000,
+          '__v': 0,
+          'lastPriceUpdate': '2016-10-15T10:42:39.699Z',
+          'ageMultiplier': 4.66,
+          'unspoiledNodeTime': {
+            'duration': 60
+          }
+        },
+        'inputs': [
+          {
+            '_id': '586c206f25fb900f3f688446',
+            'amount': 36,
+            'step': 'Gather',
+            'item': {
+              '_id': '57cfbd439567fb3285215691',
+              'name': 'Lightning Cluster',
+              'gatheringLevel': 50,
+              'gatheringJob': 'None',
+              'gatheringEffort': -45,
+              'priceHQ': 0,
+              'price': 1450,
+              '__v': 0,
+              'canBeOrderedByUnprivileged': false,
+              'lastPriceUpdate': '2016-09-26T07:45:04.341Z',
+              'ageMultiplier': 10.09,
+              'soldOnMarket': false,
+              'inStock': 0,
+              'discount': 0,
+              'datedObject': false,
+              'availableFromNpc': false,
+              'unspoiledNodeTime': {
+                'duration': 60
+              }
+            },
+            'inputs': [
+
+            ],
+            'hq': false,
+            '__v': 0
+          },
+          {
+            '_id': '586c206f25fb900f3f688449',
+            'amount': 72,
+            'step': 'Gather',
+            'item': {
+              '_id': '57dd422c0febcb5d9dde97a0',
+              'name': 'Seventh Heaven',
+              'discount': 0,
+              'inStock': 0,
+              'soldOnMarket': false,
+              'canBeOrderedByUnprivileged': false,
+              'gatheringLevel': 60,
+              'gatheringJob': 'Botanist',
+              'gatheringEffort': 100,
+              'priceHQ': 30000,
+              'price': 4111,
+              '__v': 0,
+              'lastPriceUpdate': '2016-10-15T10:42:55.179Z',
+              'ageMultiplier': 7.12,
+              'datedObject': false,
+              'availableFromNpc': false,
+              'unspoiledNodeTime': {
+                'duration': 60
+              }
+            },
+            'inputs': [
+
+            ],
+            'hq': false,
+            '__v': 0
+          },
+          {
+            '_id': '586c206f25fb900f3f688448',
+            'amount': 72,
+            'step': 'Gather',
+            'item': {
+              '_id': '57dd422c0febcb5d9dde979e',
+              'name': 'Astral Moraine',
+              'discount': 0,
+              'inStock': 0,
+              'soldOnMarket': false,
+              'canBeOrderedByUnprivileged': false,
+              'gatheringLevel': 60,
+              'gatheringJob': 'Miner',
+              'gatheringEffort': 100,
+              'priceHQ': 16500,
+              'price': 11798,
+              '__v': 0,
+              'lastPriceUpdate': '2016-10-15T10:42:27.980Z',
+              'ageMultiplier': 7.12,
+              'datedObject': false,
+              'availableFromNpc': false,
+              'unspoiledNodeTime': {
+                'duration': 60
+              }
+            },
+            'inputs': [
+
+            ],
+            'hq': false,
+            '__v': 0
+          },
+          {
+            '_id': '586c206f25fb900f3f688447',
+            'amount': 72,
+            'step': 'Gather',
+            'item': {
+              '_id': '57cfbd969567fb32852156b7',
+              'name': 'Water Cluster',
+              'gatheringLevel': 50,
+              'gatheringJob': 'None',
+              'gatheringEffort': -45,
+              'priceHQ': 0,
+              'price': 1500,
+              '__v': 0,
+              'canBeOrderedByUnprivileged': false,
+              'lastPriceUpdate': '2017-01-01T17:05:32.419Z',
+              'ageMultiplier': 11.68,
+              'soldOnMarket': false,
+              'inStock': 0,
+              'discount': 0,
+              'datedObject': false,
+              'availableFromNpc': false,
+              'unspoiledNodeTime': {
+                'duration': 60
+              }
+            },
+            'inputs': [
+
+            ],
+            'hq': false,
+            '__v': 0
+          },
+          {
+            '_id': '586c206f25fb900f3f68844a',
+            'amount': 36,
+            'step': 'Gather',
+            'item': {
+              '_id': '57dd422c0febcb5d9dde979f',
+              'name': 'Bear Fat',
+              'discount': 0,
+              'inStock': 0,
+              'soldOnMarket': false,
+              'canBeOrderedByUnprivileged': false,
+              'gatheringLevel': 0,
+              'gatheringJob': 'None',
+              'gatheringEffort': 10,
+              'priceHQ': 1200,
+              'price': 950,
+              '__v': 0,
+              'lastPriceUpdate': '2016-10-27T13:59:28.388Z',
+              'ageMultiplier': 4.66,
+              'unspoiledNodeTime': {
+                'duration': 60
+              }
+            },
+            'inputs': [
+
+            ],
+            'hq': false,
+            '__v': 0
+          }
+        ],
+        'hq': false,
+        '__v': 0
+      },
+      {
+        '_id': '586c206f25fb900f3f68841b',
+        'amount': 36,
+        'recipe': {
+          '_id': '57dd3cb10febcb5d9dde976b',
+          'craftingLevel': 56,
+          'craftingJob': 'Carpenter',
+          'outputs': [
+            {
+              'item': '57dd38e50febcb5d9dde9725',
+              '_id': '57dd3cb10febcb5d9dde976c',
+              'amount': 1
+            }
+          ],
+          'inputs': [
+            {
+              'item': '57dd38e50febcb5d9dde9722',
+              '_id': '57dd3cb10febcb5d9dde976d',
+              'amount': 1
+            },
+            {
+              'item': '57cfbd439567fb328521568f',
+              '_id': '57dd3cb10febcb5d9dde976e',
+              'amount': 2
+            },
+            {
+              'item': '57dd3cb10febcb5d9dde9770',
+              '_id': '57dd3cb20febcb5d9dde9771',
+              'amount': 3
+            },
+            {
+              'item': '57dd3cb10febcb5d9dde976f',
+              '_id': '57dd3cb20febcb5d9dde9772',
+              'amount': 9
+            }
+          ],
+          '__v': 0
+        },
+        'step': 'Craft',
+        'item': {
+          '_id': '57dd38e50febcb5d9dde9725',
+          'name': 'Cassia Lumber',
+          'discount': 0,
+          'inStock': 0,
+          'soldOnMarket': false,
+          'canBeOrderedByUnprivileged': false,
+          'gatheringLevel': 0,
+          'gatheringJob': 'None',
+          'gatheringEffort': 0,
+          'priceHQ': 47999,
+          'price': 45000,
+          '__v': 0,
+          'lastPriceUpdate': '2016-09-26T08:15:28.404Z',
+          'ageMultiplier': 4.54,
+          'unspoiledNodeTime': {
+            'duration': 60
+          }
+        },
+        'inputs': [
+          {
+            '_id': '586c206f25fb900f3f68844b',
+            'amount': 36,
+            'step': 'Gather',
+            'item': {
+              '_id': '57dd38e50febcb5d9dde9722',
+              'name': 'Ice Cluster',
+              'discount': 0,
+              'inStock': 0,
+              'soldOnMarket': false,
+              'canBeOrderedByUnprivileged': false,
+              'gatheringLevel': 50,
+              'gatheringJob': 'None',
+              'gatheringEffort': -45,
+              'priceHQ': 0,
+              'price': 500,
+              '__v': 0,
+              'lastPriceUpdate': '2017-01-01T17:04:54.186Z',
+              'ageMultiplier': 9.93,
+              'datedObject': false,
+              'availableFromNpc': false,
+              'unspoiledNodeTime': {
+                'duration': 60
+              }
+            },
+            'inputs': [
+
+            ],
+            'hq': false,
+            '__v': 0
+          },
+          {
+            '_id': '586c206f25fb900f3f68844d',
+            'amount': 108,
+            'step': 'Gather',
+            'item': {
+              '_id': '57dd3cb10febcb5d9dde9770',
+              'name': 'Cassia Log',
+              'discount': 0,
+              'inStock': 0,
+              'soldOnMarket': false,
+              'canBeOrderedByUnprivileged': false,
+              'gatheringLevel': 0,
+              'gatheringJob': 'None',
+              'gatheringEffort': 1,
+              'priceHQ': 5000,
+              'price': 600,
+              '__v': 0,
+              'lastPriceUpdate': '2017-01-02T23:12:26.082Z',
+              'ageMultiplier': 9.22,
+              'datedObject': false,
+              'availableFromNpc': false,
+              'unspoiledNodeTime': {
+                'duration': 60
+              }
+            },
+            'inputs': [
+
+            ],
+            'hq': false,
+            '__v': 0
+          },
+          {
+            '_id': '586c206f25fb900f3f68844c',
+            'amount': 72,
+            'step': 'Gather',
+            'item': {
+              '_id': '57cfbd439567fb328521568f',
+              'name': 'Wind Cluster',
+              'gatheringLevel': 50,
+              'gatheringJob': 'None',
+              'gatheringEffort': -45,
+              'priceHQ': 0,
+              'price': 1500,
+              '__v': 0,
+              'canBeOrderedByUnprivileged': false,
+              'lastPriceUpdate': '2017-01-01T17:04:26.325Z',
+              'ageMultiplier': 19.63,
+              'soldOnMarket': false,
+              'inStock': 0,
+              'discount': 0,
+              'datedObject': false,
+              'availableFromNpc': false,
+              'unspoiledNodeTime': {
+                'duration': 60
+              }
+            },
+            'inputs': [
+
+            ],
+            'hq': false,
+            '__v': 0
+          },
+          {
+            '_id': '586c206f25fb900f3f68844e',
+            'amount': 324,
+            'step': 'Gather',
+            'item': {
+              '_id': '57dd3cb10febcb5d9dde976f',
+              'name': 'Hardened Sap',
+              'discount': 0,
+              'inStock': 0,
+              'soldOnMarket': false,
+              'canBeOrderedByUnprivileged': false,
+              'gatheringLevel': 0,
+              'gatheringJob': 'None',
+              'gatheringEffort': 100,
+              'priceHQ': 6800,
+              'price': 1800,
+              '__v': 0,
+              'lastPriceUpdate': '2016-11-06T21:57:23.329Z',
+              'ageMultiplier': 23.26,
+              'unspoiledNodeTime': {
+                'duration': 60
+              }
+            },
+            'inputs': [
+
+            ],
+            'hq': false,
+            '__v': 0
+          }
+        ],
+        'hq': false,
+        '__v': 0
+      }
+    ],
+    'hq': false,
+    '__v': 0
+  }
+
   var projectMogwallTree = {
     '_id': '586c206f25fb900f3f6883f3',
     'amount': 1,
@@ -2093,571 +2659,7 @@ describe('functions of the projectAnalyzerService', function () {
         'hq': false,
         '__v': 0
       },
-      {
-        '_id': '586c206f25fb900f3f6883f5',
-        'amount': 36,
-        'recipe': {
-          '_id': '57dd38e50febcb5d9dde9720',
-          'craftingLevel': 60,
-          'craftingJob': 'Carpenter',
-          'outputs': [
-            {
-              'item': '57dd3165ec158f5b6b75b43c',
-              '_id': '57dd38e50febcb5d9dde9721',
-              'amount': 1
-            }
-          ],
-          'inputs': [
-            {
-              'item': '57cfbd439567fb328521568f',
-              '_id': '57dd38e50febcb5d9dde9726',
-              'amount': 2
-            },
-            {
-              'item': '57dd38e50febcb5d9dde9722',
-              '_id': '57dd38e60febcb5d9dde9727',
-              'amount': 1
-            },
-            {
-              'item': '57dd38e50febcb5d9dde9725',
-              '_id': '57dd38e60febcb5d9dde9728',
-              'amount': 1
-            },
-            {
-              'item': '57dd38e50febcb5d9dde9724',
-              '_id': '57dd38e60febcb5d9dde9729',
-              'amount': 1
-            },
-            {
-              'item': '57dd38e50febcb5d9dde9723',
-              '_id': '57dd38e70febcb5d9dde972a',
-              'amount': 1
-            }
-          ],
-          '__v': 0
-        },
-        'step': 'Craft',
-        'item': {
-          '_id': '57dd3165ec158f5b6b75b43c',
-          'name': 'Cassia Block',
-          'discount': 0,
-          'inStock': 0,
-          'soldOnMarket': false,
-          'canBeOrderedByUnprivileged': false,
-          'gatheringLevel': 0,
-          'gatheringJob': 'None',
-          'gatheringEffort': 0,
-          'priceHQ': 0,
-          'price': 200000,
-          '__v': 0,
-          'lastPriceUpdate': '2016-09-26T08:06:48.237Z',
-          'ageMultiplier': 4.15,
-          'unspoiledNodeTime': {
-            'duration': 60
-          }
-        },
-        'inputs': [
-          {
-            '_id': '586c206f25fb900f3f688419',
-            'amount': 72,
-            'step': 'Gather',
-            'item': {
-              '_id': '57cfbd439567fb328521568f',
-              'name': 'Wind Cluster',
-              'gatheringLevel': 50,
-              'gatheringJob': 'None',
-              'gatheringEffort': -45,
-              'priceHQ': 0,
-              'price': 1500,
-              '__v': 0,
-              'canBeOrderedByUnprivileged': false,
-              'lastPriceUpdate': '2017-01-01T17:04:26.325Z',
-              'ageMultiplier': 19.63,
-              'soldOnMarket': false,
-              'inStock': 0,
-              'discount': 0,
-              'datedObject': false,
-              'availableFromNpc': false,
-              'unspoiledNodeTime': {
-                'duration': 60
-              }
-            },
-            'inputs': [
-
-            ],
-            'hq': false,
-            '__v': 0
-          },
-          {
-            '_id': '586c206f25fb900f3f68841a',
-            'amount': 36,
-            'step': 'Gather',
-            'item': {
-              '_id': '57dd38e50febcb5d9dde9722',
-              'name': 'Ice Cluster',
-              'discount': 0,
-              'inStock': 0,
-              'soldOnMarket': false,
-              'canBeOrderedByUnprivileged': false,
-              'gatheringLevel': 50,
-              'gatheringJob': 'None',
-              'gatheringEffort': -45,
-              'priceHQ': 0,
-              'price': 500,
-              '__v': 0,
-              'lastPriceUpdate': '2017-01-01T17:04:54.186Z',
-              'ageMultiplier': 9.93,
-              'datedObject': false,
-              'availableFromNpc': false,
-              'unspoiledNodeTime': {
-                'duration': 60
-              }
-            },
-            'inputs': [
-
-            ],
-            'hq': false,
-            '__v': 0
-          },
-          {
-            '_id': '586c206f25fb900f3f68841d',
-            'amount': 36,
-            'step': 'Gather',
-            'item': {
-              '_id': '57dd38e50febcb5d9dde9723',
-              'name': 'Dawnborne Aethersand',
-              'discount': 0,
-              'inStock': 0,
-              'soldOnMarket': false,
-              'canBeOrderedByUnprivileged': false,
-              'gatheringLevel': 0,
-              'gatheringJob': 'None',
-              'gatheringEffort': 100,
-              'priceHQ': 54000,
-              'price': 25000,
-              '__v': 0,
-              'lastPriceUpdate': '2016-10-02T11:38:41.453Z',
-              'ageMultiplier': 4.57,
-              'unspoiledNodeTime': {
-                'duration': 60
-              }
-            },
-            'inputs': [
-
-            ],
-            'hq': false,
-            '__v': 0
-          },
-          {
-            '_id': '586c206f25fb900f3f68841c',
-            'amount': 36,
-            'recipe': {
-              '_id': '57dd422c0febcb5d9dde979a',
-              'craftingLevel': 60,
-              'craftingJob': 'Alchemist',
-              'outputs': [
-                {
-                  'item': '57dd38e50febcb5d9dde9724',
-                  '_id': '57dd422c0febcb5d9dde979b',
-                  'amount': 1
-                }
-              ],
-              'inputs': [
-                {
-                  'item': '57cfbd439567fb3285215691',
-                  '_id': '57dd422c0febcb5d9dde979c',
-                  'amount': 1
-                },
-                {
-                  'item': '57cfbd969567fb32852156b7',
-                  '_id': '57dd422c0febcb5d9dde979d',
-                  'amount': 2
-                },
-                {
-                  'item': '57dd422c0febcb5d9dde979e',
-                  '_id': '57dd422d0febcb5d9dde97a1',
-                  'amount': 2
-                },
-                {
-                  'item': '57dd422c0febcb5d9dde97a0',
-                  '_id': '57dd422d0febcb5d9dde97a2',
-                  'amount': 2
-                },
-                {
-                  'item': '57dd422c0febcb5d9dde979f',
-                  '_id': '57dd422d0febcb5d9dde97a3',
-                  'amount': 1
-                }
-              ],
-              '__v': 0
-            },
-            'step': 'Craft',
-            'item': {
-              '_id': '57dd38e50febcb5d9dde9724',
-              'name': 'Astral Oil',
-              'discount': 0,
-              'inStock': 0,
-              'soldOnMarket': false,
-              'canBeOrderedByUnprivileged': false,
-              'gatheringLevel': 0,
-              'gatheringJob': 'None',
-              'gatheringEffort': 0,
-              'priceHQ': 60000,
-              'price': 60000,
-              '__v': 0,
-              'lastPriceUpdate': '2016-10-15T10:42:39.699Z',
-              'ageMultiplier': 4.66,
-              'unspoiledNodeTime': {
-                'duration': 60
-              }
-            },
-            'inputs': [
-              {
-                '_id': '586c206f25fb900f3f688446',
-                'amount': 36,
-                'step': 'Gather',
-                'item': {
-                  '_id': '57cfbd439567fb3285215691',
-                  'name': 'Lightning Cluster',
-                  'gatheringLevel': 50,
-                  'gatheringJob': 'None',
-                  'gatheringEffort': -45,
-                  'priceHQ': 0,
-                  'price': 1450,
-                  '__v': 0,
-                  'canBeOrderedByUnprivileged': false,
-                  'lastPriceUpdate': '2016-09-26T07:45:04.341Z',
-                  'ageMultiplier': 10.09,
-                  'soldOnMarket': false,
-                  'inStock': 0,
-                  'discount': 0,
-                  'datedObject': false,
-                  'availableFromNpc': false,
-                  'unspoiledNodeTime': {
-                    'duration': 60
-                  }
-                },
-                'inputs': [
-
-                ],
-                'hq': false,
-                '__v': 0
-              },
-              {
-                '_id': '586c206f25fb900f3f688449',
-                'amount': 72,
-                'step': 'Gather',
-                'item': {
-                  '_id': '57dd422c0febcb5d9dde97a0',
-                  'name': 'Seventh Heaven',
-                  'discount': 0,
-                  'inStock': 0,
-                  'soldOnMarket': false,
-                  'canBeOrderedByUnprivileged': false,
-                  'gatheringLevel': 60,
-                  'gatheringJob': 'Botanist',
-                  'gatheringEffort': 100,
-                  'priceHQ': 30000,
-                  'price': 4111,
-                  '__v': 0,
-                  'lastPriceUpdate': '2016-10-15T10:42:55.179Z',
-                  'ageMultiplier': 7.12,
-                  'datedObject': false,
-                  'availableFromNpc': false,
-                  'unspoiledNodeTime': {
-                    'duration': 60
-                  }
-                },
-                'inputs': [
-
-                ],
-                'hq': false,
-                '__v': 0
-              },
-              {
-                '_id': '586c206f25fb900f3f688448',
-                'amount': 72,
-                'step': 'Gather',
-                'item': {
-                  '_id': '57dd422c0febcb5d9dde979e',
-                  'name': 'Astral Moraine',
-                  'discount': 0,
-                  'inStock': 0,
-                  'soldOnMarket': false,
-                  'canBeOrderedByUnprivileged': false,
-                  'gatheringLevel': 60,
-                  'gatheringJob': 'Miner',
-                  'gatheringEffort': 100,
-                  'priceHQ': 16500,
-                  'price': 11798,
-                  '__v': 0,
-                  'lastPriceUpdate': '2016-10-15T10:42:27.980Z',
-                  'ageMultiplier': 7.12,
-                  'datedObject': false,
-                  'availableFromNpc': false,
-                  'unspoiledNodeTime': {
-                    'duration': 60
-                  }
-                },
-                'inputs': [
-
-                ],
-                'hq': false,
-                '__v': 0
-              },
-              {
-                '_id': '586c206f25fb900f3f688447',
-                'amount': 72,
-                'step': 'Gather',
-                'item': {
-                  '_id': '57cfbd969567fb32852156b7',
-                  'name': 'Water Cluster',
-                  'gatheringLevel': 50,
-                  'gatheringJob': 'None',
-                  'gatheringEffort': -45,
-                  'priceHQ': 0,
-                  'price': 1500,
-                  '__v': 0,
-                  'canBeOrderedByUnprivileged': false,
-                  'lastPriceUpdate': '2017-01-01T17:05:32.419Z',
-                  'ageMultiplier': 11.68,
-                  'soldOnMarket': false,
-                  'inStock': 0,
-                  'discount': 0,
-                  'datedObject': false,
-                  'availableFromNpc': false,
-                  'unspoiledNodeTime': {
-                    'duration': 60
-                  }
-                },
-                'inputs': [
-
-                ],
-                'hq': false,
-                '__v': 0
-              },
-              {
-                '_id': '586c206f25fb900f3f68844a',
-                'amount': 36,
-                'step': 'Gather',
-                'item': {
-                  '_id': '57dd422c0febcb5d9dde979f',
-                  'name': 'Bear Fat',
-                  'discount': 0,
-                  'inStock': 0,
-                  'soldOnMarket': false,
-                  'canBeOrderedByUnprivileged': false,
-                  'gatheringLevel': 0,
-                  'gatheringJob': 'None',
-                  'gatheringEffort': 10,
-                  'priceHQ': 1200,
-                  'price': 950,
-                  '__v': 0,
-                  'lastPriceUpdate': '2016-10-27T13:59:28.388Z',
-                  'ageMultiplier': 4.66,
-                  'unspoiledNodeTime': {
-                    'duration': 60
-                  }
-                },
-                'inputs': [
-
-                ],
-                'hq': false,
-                '__v': 0
-              }
-            ],
-            'hq': false,
-            '__v': 0
-          },
-          {
-            '_id': '586c206f25fb900f3f68841b',
-            'amount': 36,
-            'recipe': {
-              '_id': '57dd3cb10febcb5d9dde976b',
-              'craftingLevel': 56,
-              'craftingJob': 'Carpenter',
-              'outputs': [
-                {
-                  'item': '57dd38e50febcb5d9dde9725',
-                  '_id': '57dd3cb10febcb5d9dde976c',
-                  'amount': 1
-                }
-              ],
-              'inputs': [
-                {
-                  'item': '57dd38e50febcb5d9dde9722',
-                  '_id': '57dd3cb10febcb5d9dde976d',
-                  'amount': 1
-                },
-                {
-                  'item': '57cfbd439567fb328521568f',
-                  '_id': '57dd3cb10febcb5d9dde976e',
-                  'amount': 2
-                },
-                {
-                  'item': '57dd3cb10febcb5d9dde9770',
-                  '_id': '57dd3cb20febcb5d9dde9771',
-                  'amount': 3
-                },
-                {
-                  'item': '57dd3cb10febcb5d9dde976f',
-                  '_id': '57dd3cb20febcb5d9dde9772',
-                  'amount': 9
-                }
-              ],
-              '__v': 0
-            },
-            'step': 'Craft',
-            'item': {
-              '_id': '57dd38e50febcb5d9dde9725',
-              'name': 'Cassia Lumber',
-              'discount': 0,
-              'inStock': 0,
-              'soldOnMarket': false,
-              'canBeOrderedByUnprivileged': false,
-              'gatheringLevel': 0,
-              'gatheringJob': 'None',
-              'gatheringEffort': 0,
-              'priceHQ': 47999,
-              'price': 45000,
-              '__v': 0,
-              'lastPriceUpdate': '2016-09-26T08:15:28.404Z',
-              'ageMultiplier': 4.54,
-              'unspoiledNodeTime': {
-                'duration': 60
-              }
-            },
-            'inputs': [
-              {
-                '_id': '586c206f25fb900f3f68844b',
-                'amount': 36,
-                'step': 'Gather',
-                'item': {
-                  '_id': '57dd38e50febcb5d9dde9722',
-                  'name': 'Ice Cluster',
-                  'discount': 0,
-                  'inStock': 0,
-                  'soldOnMarket': false,
-                  'canBeOrderedByUnprivileged': false,
-                  'gatheringLevel': 50,
-                  'gatheringJob': 'None',
-                  'gatheringEffort': -45,
-                  'priceHQ': 0,
-                  'price': 500,
-                  '__v': 0,
-                  'lastPriceUpdate': '2017-01-01T17:04:54.186Z',
-                  'ageMultiplier': 9.93,
-                  'datedObject': false,
-                  'availableFromNpc': false,
-                  'unspoiledNodeTime': {
-                    'duration': 60
-                  }
-                },
-                'inputs': [
-
-                ],
-                'hq': false,
-                '__v': 0
-              },
-              {
-                '_id': '586c206f25fb900f3f68844d',
-                'amount': 108,
-                'step': 'Gather',
-                'item': {
-                  '_id': '57dd3cb10febcb5d9dde9770',
-                  'name': 'Cassia Log',
-                  'discount': 0,
-                  'inStock': 0,
-                  'soldOnMarket': false,
-                  'canBeOrderedByUnprivileged': false,
-                  'gatheringLevel': 0,
-                  'gatheringJob': 'None',
-                  'gatheringEffort': 1,
-                  'priceHQ': 5000,
-                  'price': 600,
-                  '__v': 0,
-                  'lastPriceUpdate': '2017-01-02T23:12:26.082Z',
-                  'ageMultiplier': 9.22,
-                  'datedObject': false,
-                  'availableFromNpc': false,
-                  'unspoiledNodeTime': {
-                    'duration': 60
-                  }
-                },
-                'inputs': [
-
-                ],
-                'hq': false,
-                '__v': 0
-              },
-              {
-                '_id': '586c206f25fb900f3f68844c',
-                'amount': 72,
-                'step': 'Gather',
-                'item': {
-                  '_id': '57cfbd439567fb328521568f',
-                  'name': 'Wind Cluster',
-                  'gatheringLevel': 50,
-                  'gatheringJob': 'None',
-                  'gatheringEffort': -45,
-                  'priceHQ': 0,
-                  'price': 1500,
-                  '__v': 0,
-                  'canBeOrderedByUnprivileged': false,
-                  'lastPriceUpdate': '2017-01-01T17:04:26.325Z',
-                  'ageMultiplier': 19.63,
-                  'soldOnMarket': false,
-                  'inStock': 0,
-                  'discount': 0,
-                  'datedObject': false,
-                  'availableFromNpc': false,
-                  'unspoiledNodeTime': {
-                    'duration': 60
-                  }
-                },
-                'inputs': [
-
-                ],
-                'hq': false,
-                '__v': 0
-              },
-              {
-                '_id': '586c206f25fb900f3f68844e',
-                'amount': 324,
-                'step': 'Gather',
-                'item': {
-                  '_id': '57dd3cb10febcb5d9dde976f',
-                  'name': 'Hardened Sap',
-                  'discount': 0,
-                  'inStock': 0,
-                  'soldOnMarket': false,
-                  'canBeOrderedByUnprivileged': false,
-                  'gatheringLevel': 0,
-                  'gatheringJob': 'None',
-                  'gatheringEffort': 100,
-                  'priceHQ': 6800,
-                  'price': 1800,
-                  '__v': 0,
-                  'lastPriceUpdate': '2016-11-06T21:57:23.329Z',
-                  'ageMultiplier': 23.26,
-                  'unspoiledNodeTime': {
-                    'duration': 60
-                  }
-                },
-                'inputs': [
-
-                ],
-                'hq': false,
-                '__v': 0
-              }
-            ],
-            'hq': false,
-            '__v': 0
-          }
-        ],
-        'hq': false,
-        '__v': 0
-      },
+      cassiaBlockStep,
       {
         '_id': '586c206f25fb900f3f6883fb',
         'amount': 150,
@@ -5300,4 +5302,96 @@ describe('functions of the projectAnalyzerService', function () {
 
     $scope.$digest()
   })
+
+  var project6 = {
+    'tree': projectMogwallTree,
+    'stock': [
+      {
+     "item": {
+       "_id": "57dd3165ec158f5b6b75b43c",
+       "name": "Cassia Block"
+     },
+     "_id": "586e454534bdde22e730a6ed",
+     "hq": false,
+     "amount": 32
+   }, {
+      "item": {
+        "_id": "57dd3cb10febcb5d9dde9770",
+        "name": "Cassia Log"
+      },
+      "_id": "586d4637c3071e0fe962dc3a",
+      "hq": false,
+      "amount": 12
+    },{
+      "item": {
+        "_id": "57cfbd439567fb328521568f",
+        "name": "Wind Cluster"
+      },
+      "_id": "586c23d525fb900f3f6884fa",
+      "hq": false,
+      "amount": 60
+    },{
+      "item": {
+        "_id": "57dd38e50febcb5d9dde9722",
+        "name": "Ice Cluster"
+      },
+      "_id": "586c23da25fb900f3f6884fc",
+      "hq": false,
+      "amount": 30
+    },{
+      "item": {
+        "_id": "57dd3cb10febcb5d9dde976f",
+        "name": "Hardened Sap"
+      },
+      "_id": "586d7641c3071e0fe962dc88",
+      "hq": false,
+      "amount": 36
+    },{
+      "item": {
+        "_id": "57dd38e50febcb5d9dde9724",
+        "name": "Astral Oil"
+      },
+      "_id": "586d40eac3071e0fe962dbf9",
+      "hq": false,
+      "amount": 4
+    },{
+      "item": {
+        "_id": "57dd38e50febcb5d9dde9723",
+        "name": "Dawnborne Aethersand",
+      },
+      "_id": "586cee3dc3071e0fe962db5d",
+      "hq": false,
+      "amount": 4
+    }
+    ]
+  }
+
+  it('check for craftable cassia', function(done) {
+    var projectData = $projectAnalyzerService.createBaseProjectData(project6)
+    $projectAnalyzerService.analyzeStep($.extend(true, {}, projectMogwallTree), projectData)
+    .then(function(result) {
+      expect(_.find(projectData.craftableSteps, function(step) { return step.step.item._id == '57dd38e50febcb5d9dde9725' }).step.amount).toBe(4)
+
+      done()
+    }).catch(function() {
+      fail('caught something')
+    })
+
+    $scope.$digest()
+  })
+
+  it('check for craftable cassia isolated step', function(done) {
+    var projectData = $projectAnalyzerService.createBaseProjectData(project6)
+    $projectAnalyzerService.analyzeStep($.extend(true, {}, cassiaBlockStep), projectData)
+    .then(function(result) {
+      expect(_.find(projectData.craftableSteps, function(step) { return step.step.item._id == '57dd38e50febcb5d9dde9725' }).step.amount).toBe(4)
+
+      done()
+    }).catch(function() {
+      fail('caught something')
+    })
+
+    $scope.$digest()
+  })
+
 })

@@ -163,7 +163,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
         step.inputs.forEach(function (input) {
           markStockAsRequiredBy(projectData, input.item._id, input.hq, step)
           var itemsInStock = getAmountOfItemInUnnallocatedStock(projectData, input.item._id, input.hq)
-          var amount = Math.min(itemsInStock, input.amount)
+          var amount = Math.min(itemsInStock, stepData.neededItems[input.item._id])
           deductFromUnallocatedStock(projectData, input.item._id, amount, input.hq)
         })
       }
