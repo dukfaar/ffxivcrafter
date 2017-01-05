@@ -154,7 +154,7 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
         step.recipe.inputs.forEach(function (input) {
           var stepInput = findInputByItem(step.inputs, input.item)
           markStockAsRequiredBy(projectData, input.item, stepInput.hq, step)
-          deductFromUnallocatedStock(projectData, input.item, input.amount * stepData.maxSteps, stepInput.hq)
+          deductFromUnallocatedStock(projectData, input.item, stepData.availableInputs[input.item], stepInput.hq)
         })
       } else {
         // we still need to allocate any items that COULD be used

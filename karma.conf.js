@@ -37,7 +37,7 @@ module.exports = function (config) {
 
       './packages/**/public/**/*.html': ['ng-html2js'],
 
-      // 'packages/**/public/tests/**/*.js': ['webpack', 'babel'],
+       //'packages/**/public/tests/**/*.js': ['webpack'],
       './app.js': ['webpack']
     },
 
