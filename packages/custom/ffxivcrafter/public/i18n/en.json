@@ -29,5 +29,7 @@
   "project.settings": "Settings",
   "project.name": "Projectname",
   "stock.add": "Add to stock",
-  "stock.remove": "Remove from stock"
+  "stock.remove": "Remove from stock",
+  "delete": "Delete",
+  "copy": "Copy"
 }

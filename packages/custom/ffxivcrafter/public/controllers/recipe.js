@@ -23,6 +23,25 @@ angular.module('mean.ffxivCrafter').controller('RecipeController', ['$scope', 'G
       return false
     }
 
+    $scope.copyRecipe = function (recipe) {
+      var newRecipe = new Recipe()
+      newRecipe.craftingJob = recipe.craftingJob
+      newRecipe.craftingLevel = recipe.craftingLevel
+      newRecipe.inputs = []
+      _.forEach(recipe.inputs, function (input) {
+        newRecipe.inputs.push({item: input.item, amount: input.amount })
+      })
+
+      newRecipe.outputs = []
+      _.forEach(recipe.outputs, function (output) {
+        newRecipe.outputs.push({item: output.item, amount: output.amount })
+      })
+
+      newRecipe.$save().then(function() {
+        $scope.updateList()
+      })
+    }
+
     $scope.updateList = function () {
       $scope.recipeList = Recipe.query({populate:'outputs.item'})
     }
@@ -67,6 +86,11 @@ angular.module('mean.ffxivCrafter').controller('RecipeController', ['$scope', 'G
 
     $scope.removeInput = function (recipe, item) {
       recipe.inputs = _.reject(recipe.inputs,function(input) { return input.item._id === item._id })
+      $scope.updateRecipe(recipe)
+    }
+
+    $scope.removeOutput = function (recipe, item) {
+      recipe.outputs = _.reject(recipe.outputs,function(output) { return output.item._id === item._id })
       $scope.updateRecipe(recipe)
     }
 

@@ -27,5 +27,7 @@
   "project.settings": "Einstellungen",
   "project.name": "Projektname",
   "stock.add": "Zum Inventar hinzufügen",
-  "stock.remove": "Aus Inventar löschen"
+  "stock.remove": "Aus Inventar löschen",
+  "delete": "Löschen",
+  "copy": "Kopieren"
 }

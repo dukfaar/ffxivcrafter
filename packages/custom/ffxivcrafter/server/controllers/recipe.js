@@ -107,12 +107,12 @@ module.exports = function () {
       })
     },
     create: function (req, res) {
-      var recipe = new Recipe()
+      var recipe = new Recipe(req.body)
 
       recipe.save(function (err) {
         if (err) res.send(err)
 
-        res.json({text: 'Recipe created'})
+        res.json(recipe)
       })
     },
     get: function (req, res) {

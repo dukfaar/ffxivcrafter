@@ -63,6 +63,8 @@
                     <label>Amount</label>
                     <input ng-model="output.amount" ng-model-options="{debounce:300}" ng-change="updateRecipe(recipe)">
                   </md-input-container>
+
+                  <md-icon ng-show="editMode" ng-click="removeOutput(recipe, output.item)" class="material-icons">delete</md-icon>
                 </md-list-item>
                 <md-divider></md-divider>
                 <md-list-item>
@@ -72,7 +74,8 @@
             </div>
           </md-card-content>
           <md-card-actions layout="row">
-            <md-button ng-click="deleteRecipe(recipe)">Delete</md-button>
+            <md-button ng-click="deleteRecipe(recipe)" translate="delete"></md-button>
+            <md-button ng-click="copyRecipe(recipe)" translate="copy"></md-button>
           </md-card-actions>
         </md-card>
       </div>
