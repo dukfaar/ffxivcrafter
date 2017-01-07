@@ -12,6 +12,8 @@
     "meanio-circles": "git://github.com/linnovate/meanio-circles.git",
     "meanio-system": "git://github.com/linnovate/meanio-system.git",
     "meanio-users": "git://github.com/linnovate/meanio-users.git",
+    "angular-translate": "latest",
+    "angular-translate-loader-static-files": "latest",
     "angular-local-storage": "latest",
     "angular-chart.js": "latest",
     "angular-drag-and-drop-lists": "latest"

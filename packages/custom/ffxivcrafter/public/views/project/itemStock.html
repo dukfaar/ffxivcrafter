@@ -1,10 +1,10 @@
 <md-card>
   <md-toolbar class="md-hue-2">
     <div class="md-toolbar-tools">
-      <span>Itemstock</span>
+      <span translate>items.stock</span>
       <span flex></span>
       <md-input-container class="md-accent" style="padding-bottom:0px;margin-left:25px">
-        <label style="color:wheat">Itemfilter</label>
+        <label style="color:wheat" translate>filter</label>
         <input style="color:wheat" ng-model="stockFilter" size="10"/>
       </md-input-container>
 
@@ -29,7 +29,7 @@
         </md-tooltip>
         <span flex>{{stockElement.amount}} {{stockElement.item.name}}</span>
         <span ng-if="stockElement.hq">HQ</span>
-        <md-button class="md-raised md-primary" ng-click="addToStock(project,stockElement.item,-stockElement.amount, stockElement.hq)">RemoveFromStock</md-button>
+        <md-button class="md-raised md-primary" ng-click="addToStock(project,stockElement.item,-stockElement.amount, stockElement.hq)" translate="stock.remove"></md-button>
       </md-list-item>
     </md-list>
   </md-card-content>

@@ -4,16 +4,16 @@
       <md-card>
         <md-toolbar class="md-hue-2">
           <div class="md-toolbar-tools">
-            <span flex>{{orderProjects.length}} current orders</span>
+            <span flex translate translate-value-number="{{orderProjects.length}}">kanban.overview.project.orders</span>
           </div>
         </md-toolbar>
 
         <md-card-content>
-
-
           <md-list>
             <md-list-item ng-repeat="project in orderProjects" ng-href="/project/list/{{project._id}}">
-              <i flex>{{project.name}}</i> <span>by {{project.creator.name}}</span>
+              <i flex>{{project.name}}</i>
+              <span translate>by</span>&nbsp;
+              <span>{{project.creator.name}}</span>
             </md-list-item>
           </md-list>
         </md-card-content>
@@ -24,7 +24,7 @@
       <md-card>
         <md-toolbar class="md-hue-2">
           <div class="md-toolbar-tools">
-            <span flex>{{publicProjects.length}} public projects</span>
+            <span flex translate translate-value-number="{{publicProjects.length}}">kanban.overview.project.public</span>
           </div>
         </md-toolbar>
 
@@ -42,10 +42,10 @@
       <md-card>
         <md-toolbar class="md-hue-2">
           <div class="md-toolbar-tools">
-            <span flex>Public Stockoverview</span>
+            <span flex translate>kanban.overview.stock.overview</span>
 
             <md-input-container class="md-accent" style="padding-bottom:0px;margin-left:25px">
-              <label style="color:wheat">Filter</label>
+              <label style="color:wheat" translate>filter</label>
               <input style="color:wheat" ng-model="overviewFilter" size="10"/>
             </md-input-container>
           </div>

@@ -1,7 +1,7 @@
 <md-card>
   <md-toolbar class="md-hue-2">
     <div class="md-toolbar-tools">
-      <span>Settings</span>
+      <span translate>project.settings</span>
       <span flex></span>
       <md-menu>
         <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu()">
@@ -15,7 +15,7 @@
   </md-toolbar>
   <md-card-content layout="column">
     <md-input-container>
-      <label>Projectname</label>
+      <label translate>project.name</label>
       <input type="text" ng-model="project.name" ng-model-options="{debounce:300}" ng-change="updateProject(project)"/>
     </md-input-container>
 

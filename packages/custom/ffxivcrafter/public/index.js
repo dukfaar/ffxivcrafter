@@ -5,6 +5,8 @@ import './assets/css/app.css'
 
 import 'socket.io-client'
 import 'angular-local-storage'
+import 'angular-translate'
+import 'angular-translate-loader-static-files'
 import 'angular-chart.js'
 import 'lodash'
 import 'angular-drag-and-drop-lists'

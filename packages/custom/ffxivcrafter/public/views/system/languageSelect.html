@@ -1,0 +1,8 @@
+<div layout="row">
+  <span flex></span>
+  <md-select ng-model="language.current" ng-change="setLanguage(language.current)">
+    <md-option ng-repeat="lang in language.list" ng-value="lang">
+      <span translate>{{'lang.'+lang}}</span>
+    </md-option>
+  </md-select>
+</div>

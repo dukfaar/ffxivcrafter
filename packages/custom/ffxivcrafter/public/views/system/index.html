@@ -5,10 +5,10 @@
         <md-card ng-if="allowed('see public gather tasks')">
           <md-toolbar class="md-hue-2">
             <div class="md-toolbar-tools">
-              <span>Gatherable items</span>
+              <span translate>items.gatherable</span>
               <span flex></span>
               <md-input-container class="md-accent" style="padding-bottom:0px;margin-left:25px">
-                <label style="color:wheat">Itemfilter</label>
+                <label style="color:wheat" translate>filter</label>
                 <input style="color:wheat" ng-model="filters.gatherFilter" size="10"/>
               </md-input-container>
             </div>
@@ -17,7 +17,7 @@
             <md-list>
               <div ng-repeat="project in projectList">
                 <div ng-if="indexMode == 'separateProjects' && getGatherArray(project).length > 0">
-                  <span>Project: </span>
+                  <span translate>project </span>:
                   <span>{{project.name}}</span>
                 </div>
                 <md-list-item
@@ -39,10 +39,10 @@
         <md-card ng-if="allowed('see public craft tasks')">
           <md-toolbar class="md-hue-2">
             <div class="md-toolbar-tools">
-              <span>Craftable items</span>
+              <span translate>items.craftable</span>
               <span flex></span>
               <md-input-container class="md-accent" style="padding-bottom:0px;margin-left:25px">
-                <label style="color:wheat">Itemfilter</label>
+                <label style="color:wheat" translate>filter</label>
                 <input style="color:wheat" ng-model="filters.craftableFilter" size="10"/>
               </md-input-container>
             </div>
@@ -52,7 +52,7 @@
             <md-list>
               <div ng-repeat="project in projectList">
                 <div ng-if="indexMode == 'separateProjects' && getCraftArray(project).length > 0">
-                  <span>Project: </span>
+                  <span translate>project</span>:
                   <span>{{project.name}}</span>
                 </div>
                 <md-list-item
@@ -73,13 +73,13 @@
         <md-card ng-if="allowed('edit itemprices')">
           <md-toolbar class="md-hue-2">
             <div class="md-toolbar-tools">
-              <span>Old item prices!</span>
+              <span translate>item.prices.old.header</span>
               <span flex></span>
             </div>
           </md-toolbar>
           <md-card-header>
             <md-card-header-text class="md-title">
-              <span class="md-subhead">Holy Kitty, the prices of these items are really old.<br/> If you are in front of a market board, please update them.</span>
+              <span class="md-subhead" translate>item.prices.old.description</span>
             </md-card-header-text>
           </md-card-header>
           <md-card-content>

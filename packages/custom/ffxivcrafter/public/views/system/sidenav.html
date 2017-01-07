@@ -39,6 +39,7 @@
   </style>
 
   <span flex></span>
+  <language-select></language-select>
   <md-button class="md-button" aria-label="Sign Up" ui-sref="auth.register" ng-if="!hdrctr.hdrvars.authenticated">
     Join
   </md-button>
@@ -50,7 +51,7 @@
     <span flex></span>
     <md-menu ng-if="hdrctr.hdrvars.authenticated" md-position-mode="target-right target">
       <md-button aria-label="Account" class="md-button top-link" ng-click="$mdOpenMenu()">
-        <md-tooltip md-direction="left">Account Settings</md-tooltip>
+        <md-tooltip md-direction="left">{{'settings.account'|translate}}</md-tooltip>
         <md-icon>account_box</md-icon>
         <span id="toolbar-username">{{hdrctr.hdrvars.user.name}}</span>
         <md-icon md-menu-origin>keyboard_arrow_down</md-icon>

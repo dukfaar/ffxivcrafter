@@ -1,10 +1,10 @@
 <md-card>
   <md-toolbar class="md-hue-2">
     <div class="md-toolbar-tools">
-      <span>Items to Gather</span>
+      <span translate>items.gatherable</span>
       <span flex></span>
       <md-input-container class="md-accent" style="padding-bottom:0px;margin-left:25px">
-        <label style="color:wheat">Itemfilter</label>
+        <label style="color:wheat" translate>filter</label>
         <input style="color:wheat" ng-model="gatherFilter" size="10"/>
       </md-input-container>
     </div>
@@ -22,7 +22,8 @@
           <span ng-if="gathers.hq">HQ</span>
         </span>
 
-        <md-button class="md-raised md-primary" ng-click="addToStock(project,gathers.item,gathers.outstanding,gathers.hq)">AddToStock</md-button>
+        <md-button class="md-raised md-primary"
+        ng-click="addToStock(project,gathers.item,gathers.outstanding,gathers.hq)" translate="stock.add"></md-button>
       </md-list-item>
     </md-list>
   </md-card-content>

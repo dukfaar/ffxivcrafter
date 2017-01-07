@@ -27,8 +27,8 @@
 
             <md-card id="commentCard" ng-if="project.comment.length>0">
               <md-card-header>
-                <md-card-header-text class="md-title">
-                  Comment
+                <md-card-header-text class="md-title" translate>
+                  project.comment
                 </md-card-header-text>
               </md-card-header>
               <md-card-content>
@@ -38,8 +38,8 @@
 
             <md-card>
               <md-card-header>
-                <md-card-header-text class="md-title">
-                  Notes
+                <md-card-header-text class="md-title" translate>
+                  project.notes
                 </md-card-header-text>
               </md-card-header>
               <md-card-content layout="column">
@@ -65,10 +65,10 @@
 
             <md-card-actions layout="row" layout-align="end center">
               <div ng-if="tabproject.order">
-                <i>ordered by {{tabproject.creator.name}}</i>
+                <i><span translate>ordered.by</span> {{tabproject.creator.name}}</i>
               </div>
               <div style="width:1em"></div>
-              <md-button ng-click="clickProject(tabproject,$index)">Go to Project</md-button>
+              <md-button ng-click="clickProject(tabproject,$index)" translate="go.to.project"></md-button>
             </md-card-actions>
           </md-card>
         </md-content>
