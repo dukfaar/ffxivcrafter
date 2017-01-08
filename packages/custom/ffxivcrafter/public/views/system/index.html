@@ -24,9 +24,13 @@
                   ng-click="deliveryDialog(project,gathers.item,gathers)"
                   ng-repeat="gathers in getGatherArray(project) | orderBy:'item.gatheringLevel':true"
                   layout="row">
-                  <span flex>
+                  <span flex layout="row">
                     <span>{{gathers.outstanding}} {{gathers.item.name}}</span>
                     <span ng-if="gathers.hq">HQ</span>
+                    <span flex></span>
+                    <span ng-if="gathers.item.unspoiledNode">
+                      Next: {{EorzeanTimeService.timeToNode(currentEorzeanTime, gathers.item.unspoiledNodeTime).realMinutes}}m {{EorzeanTimeService.timeToNode(currentEorzeanTime, gathers.item.unspoiledNodeTime).realSeconds}}s
+                    </span>
                   </span>
                 </md-list-item>
               </div>

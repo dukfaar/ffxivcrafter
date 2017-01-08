@@ -1,11 +1,22 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'MeanUser', 'deliveryService', 'socket', '_', 'localStorageService',
-  function ($scope, Global, $http, $mdDialog, projectAnalyzerService, MeanUser, deliveryService, socket, _, localStorageService) {
+angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'MeanUser', 'deliveryService', 'socket', '_', 'localStorageService', 'EorzeanTimeService', '$interval',
+  function ($scope, Global, $http, $mdDialog, projectAnalyzerService, MeanUser, deliveryService, socket, _, localStorageService, EorzeanTimeService, $interval) {
     $scope.user = MeanUser
     $scope.allowed = function (perm) {
       return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) !== -1
     }
+
+    $scope.EorzeanTimeService = EorzeanTimeService
+
+    $scope.currentEorzeanTime = EorzeanTimeService.getEorzeanTime()
+    var timeInterval = $interval(function () {
+      $scope.currentEorzeanTime = EorzeanTimeService.getEorzeanTime()
+    }, 1000)
+
+    $scope.$on('$destroy', function () {
+      $interval.cancel(timeInterval)
+    })
 
     $scope.projectList = []
     $scope.projectData = {}

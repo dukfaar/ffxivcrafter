@@ -31,5 +31,14 @@
   "stock.add": "Add to stock",
   "stock.remove": "Remove from stock",
   "delete": "Delete",
-  "copy": "Copy"
+  "copy": "Copy",
+  "action.deliver": "Deliver",
+  "time": "Time",
+  "ampm": "AM/PM",
+  "duration": "Duration",
+  "folklore.needed": "Required Folklore",
+  "folklore.none": "None",
+  "folklore.coerthas": "Coerthas",
+  "folklore.dravania": "Dravania",
+  "folklore.abalathia": "Abalathia"
 }

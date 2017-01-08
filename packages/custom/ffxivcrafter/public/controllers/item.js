@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('ItemController', ['$scope', 'Global', '$http', '$mdDialog', 'MeanUser', 'ItemService',
-  function ($scope, Global, $http, $mdDialog, MeanUser, ItemService) {
+angular.module('mean.ffxivCrafter').controller('ItemController', ['$scope', 'Global', '$http', '$mdDialog', 'MeanUser', 'ItemService', '_',
+  function ($scope, Global, $http, $mdDialog, MeanUser, ItemService, _) {
     $scope.user = MeanUser
     $scope.allowed = function (perm) {
       return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) != -1
@@ -33,6 +33,32 @@ angular.module('mean.ffxivCrafter').controller('ItemController', ['$scope', 'Glo
         .then(function (response) {
           $scope.itemService.updateList()
         })
+    }
+
+    $scope.editItem = function (item) {
+      $mdDialog.show({
+        templateUrl: 'ffxivCrafter/views/item/editDialog.html',
+        parent: angular.element(document.body),
+        controller: function ($scope, $mdDialog, item) {
+          $scope.item = $.extend({}, item, true)
+          $scope.save = function () {
+            $mdDialog.hide($scope.item)
+          }
+          $scope.hide = function () {
+            $mdDialog.hide()
+          }
+          $scope.cancel = function () {
+            $mdDialog.cancel()
+          }
+        },
+        clickOutsideToClose: true,
+        locals: {
+          item: item
+        }
+      }).then(function (data) {
+        $scope.updateItem(data)
+        _.assign(item, data)
+      })
     }
 
     $scope.multiplierUpdatesDone = false

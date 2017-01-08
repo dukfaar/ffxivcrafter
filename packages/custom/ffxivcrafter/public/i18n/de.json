@@ -29,5 +29,14 @@
   "stock.add": "Zum Inventar hinzufügen",
   "stock.remove": "Aus Inventar löschen",
   "delete": "Löschen",
-  "copy": "Kopieren"
+  "copy": "Kopieren",
+  "time": "Zeit",
+  "ampm": "AM/PM",
+  "duration": "Dauer",
+  "folklore.needed": "Benötigte Folklore",
+  "folklore.none": "Keine",
+  "folklore.coerthas": "Coerthas",
+  "folklore.dravania": "Dravania",
+  "folklore.abalathia": "Abalathia",
+  "action.deliver": "Abliefern"
 }

@@ -1,3 +1,5 @@
+'use strict'
+
 angular.module('mean.ffxivCrafter').config(function ($translateProvider) {
   $translateProvider.preferredLanguage('en')
 

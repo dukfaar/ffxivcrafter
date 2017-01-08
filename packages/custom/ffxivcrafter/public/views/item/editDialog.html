@@ -1,0 +1,39 @@
+<md-dialog layout-padding>
+  <md-dialog-content layout="column">
+    <md-switch ng-model="item.unspoiledNode"> Unspoiled Node: {{item.unspoiledNode?'Yes': 'No'}}</md-switch>
+
+    <div layout="column" ng-if="item.unspoiledNode">
+      <div layout="row">
+        <md-input-container>
+          <label translate>time</label>
+          <input ng-model="item.unspoiledNodeTime.time"/>
+        </md-input-container>
+        <md-input-container>
+          <label translate>ampm</label>
+          <md-select ng-model="item.unspoiledNodeTime.ampm">
+            <md-option ng-value="'AM/PM'">AM/PM</md-option>
+            <md-option ng-value="'AM'">AM</md-option>
+            <md-option ng-value="'PM'">PM</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <md-input-container>
+        <label translate>duration</label>
+        <input ng-model="item.unspoiledNodeTime.duration"/>
+      </md-input-container>
+      <md-input-container>
+        <label translate>folklore.needed</label>
+        <md-select ng-model="item.unspoiledNodeTime.folkloreNeeded">
+          <md-option ng-value="''" translate="folklore.none"></md-option>
+          <md-option ng-value="'coerthas'" translate="folklore.coerthas"></md-option>
+          <md-option ng-value="'dravania'" translate="folklore.dravania"></md-option>
+          <md-option ng-value="'abalathia'" translate="folklore.abalathia"></md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button ng-click="save()" translate="action.save"></md-button>
+    <md-button ng-click="cancel()" translate="action.cancel"></md-button>
+  </md-dialog-actions>
+</md-dialog>
