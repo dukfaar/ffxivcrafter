@@ -38,5 +38,8 @@
   "folklore.coerthas": "Coerthas",
   "folklore.dravania": "Dravania",
   "folklore.abalathia": "Abalathia",
-  "action.deliver": "Abliefern"
+  "action.deliver": "Abliefern",
+  "step.workedon": "Hierran arbeitet bereits jemand: {{name}}",
+  "step.noneworkedon": "Hierran arbeitet bisher niemand",
+  "step.youworkedon": "Scheinbar arbeitest du daran"
 }

@@ -10,13 +10,15 @@ var ProjectStepSchema = new Schema({
   hq: { type: Boolean, default: false },
   step: { type: String, enum: ['Craft', 'Buy', 'Gather', 'Meta'] },
   recipe: { type: Schema.ObjectId, ref: 'Recipe' },
-  inputs: [ { type: Schema.ObjectId, ref: 'ProjectStep' } ]
+  inputs: [ { type: Schema.ObjectId, ref: 'ProjectStep' } ],
+  workedOnBy: [{ type: Schema.ObjectId, ref: 'User'}]
 })
 
 function autoPopulate (next) {
   this.populate('inputs')
   this.populate('item')
   this.populate('recipe')
+  this.populate('workedOnBy')
   next()
 }
 

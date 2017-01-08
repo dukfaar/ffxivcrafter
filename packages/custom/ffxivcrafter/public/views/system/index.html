@@ -31,6 +31,24 @@
                     <span ng-if="gathers.item.unspoiledNode">
                       Next: {{EorzeanTimeService.timeToNode(currentEorzeanTime, gathers.item.unspoiledNodeTime).realMinutes}}m {{EorzeanTimeService.timeToNode(currentEorzeanTime, gathers.item.unspoiledNodeTime).realSeconds}}s
                     </span>
+                    <span ng-if="gathers.step.workedOnBy && gathers.step.workedOnBy.length > 0 && !isWorkedByMe(gathers.step)">
+                      <md-button class="md-icon-button">
+                        <md-icon class="material-icon" style="color: orange">pets</md-icon>
+                      </md-button>
+                      <md-tooltip><span translate translate-value-name="{{gathers.step.workedOnBy[0].name}}">step.workedon</span></md-tooltip>
+                    </span>
+                    <span ng-if="gathers.step.workedOnBy && gathers.step.workedOnBy.length > 0 && isWorkedByMe(gathers.step)">
+                      <md-button class="md-icon-button" ng-click="removeMarkStepAsWorked(gathers.step)">
+                        <md-icon class="material-icon" style="color: green">pets</md-icon>
+                      </md-button>
+                      <md-tooltip><span translate>step.youworkedon</span></md-tooltip>
+                    </span>
+                    <span ng-if="!gathers.step.workedOnBy || gathers.step.workedOnBy.length == 0">
+                      <md-button class="md-icon-button" ng-click="markStepAsWorked(gathers.step)">
+                        <md-icon class="material-icon" style="color: grey">pets</md-icon>
+                      </md-button>
+                      <md-tooltip><span translate>step.noneworkedon</span></md-tooltip>
+                    </span>
                   </span>
                 </md-list-item>
               </div>

@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'MeanUser', 'deliveryService', 'socket', '_', 'localStorageService', 'EorzeanTimeService', '$interval',
-  function ($scope, Global, $http, $mdDialog, projectAnalyzerService, MeanUser, deliveryService, socket, _, localStorageService, EorzeanTimeService, $interval) {
+angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', 'MeanUser', 'deliveryService', 'socket', '_', 'localStorageService', 'EorzeanTimeService', '$interval', 'ProjectStep',
+  function ($scope, Global, $http, $mdDialog, projectAnalyzerService, MeanUser, deliveryService, socket, _, localStorageService, EorzeanTimeService, $interval, ProjectStep) {
     $scope.user = MeanUser
     $scope.allowed = function (perm) {
       return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) !== -1
@@ -43,6 +43,19 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
 
       updateTimeout = setTimeout(function () {
         updateTimeout = null
+        $scope.updateList()
+      }, 500)
+    })
+
+    var stepDateUpdateTimeout = null
+
+    socket.on('project step data changed', function (data) {
+      if(stepDateUpdateTimeout) {
+        clearTimeout(stepDateUpdateTimeout)
+      }
+
+      stepDateUpdateTimeout = setTimeout(function () {
+        stepDateUpdateTimeout = null
         $scope.updateList()
       }, 500)
     })
@@ -93,6 +106,24 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
       return Object.keys(obj).map(function (key) {
         return obj[key]
       })
+    }
+
+    $scope.markStepAsWorked = function (step) {
+      if(!step.workedOnBy) step.workedOnBy = []
+      step.workedOnBy.push(MeanUser.user)
+      ProjectStep.update({id: step._id}, step)
+    }
+
+    $scope.removeMarkStepAsWorked = function (step) {
+      _.remove(step.workedOnBy,function (user) { return user._id == MeanUser.user._id })
+      ProjectStep.update({id: step._id}, step)
+    }
+
+    $scope.isWorkedByMe = function(step) {
+      if(!step.workedOnBy) return false
+      var user = _.find(step.workedOnBy, function (user) { return user._id == MeanUser.user._id })
+      if(!user) return false
+      return true
     }
 
     $scope.gatheringFilter = function (step) {

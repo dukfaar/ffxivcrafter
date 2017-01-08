@@ -32,7 +32,8 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
       projectData.gatherList[lookup] = {
         item: step.item,
         outstanding: 0,
-        hq: step.hq ? true : false
+        hq: step.hq ? true : false,
+        step: step
       }
     }
 
@@ -68,7 +69,8 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
       projectData.buyList[lookup] = {
         item: step.item,
         outstanding: 0,
-        hq: step.hq ? true : false
+        hq: step.hq ? true : false,
+        step: step
       }
     }
 
@@ -148,7 +150,8 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
             item: step.item,
             recipe: step.recipe,
             inputs: $.extend(true, {}, step.inputs),
-            hq: step.hq
+            hq: step.hq,
+            step: step
           }
         })
 
