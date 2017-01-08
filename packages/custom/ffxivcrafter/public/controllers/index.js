@@ -119,7 +119,7 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
       ProjectStep.update({id: step._id}, step)
     }
 
-    $scope.isWorkedByMe = function(step) {
+    $scope.isWorkedByMe = function (step) {
       if(!step.workedOnBy) return false
       var user = _.find(step.workedOnBy, function (user) { return user._id == MeanUser.user._id })
       if(!user) return false

@@ -84,6 +84,25 @@
                     <span>{{craftable.step.amount}} {{craftable.step.item.name}}</span>
                     <span ng-if="craftable.step.hq">HQ</span>
                   </span>
+                  <span flex></span>
+                  <span ng-if="craftable.step.step.workedOnBy && craftable.step.step.workedOnBy.length > 0 && !isWorkedByMe(craftable.step.step)">
+                    <md-button class="md-icon-button">
+                      <md-icon class="material-icon" style="color: orange">pets</md-icon>
+                    </md-button>
+                    <md-tooltip><span translate translate-value-name="{{gathers.step.workedOnBy[0].name}}">step.workedon</span></md-tooltip>
+                  </span>
+                  <span ng-if="craftable.step.step.workedOnBy && craftable.step.step.workedOnBy.length > 0 && isWorkedByMe(craftable.step.step)">
+                    <md-button class="md-icon-button" ng-click="removeMarkStepAsWorked(craftable.step.step)">
+                      <md-icon class="material-icon" style="color: green">pets</md-icon>
+                    </md-button>
+                    <md-tooltip><span translate>step.youworkedon</span></md-tooltip>
+                  </span>
+                  <span ng-if="!craftable.step.step.workedOnBy || craftable.step.step.workedOnBy.length == 0">
+                    <md-button class="md-icon-button" ng-click="markStepAsWorked(craftable.step.step)">
+                      <md-icon class="material-icon" style="color: grey">pets</md-icon>
+                    </md-button>
+                    <md-tooltip><span translate>step.noneworkedon</span></md-tooltip>
+                  </span>
                 </md-list-item>
               </div>
             </md-list>
