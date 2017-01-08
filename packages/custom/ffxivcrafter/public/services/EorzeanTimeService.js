@@ -33,6 +33,8 @@ angular.module('mean.ffxivCrafter').factory('EorzeanTimeService', function () {
       realSeconds: 0
     }
 
+    if(!nodeInfo) return result
+
     if(nodeInfo.ampm === 'AM') {
       result.h = nodeInfo.time - time.h
       if(nodeInfo.time <= time.h) {
