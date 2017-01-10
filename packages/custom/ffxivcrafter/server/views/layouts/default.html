@@ -2,9 +2,9 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" itemscope="itemscope" itemtype="http://schema.org/Product">
 {% include '../includes/head.html' %}
 
-<body ng-cloak class="ng-cloak" ng-class="state" layout="column" layout-fill ng-controller="MainAppController" md-swipe-right="onSwipeRight()" md-swipe-left="onSwipeLeft()">
+<body ng-cloak class="ng-cloak" ng-class="state" layout="column" style="overflow:hidden" layout-fill ng-controller="MainAppController" md-swipe-right="onSwipeRight()" md-swipe-left="onSwipeLeft()">
     <md-toolbar ng-if="navigation.mode==='top'" layout="row" data-role="navigation" data-ng-include="'/ffxivCrafter/views/system/header.html'"></md-toolbar>
-    
+
     <div data-ng-include="'/admin/views/index.html'"></div>
 
     {% block content %}{% endblock %}
