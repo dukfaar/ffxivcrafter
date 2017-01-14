@@ -3,7 +3,13 @@
 {% include '../includes/head.html' %}
 
 <body ng-cloak class="ng-cloak" ng-class="state" layout="column" style="overflow:hidden" layout-fill ng-controller="MainAppController" md-swipe-right="onSwipeRight()" md-swipe-left="onSwipeLeft()">
-    <md-toolbar ng-if="navigation.mode==='top'" layout="row" data-role="navigation" data-ng-include="'/ffxivCrafter/views/system/header.html'"></md-toolbar>
+    <md-toolbar ng-if="(navigation.mode==='side' && useMobile()) || (navigation.mode==='top' && useMobile())" ng-cloak>
+      <div class="md-toolbar-tools">
+        <md-button ng-click="openSideNav()"><md-icon class="material-icons">menu</md-icon></md-button>
+        <h2 class="pressed-text" mean-token="'site-title'">RainCollector</h2>
+      </div>
+    </md-toolbar>
+    <md-toolbar ng-if="navigation.mode==='top' && !useMobile()" layout="row" data-role="navigation" data-ng-include="'/ffxivCrafter/views/system/header.html'"></md-toolbar>
 
     <div data-ng-include="'/admin/views/index.html'"></div>
 

@@ -32,8 +32,6 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
 
     $scope.mergeSelection=null
 
-    $scope.oldItems = []
-
     var updateTimeout = null
 
     socket.on('project stock changed', function (data) {
@@ -78,30 +76,6 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
         })
     }
 
-    $scope.updateOldList = function () {
-      $http.get('api/item/oldest')
-        .then(function (response) {
-          $scope.oldItems = response.data
-        })
-    }
-
-    $scope.updateOldList()
-
-    $scope.priceDialog = function (item) {
-      $mdDialog.show({
-        templateUrl: 'ffxivCrafter/views/item/priceDialogFront.html',
-        parent: angular.element(document.body),
-        controller: 'ItemPriceDialogController',
-        clickOutsideToClose: true,
-        locals: {
-          item: item,
-          priceUpdate: null
-        }
-      }).then(function () {
-        $scope.updateOldList()
-      })
-    }
-
     $scope.toArray = function (obj) {
       return Object.keys(obj).map(function (key) {
         return obj[key]
@@ -141,7 +115,7 @@ angular.module('mean.ffxivCrafter').controller('IndexController', ['$scope', 'Gl
     }
 
     $scope.getCraftArray = function (project) {
-      return _.filter(_.filter($scope.toArray($scope.projectData[project._id].craftableSteps), $scope.craftingFilter), $scope.canCraft)
+      return _.filter(_.filter(_.filter($scope.toArray($scope.projectData[project._id].craftableSteps), $scope.craftingFilter), $scope.canCraft) , function (g) { return Math.floor(g.step.amount) > 0 })
     }
 
     $scope.canHarvest = function (step) {

@@ -4,6 +4,21 @@
       <md-content>
       <div layout="row" layout-wrap flex>
         <md-card ng-repeat="recipe in recipeList | filter: recipeFilter | limitTo: 10">
+          <md-toolbar class="md-hue-2">
+            <div class="md-toolbar-tools">
+              <span flex></span>
+              <md-menu>
+                <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu()">
+                  <md-icon class="material-icons">more_vert</md-icon>
+                </md-button>
+                <md-menu-content>
+                  <md-menu-item><md-button ng-click="deleteRecipe(recipe)" translate="delete"></md-button></md-menu-item>
+                  <md-menu-item><md-button ng-click="copyRecipe(recipe)" translate="copy"></md-button></md-menu-item>
+                </md-menu-content>
+              </md-menu>
+            </div>
+          </md-toolbar>
+
           <md-card-content>
             <div layout="row">
               <span flex ng-hide="editMode">{{recipe.craftingJob}}</span>
@@ -35,10 +50,10 @@
                   <span flex>{{ItemDatabase.get(input.item).name}}</span>
 
                   <span ng-show="!editMode">
-                    Amount: {{input.amount}}
+                    {{'amount'|translate}}: {{input.amount}}
                   </span>
                   <md-input-container ng-show="editMode">
-                    <label>Amount</label>
+                    <label translate>amount</label>
                     <input ng-model="input.amount" ng-model-options="{debounce:300}" ng-change="updateRecipe(recipe)">
                   </md-input-container>
 
@@ -57,10 +72,10 @@
                   <span flex>{{output.item.name}}</span>
 
                   <span ng-show="!editMode">
-                    Amount: {{output.amount}}
+                    {{'amount'|translate}}: {{output.amount}}
                   </span>
                   <md-input-container ng-show="editMode">
-                    <label>Amount</label>
+                    <label translate>amount</label>
                     <input ng-model="output.amount" ng-model-options="{debounce:300}" ng-change="updateRecipe(recipe)">
                   </md-input-container>
 
@@ -73,10 +88,6 @@
               </md-list>
             </div>
           </md-card-content>
-          <md-card-actions layout="row">
-            <md-button ng-click="deleteRecipe(recipe)" translate="delete"></md-button>
-            <md-button ng-click="copyRecipe(recipe)" translate="copy"></md-button>
-          </md-card-actions>
         </md-card>
       </div>
       </md-content>

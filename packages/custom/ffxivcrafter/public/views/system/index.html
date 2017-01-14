@@ -81,7 +81,7 @@
                   ng-click="deliveryCraftDialog(project,craftable.step.item,craftable.step,craftable)"
                   ng-repeat="craftable in getCraftArray(project)" layout="row">
                   <span flex>
-                    <span>{{craftable.step.amount}} {{craftable.step.item.name}}</span>
+                    <span>{{craftable.step.amount|floor}} {{craftable.step.item.name}}</span>
                     <span ng-if="craftable.step.hq">HQ</span>
                   </span>
                   <span flex></span>
@@ -124,11 +124,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-card-content>
-            <md-list>
-              <md-list-item ng-repeat="item in oldItems" ng-click="priceDialog(item)">
-                {{item.name}}
-              </md-list-item>
-            </md-list>
+            <old-price-list></old-price-list>
           </md-card-content>
         </md-card>
       </div>
