@@ -18,6 +18,7 @@ module.exports = {
       ca: ''
     }
   },
+  favicon: rootPath + '/packages/custom/ffxivcrafter/public/assets/img/icons/favicon.ico',
   hostname: process.env.HOST || process.env.HOSTNAME,
   db: process.env.MONGOHQ_URL,
   templateEngine: 'swig',
