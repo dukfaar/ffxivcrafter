@@ -10,3 +10,5 @@ import 'angular-translate-loader-static-files'
 import 'angular-chart.js'
 import 'lodash'
 import 'angular-drag-and-drop-lists'
+
+import 'angular-web-notification'

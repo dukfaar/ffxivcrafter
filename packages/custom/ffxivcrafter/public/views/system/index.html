@@ -14,6 +14,37 @@
             </div>
           </md-toolbar>
           <md-card-content>
+            <div style="height:20px" ng-if="showUnspoiledTimelime">
+              <div style="position: relative; background: white; top: -10px;" style="height: 20px; width:100%">
+                <div ng-repeat="project in projectList" style="width: 100%">
+                  <div style="position: absolute"
+                        class="gatheringTimeFrame"
+                        ng-repeat="gathers in getGatherArray(project)"
+                        ng-if="gathers.item.unspoiledNode && (gathers.item.unspoiledNodeTime.ampm === 'AM' || gathers.item.unspoiledNodeTime.ampm == 'AM/PM')"
+                        ng-style="{'left': ((gathers.item.unspoiledNodeTime.time/24)*100)+'%', 'width': gathers.item.unspoiledNodeTime.duration/6 + 'px'}"
+                        >
+                  </div>
+                  <div style="position: absolute"
+                        class="gatheringTimeFrame"
+                        ng-repeat="gathers in getGatherArray(project)"
+                        ng-if="gathers.item.unspoiledNode && (gathers.item.unspoiledNodeTime.ampm === 'PM' || gathers.item.unspoiledNodeTime.ampm == 'AM/PM')"
+                        ng-style="{'left': (((gathers.item.unspoiledNodeTime.time+12)/24)*100)+'%', 'width': gathers.item.unspoiledNodeTime.duration/6 + 'px'}"
+                        >
+                  </div>
+                </div>
+                <div style="position: absolute"
+                      ng-style="{'left': (((currentEorzeanTime.h+currentEorzeanTime.m/60)/24)*100)+'%', 'top': '0px', 'width': '1px', 'height':'20px', 'background': 'green'}">
+                </div>
+              </div>
+              <style>
+                .gatheringTimeFrame {
+                  top: 5px;
+                  height: 10px;
+                  border-radius: 1px;
+                  background-color: lightblue
+                }
+              </style>
+            </div>
             <md-list>
               <div ng-repeat="project in projectList">
                 <div ng-if="indexMode == 'separateProjects' && getGatherArray(project).length > 0">

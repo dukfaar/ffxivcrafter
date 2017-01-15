@@ -12,6 +12,10 @@
             <md-switch ng-model="data.editKanbanColumns" ng-change="toggleEditKanbanColumns()">
               <span ng-if="!data.editKanbanColumns">Don't </span><span>Edit Kanban Columns</span>
             </md-switch>
+
+            <md-switch ng-model="data.showUnspoiledTimelime" ng-change="toggleUnspoiledTimeline()">
+              <span ng-if="!data.showUnspoiledTimelime">Don't </span><span>show Timeline for unspoiled nodes</span>
+            </md-switch>
           </md-card-content>
         </md-card>
 

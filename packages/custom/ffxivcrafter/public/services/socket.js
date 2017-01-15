@@ -15,6 +15,9 @@ angular.module('mean.ffxivCrafter').factory('socket', ['$rootScope', function ($
     },
     emit: function (eventName, data) {
       socket.emit(eventName, data)
+    },
+    off: function (eventName, data) {
+      socket.removeListener(eventName, data)
     }
   }
 }])

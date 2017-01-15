@@ -16,7 +16,8 @@
     "angular-translate-loader-static-files": "latest",
     "angular-local-storage": "latest",
     "angular-chart.js": "latest",
-    "angular-drag-and-drop-lists": "latest"
+    "angular-drag-and-drop-lists": "latest",
+    "angular-web-notification": "latest"
   },
   "license": "MIT"
 }

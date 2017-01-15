@@ -33,7 +33,7 @@ module.exports = function (io) {
     return Item.findById(itemId).exec()
     .then(function (item) {
       step.item = item
-      step.hq = hq?hq:false
+      step.hq = hq ? hq : false
 
       return Recipe
         .find({'outputs.item': itemId})
@@ -158,10 +158,10 @@ module.exports = function (io) {
       populateAndSend(res, CraftingProject.find(criteria).populate('creator'), req.query.doPopulate === 'true')
     },
     publicList: function (req, res) {
-      if(!req.user) {
-          res.send([])
+      if (!req.user) {
+        res.send([])
       } else {
-          populateAndSend(res, CraftingProject.find({
+        populateAndSend(res, CraftingProject.find({
           $or: [
             {public: true, private: false},
             {sharedWith: req.user._id},
@@ -197,8 +197,15 @@ module.exports = function (io) {
         }
 
         project.save()
-        .then(function () { io.emit('project stock changed', {projectId: project._id}) })
         .then(function () {
+          io.emit('project stock changed', {
+            projectId: project._id,
+            item: req.params.itemId,
+            amount: req.params.amount,
+            hq: req.params.hq === 'true',
+            user: req.user
+          })
+        }).then(function () {
           var stockChange = new ProjectStockChange()
           stockChange.project = req.params.projectId
           stockChange.item = req.params.itemId
