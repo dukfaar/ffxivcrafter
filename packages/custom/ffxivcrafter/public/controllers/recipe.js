@@ -95,12 +95,12 @@ angular.module('mean.ffxivCrafter').controller('RecipeController',
       }
 
       $scope.removeInput = function (recipe, item) {
-        recipe.inputs = _.reject(recipe.inputs, function (input) { return input.item._id === item._id })
+        recipe.inputs = _.reject(recipe.inputs, function (input) { return input.item === item })
         $scope.updateRecipe(recipe)
       }
 
       $scope.removeOutput = function (recipe, item) {
-        recipe.outputs = _.reject(recipe.outputs, function (output) { return output.item._id === item._id })
+        recipe.outputs = _.reject(recipe.outputs, function (output) { return output.item === item })
         $scope.updateRecipe(recipe)
       }
 
