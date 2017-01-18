@@ -28,7 +28,7 @@ angular.module('mean.ffxivCrafter').controller('RecipeController',
       function copyRecipeArray(array) {
         return _.map(array, function (it) { return {item: it.item, amount: it.amount} })
       }
-      
+
       function doCopy (recipe) {
         var newRecipe = new Recipe()
         newRecipe.craftingJob = recipe.craftingJob
@@ -89,7 +89,7 @@ angular.module('mean.ffxivCrafter').controller('RecipeController',
       $scope.addInput = function (recipe) {
         openItemSelectionDialog()
         .then(function (item) {
-          recipe.inputs.push({item: item, amount: 1})
+          recipe.inputs.push({item: item._id, amount: 1})
           $scope.updateRecipe(recipe)
         })
       }
@@ -107,7 +107,7 @@ angular.module('mean.ffxivCrafter').controller('RecipeController',
       $scope.addOutput = function (recipe) {
         openItemSelectionDialog()
         .then(function (item) {
-          recipe.outputs.push({item: item, amount: 1})
+          recipe.outputs.push({item: item._id, amount: 1})
           $scope.updateRecipe(recipe)
         })
       }
