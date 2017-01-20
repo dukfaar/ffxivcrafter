@@ -3,10 +3,18 @@
     <div class="md-toolbar-tools">
       <span>Contribution by User</span>
       <span flex></span>
+      <md-menu>
+        <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu()">
+          <md-icon class="material-icons">more_vert</md-icon>
+        </md-button>
+        <md-menu-content>
+          <md-menu-item><md-switch ng-model="config.showDiagram">{{config.showDiagram?'Show':'Hide'}} Diagram</md-switch></md-menu-item>
+        </md-menu-content>
+      </md-menu>
     </div>
   </md-toolbar>
   <md-card-content layout="column">
-    <div style="width:400px; height:400px;">
+    <div style="width:400px; height:400px;" ng-if="config.showDiagram">
       <canvas width="400" height="400" class="chart chart-pie" chart-data="chart.data" chart-labels="chart.labels" chart-options="chart.options"></canvas>
     </div>
     <table>

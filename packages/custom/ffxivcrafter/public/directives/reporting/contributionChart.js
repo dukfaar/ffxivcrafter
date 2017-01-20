@@ -15,6 +15,10 @@ angular.module('mean.ffxivCrafter').directive('reportingUserContributionChart', 
         dataArray: []
       }
 
+      $scope.config = {
+        showDiagram: false
+      }
+
       $scope.updateGraph = function () {
         var groupedByUser = _.groupBy($scope.log, function (logItem) { return logItem.submitter.name })
         var countedByUser = _.mapValues(groupedByUser, function (userLogs) {

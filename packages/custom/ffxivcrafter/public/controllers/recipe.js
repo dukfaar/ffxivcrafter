@@ -28,7 +28,7 @@ angular.module('mean.ffxivCrafter').controller('RecipeController',
       function copyRecipeArray(array) {
         return _.map(array, function (it) { return {item: it.item, amount: it.amount} })
       }
-      
+
       function doCopy (recipe) {
         var newRecipe = new Recipe()
         newRecipe.craftingJob = recipe.craftingJob
@@ -89,25 +89,25 @@ angular.module('mean.ffxivCrafter').controller('RecipeController',
       $scope.addInput = function (recipe) {
         openItemSelectionDialog()
         .then(function (item) {
-          recipe.inputs.push({item: item, amount: 1})
+          recipe.inputs.push({item: item._id, amount: 1})
           $scope.updateRecipe(recipe)
         })
       }
 
       $scope.removeInput = function (recipe, item) {
-        recipe.inputs = _.reject(recipe.inputs, function (input) { return input.item._id === item._id })
+        recipe.inputs = _.reject(recipe.inputs, function (input) { return input.item === item })
         $scope.updateRecipe(recipe)
       }
 
       $scope.removeOutput = function (recipe, item) {
-        recipe.outputs = _.reject(recipe.outputs, function (output) { return output.item._id === item._id })
+        recipe.outputs = _.reject(recipe.outputs, function (output) { return output.item === item })
         $scope.updateRecipe(recipe)
       }
 
       $scope.addOutput = function (recipe) {
         openItemSelectionDialog()
         .then(function (item) {
-          recipe.outputs.push({item: item, amount: 1})
+          recipe.outputs.push({item: item._id, amount: 1})
           $scope.updateRecipe(recipe)
         })
       }
