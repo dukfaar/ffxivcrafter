@@ -112,7 +112,7 @@ angular.module('mean.ffxivCrafter').controller('IndexController',
                     }
                   } else {
                     if(Math.floor(newCraft.step.amount) > Math.floor(oldCraft.step.amount)) {
-                      $translate('notification.craftable.more', {project: project.name, item: newCraft.step.item.name, amount: newCraft.step.amount - oldCraft.step.amount}).then(function (notificationText) {
+                      $translate('notification.craftable.more', {project: project.name, item: newCraft.step.item.name, amount: Math.floor(newCraft.step.amount) - Math.floor(oldCraft.step.amount)}).then(function (notificationText) {
                         webNotification.showNotification('More craftable items', {
                           body: notificationText,
                           autoClose: 10000
