@@ -103,7 +103,7 @@ angular.module('mean.ffxivCrafter').controller('IndexController',
 
                   if(!oldCraft) {
                     if(Math.floor(newCraft.step.amount) > 0) {
-                      $translate('notification.craftable.new', {project: project.name, item: newCraft.step.item.name, amount: newCraft.step.amount}).then(function (notificationText) {
+                      $translate('notification.craftable.new', {project: project.name, item: newCraft.step.item.name, amount: Math.floor(newCraft.step.amount)}).then(function (notificationText) {
                         webNotification.showNotification('New craftable items', {
                           body: notificationText,
                           autoClose: 10000
