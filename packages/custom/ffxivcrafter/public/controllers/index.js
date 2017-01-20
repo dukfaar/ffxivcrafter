@@ -4,12 +4,14 @@ angular.module('mean.ffxivCrafter').controller('IndexController',
   ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService',
     'MeanUser', 'deliveryService', 'socket', '_', 'localStorageService',
     'EorzeanTimeService', '$interval', 'ProjectStep',
-    'ItemDatabase', 'ProjectDatabase', '$q', 'ProjectService',
+    'ItemDatabase', 'ProjectDatabase', '$q', 'ProjectService', 'webNotification',
+    '$translate',
     function (
     $scope, Global, $http, $mdDialog, projectAnalyzerService,
     MeanUser, deliveryService, socket, _, localStorageService,
     EorzeanTimeService, $interval, ProjectStep,
-    ItemDatabase, ProjectDatabase, $q, ProjectService) {
+    ItemDatabase, ProjectDatabase, $q, ProjectService, webNotification,
+    $translate) {
       $scope.user = MeanUser
       $scope.allowed = function (perm) {
         return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) !== -1
@@ -86,8 +88,42 @@ angular.module('mean.ffxivCrafter').controller('IndexController',
         .then(function (response) {
           $scope.projectList = _.reject(response.data, function (p) { return ProjectService.isHiddenFromOverview(p, MeanUser.user) })
 
+          var oldProjectData = _.extend({}, $scope.projectData, true)
+
           $scope.projectData = {}
           projectAnalyzerService.updateMaterialList($scope.projectList, $scope.projectData)
+          .then(function () {
+            if(!_.isEmpty(oldProjectData)) {
+              _.forEach($scope.projectList, function (project) {
+                var newCraftArray = $scope.getCraftArray(project)
+                var oldCraftArray = $scope.getCraftArrayFromProjectData(project, oldProjectData)
+
+                _.forEach(newCraftArray, function (newCraft) {
+                  var oldCraft = _.find(oldCraftArray, function (c) { return newCraft.step.step._id === c.step.step._id })
+
+                  if(!oldCraft) {
+                    if(Math.floor(newCraft.step.amount) > 0) {
+                      $translate('notification.craftable.new', {project: project.name, item: newCraft.step.item.name, amount: newCraft.step.amount}).then(function (notificationText) {
+                        webNotification.showNotification('New craftable items', {
+                          body: notificationText,
+                          autoClose: 10000
+                        })
+                      })
+                    }
+                  } else {
+                    if(Math.floor(newCraft.step.amount) > Math.floor(oldCraft.step.amount)) {
+                      $translate('notification.craftable.more', {project: project.name, item: newCraft.step.item.name, amount: newCraft.step.amount - oldCraft.step.amount}).then(function (notificationText) {
+                        webNotification.showNotification('More craftable items', {
+                          body: notificationText,
+                          autoClose: 10000
+                        })
+                      })
+                    }
+                  }
+                })
+              })
+            }
+          })
         })
       }
 
@@ -125,12 +161,20 @@ angular.module('mean.ffxivCrafter').controller('IndexController',
         return _.lowerCase(step.step.item.name).indexOf(filter) !== -1 || _.lowerCase(step.step.recipe.craftingJob).indexOf(filter) !== -1
       }
 
+      $scope.getGatherArrayFromProjectData = function (project, projectData) {
+        return _.filter(_.filter(_.filter($scope.toArray(projectData[project._id].gatherList), $scope.gatheringFilter), $scope.canHarvest), function (g) { return g.outstanding > 0 })
+      }
+
+      $scope.getCraftArrayFromProjectData = function (project, projectData) {
+        return _.filter(_.filter(_.filter($scope.toArray(projectData[project._id].craftableSteps), $scope.craftingFilter), $scope.canCraft), function (g) { return Math.floor(g.step.amount) > 0 })
+      }
+
       $scope.getGatherArray = function (project) {
-        return _.filter(_.filter(_.filter($scope.toArray($scope.projectData[project._id].gatherList), $scope.gatheringFilter), $scope.canHarvest), function (g) { return g.outstanding > 0 })
+        return $scope.getGatherArrayFromProjectData(project, $scope.projectData)
       }
 
       $scope.getCraftArray = function (project) {
-        return _.filter(_.filter(_.filter($scope.toArray($scope.projectData[project._id].craftableSteps), $scope.craftingFilter), $scope.canCraft), function (g) { return Math.floor(g.step.amount) > 0 })
+        return $scope.getCraftArrayFromProjectData(project, $scope.projectData)
       }
 
       $scope.canHarvest = function (step) {

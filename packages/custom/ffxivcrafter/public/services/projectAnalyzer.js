@@ -260,12 +260,12 @@ angular.module('mean.ffxivCrafter').factory('projectAnalyzerService', function (
   }
 
   function updateMaterialList (projectList, projectData) {
-    projectList.forEach(function (project) {
-      getProjectMaterialList(project)
+    return $q.all(projectList.map(function (project) {
+      return getProjectMaterialList(project)
       .then(function (data) {
         projectData[project._id] = data
       })
-    })
+    }))
   }
 
   return {

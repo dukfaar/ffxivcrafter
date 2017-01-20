@@ -46,5 +46,7 @@
   "step.youworkedon": "You seem to be working on this",
   "amount": "Amount",
   "hide.from.overview": "Hide project from overview",
-  "show.in.overview": "Show project in overview"
+  "show.in.overview": "Show project in overview",
+  "notification.craftable.new": "You can now craft {{amount}} {{item}}\nProject: {{project}}",
+  "notification.craftable.more": "You can now craft {{amount}} more {{item}}\nProject: {{project}}"
 }
