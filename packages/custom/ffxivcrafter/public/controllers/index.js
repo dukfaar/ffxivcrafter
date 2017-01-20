@@ -3,13 +3,13 @@
 angular.module('mean.ffxivCrafter').controller('IndexController',
   ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService',
     'MeanUser', 'deliveryService', 'socket', '_', 'localStorageService',
-    'EorzeanTimeService', '$interval', 'ProjectStep', 'SubmissionNotifyService',
-    'ItemDatabase', 'ProjectDatabase', '$q',
+    'EorzeanTimeService', '$interval', 'ProjectStep',
+    'ItemDatabase', 'ProjectDatabase', '$q', 'ProjectService',
     function (
     $scope, Global, $http, $mdDialog, projectAnalyzerService,
     MeanUser, deliveryService, socket, _, localStorageService,
-    EorzeanTimeService, $interval, ProjectStep, SubmissionNotifyService,
-    ItemDatabase, ProjectDatabase, $q) {
+    EorzeanTimeService, $interval, ProjectStep,
+    ItemDatabase, ProjectDatabase, $q, ProjectService) {
       $scope.user = MeanUser
       $scope.allowed = function (perm) {
         return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) !== -1
@@ -84,7 +84,7 @@ angular.module('mean.ffxivCrafter').controller('IndexController',
       $scope.updateList = function () {
         $http.get('api/project/public')
         .then(function (response) {
-          $scope.projectList = response.data
+          $scope.projectList = _.reject(response.data, function (p) { return ProjectService.isHiddenFromOverview(p, MeanUser.user) })
 
           $scope.projectData = {}
           projectAnalyzerService.updateMaterialList($scope.projectList, $scope.projectData)

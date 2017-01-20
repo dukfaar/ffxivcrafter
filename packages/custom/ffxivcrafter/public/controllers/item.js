@@ -18,14 +18,10 @@ angular.module('mean.ffxivCrafter').controller('ItemController', ['$scope', 'Glo
 
     $scope.updateItem = function (item) {
       $http.put('/api/item/' + item._id, item)
-        .then(function (response) {})
     }
 
     $scope.updateItemPrice = function (item) {
       $http.put('/api/price/' + item._id + '/' + item.price + '/' + item.priceHQ)
-        .then(function (response) {
-
-        })
     }
 
     $scope.deleteItem = function (item) {

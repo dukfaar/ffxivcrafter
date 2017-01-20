@@ -113,12 +113,12 @@ function setupMenus () {
     path: 'main/manage'
   })
 
-  FFXIVCrafter.menus.add({
+  /*FFXIVCrafter.menus.add({
     title: 'Airship',
     link: 'airship home',
     roles: ['manage airships'],
     menu: 'main'
-  })
+  })*/
 
   FFXIVCrafter.menus.add({
     title: 'Inventory',
@@ -140,18 +140,18 @@ function setupMenus () {
     path: 'main/market'
   })
 
-  FFXIVCrafter.menus.add({
+  /*FFXIVCrafter.menus.add({
     title: 'Hidden',
     roles: ['authenticated'],
     path: 'main',
     name: 'hidden'
-  })
-  FFXIVCrafter.menus.add({
+  })*/
+  /*FFXIVCrafter.menus.add({
     title: 'Buy & Sell',
     link: 'market home',
     roles: ['see market'],
     path: 'main/hidden'
-  })
+  })*/
 
   FFXIVCrafter.menus.add({
     title: 'Level Settings',

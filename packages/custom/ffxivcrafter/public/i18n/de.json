@@ -42,5 +42,7 @@
   "step.workedon": "Hierran arbeitet bereits jemand: {{name}}",
   "step.noneworkedon": "Hierran arbeitet bisher niemand",
   "step.youworkedon": "Scheinbar arbeitest du daran",
-  "amount": "Menge"
+  "amount": "Menge",
+  "hide.from.overview": "Projekt in der Übersicht verstecken",
+  "show.in.overview": "Projekt in der Übersicht anzeigen"
 }

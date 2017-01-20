@@ -19,12 +19,18 @@
       <input type="text" ng-model="project.name" ng-model-options="{debounce:300}" ng-change="updateProject(project)"/>
     </md-input-container>
 
-    <div layout="row" ng-if="allowed('projectManager')">
+    <div layout="column" ng-if="allowed('projectManager')">
       <md-switch ng-model="project.private" ng-change="updateProject(project)">
         <md-tooltip>If this is set, only you can see this project</md-tooltip>
         {{project.private?'private':'non-private'}} project
       </md-switch>
       <md-switch ng-if="!project.private" ng-model="project.public" ng-change="updateProject(project)">{{project.public?'public':'non-public'}} project</md-switch>
+    </div>
+
+    <div layout="row">
+      <md-switch type="checkbox" ng-model="hiddenOverviewGetSet(project, user.user)" ng-model-options="{getterSetter: true}">
+        <span translate='{{ProjectService.isHiddenFromOverview(project, user.user)?"hide.from.overview":"show.in.overview"}}'>/span>
+      </md-switch>
     </div>
 
     <md-input-container>

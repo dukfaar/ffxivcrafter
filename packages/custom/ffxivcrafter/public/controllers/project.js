@@ -1,11 +1,12 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', '$mdPanel', 'socket', 'MeanUser', '$q', 'localStorageService', 'ProjectStockChange', 'ItemDatabase', '_', '$stateParams',
-  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, $mdPanel, socket, MeanUser, $q, localStorageService, ProjectStockChange, ItemDatabase, _, $stateParams) {
+angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '$rootScope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService', '$mdPanel', 'socket', 'MeanUser', '$q', 'localStorageService', 'ProjectStockChange', 'ItemDatabase', '_', '$stateParams', 'ProjectService',
+  function ($scope, $rootScope, Global, $http, $mdDialog, projectAnalyzerService, $mdPanel, socket, MeanUser, $q, localStorageService, ProjectStockChange, ItemDatabase, _, $stateParams, ProjectService) {
     $scope._ = _
     $scope.tabList = []
     $scope.projectList = []
     $scope.projectData = {}
+    $scope.ProjectService = ProjectService
 
     $scope.users = []
     $http.get('/api/users')
@@ -14,7 +15,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       })
 
     $scope.getUser = function (id) {
-      return _.find($scope.users, function(u) { return u._id == id })
+      return _.find($scope.users, function (u) { return u._id == id })
     }
 
     $scope.shareUserSelection = {}
@@ -26,8 +27,9 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
     $scope.doShare = function (project, user) {
       if (!project.sharedWith) project.sharedWith = []
-      if (project.sharedWith.findIndex(function (u) { return u == user._id }) === -1)
+      if (project.sharedWith.findIndex(function (u) { return u == user._id }) === -1) {
         project.sharedWith.push(user._id)
+      }
 
       $scope.updateProject(project)
     }
@@ -39,7 +41,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       $scope.updateProject(project)
     }
 
-    if(localStorageService.get('useProjectOverview') == null) localStorageService.set('useProjectOverview', false)
+    if (localStorageService.get('useProjectOverview') == null) localStorageService.set('useProjectOverview', false)
 
     $scope.tabdata = {
       selectedIndex: 0,
@@ -64,11 +66,34 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
 
     }
 
+    $scope.hiddenOverviewGetSet = function (project, user) {
+      return function (value) {
+        if (value === undefined) {
+          // getter
+          return ProjectService.isHiddenFromOverview(project, user)
+        } else {
+          // setter
+          if (value) {
+            if (!ProjectService.isHiddenFromOverview(project, user)) {
+              project.hiddenOnOverviewBy.push(user._id)
+              $scope.updateProject(project)
+            }
+          } else {
+            if (ProjectService.isHiddenFromOverview(project, user)) {
+              _.pull(project.hiddenOnOverviewBy, user._id)
+              $scope.updateProject(project)
+            }
+          }
+          return ProjectService.isHiddenFromOverview(project, user)
+        }
+      }
+    }
+
     var stockChangeTimeouts = {}
 
     socket.on('project stock changed', function (data) {
-      if($scope.project._id === data.projectId) {
-        if(stockChangeTimeouts[data.projectId]) clearTimeout(stockChangeTimeouts[data.projectId])
+      if ($scope.project._id === data.projectId) {
+        if (stockChangeTimeouts[data.projectId]) clearTimeout(stockChangeTimeouts[data.projectId])
 
         stockChangeTimeouts[data.projectId] = setTimeout(function () {
           $scope.getProject(data.projectId, function () {})
@@ -82,15 +107,15 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     })
 
     socket.on('project data changed', function (data) {
-      if($scope.project._id === data.projectId) $scope.getProject(data.projectId, function () {})
+      if ($scope.project._id === data.projectId) $scope.getProject(data.projectId, function () {})
     })
 
     socket.on('price data changed', function (data) {
-      if($scope.project._id === data.projectId) $scope.getProject($scope.project._id, function () {})
+      if ($scope.project._id === data.projectId) $scope.getProject($scope.project._id, function () {})
     })
 
     socket.on('project step data changed', function (data) {
-      if($scope.project._id === data.projectId) $scope.getProject($scope.project._id, function () {})
+      if ($scope.project._id === data.projectId) $scope.getProject($scope.project._id, function () {})
     })
 
     $scope.$watch('project.name', function (newValue, oldValue) {
@@ -121,7 +146,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
       })
     }
 
-    $scope.goToProject = function(id) {
+    $scope.goToProject = function (id) {
       $scope.getProject(id, function () {
         var index = _.findIndex($scope.projectList, function (project) { return project._id == id })
         $scope.project = $scope.projectList[index]
@@ -134,7 +159,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     $scope.showAllSteps = function () {
       $rootScope.showingAllProjectStepChildren = true
       $rootScope.$broadcast('showAllProjectStepChildren')
-      setTimeout(function () {$rootScope.showingAllProjectStepChildren = false}, 2000)
+      setTimeout(function () { $rootScope.showingAllProjectStepChildren = false }, 2000)
     }
 
     $scope.hideAllSteps = function () {
@@ -165,10 +190,10 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
         deferred.resolve()
       } else {
         projectAnalyzerService.getProjectMaterialList(project)
-        .then(function(data) {
+        .then(function (data) {
           $scope.projectData[project._id] = data
           deferred.resolve(data)
-        }, null, function(data) {
+        }, null, function (data) {
           $scope.projectData[project._id] = data
           deferred.notify(data)
         })
@@ -265,7 +290,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
         }
       })
 
-      if (hadDeletions) $scope.projectList = $scope.projectList.filter(function (a) {return typeof a !== 'undefined';})
+      if (hadDeletions) $scope.projectList = $scope.projectList.filter(function (a) { return typeof a !== 'undefined' })
     }
 
     $scope.updateList = function (callback) {
@@ -318,7 +343,7 @@ angular.module('mean.ffxivCrafter').controller('ProjectController', ['$scope', '
     }
 
     $scope.updateList(function () {
-      if($stateParams.projectId) {
+      if ($stateParams.projectId) {
         $scope.goToProject($stateParams.projectId)
       } else {
         $scope.getProject($scope.projectList[0]._id,

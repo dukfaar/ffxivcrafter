@@ -1,7 +1,8 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('MainAppController', ['$scope', '$mdSidenav', '$q', '$mdMedia',
-  function ($scope, $mdSidenav, $q, $mdMedia) {
+angular.module('mean.ffxivCrafter').controller('MainAppController',
+  ['$scope', '$mdSidenav', '$q', '$mdMedia', 'SubmissionNotifyService',
+  function ($scope, $mdSidenav, $q, $mdMedia, SubmissionNotifyService) {
     if (window.localStorage.getItem('navigation.mode') === null) window.localStorage.setItem('navigation.mode', 'top')
 
     $scope.navigation = {

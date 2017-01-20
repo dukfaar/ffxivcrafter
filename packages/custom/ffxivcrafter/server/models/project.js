@@ -9,6 +9,7 @@ var CraftingProjectSchema = new Schema({
   tree: { type: Schema.ObjectId, ref: 'ProjectStep' },
   creator: { type: Schema.ObjectId, ref: 'User'},
   sharedWith: [{ type: Schema.ObjectId, ref: 'User'}],
+  hiddenOnOverviewBy: [{ type: Schema.ObjectId, ref: 'User'}],
   order: { type: Boolean, default: false },
   stock: [{
     item: { type: Schema.ObjectId, ref: 'Item'},
