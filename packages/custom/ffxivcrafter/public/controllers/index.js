@@ -76,11 +76,17 @@ angular.module('mean.ffxivCrafter').controller('IndexController',
       })
 
       $scope.deliveryDialog = function (project, item, gathers) {
-        deliveryService.deliveryDialog(project, item, gathers, function () { $scope.updateList() })
+        deliveryService.deliveryDialog(project, item, gathers, function () {
+          $scope.removeMarkStepAsWorked(gathers.step)
+          //$scope.updateList()
+        })
       }
 
       $scope.deliveryCraftDialog = function (project, item, step, craftable) {
-        deliveryService.deliveryCraftDialog(project, item, step, craftable, function () { $scope.updateList() })
+        deliveryService.deliveryCraftDialog(project, item, step, craftable, function () {
+          $scope.removeMarkStepAsWorked(step.step)
+          //$scope.updateList()
+        })
       }
 
       $scope.updateList = function () {
