@@ -161,13 +161,30 @@ module.exports = function (io) {
       if (!req.user) {
         res.send([])
       } else {
-        populateAndSend(res, CraftingProject.find({
-          $or: [
-            {public: true, private: false},
-            {sharedWith: req.user._id},
-            {creator: req.user._id}
-          ]
-        }), true)
+        var criteria = {}
+
+        var isPM = req.user.roles.indexOf('projectManager') >= 0
+
+        if (isPM) {
+          criteria = {
+            $or: [
+                {public: true, private: false},
+                {sharedWith: req.user._id},
+                {creator: req.user._id},
+                {order: true}
+            ]
+          }
+        } else {
+          criteria = {
+            $or: [
+                {public: true, private: false},
+                {sharedWith: req.user._id},
+                {creator: req.user._id}
+            ]
+          }
+        }
+
+        populateAndSend(res, CraftingProject.find(criteria), true)
       }
     },
     get: function (req, res) {

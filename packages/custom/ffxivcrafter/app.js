@@ -40,6 +40,8 @@ function setupCircles (circles) {
   circles.registerCircle('manage airships', ['admin'])
 
   circles.registerCircle('use inventory', ['authenticated'])
+
+  circles.registerCircle('see order', ['basic user'])
 }
 
 function setupMenus () {
