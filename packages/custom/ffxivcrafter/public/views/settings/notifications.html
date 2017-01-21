@@ -1,0 +1,16 @@
+<page-base>
+  <md-card>
+    <md-switch
+      ng-model="NotificationSettingsService.enabled.submission"
+      ng-change="NotificationSettingsService.saveSubmission()">
+      <span translate="{{NotificationSettingsService.enabled.submission?'notifications.submission.enabled':'notifications.submission.disabled'}}"></span>
+    </md-switch>
+
+    <md-switch
+      ng-model="NotificationSettingsService.enabled.craftable"
+      ng-change="NotificationSettingsService.saveCraftable()"
+      >
+      <span translate="{{NotificationSettingsService.enabled.craftable?'notifications.craftable.enabled':'notifications.craftable.disabled'}}"></span>
+    </md-switch>
+  </md-card>
+</page-base>

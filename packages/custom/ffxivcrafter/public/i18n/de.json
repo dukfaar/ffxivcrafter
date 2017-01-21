@@ -46,5 +46,9 @@
   "hide.from.overview": "Projekt in der Übersicht verstecken",
   "show.in.overview": "Projekt in der Übersicht anzeigen",
   "notification.craftable.new": "Du kannst jetzt {{amount}} {{item}} herstellen\nProject: {{project}}",
-  "notification.craftable.more": "Du kannst jetzt {{amount}} {{item}} mehr herstellen\nProject: {{project}}"
+  "notification.craftable.more": "Du kannst jetzt {{amount}} {{item}} mehr herstellen\nProject: {{project}}",
+  "notifications.submission.enabled": "Benachrichtigungen über Gegenstandslieferungen aktiviert",
+  "notifications.submission.disabled": "Benachrichtigungen über Gegenstandslieferungen deaktiviert",
+  "notifications.craftable.enabled": "Benachrichtigungen neue herstellbare Gegenstände aktiviert",
+  "notifications.craftable.disabled": "Benachrichtigungen neue herstellbare Gegenstände deaktiviert"
 }

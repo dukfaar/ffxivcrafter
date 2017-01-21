@@ -5,13 +5,13 @@ angular.module('mean.ffxivCrafter').controller('IndexController',
     'MeanUser', 'deliveryService', 'socket', '_', 'localStorageService',
     'EorzeanTimeService', '$interval', 'ProjectStep',
     'ItemDatabase', 'ProjectDatabase', '$q', 'ProjectService', 'webNotification',
-    '$translate',
+    '$translate', 'NotificationSettingsService',
     function (
     $scope, Global, $http, $mdDialog, projectAnalyzerService,
     MeanUser, deliveryService, socket, _, localStorageService,
     EorzeanTimeService, $interval, ProjectStep,
     ItemDatabase, ProjectDatabase, $q, ProjectService, webNotification,
-    $translate) {
+    $translate, NotificationSettingsService) {
       $scope.user = MeanUser
       $scope.allowed = function (perm) {
         return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) !== -1
@@ -93,7 +93,7 @@ angular.module('mean.ffxivCrafter').controller('IndexController',
           $scope.projectData = {}
           projectAnalyzerService.updateMaterialList($scope.projectList, $scope.projectData)
           .then(function () {
-            if(!_.isEmpty(oldProjectData)) {
+            if(NotificationSettingsService.enabled.craftable && !_.isEmpty(oldProjectData)) {
               _.forEach($scope.projectList, function (project) {
                 var newCraftArray = $scope.getCraftArray(project)
                 var oldCraftArray = $scope.getCraftArrayFromProjectData(project, oldProjectData)

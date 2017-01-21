@@ -180,6 +180,13 @@ function setupMenus () {
     roles: ['authenticated'],
     menu: 'account'
   })
+
+  FFXIVCrafter.menus.add({
+    title: 'Notification Settings',
+    link: 'notification settings',
+    roles: ['authenticated'],
+    menu: 'account'
+  })
 }
 
 function extendUser (database) {

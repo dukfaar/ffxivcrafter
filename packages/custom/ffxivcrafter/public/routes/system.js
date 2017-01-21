@@ -27,6 +27,12 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider', '$urlRouterPro
         url: '/theme/settings',
         templateUrl: 'ffxivCrafter/views/system/theme.html'
       })
+
+    $meanStateProvider
+      .state('notification settings', {
+        url: '/notification/settings',
+        template: '<notification-settings></notification-settings>'
+      })
   }
 ]).config(['$locationProvider',
   function ($locationProvider) {
