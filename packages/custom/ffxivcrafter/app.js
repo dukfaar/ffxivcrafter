@@ -7,8 +7,6 @@ var Module = require('meanio').Module
 
 var FFXIVCrafter = new Module('ffxivCrafter')
 
-var favicon = require('serve-favicon')
-
 function setupCircles (circles) {
   circles.registerCircle('projectManager', ['admin'])
 

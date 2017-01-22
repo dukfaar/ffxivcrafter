@@ -4,7 +4,6 @@ angular.module('mean.ffxivCrafter').directive('reportingActivityChart', function
   return {
     templateUrl: '/ffxivCrafter/views/reporting/activityChart.html',
     scope: {
-      log: '='
     },
     controller: function ($scope, _) {
       $scope.chart = {
@@ -37,11 +36,11 @@ angular.module('mean.ffxivCrafter').directive('reportingActivityChart', function
         else if ($scope.timeUnit === 'day') d.setDate(d.getDate() + 1)
       }
 
-      $scope.updateGraph = function () {
+      $scope.updateGraph = function (log) {
         var countedByDateWithZero = {}
 
-        if ($scope.log.length !== 0) {
-          var countedByDate = _.countBy($scope.log, function (logItem) {
+        if (log.length !== 0) {
+          var countedByDate = _.countBy(log, function (logItem) {
             var d = new Date(logItem.date)
             if($scope.timeUnit === 'day') d.setHours(0)
             if($scope.timeUnit === 'day' || $scope.timeUnit === 'hour') d.setMinutes(0)
@@ -71,7 +70,7 @@ angular.module('mean.ffxivCrafter').directive('reportingActivityChart', function
         $scope.chart.labels = _.keys(countedByDateWithZero)
       }
 
-      $scope.$watch('log', $scope.updateGraph, true)
+      $scope.$on('stockchangelog was refiltered', function (event, data) { $scope.updateGraph(data) })
     }
   }
 })

@@ -4,7 +4,6 @@ angular.module('mean.ffxivCrafter').directive('reportingTodActivityChart', funct
   return {
     templateUrl: '/ffxivCrafter/views/reporting/todActivityChart.html',
     scope: {
-      log: '='
     },
     controller: function ($scope, _, ChartService) {
       $scope.chart = {
@@ -22,8 +21,8 @@ angular.module('mean.ffxivCrafter').directive('reportingTodActivityChart', funct
         }
       }
 
-      $scope.updateGraph = function () {
-        var groupedByHour = _.countBy($scope.log, function (logItem) {
+      $scope.updateGraph = function (log) {
+        var groupedByHour = _.countBy(log, function (logItem) {
           var d = new Date(logItem.date)
 
           return d.getHours()
@@ -35,7 +34,7 @@ angular.module('mean.ffxivCrafter').directive('reportingTodActivityChart', funct
         $scope.chart.labels = _.keys(groupedByHourWithZero)
       }
 
-      $scope.$watch('log', $scope.updateGraph, true)
+      $scope.$on('stockchangelog was refiltered', function (event, data) { $scope.updateGraph(data) })
     }
   }
 })

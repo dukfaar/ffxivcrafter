@@ -4,7 +4,6 @@ angular.module('mean.ffxivCrafter').directive('reportingDowActivityChart', funct
   return {
     templateUrl: '/ffxivCrafter/views/reporting/dowActivityChart.html',
     scope: {
-      log: '='
     },
     controller: function ($scope, _, ChartService) {
       $scope.chart = {
@@ -22,8 +21,8 @@ angular.module('mean.ffxivCrafter').directive('reportingDowActivityChart', funct
         }
       }
 
-      $scope.updateGraph = function () {
-        var groupedByDay = _.countBy($scope.log, function (logItem) {
+      $scope.updateGraph = function (log) {
+        var groupedByDay = _.countBy(log, function (logItem) {
           var d = new Date(logItem.date)
 
           return d.getDay()
@@ -35,7 +34,7 @@ angular.module('mean.ffxivCrafter').directive('reportingDowActivityChart', funct
         $scope.chart.labels = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
       }
 
-      $scope.$watch('log', $scope.updateGraph, true)
+      $scope.$on('stockchangelog was refiltered', function (event, data) { $scope.updateGraph(data) })
     }
   }
 })

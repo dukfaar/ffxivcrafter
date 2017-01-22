@@ -22,11 +22,11 @@ angular.module('mean.ffxivCrafter').controller('CraftingReportingController',
     }
 
     $scope.updateData = function() {
-      $scope.log = ProjectStockChange.query({populate: 'submitter'})
-      $scope.log.$promise.then(function () {
+      var log = ProjectStockChange.query({populate: 'submitter'})
+      log.$promise.then(function () {
         var itemPromises = []
 
-        _.forEach($scope.log, function (logEntry) {
+        _.forEach(log, function (logEntry) {
           logEntry.item = ItemDatabase.get(logEntry.item)
           itemPromises.push(logEntry.item.$promise)
 
@@ -35,7 +35,9 @@ angular.module('mean.ffxivCrafter').controller('CraftingReportingController',
         })
 
         $q.all(itemPromises).then(function() {
+          $scope.log = log
           $scope.refilterLog()
+          $scope.$broadcast('stockchangelog was refiltered', $scope.filteredLog)
         })
       })
     }

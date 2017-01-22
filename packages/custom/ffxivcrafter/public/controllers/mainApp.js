@@ -1,32 +1,32 @@
 'use strict'
 
 angular.module('mean.ffxivCrafter').controller('MainAppController',
-  ['$scope', '$mdSidenav', '$q', '$mdMedia', 'SubmissionNotifyService',
-  function ($scope, $mdSidenav, $q, $mdMedia, SubmissionNotifyService) {
-    if (window.localStorage.getItem('navigation.mode') === null) window.localStorage.setItem('navigation.mode', 'top')
+  ['$scope', '$mdSidenav', '$q', '$mdMedia', 'SubmissionNotifyService', 'PublicProjectCraftableNotifyService',
+    function ($scope, $mdSidenav, $q, $mdMedia, SubmissionNotifyService, PublicProjectCraftableNotifyService) {
+      if (window.localStorage.getItem('navigation.mode') === null) window.localStorage.setItem('navigation.mode', 'top')
 
-    $scope.navigation = {
-      mode: window.localStorage.getItem('navigation.mode')
-    }
+      $scope.navigation = {
+        mode: window.localStorage.getItem('navigation.mode')
+      }
 
-    $scope.openSideNav = function() {
-      $mdSidenav('mainSideNav').open()
-    }
+      $scope.openSideNav = function () {
+        $mdSidenav('mainSideNav').open()
+      }
 
-    $scope.closeSideNav = function() {
-      $mdSidenav('mainSideNav').close()
-    }
+      $scope.closeSideNav = function () {
+        $mdSidenav('mainSideNav').close()
+      }
 
-    $scope.onSwipeRight = function () {
-      if($scope.navigation.mode === 'side' || $scope.useMobile()) $scope.openSideNav()
-    }
+      $scope.onSwipeRight = function () {
+        if ($scope.navigation.mode === 'side' || $scope.useMobile()) $scope.openSideNav()
+      }
 
-    $scope.onSwipeLeft = function () {
-      if($scope.navigation.mode === 'side' || $scope.useMobile()) $scope.closeSideNav()
-    }
+      $scope.onSwipeLeft = function () {
+        if ($scope.navigation.mode === 'side' || $scope.useMobile()) $scope.closeSideNav()
+      }
 
-    $scope.useMobile = function() {
-      return $mdMedia('sm') || $mdMedia('xs')
+      $scope.useMobile = function () {
+        return $mdMedia('sm') || $mdMedia('xs')
+      }
     }
-  }
-])
+  ])

@@ -16,7 +16,7 @@
           <md-card-content>
             <div style="height:20px" ng-if="showUnspoiledTimelime">
               <div style="position: relative; background: white; top: -10px;" style="height: 20px; width:100%">
-                <div ng-repeat="project in projectList" style="width: 100%">
+                <div ng-repeat="project in PublicProjectService.projectList" style="width: 100%">
                   <div style="position: absolute"
                         class="gatheringTimeFrame"
                         ng-repeat="gathers in getGatherArray(project)"
@@ -46,7 +46,7 @@
               </style>
             </div>
             <md-list>
-              <div ng-repeat="project in projectList">
+              <div ng-repeat="project in PublicProjectService.projectList">
                 <div ng-if="indexMode == 'separateProjects' && getGatherArray(project).length > 0">
                   <span translate>project </span>:
                   <span>{{project.name}}</span>
@@ -103,7 +103,7 @@
 
           <md-card-content>
             <md-list>
-              <div ng-repeat="project in projectList">
+              <div ng-repeat="project in PublicProjectService.projectList">
                 <div ng-if="indexMode == 'separateProjects' && getCraftArray(project).length > 0">
                   <span translate>project</span>:
                   <span>{{project.name}}</span>

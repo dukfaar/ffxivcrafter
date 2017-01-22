@@ -4,7 +4,6 @@ angular.module('mean.ffxivCrafter').directive('reportingUserContributionChart', 
   return {
     templateUrl: '/ffxivCrafter/views/reporting/userContributionChart.html',
     scope: {
-      log: '='
     },
     controller: function ($scope, _) {
       $scope.chart = {
@@ -19,8 +18,8 @@ angular.module('mean.ffxivCrafter').directive('reportingUserContributionChart', 
         showDiagram: false
       }
 
-      $scope.updateGraph = function () {
-        var groupedByUser = _.groupBy($scope.log, function (logItem) { return logItem.submitter.name })
+      $scope.updateGraph = function (log) {
+        var groupedByUser = _.groupBy(log, function (logItem) { return logItem.submitter.name })
         var countedByUser = _.mapValues(groupedByUser, function (userLogs) {
           return _.reduce(userLogs, function (sum, logEntry) {
             var logValue = 0
@@ -36,7 +35,7 @@ angular.module('mean.ffxivCrafter').directive('reportingUserContributionChart', 
         $scope.chart.summedContribution = _.reduce($scope.chart.data, function (sum, d) { return sum + d }, 0)
       }
 
-      $scope.$watch('log', $scope.updateGraph, true)
+      $scope.$on('stockchangelog was refiltered', function (event, data) { $scope.updateGraph(data) })
     }
   }
 })

@@ -1,17 +1,14 @@
 'use strict'
 
 angular.module('mean.ffxivCrafter').controller('IndexController',
-  ['$scope', 'Global', '$http', '$mdDialog', 'projectAnalyzerService',
-    'MeanUser', 'deliveryService', 'socket', '_', 'localStorageService',
+  ['$scope', 'MeanUser', 'deliveryService', '_', 'localStorageService',
     'EorzeanTimeService', '$interval', 'ProjectStep',
-    'ItemDatabase', 'ProjectDatabase', '$q', 'ProjectService', 'webNotification',
-    '$translate', 'NotificationSettingsService',
+    'ProjectService', 'PublicProjectService', 'StepService',
     function (
-    $scope, Global, $http, $mdDialog, projectAnalyzerService,
-    MeanUser, deliveryService, socket, _, localStorageService,
-    EorzeanTimeService, $interval, ProjectStep,
-    ItemDatabase, ProjectDatabase, $q, ProjectService, webNotification,
-    $translate, NotificationSettingsService) {
+      $scope, MeanUser, deliveryService, _, localStorageService,
+      EorzeanTimeService, $interval, ProjectStep,
+      ProjectService, PublicProjectService, StepService) {
+      $scope.PublicProjectService = PublicProjectService
       $scope.user = MeanUser
       $scope.allowed = function (perm) {
         return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) !== -1
@@ -24,8 +21,9 @@ angular.module('mean.ffxivCrafter').controller('IndexController',
         $scope.currentEorzeanTime = EorzeanTimeService.getEorzeanTime()
       }, 1000)
 
-      $scope.projectList = []
-      $scope.projectData = {}
+      $scope.$on('$destroy', function () {
+        $interval.cancel(timeInterval)
+      })
 
       $scope.filters = {
         gatherFilter: '',
@@ -41,95 +39,17 @@ angular.module('mean.ffxivCrafter').controller('IndexController',
 
       $scope.mergeSelection = null
 
-      var updateTimeout = null
-      function projectStockChangeListener (ev, data) {
-        if (updateTimeout) {
-          clearTimeout(updateTimeout)
-        }
-
-        updateTimeout = setTimeout(function () {
-          updateTimeout = null
-          $scope.updateList()
-        }, 500)
-      }
-
-      var stepDateUpdateTimeout = null
-      function projectStepDataChangeListener (ev, data) {
-        if (stepDateUpdateTimeout) {
-          clearTimeout(stepDateUpdateTimeout)
-        }
-
-        stepDateUpdateTimeout = setTimeout(function () {
-          stepDateUpdateTimeout = null
-          $scope.updateList()
-        }, 500)
-      }
-
-      socket.on('project stock changed', projectStockChangeListener)
-      socket.on('project step data changed', projectStepDataChangeListener)
-
-      $scope.$on('$destroy', function () {
-        $interval.cancel(timeInterval)
-
-        socket.off('project stock changed', projectStockChangeListener)
-        socket.off('project step data changed', projectStepDataChangeListener)
-      })
-
       $scope.deliveryDialog = function (project, item, gathers) {
         deliveryService.deliveryDialog(project, item, gathers, function () {
           $scope.removeMarkStepAsWorked(gathers.step)
-          //$scope.updateList()
+          // $scope.updateList()
         })
       }
 
       $scope.deliveryCraftDialog = function (project, item, step, craftable) {
         deliveryService.deliveryCraftDialog(project, item, step, craftable, function () {
           $scope.removeMarkStepAsWorked(step.step)
-          //$scope.updateList()
-        })
-      }
-
-      $scope.updateList = function () {
-        $http.get('api/project/public')
-        .then(function (response) {
-          $scope.projectList = _.reject(response.data, function (p) { return ProjectService.isHiddenFromOverview(p, MeanUser.user) })
-
-          var oldProjectData = _.extend({}, $scope.projectData, true)
-
-          $scope.projectData = {}
-          projectAnalyzerService.updateMaterialList($scope.projectList, $scope.projectData)
-          .then(function () {
-            if(NotificationSettingsService.enabled.craftable && !_.isEmpty(oldProjectData)) {
-              _.forEach($scope.projectList, function (project) {
-                var newCraftArray = $scope.getCraftArray(project)
-                var oldCraftArray = $scope.getCraftArrayFromProjectData(project, oldProjectData)
-
-                _.forEach(newCraftArray, function (newCraft) {
-                  var oldCraft = _.find(oldCraftArray, function (c) { return newCraft.step.step._id === c.step.step._id })
-
-                  if(!oldCraft) {
-                    if(Math.floor(newCraft.step.amount) > 0) {
-                      $translate('notification.craftable.new', {project: project.name, item: newCraft.step.item.name, amount: Math.floor(newCraft.step.amount)}).then(function (notificationText) {
-                        webNotification.showNotification('New craftable items', {
-                          body: notificationText,
-                          autoClose: 10000
-                        })
-                      })
-                    }
-                  } else {
-                    if(Math.floor(newCraft.step.amount) > Math.floor(oldCraft.step.amount)) {
-                      $translate('notification.craftable.more', {project: project.name, item: newCraft.step.item.name, amount: Math.floor(newCraft.step.amount) - Math.floor(oldCraft.step.amount)}).then(function (notificationText) {
-                        webNotification.showNotification('More craftable items', {
-                          body: notificationText,
-                          autoClose: 10000
-                        })
-                      })
-                    }
-                  }
-                })
-              })
-            }
-          })
+          // $scope.updateList()
         })
       }
 
@@ -146,13 +66,13 @@ angular.module('mean.ffxivCrafter').controller('IndexController',
       }
 
       $scope.removeMarkStepAsWorked = function (step) {
-        _.remove(step.workedOnBy, function (user) { return user._id == MeanUser.user._id })
+        _.remove(step.workedOnBy, function (user) { return user._id === MeanUser.user._id })
         ProjectStep.update({id: step._id}, step)
       }
 
       $scope.isWorkedByMe = function (step) {
         if (!step.workedOnBy) return false
-        var user = _.find(step.workedOnBy, function (user) { return user._id == MeanUser.user._id })
+        var user = _.find(step.workedOnBy, function (user) { return user._id === MeanUser.user._id })
         if (!user) return false
         return true
       }
@@ -168,59 +88,19 @@ angular.module('mean.ffxivCrafter').controller('IndexController',
       }
 
       $scope.getGatherArrayFromProjectData = function (project, projectData) {
-        return _.filter(_.filter(_.filter($scope.toArray(projectData[project._id].gatherList), $scope.gatheringFilter), $scope.canHarvest), function (g) { return g.outstanding > 0 })
+        return _.filter(_.filter(_.filter($scope.toArray(projectData[project._id].gatherList), $scope.gatheringFilter), StepService.canHarvest), function (g) { return g.outstanding > 0 })
       }
 
       $scope.getCraftArrayFromProjectData = function (project, projectData) {
-        return _.filter(_.filter(_.filter($scope.toArray(projectData[project._id].craftableSteps), $scope.craftingFilter), $scope.canCraft), function (g) { return Math.floor(g.step.amount) > 0 })
+        return _.filter(_.filter(_.filter($scope.toArray(projectData[project._id].craftableSteps), $scope.craftingFilter), StepService.canCraft), function (g) { return Math.floor(g.step.amount) > 0 })
       }
 
       $scope.getGatherArray = function (project) {
-        return $scope.getGatherArrayFromProjectData(project, $scope.projectData)
+        return $scope.getGatherArrayFromProjectData(project, PublicProjectService.projectData)
       }
 
       $scope.getCraftArray = function (project) {
-        return $scope.getCraftArrayFromProjectData(project, $scope.projectData)
+        return $scope.getCraftArrayFromProjectData(project, PublicProjectService.projectData)
       }
-
-      $scope.canHarvest = function (step) {
-        var map = [['Miner', 'minerLevel'], ['Botanist', 'botanistLevel']]
-
-        for (var i in map) {
-          var job = map[i]
-          if (step.item.gatheringJob === 'None') {
-            return true
-          } else if (step.item.gatheringJob === job[0]) {
-            return step.item.gatheringLevel <= MeanUser.user[job[1]]
-          }
-        }
-
-        return false
-      }
-
-      $scope.canCraft = function (step) {
-        var map = [
-        ['Weaver', 'weaverLevel'],
-        ['Culinarian', 'culinarianLevel'],
-        ['Alchemist', 'alchimistLevel'],
-        ['Blacksmith', 'blacksmithLevel'],
-        ['Carpenter', 'carpenterLevel'],
-        ['Armorer', 'armorerLevel'],
-        ['Goldsmith', 'goldsmithLevel'],
-        ['Leatherworker', 'leatherworkerLevel']
-        ]
-
-        for (var i in map) {
-          var job = map[i]
-
-          if (step.step.recipe.craftingJob === job[0]) {
-            return step.step.recipe.craftingLevel <= MeanUser.user[job[1]]
-          }
-        }
-
-        return false
-      }
-
-      $scope.updateList()
     }
   ])
