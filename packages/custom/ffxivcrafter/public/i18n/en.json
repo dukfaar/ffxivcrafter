@@ -52,5 +52,7 @@
   "notifications.submission.enabled": "Notifications for item submissions enabled",
   "notifications.submission.disabled": "Notifications for item submissions disabled",
   "notifications.craftable.enabled": "Notifications for new craftable items enabled",
-  "notifications.craftable.disabled": "Notifications for new craftable items disabled"
+  "notifications.craftable.disabled": "Notifications for new craftable items disabled",
+  "delivery.craft.inputs": "Input",
+  "delivery.craft.outputs": "Output"
 }

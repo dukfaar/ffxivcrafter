@@ -5,8 +5,18 @@
       <a target="_blank" ng-href="http://ffxiv.gamerescape.com/wiki/{{data.item.name|encodeURIComponent}}">
         <md-tooltip>Link will open in a new tab</md-tooltip>
         <span>{{data.item.name}}</span>
-      </a> <span ng-if="craftable.hq">HQ</span>?
+      </a> <span ng-if="data.craftable.hq">HQ</span>?
     </h2>
+
+    <div layout="column">
+      <h3 translate>delivery.craft.inputs</h3>
+      <span ng-repeat="input in data.craftable.step.recipe.inputs">
+        {{input.amount * (data.craftable.step.amount/data.craftable.step.recipe.outputs[0].amount)}} {{ItemDatabase.get(input.item).name}}
+      </span>
+    </div>
+
+    <h3 translate>delivery.craft.outputs</h3>
+
     <md-input-container md-is-error="data.amount===0">
       <label>How many?</label>
       <input name="amountInput" ng-model="data.amount"/>
