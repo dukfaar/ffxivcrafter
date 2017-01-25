@@ -48,10 +48,10 @@
                   <td style="width:10%">
                     <span ng-if="!allowed('edit itemdata')">{{item.gatheringjob}}</span>
                     <select ng-if="allowed('edit itemdata')" ng-model="item.gatheringJob" ng-change="updateItem(item)">
-                      <option ng-value="None">None</option>
-                      <option ng-value="Botanist">Botanist</option>
-                      <option ng-value="Miner">Miner</option>
-                      <option ng-value="FC">FC-Airship</option>
+                      <option ng-value="'None'">None</option>
+                      <option ng-value="'Botanist'">Botanist</option>
+                      <option ng-value="'Miner'">Miner</option>
+                      <option ng-value="'FC'">FC-Airship</option>
                     </select>
                   </td>
                   <td style="width:10%">
