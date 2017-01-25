@@ -19,6 +19,7 @@ angular.module('mean.ffxivCrafter').controller('CraftingReportingController',
 
     $scope.refilterLog = function () {
       $scope.filteredLog = ReportingFilterService.filterLog($scope.log)
+      $scope.$broadcast('stockchangelog was refiltered', $scope.filteredLog)
     }
 
     $scope.updateData = function() {
@@ -37,7 +38,6 @@ angular.module('mean.ffxivCrafter').controller('CraftingReportingController',
         $q.all(itemPromises).then(function() {
           $scope.log = log
           $scope.refilterLog()
-          $scope.$broadcast('stockchangelog was refiltered', $scope.filteredLog)
         })
       })
     }

@@ -1,0 +1,45 @@
+<div layout="column" layout-padding ng-cloak>
+  <div layout="row" layout-align="start center">
+    <md-button ng-if="category.parent" class="md-fab md-mini md-primary md-hue-2" aria-label="back" ng-href="/forum/category/{{category.parent}}">
+      <md-icon class="material-icon">arrow_backwards</md-icon>
+    </md-button>
+    <h1>{{category.name}}</h1>
+    <span flex></span>
+    <div layout="row" layout-align="center center">
+      <md-button class="md-raised md-primary" ng-if="allowed('delete categories') && category.parent" ng-click="deleteCategoryDialog()">
+        <md-icon class="material-icons">delete</md-icon>
+      </md-button>
+      <md-button class="md-raised md-primary" ng-if="allowed('create categories')" ng-click="createSubCategoryDialog()">
+        <md-icon class="material-icons">create_new_folder</md-icon>
+      </md-button>
+      <md-button class="md-raised md-primary" ng-if="allowed('create threads')" ng-click="createThreadDialog()">
+        <md-icon class="material-icons">message</md-icon>
+      </md-button>
+    </div>
+  </div>
+
+
+  <md-card ng-if="subCategories.length > 0">
+    <md-card-content layout="column">
+      <h2 translate>forum.categories</h2>
+      <md-list layout-align="start center">
+        <md-list-item ng-repeat="subCategory in subCategories" ng-href="/forum/category/{{subCategory._id}}" layout="row">
+          <md-icon class="material-icons">folder</md-icon>
+          <span flex>{{subCategory.name}}</span>
+        </md-list-item>
+      </md-list>
+    </md-card-content>
+  </md-card>
+
+  <md-card ng-if="threads.length > 0">
+    <md-card-content layout="column">
+      <h2 translate>forum.threads</h2>
+      <md-list layout-align="start center">
+        <md-list-item ng-repeat="thread in threads| orderBy:threadOrderFunction:true" ng-href="/forum/thread/{{thread._id}}"layout="row">
+          <md-icon class="material-icons">forum</md-icon>
+          <span flex>{{thread.title}}</span>
+        </md-list-item>
+      </md-list>
+    </md-card-content>
+  </md-card>
+</div>

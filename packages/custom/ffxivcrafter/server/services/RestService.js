@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose')
 var Q = require('q')
-//var _ = require('lodash')
+var _ = require('lodash')
 
 mongoose.Promise = Q.Promise
 
@@ -21,7 +21,7 @@ module.exports = function () {
   }
 
   function populateFind(find, req) {
-    return req.query.populate ? find.populate(req.query.populate) : find
+    return req.query.populate ? find.populate(decodeURIComponent(req.query.populate)) : find
   }
 
   function doList (find, req) {
@@ -53,7 +53,11 @@ module.exports = function () {
     return {
       Model: Model,
       list: function (req, res) {
-        doList(Model.find(req.query), req)
+        var findQuery = _.pickBy(req.query, function (value, key) {
+          return key !== 'populate' && key !== 'skip' && key !== 'limit' && key !== 'page'
+        })
+
+        doList(Model.find(findQuery), req)
         .then(function (result) {
           res.send(result)
         })
@@ -93,10 +97,12 @@ module.exports = function () {
         })
       },
       delete: function (req, res) {
-        Model.findByIdAndRemove(req.params.id).exec()
-        .then(function () {
-          res.send({})
-          io.emit(modelName + ' deleted', req.params.id)
+        Model.findById({_id: req.params.id}).exec()
+        .then(function (instance) {
+          instance.remove(function (err, result) {
+            res.send({})
+            io.emit(modelName + ' deleted', req.params.id)
+          })
         })
         .catch(function (err) {
           res.status(500).send(err)

@@ -12,5 +12,13 @@
       >
       <span translate="{{NotificationSettingsService.enabled.craftable?'notifications.craftable.enabled':'notifications.craftable.disabled'}}"></span>
     </md-switch>
+
+    <md-switch
+      ng-if="allowed('see forum')"
+      ng-model="NotificationSettingsService.enabled.forumpost"
+      ng-change="NotificationSettingsService.saveForumpost()"
+      >
+      <span translate="{{NotificationSettingsService.enabled.forumpost?'notifications.forumpost.enabled':'notifications.forumpost.disabled'}}"></span>
+    </md-switch>
   </md-card>
 </page-base>

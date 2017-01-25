@@ -9,11 +9,15 @@ angular.module('mean.ffxivCrafter').factory('NotificationSettingsService',
       if (localStorageService.get('notification.craftable.enable') === null) {
         localStorageService.set('notification.craftable.enable', true)
       }
+      if (localStorageService.get('notification.forumpost.enable') === null) {
+        localStorageService.set('notification.forumpost.enable', true)
+      }
 
       var config = {
         enabled: {
           submission: localStorageService.get('notification.submission.enable'),
-          craftable: localStorageService.get('notification.craftable.enable')
+          craftable: localStorageService.get('notification.craftable.enable'),
+          forumpost: localStorageService.get('notification.forumpost.enable')
         }
       }
 
@@ -24,6 +28,9 @@ angular.module('mean.ffxivCrafter').factory('NotificationSettingsService',
         },
         saveCraftable: function () {
           localStorageService.set('notification.craftable.enable', config.enabled.craftable)
+        },
+        saveForumpost: function () {
+          localStorageService.set('notification.forumpost.enable', config.enabled.forumpost)
         }
       }
     }

@@ -1,0 +1,39 @@
+<div layout="column" layout-padding ng-cloak>
+  <div layout="row" layout-align="start center">
+    <md-button ng-if="thread.category" class="md-fab md-mini md-primary md-hue-2" aria-label="back" ng-href="/forum/category/{{thread.category}}">
+      <md-icon class="material-icon">arrow_backwards</md-icon>
+    </md-button>
+    <h1>{{thread.title}}</h1>
+    <span flex></span>
+    <div layout="row" layout-align="center center">
+      <md-button class="md-raised md-primary" ng-if="allowed('delete threads') && user._id === thread.creator._id" ng-click="deleteThreadDialog()">
+        <md-icon class="material-icons">delete</md-icon>
+      </md-button>
+      <md-button class="md-raised md-primary" ng-if="allowed('create forum posts')" ng-click="createPostDialog()">
+        <md-icon class="material-icons">comment</md-icon>
+      </md-button>
+    </div>
+  </div>
+
+  <md-card ng-if="posts.length > 0">
+    <md-card-content>
+      <div ng-repeat="post in posts" layout="column">
+        <div layout="row">
+          <div layout-padding>{{post.creator.name}}</div>
+          <div layout-padding flex>
+            <div style="white-space:pre-wrap;" ng-bind-html="post.text|kanbanText"></div>
+            <div layout="row" layout-align="start center">
+              <span>{{'post.posted'|translate}} {{post.created|date: 'short'}}</span>
+              <span flex></span>
+              <md-button class="md-icon-button" ng-if="allowed('delete forum posts') && user._id === post.creator._id" ng-click="deletePostDialog(post)">
+                <md-icon class="material-icons" style="font-size: 16px">delete</md-icon>
+              </md-button>
+            </div>
+          </div>
+        </div>
+
+        <md-divider ng-if="!$last"></md-divider>
+      </div>
+    </md-card-content>
+  </md-card>
+</div>

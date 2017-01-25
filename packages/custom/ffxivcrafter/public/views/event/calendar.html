@@ -1,0 +1,45 @@
+<page-base>
+  <div layout="column" layout-padding layout-fill>
+
+    <div layout="row">
+      <md-button class="md-raised md-primary" ng-click="prevMonth()"><md-icon class="material-icons">arrow_backward</md-icon></md-button>
+      <h2 flex layout="row" layout-align="center center">
+        <span translate="date.month_{{calendarData.currentMonth}}"></span>
+        <span flex="5"></span>
+        <span>{{calendarData.currentYear}}</span>
+      </h2>
+
+      <md-button ng-if="allowed('create events')" class="md-raised md-primary" ng-click="createNewEvent()">New Event</md-button>
+      <md-button class="md-raised md-primary" ng-click="nextMonth()"><md-icon class="material-icons">arrow_forward</md-icon></md-button>
+    </div>
+
+    <md-grid-list ng-if="addEmptyTiles()" layout-padding md-cols="7" md-cols-xs="1" md-cols-sm="1" md-gutter="1em" md-row-height="fit" ng-cloak>
+      <md-grid-tile ng-repeat="day in _.range(0,7) track by $index" md-colspan="1" md-rowspan="1" layout-padding>
+        <span translate="date.day_{{day}}"></span>
+      </md-grid-tile>
+    </md-grid-list>
+
+    <md-grid-list layout-padding md-cols="7" md-cols-xs="1" md-cols-sm="1" md-gutter="1em" md-row-height="16:9" ng-cloak>
+      <md-grid-tile ng-if="addEmptyTiles() && calendarData.skipDays > 0" md-colspan="{{calendarData.skipDays}}" md-rowspan="1" layout-padding>
+      </md-grid-tile>
+
+      <md-grid-tile ng-repeat="day in calendarData.days track by day.day" md-colspan="1" md-rowspan="1">
+        <md-card layout-fill>
+          <md-card-content>
+            <div style="position: absolute; bottom: 0.5em; right: 0.5em;">
+              {{day.day}}
+            </div>
+
+            <div layout="column" layout-align="start start">
+              <div ng-repeat="event in day.events track by $index" layout-fill layout="row" ng-click="openEventView(event)">
+                <span flex>{{event.title}}</span>
+                <span>{{event.start | date: 'shortTime'}}</span>
+              </div>
+            </div>
+          </md-card-content>
+        </md-card>
+      </md-grid-tile>
+    </md-grid-list>
+
+  </div>
+</page-base>

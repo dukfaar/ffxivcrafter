@@ -15,6 +15,10 @@ angular.module('mean.ffxivCrafter').filter('kanbanText', function ($sce, _) {
       return '<table><tr><td>' + tableBodyContent + '</td></tr></table>'
     })
 
+    resultText = _.replace(resultText, /\[b\]\s*([\s\S]*?)\s*\[\/b\]/g, function (match, p1, offset, string) {
+      return '<b>' + p1 + '</b>'
+    })
+
     var price = 0
     var cc = 0
 

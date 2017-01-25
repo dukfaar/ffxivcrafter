@@ -40,6 +40,17 @@ function setupCircles (circles) {
   circles.registerCircle('use inventory', ['authenticated'])
 
   circles.registerCircle('see order', ['basic user'])
+
+  circles.registerCircle('see calendar', ['admin'])
+  circles.registerCircle('create events', ['admin'])
+
+  circles.registerCircle('see forum', ['admin'])
+  circles.registerCircle('create categories', ['admin'])
+  circles.registerCircle('create threads', ['admin'])
+  circles.registerCircle('create forum posts', ['admin'])
+  circles.registerCircle('delete categories', ['admin'])
+  circles.registerCircle('delete threads', ['admin'])
+  circles.registerCircle('delete forum posts', ['admin'])
 }
 
 function setupMenus () {
@@ -47,6 +58,19 @@ function setupMenus () {
     title: 'Delivery',
     link: 'home',
     roles: ['authenticated'],
+    menu: 'main'
+  })
+  FFXIVCrafter.menus.add({
+    title: 'Calendar',
+    link: 'events calendar',
+    roles: ['see calendar'],
+    menu: 'main'
+  })
+
+  FFXIVCrafter.menus.add({
+    title: 'Forum',
+    link: 'forum index',
+    roles: ['see forum'],
     menu: 'main'
   })
 

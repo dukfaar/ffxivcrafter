@@ -1,0 +1,18 @@
+<md-dialog layout-padding>
+  <md-dialog-content layout="column">
+
+    <h2>{{data.title}}</h2>
+
+    <label>Description</label>
+    <pre>
+      {{data.description}}
+    </pre>
+
+    <span>{{data.start|date:'short'}}</span>
+    <span>{{data.end|date:'short'}}</span>
+  </md-dialog-content>
+
+  <md-dialog-actions>
+    <md-button ng-click="cancel()" translate="action.cancel"></md-button>
+  </md-dialog-actions>
+</md-dialog>
