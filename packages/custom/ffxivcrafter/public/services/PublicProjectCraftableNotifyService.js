@@ -23,6 +23,8 @@ angular.module('mean.ffxivCrafter').factory('PublicProjectCraftableNotifyService
             var newCraftArray = getCraftArrayFromProjectData(project, newProjectData)
             var oldCraftArray = getCraftArrayFromProjectData(project, oldProjectData)
 
+            if(oldCraftArray === undefined) oldCraftArray = []
+
             _.forEach(newCraftArray, function (newCraft) {
               var oldCraft = _.find(oldCraftArray, function (c) { return newCraft.step.step._id === c.step.step._id })
 

@@ -1,3 +1,5 @@
+'use strict'
+
 describe('functions of the projectAnalyzerService', function () {
   beforeEach(module('mean.ffxivCrafter'))
 

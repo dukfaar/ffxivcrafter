@@ -26,7 +26,7 @@ angular.module('mean.ffxivCrafter').factory('PublicProjectService',
       updateList()
 
       var updateTimeout = null
-      function projectStockChangeListener (ev, data) {
+      function projectChangeListener (ev, data) {
         if (updateTimeout) {
           clearTimeout(updateTimeout)
         }
@@ -37,20 +37,11 @@ angular.module('mean.ffxivCrafter').factory('PublicProjectService',
         }, 500)
       }
 
-      var stepDateUpdateTimeout = null
-      function projectStepDataChangeListener (ev, data) {
-        if (stepDateUpdateTimeout) {
-          clearTimeout(stepDateUpdateTimeout)
-        }
-
-        stepDateUpdateTimeout = setTimeout(function () {
-          stepDateUpdateTimeout = null
-          updateList()
-        }, 500)
-      }
-
-      socket.on('project stock changed', projectStockChangeListener)
-      socket.on('project step data changed', projectStepDataChangeListener)
+      socket.on('project stock changed', projectChangeListener)
+      socket.on('project step data changed', projectChangeListener)
+      socket.on('project data changed', projectChangeListener)
+      socket.on('project deleted', projectChangeListener)
+      socket.on('new project created', projectChangeListener)
 
       return data
     }
