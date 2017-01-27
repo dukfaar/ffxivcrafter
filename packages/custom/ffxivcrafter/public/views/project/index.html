@@ -51,26 +51,31 @@
           </column>
         </md-content>
 
-        <md-content ng-if="tabdata.showProjectOverview && tabdata.useOverview" layout="row" layout-wrap>
-          <md-card ng-repeat="tabproject in tabList">
-            <md-toolbar class="md-hue-2">
-              <div class="md-toolbar-tools">
-                <span>{{tabproject.name}}</span>
-              </div>
-            </md-toolbar>
+        <md-content ng-if="tabdata.showProjectOverview && tabdata.useOverview" layout-padding>
+          <md-grid-list md-cols="4" md-gutter="1em" md-row-height="13em">
+            <md-grid-tile ng-repeat="tabproject in tabList">
+              <md-card layout-fill>
+                <md-toolbar ng-class="{'md-hue-1':!tabproject.private && tabproject.public, 'md-hue-2':tabproject.private, 'md-hue-3':tabproject.order}">
+                  <div class="md-toolbar-tools">
+                    <span>{{tabproject.name}}</span>
+                  </div>
+                </md-toolbar>
 
-            <md-card-content>
-              <div style="white-space: pre">{{tabproject.notes}}</div>
-            </md-card-content>
+                <md-card-content flex style="overflow: auto;">
+                  <div style="white-space: pre">{{tabproject.notes}}</div>
+                </md-card-content>
+                <md-divider></md-divider>
 
-            <md-card-actions layout="row" layout-align="end center">
-              <div ng-if="tabproject.order">
-                <i><span translate>ordered.by</span> {{tabproject.creator.name}}</i>
-              </div>
-              <div style="width:1em"></div>
-              <md-button ng-click="clickProject(tabproject,$index)" translate="go.to.project"></md-button>
-            </md-card-actions>
-          </md-card>
+                <md-card-actions layout="row" layout-align="start center">
+                  <div ng-if="tabproject.order">
+                    <i><span translate>ordered.by</span> {{tabproject.creator.name}}</i>
+                  </div>
+                  <div flex></div>
+                  <md-button ng-click="clickProject(tabproject,$index)" translate="go.to.project"></md-button>
+                </md-card-actions>
+              </md-card>
+            </md-grid-tile>
+          </md-grid-list>
         </md-content>
       </md-content>
     </div>

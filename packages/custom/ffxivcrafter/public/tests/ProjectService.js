@@ -55,25 +55,25 @@ describe('functions of the projectAnalyzerService', function () {
     stock: []
   }
 
-  it('should exist', function() {
+  it('should exist', function () {
     expect($projectAnalyzerService).toBeDefined()
   })
 
-  it('returns the price of an item of a non-meta step', function() {
+  it('returns the price of an item of a non-meta step', function () {
     expect($projectAnalyzerService.itemPrice(ironOreNQGatheringStep)).toBe(18)
     expect($projectAnalyzerService.itemPrice(ironOreHQGatheringStep)).toBe(148)
   })
 
-  it('returns the price of a non-meta step', function() {
-    expect($projectAnalyzerService.stepPrice(ironOreNQGatheringStep)).toBe(18*6)
-    expect($projectAnalyzerService.stepPrice(ironOreHQGatheringStep)).toBe(148*6)
+  it('returns the price of a non-meta step', function () {
+    expect($projectAnalyzerService.stepPrice(ironOreNQGatheringStep)).toBe(18 * 6)
+    expect($projectAnalyzerService.stepPrice(ironOreHQGatheringStep)).toBe(148 * 6)
   })
 
-  it('calculates the required gathering and crafting of a project', function(done) {
-    $projectAnalyzerService.getProjectMaterialList(project1).then(function(result) {
-      expect(result.revenue).toBe(68*2)
-      expect(result.profit).toBe(68*2*0.95-2*100)
-      expect(result.relativeProfit).toBe(((68*2*0.95-2*100)/(2*100))*100)
+  it('calculates the required gathering and crafting of a project', function (done) {
+    $projectAnalyzerService.getProjectMaterialList(project1).then(function (result) {
+      expect(result.revenue).toBe(68 * 2)
+      expect(result.profit).toBe(68 * 2 * 0.95 - 2 * 100)
+      expect(result.relativeProfit).toBe(((68 * 2 * 0.95 - 2 * 100) / (2 * 100)) * 100)
 
       expect(result.gatherList['ironOreItemNQ']).toBeDefined()
       expect(result.gatherList['ironOreItemNQ'].outstanding).toBe(6)
@@ -86,14 +86,14 @@ describe('functions of the projectAnalyzerService', function () {
 
   var project2 = {
     tree: ironIngotNQCraftingStep,
-    stock: [{amount:4, hq: false, item: ironOreItem}]
+    stock: [{amount: 4, hq: false, item: ironOreItem}]
   }
 
-  it('calculates the required gathering and crafting of a project with items in stock', function(done) {
-    $projectAnalyzerService.getProjectMaterialList(project2).then(function(result) {
-      expect(result.revenue).toBe(68*2)
-      expect(result.profit).toBe(68*2*0.95-2*100)
-      expect(result.relativeProfit).toBe(((68*2*0.95-2*100)/(2*100))*100)
+  it('calculates the required gathering and crafting of a project with items in stock', function (done) {
+    $projectAnalyzerService.getProjectMaterialList(project2).then(function (result) {
+      expect(result.revenue).toBe(68 * 2)
+      expect(result.profit).toBe(68 * 2 * 0.95 - 2 * 100)
+      expect(result.relativeProfit).toBe(((68 * 2 * 0.95 - 2 * 100) / (2 * 100)) * 100)
 
       expect(result.gatherList['ironOreItemNQ']).toBeDefined()
       expect(result.gatherList['ironOreItemNQ'].outstanding).toBe(2)
@@ -104,7 +104,7 @@ describe('functions of the projectAnalyzerService', function () {
     $scope.$digest()
   })
 
-  var cedarLumberStep  = {
+  var cedarLumberStep = {
     '_id': '586c206f25fb900f3f6883f9',
     'amount': 75,
     'recipe': {
@@ -5230,11 +5230,10 @@ describe('functions of the projectAnalyzerService', function () {
     ]
   }
 
-
-  it('case where cedar logs where calculated wrongly', function(done) {
-    $projectAnalyzerService.getProjectMaterialList(project3).then(function(result) {
+  it('case where cedar logs where calculated wrongly', function (done) {
+    $projectAnalyzerService.getProjectMaterialList(project3).then(function (result) {
       expect(result.gatherList['57dd300eec158f5b6b75b42cNQ']).toBeDefined()
-      expect(result.gatherList['57dd300eec158f5b6b75b42cNQ'].outstanding).toBe(1125-5)
+      expect(result.gatherList['57dd300eec158f5b6b75b42cNQ'].outstanding).toBe(1125 - 5)
 
       done()
     })
@@ -5242,10 +5241,10 @@ describe('functions of the projectAnalyzerService', function () {
     $scope.$digest()
   })
 
-  it('case where cedar logs where calculated wrongly2', function(done) {
-    $projectAnalyzerService.getProjectMaterialList(project4).then(function(result) {
+  it('case where cedar logs where calculated wrongly2', function (done) {
+    $projectAnalyzerService.getProjectMaterialList(project4).then(function (result) {
       expect(result.gatherList['57dd300eec158f5b6b75b42cNQ']).toBeDefined()
-      expect(result.gatherList['57dd300eec158f5b6b75b42cNQ'].outstanding).toBe(1125-374)
+      expect(result.gatherList['57dd300eec158f5b6b75b42cNQ'].outstanding).toBe(1125 - 374)
 
       done()
     })
@@ -5277,28 +5276,27 @@ describe('functions of the projectAnalyzerService', function () {
     ]
   }
 
-  it('check if the separate cedar lumber step is fine', function(done) {
+  it('check if the separate cedar lumber step is fine', function (done) {
     var projectData = $projectAnalyzerService.createBaseProjectData(project5)
 
     var maxLumberSteps = $projectAnalyzerService.getMaxCraftableSteps($.extend(true, {}, cedarLumberStep), projectData)
 
     $projectAnalyzerService.analyzeStep($.extend(true, {}, cedarLumberStep), projectData)
     .then(function () {
-
       expect(projectData.gatherList['57dd337c29bed45d2804a418NQ']).toBeDefined()
-      expect(projectData.gatherList['57dd337c29bed45d2804a418NQ'].outstanding).toBe(225-50)
+      expect(projectData.gatherList['57dd337c29bed45d2804a418NQ'].outstanding).toBe(225 - 50)
       expect(projectData.gatherList['57dd300eec158f5b6b75b42cNQ']).toBeDefined()
-      expect(projectData.gatherList['57dd300eec158f5b6b75b42cNQ'].outstanding).toBe(375-200)
+      expect(projectData.gatherList['57dd300eec158f5b6b75b42cNQ'].outstanding).toBe(375 - 200)
 
       return $projectAnalyzerService.analyzeStep($.extend(true, {}, holyCedarLumberStep), projectData)
     }).then(function () {
       expect(projectData.gatherList['57dd337c29bed45d2804a418NQ']).toBeDefined()
-      expect(projectData.gatherList['57dd337c29bed45d2804a418NQ'].outstanding).toBe(450+450+225-50)
+      expect(projectData.gatherList['57dd337c29bed45d2804a418NQ'].outstanding).toBe(450 + 450 + 225 - 50)
       expect(projectData.gatherList['57dd300eec158f5b6b75b42cNQ']).toBeDefined()
-      expect(projectData.gatherList['57dd300eec158f5b6b75b42cNQ'].outstanding).toBe(750+375-200)
+      expect(projectData.gatherList['57dd300eec158f5b6b75b42cNQ'].outstanding).toBe(750 + 375 - 200)
 
       done()
-    }).catch(function() {
+    }).catch(function () {
       fail('i cought something here')
     })
 
@@ -5309,91 +5307,90 @@ describe('functions of the projectAnalyzerService', function () {
     'tree': projectMogwallTree,
     'stock': [
       {
-     "item": {
-       "_id": "57dd3165ec158f5b6b75b43c",
-       "name": "Cassia Block"
-     },
-     "_id": "586e454534bdde22e730a6ed",
-     "hq": false,
-     "amount": 32
-   }, {
-      "item": {
-        "_id": "57dd3cb10febcb5d9dde9770",
-        "name": "Cassia Log"
-      },
-      "_id": "586d4637c3071e0fe962dc3a",
-      "hq": false,
-      "amount": 12
-    },{
-      "item": {
-        "_id": "57cfbd439567fb328521568f",
-        "name": "Wind Cluster"
-      },
-      "_id": "586c23d525fb900f3f6884fa",
-      "hq": false,
-      "amount": 60
-    },{
-      "item": {
-        "_id": "57dd38e50febcb5d9dde9722",
-        "name": "Ice Cluster"
-      },
-      "_id": "586c23da25fb900f3f6884fc",
-      "hq": false,
-      "amount": 30
-    },{
-      "item": {
-        "_id": "57dd3cb10febcb5d9dde976f",
-        "name": "Hardened Sap"
-      },
-      "_id": "586d7641c3071e0fe962dc88",
-      "hq": false,
-      "amount": 36
-    },{
-      "item": {
-        "_id": "57dd38e50febcb5d9dde9724",
-        "name": "Astral Oil"
-      },
-      "_id": "586d40eac3071e0fe962dbf9",
-      "hq": false,
-      "amount": 4
-    },{
-      "item": {
-        "_id": "57dd38e50febcb5d9dde9723",
-        "name": "Dawnborne Aethersand",
-      },
-      "_id": "586cee3dc3071e0fe962db5d",
-      "hq": false,
-      "amount": 4
-    }
+        'item': {
+          '_id': '57dd3165ec158f5b6b75b43c',
+          'name': 'Cassia Block'
+        },
+        '_id': '586e454534bdde22e730a6ed',
+        'hq': false,
+        'amount': 32
+      }, {
+        'item': {
+          '_id': '57dd3cb10febcb5d9dde9770',
+          'name': 'Cassia Log'
+        },
+        '_id': '586d4637c3071e0fe962dc3a',
+        'hq': false,
+        'amount': 12
+      }, {
+        'item': {
+          '_id': '57cfbd439567fb328521568f',
+          'name': 'Wind Cluster'
+        },
+        '_id': '586c23d525fb900f3f6884fa',
+        'hq': false,
+        'amount': 60
+      }, {
+        'item': {
+          '_id': '57dd38e50febcb5d9dde9722',
+          'name': 'Ice Cluster'
+        },
+        '_id': '586c23da25fb900f3f6884fc',
+        'hq': false,
+        'amount': 30
+      }, {
+        'item': {
+          '_id': '57dd3cb10febcb5d9dde976f',
+          'name': 'Hardened Sap'
+        },
+        '_id': '586d7641c3071e0fe962dc88',
+        'hq': false,
+        'amount': 36
+      }, {
+        'item': {
+          '_id': '57dd38e50febcb5d9dde9724',
+          'name': 'Astral Oil'
+        },
+        '_id': '586d40eac3071e0fe962dbf9',
+        'hq': false,
+        'amount': 4
+      }, {
+        'item': {
+          '_id': '57dd38e50febcb5d9dde9723',
+          'name': 'Dawnborne Aethersand'
+        },
+        '_id': '586cee3dc3071e0fe962db5d',
+        'hq': false,
+        'amount': 4
+      }
     ]
   }
 
-  it('check for craftable cassia', function(done) {
+  it('check for craftable cassia', function (done) {
     var projectData = $projectAnalyzerService.createBaseProjectData(project6)
     $projectAnalyzerService.analyzeStep($.extend(true, {}, projectMogwallTree), projectData)
-    .then(function(result) {
-      expect(_.find(projectData.craftableSteps, function(step) { return step.step.item._id == '57dd38e50febcb5d9dde9725' }).step.amount).toBe(4)
+    .then(function (result) {
+      expect(_.find(projectData.craftableSteps, function (step) { return step.step.item._id == '57dd38e50febcb5d9dde9725' }).step.amount).toBe(4)
 
       done()
-    }).catch(function() {
+    }).catch(function () {
       fail('caught something')
     })
 
     $scope.$digest()
   })
 
-  it('check for craftable cassia isolated step', function(done) {
+  it('check for craftable cassia isolated step', function (done) {
     var projectData = $projectAnalyzerService.createBaseProjectData(project6)
     $projectAnalyzerService.analyzeStep($.extend(true, {}, cassiaBlockStep), projectData)
-    .then(function(result) {
-      expect(_.find(projectData.craftableSteps, function(step) { return step.step.item._id == '57dd38e50febcb5d9dde9725' }).step.amount).toBe(4)
+    .then(function (result) {
+      expect(_.find(projectData.craftableSteps, function (step) { return step.step.item._id == '57dd38e50febcb5d9dde9725' }).step.amount).toBe(4)
 
       done()
-    }).catch(function() {
+    }).catch(function () {
       fail('caught something')
     })
 
     $scope.$digest()
   })
-
 })
