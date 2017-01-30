@@ -9,6 +9,8 @@ var Recipe = mongoose.model('Recipe')
 var Item = mongoose.model('Item')
 var User = mongoose.model('User')
 
+var RestService = require('../services/RestService')()
+
 var nodemailer = require('nodemailer')
 
 var config = require('meanio').loadConfig()

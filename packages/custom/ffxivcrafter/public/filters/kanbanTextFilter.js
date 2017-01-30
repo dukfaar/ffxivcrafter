@@ -43,7 +43,7 @@ angular.module('mean.ffxivCrafter').filter('kanbanText', function ($sce, _) {
       return portion.toLocaleString()
     })
 
-    resultText = _.replace(resultText, /\[project:(\w+)\:(.*)\]/g, '<a href="/project/list/$1">$2</a>')
+    resultText = _.replace(resultText, /\[project:(\w+)\:(.*)\]/g, '<a href="/project/view/$1">$2</a>')
     return $sce.trustAsHtml(resultText)
   }
 })

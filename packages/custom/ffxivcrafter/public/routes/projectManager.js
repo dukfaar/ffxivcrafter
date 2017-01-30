@@ -17,5 +17,19 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
         circles: ['see kanban board']
       }
     })
+    .state('pm project public', {
+      url: '/projectManager/public',
+      template: '<projects-public></projects-public>',
+      requiredCircles: {
+        circles: ['projectManager']
+      }
+    })
+    .state('pm project order', {
+      url: '/projectManager/order',
+      template: '<projects-order></projects-order>',
+      requiredCircles: {
+        circles: ['projectManager']
+      }
+    })
   }
 ])

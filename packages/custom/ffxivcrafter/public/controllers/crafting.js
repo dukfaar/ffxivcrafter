@@ -1,7 +1,8 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('CraftingController', ['$scope', 'Global', '$http', '$mdDialog', 'ItemService', 'socket',
-  function ($scope, Global, $http, $mdDialog, ItemService, socket) {
+angular.module('mean.ffxivCrafter').controller('CraftingController',
+['$scope', 'Global', '$http', '$mdDialog', 'ItemService', 'socket', '$mdToast',
+  function ($scope, Global, $http, $mdDialog, ItemService, socket, $mdToast) {
     $scope.itemList = null
 
     $scope.itemService = ItemService
@@ -43,6 +44,16 @@ angular.module('mean.ffxivCrafter').controller('CraftingController', ['$scope', 
 
     $scope.projectFromItem = function (item) {
       $http.post('/api/project/fromItem/' + item._id + '/' + $scope.order.amount)
+      .then(function (result) {
+        $mdToast.show(
+          $mdToast
+            .simple()
+            .textContent('Project has been created.')
+            .position('bottom right')
+            .hideDelay(5000)
+            .highlightClass('md-accent')
+          )
+      })
     }
 
     $scope.addToProject = function (item, project) {

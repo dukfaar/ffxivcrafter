@@ -6,15 +6,17 @@ angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog
     scope: {
       step: '=',
       stepDeletion: '=',
-      updateStep: '&',
-      priceUpdate: '&',
       deletedStep: '&',
       showDeleter: '=',
       projectData: '='
     },
     controller: function ($scope) {
-      $scope.update = function () {
-        $scope.updateStep()($scope.step)
+      $scope.updateStep = function () {
+        var step = $.extend(true, {}, $scope.step)
+        delete step.inputs
+        delete step.item
+        delete step.recipe
+        $http.put('/api/projectstep/' + step._id, step)
       }
 
       if ($rootScope.showingAllProjectStepChildren === true) {
@@ -28,9 +30,6 @@ angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog
 
       $scope.deleteStep = function () {
         $http.delete('/api/projectstep/' + $scope.step._id)
-          .then(function (response) {
-            $scope.deletedStep()()
-          })
       }
 
       $scope.toggleChildren = function () {
@@ -39,18 +38,18 @@ angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog
         localStorageService.set('hideChildren_' + $scope.step._id, $scope.hideChildren)
       }
 
-      $rootScope.$on('showAllProjectStepChildren', function () {
+      $scope.$on('showAllProjectStepChildren', function () {
         $scope.hideChildren = false
         localStorageService.set('hideChildren_' + $scope.step._id, $scope.hideChildren)
       })
-      $rootScope.$on('hideAllProjectStepChildren', function () {
+      $scope.$on('hideAllProjectStepChildren', function () {
         $scope.hideChildren = true
         localStorageService.set('hideChildren_' + $scope.step._id, $scope.hideChildren)
       })
 
       $scope.toggleHQ = function () {
         $scope.step.hq = !$scope.step.hq
-        $scope.updateStep()($scope.step)
+        $scope.updateStep($scope.step)
       }
 
       $scope.outputStepPrice = function (step) {
@@ -89,8 +88,7 @@ angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog
           controller: 'ItemPriceDialogController',
           clickOutsideToClose: true,
           locals: {
-            item: item,
-            priceUpdate: $scope.priceUpdate
+            item: item
           }
         }).then(function () {})
       }

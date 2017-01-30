@@ -92,6 +92,18 @@ function setupMenus () {
     roles: ['see kanban board'],
     path: 'main/pm'
   })
+  FFXIVCrafter.menus.add({
+    title: 'Public Projects',
+    link: 'pm project public',
+    roles: ['projectManager'],
+    path: 'main/pm'
+  })
+  FFXIVCrafter.menus.add({
+    title: 'Orders',
+    link: 'pm project order',
+    roles: ['projectManager'],
+    path: 'main/pm'
+  })
 
   FFXIVCrafter.menus.add({
     title: 'Crafting',
@@ -107,10 +119,11 @@ function setupMenus () {
   })
   FFXIVCrafter.menus.add({
     title: 'Projects',
-    link: 'project list',
+    link: 'project private',
     roles: ['see projects'],
     path: 'main/crafting'
   })
+
   FFXIVCrafter.menus.add({
     title: 'Reporting',
     link: 'crafting reporting',

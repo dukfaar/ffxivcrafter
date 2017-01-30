@@ -47,23 +47,27 @@ module.exports = function () {
     }
   }
 
+  function listAction(Model, req, res) {
+    var findQuery = _.pickBy(req.query, function (value, key) {
+      return key !== 'populate' && key !== 'skip' && key !== 'limit' && key !== 'page'
+    })
+
+    doList(Model.find(findQuery), req)
+    .then(function (result) {
+      res.send(result)
+    })
+    .catch(function (err) {
+      res.status(500).send(err)
+    })
+  }
+
   function createRestController (modelName) {
     var Model = mongoose.model(modelName)
 
     return {
       Model: Model,
       list: function (req, res) {
-        var findQuery = _.pickBy(req.query, function (value, key) {
-          return key !== 'populate' && key !== 'skip' && key !== 'limit' && key !== 'page'
-        })
-
-        doList(Model.find(findQuery), req)
-        .then(function (result) {
-          res.send(result)
-        })
-        .catch(function (err) {
-          res.status(500).send(err)
-        })
+        listAction(Model, req, res)
       },
       create: function (req, res) {
         var instance = new Model(req.body)
@@ -113,6 +117,7 @@ module.exports = function () {
 
   return {
     list: doList,
+    listAction: listAction,
     skipFind: skipFind,
     limitFind: limitFind,
     populateFind: populateFind,

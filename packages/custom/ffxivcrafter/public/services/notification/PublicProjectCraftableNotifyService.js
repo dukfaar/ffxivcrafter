@@ -15,6 +15,8 @@ angular.module('mean.ffxivCrafter').factory('PublicProjectCraftableNotifyService
       }
 
       function getCraftArrayFromProjectData (project, projectData) {
+        if(!projectData[project._id]) return []
+
         return _.filter(_.filter(toArray(projectData[project._id].craftableSteps), StepService.canCraft), function (g) { return Math.floor(g.step.amount) > 0 })
       }
 

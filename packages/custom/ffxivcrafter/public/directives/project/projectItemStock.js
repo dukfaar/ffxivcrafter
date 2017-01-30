@@ -8,7 +8,7 @@ angular.module('mean.ffxivCrafter').directive('projectItemStock', function () {
       projectData : '='
     },
     controller: function ($scope, $http, StockService) {
-      $scope.itemFilter = ''
+      $scope.stockFilter = ''
       $scope.addToStock = StockService.addToStock
 
       $scope.$watch('project.stock', function() {

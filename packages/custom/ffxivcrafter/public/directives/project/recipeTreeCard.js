@@ -2,6 +2,7 @@
 
 angular.module('mean.ffxivCrafter').directive('projectRecipeTreeCard',function() {
   return {
-    templateUrl:'/ffxivCrafter/views/project/recipeTreeCard.html'
+    templateUrl:'/ffxivCrafter/views/project/recipeTreeCard.html',
+    require: '^^projectView'
   }
 })

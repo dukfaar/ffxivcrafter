@@ -29,7 +29,7 @@
         </md-tooltip>
         <span flex>{{stockElement.amount}} {{stockElement.item.name}}</span>
         <span ng-if="stockElement.hq">HQ</span>
-        <md-button class="md-raised md-primary" ng-click="addToStock(project,stockElement.item,-stockElement.amount, stockElement.hq)" translate="stock.remove"></md-button>
+        <md-button class="md-raised md-primary" ng-click="addToStock(project,stockElement.item,-stockElement.amount, stockElement.hq)" translate="stock.remove" aria-label="remove from stock"></md-button>
       </md-list-item>
     </md-list>
   </md-card-content>

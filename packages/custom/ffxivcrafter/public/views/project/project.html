@@ -1,0 +1,44 @@
+<column-layout ng-if="project._id" ng-cloak>
+  <column>
+    <project-recipe-tree-card project="project" project-data="projectData"></project-recipe-tree-card>
+  </column>
+
+  <column>
+    <project-item-crafts project="project" project-data="projectData"></project-item-crafts>
+    <project-item-gathers project="project" project-data="projectData"></project-item-gathers>
+  </column>
+
+  <column>
+    <project-item-stock project="project" project-data="projectData"></project-item-stock>
+  </column>
+
+  <column>
+    <project-settings-card project="project" project-data="projectData"></project-settings-card>
+
+    <revenue-card project="project" project-data="projectData"></revenue-card>
+
+    <md-card id="commentCard" ng-if="project.comment.length>0">
+      <md-card-header>
+        <md-card-header-text class="md-title" translate>
+          project.comment
+        </md-card-header-text>
+      </md-card-header>
+      <md-card-content>
+        {{project.comment}}
+      </md-card-content>
+    </md-card>
+
+    <md-card>
+      <md-card-header>
+        <md-card-header-text class="md-title" translate>
+          project.notes
+        </md-card-header-text>
+      </md-card-header>
+      <md-card-content layout="column">
+        <md-input-container>
+          <textarea ng-change="updateProjectNotes(project)" ng-model-options="{debounce:300}" ng-model="project.notes"></textarea>
+        </md-input-container>
+      </md-card-content>
+    </md-card>
+  </column>
+</column-layout>

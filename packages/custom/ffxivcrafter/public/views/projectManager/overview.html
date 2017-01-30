@@ -10,7 +10,7 @@
 
         <md-card-content>
           <md-list>
-            <md-list-item ng-repeat="project in orderProjects" ng-href="/project/list/{{project._id}}">
+            <md-list-item ng-repeat="project in orderProjects" ng-href="/project/view/{{project._id}}">
               <i flex>{{project.name}}</i>
               <span translate>by</span>&nbsp;
               <span>{{project.creator.name}}</span>
@@ -30,7 +30,7 @@
 
         <md-card-content>
           <md-list>
-            <md-list-item ng-repeat="project in publicProjects" ng-href="/project/list/{{project._id}}">
+            <md-list-item ng-repeat="project in publicProjects" ng-href="/project/view/{{project._id}}">
               {{project.name}}
             </md-list-item>
           </md-list>
