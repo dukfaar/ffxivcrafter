@@ -25,17 +25,17 @@ angular.module('mean.ffxivCrafter').controller('ProjectReportingController',
       $scope.updateData = function () {
         var log = ProjectStockChange.query({projectId: $stateParams.projectId, populate: 'submitter'})
         log.$promise.then(function () {
-          var itemPromises = []
-
           _.forEach(log, function (logEntry) {
             logEntry.item = ItemDatabase.get(logEntry.item)
-            itemPromises.push(logEntry.item.$promise)
-
             logEntry.project = logEntry.project ? ProjectDatabase.get(logEntry.project) : null
             logEntry.recipe = logEntry.recipe ? RecipeDatabase.get(logEntry.recipe) : null
           })
 
-          $q.all(itemPromises).then(function () {
+          var itemPromises = _.map(log, function (logEntry) { return logEntry.item.$promise })
+          var recipePromises = _.reject(_.map(log, function (logEntry) { return logEntry.recipe ? logEntry.recipe.$promise : null }), _.isNull)
+          var projectPromises = _.reject(_.map(log, function (logEntry) { return logEntry.project ? logEntry.project.$promise : null }), _.isNull)
+
+          $q.all(_.flatten([itemPromises, recipePromises, projectPromises])).then(function () {
             $scope.log = log
             $scope.refilterLog()
           })
