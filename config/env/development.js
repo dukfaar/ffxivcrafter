@@ -51,13 +51,5 @@ module.exports = {
       enabled: false
     }
   },
-  emailFrom: 'raincollector.dukfaar@gmail.com', // sender address like ABC <abc@example.com>
-  mailer: {
-    service: 'Gmail', // Gmail, SMTP
-    auth: {
-      user: 'raincollector.dukfaar@gmail.com',
-      pass: 'Simba1590'
-    }
-  },
   secret: 'SOME_TOKEN_SECRET'
 }

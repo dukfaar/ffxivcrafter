@@ -17,7 +17,8 @@
     "angular-local-storage": "latest",
     "angular-chart.js": "latest",
     "angular-drag-and-drop-lists": "latest",
-    "angular-web-notification": "latest"
+    "angular-web-notification": "latest",
+    "httpreq": "latest"
   },
   "license": "MIT"
 }

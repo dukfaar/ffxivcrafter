@@ -67,5 +67,9 @@ module.exports = {
   bodyParser: {
     json: {limit: '50mb'},
     urlencoded: {limit: '50mb', extended: true}
+  },
+  emailFrom: 'raincollector@dukfaar.com', // sender address like ABC <abc@example.com>
+  mailer: {
+    sendmail: true
   }
 }

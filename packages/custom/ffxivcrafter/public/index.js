@@ -11,4 +11,6 @@ import 'angular-chart.js'
 import 'lodash'
 import 'angular-drag-and-drop-lists'
 
-import 'angular-web-notification'
+import 'html5-desktop-notifications2/dist/Notification.js'
+window.webNotification = require('simple-web-notification')
+var angularWebNotification = require('angular-web-notification')
