@@ -21,6 +21,9 @@ angular.module('mean.ffxivCrafter').directive('projectView', function () {
         $scope.projectData = {}
 
         $scope.users = User.query({})
+        $scope.getUser = function (id) {
+          return _.find($scope.users, function (u) { return u._id == id })
+        }
 
         function recalcProjectData () {
           projectAnalyzerService.getProjectMaterialList($scope.project)
@@ -102,7 +105,7 @@ angular.module('mean.ffxivCrafter').directive('projectView', function () {
           if($scope.project && $scope.project._id === project._id) {
             return
           }
-          
+
           if (refetchTimeout) {
             clearTimeout(refetchTimeout)
             refetchTimeout = null
