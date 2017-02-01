@@ -1,9 +1,9 @@
 'use strict'
 
 angular.module('mean.ffxivCrafter').factory('SubmissionNotifyService',
-  ['socket', 'ProjectDatabase', 'ItemDatabase', '$q', 'webNotification',
+  ['socket', 'ProjectNonRest', 'ItemDatabase', '$q', 'webNotification',
     'NotificationSettingsService', '$translate',
-    function (socket, ProjectDatabase, ItemDatabase, $q, webNotification,
+    function (socket, ProjectNonRest, ItemDatabase, $q, webNotification,
     NotificationSettingsService, $translate) {
       function sendNotification (texts) {
         webNotification.showNotification(texts[0], {
@@ -16,7 +16,7 @@ angular.module('mean.ffxivCrafter').factory('SubmissionNotifyService',
         if (data.amount > 0 && NotificationSettingsService.enabled.submission) {
           $q.all({
             item: ItemDatabase.get(data.item).$promise,
-            project: ProjectDatabase.get(data.projectId).$promise
+            project: ProjectNonRest.get({id: data.projectId}).$promise
           }).then(function (result) {
             if (result.project && result.project._id) {
               $q.all([
