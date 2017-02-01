@@ -7,16 +7,19 @@
         <span>{{item.name}}</span>
       </a> <span ng-if="data.gathers.hq">HQ</span>?
     </h2>
-    <md-input-container md-is-error="data.amount===0">
-      <label translate="how.many"></label>
-      <input name="amountInput" ng-model="data.amount"/>
-    </md-input-container>
 
-    <md-switch ng-if="allowed('projectManager')" ng-model="data.dontUseForContribution">{{data.dontUseForContribution?'Ignore this for contribution':'Count this for contribution'}}</md-switch>
+    <form name="gatherForm" layout="column">
+      <md-input-container md-is-error="data.amount===0">
+        <label translate="how.many"></label>
+        <input required novalidate type="number" min="0" ng-model="data.amount"/>
+      </md-input-container>
+
+      <md-switch ng-if="allowed('projectManager')" ng-model="data.dontUseForContribution">{{data.dontUseForContribution?'Ignore this for contribution':'Count this for contribution'}}</md-switch>
+    </form>
   </md-dialog-content>
 
   <md-dialog-actions>
-    <md-button ng-click="deliver()" translate="action.deliver"></md-button>
-    <md-button ng-click="cancel()" translate="action.cancel"></md-button>
+    <md-button ng-click="deliver()" ng-disabled="gatherForm.$invalid" translate="action.deliver" class="md-raised md-primary"></md-button>
+    <md-button ng-click="cancel()" translate="action.cancel" class="md-raised md-primary"></md-button>
   </md-dialog-actions>
 </md-dialog>

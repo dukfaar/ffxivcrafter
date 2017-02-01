@@ -1,20 +1,29 @@
 <md-dialog layout-padding flex="80">
-  <md-dialog-content layout="column">
-    <h2 translate>forum.thread.new</h2>
+  <md-dialog-content>
+    <md-tabs layout-fill md-dynamic-height>
+      <md-tab label="Editor" layout-fill>
+        <form name="threadForm" layout="column">
+          <h2 translate>forum.thread.new</h2>
+          <md-input-container>
+            <label translate>forum.thread.title.label</label>
+            <input novalidate type="text" ng-minlength="3" required ng-model="data.thread.title"/>
+          </md-input-container>
 
-    <md-input-container>
-      <label translate>forum.thread.title.label</label>
-      <input ng-model="data.thread.title"/>
-    </md-input-container>
-
-    <md-input-container flex>
-      <label translate>forum.post.text.label</label>
-      <textarea rows="10" ng-model="data.post.text" flex></textarea>
-    </md-input-container>
+          <md-input-container flex>
+            <label translate>forum.post.text.label</label>
+            <textarea novalidate ng-minlength="10" required rows="10" ng-model="data.post.text" flex></textarea>
+          </md-input-container>
+        </form>
+      </md-tab>
+      <md-tab label="Preview">
+        <h1>{{data.thread.title}}</h1>
+        <div style="white-space:pre-wrap" ng-bind-html="data.post.text|kanbanText"></div>
+      </md-tab>
+    </md-tabs>
   </md-dialog-content>
 
   <md-dialog-actions>
-    <md-button ng-click="save()" translate="action.save"></md-button>
-    <md-button ng-click="cancel()" translate="action.cancel"></md-button>
+    <md-button ng-click="save()" ng-disabled="threadForm.$invalid" translate="action.save" class="md-primary md-raised"></md-button>
+    <md-button ng-click="cancel()" translate="action.cancel" class="md-primary md-raised"></md-button>
   </md-dialog-actions>
 </md-dialog>

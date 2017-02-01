@@ -79,11 +79,15 @@
   "forum.thread.new": "Neuer Thread",
   "forum.thread.title.label": "Titel",
   "forum.post.new": "Neuer Post",
+  "forum.post.new": "Post bearbeiten",
   "forum.post.text.label": "Text",
   "forum.categories": "Kategorien",
   "forum.threads": "Threads",
   "post.posted": "Veröffentlicht: ",
+  "post.edited": "zuletzt bearbeitet: ",
   "delivery.craft.inputs": "Materialien",
   "delivery.craft.outputs": "Ergebnis",
-  "how.many": "Wieviele?"
+  "how.many": "Wieviele?",
+  "item.price.nq": "Preis",
+  "item.price.hq": "Preis HQ"
 }

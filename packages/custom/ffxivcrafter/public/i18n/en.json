@@ -85,9 +85,13 @@
   "forum.thread.new": "New Thread",
   "forum.thread.title.label": "Title",
   "forum.post.new": "New Post",
+  "forum.post.edit": "Edit Post",
   "forum.post.text.label": "Text",
   "forum.categories": "Categories",
   "forum.threads": "Threads",
   "post.posted": "Posted: ",
-  "how.many": "How many?"
+  "post.edited": "last edited: ",
+  "how.many": "How many?",
+  "item.price.nq": "Price",
+  "item.price.hq": "Price HQ"
 }

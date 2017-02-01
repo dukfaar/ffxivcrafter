@@ -55,7 +55,7 @@ angular.module('mean.ffxivCrafter').directive('eventCalendar', function () {
           parent: angular.element(document.body),
           controller: function ($scope) {
             $scope.data = {
-              title: 'New Event',
+              title: '',
               description: '',
               start: new Date(),
               end: new Date()

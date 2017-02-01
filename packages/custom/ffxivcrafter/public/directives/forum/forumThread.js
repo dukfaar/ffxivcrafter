@@ -12,27 +12,41 @@ angular.module('mean.ffxivCrafter').directive('forumThread', function () {
         return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) != -1
       }
 
+      function queryPosts () {
+        ForumPost.query({thread: $scope.threadId, populate: 'creator'})
+        .$promise.then(function (data) {
+          $scope.posts = data
+        })
+      }
+
       function creationListener (newPost) {
         if (newPost.thread === $scope.threadId) {
-          ForumPost.query({thread: $scope.threadId, populate: 'creator'})
-          .$promise.then(function (data) {
-            $scope.posts = data
-          })
+          queryPosts()
         }
       }
 
+      function deletionListener (deletedPost) {
+        queryPosts()
+      }
+
       socket.on('ForumPost created', creationListener)
+      socket.on('ForumPost updated', creationListener)
+      socket.on('ForumPost deleted', deletionListener)
 
       $scope.$on('$destroy', function () {
         socket.off('ForumPost created', creationListener)
+        socket.off('ForumPost updated', creationListener)
+        socket.off('ForumPost deleted', deletionListener)
       })
 
       $scope.thread = ForumThread.get({id: $scope.threadId, populate: 'creator'})
-      $scope.posts = ForumPost.query({thread: $scope.threadId, populate: 'creator'})
+      $scope.posts = []
 
-      function DialogController ($scope, $mdDialog) {
-        $scope.data = {
-        }
+      queryPosts()
+
+      function DialogController ($scope, $mdDialog, data, edit) {
+        $scope.data = data
+        $scope.edit = edit
 
         $scope.hide = function () {
           $mdDialog.hide()
@@ -82,7 +96,11 @@ angular.module('mean.ffxivCrafter').directive('forumThread', function () {
           templateUrl: 'ffxivCrafter/views/forum/newPostDialog.html',
           parent: angular.element(document.body),
           clickOutsideToClose: true,
-          controller: DialogController
+          controller: DialogController,
+          locals: {
+            data: {},
+            edit: false
+          }
         }).then(function (data) {
           var newPost = new ForumPost(data)
           newPost.thread = $scope.threadId
@@ -91,6 +109,23 @@ angular.module('mean.ffxivCrafter').directive('forumThread', function () {
             $scope.thread.lastUpdate = new Date()
             ForumThread.update({id: $scope.thread._id}, $scope.thread)
           })
+        }, function () {
+        })
+      }
+
+      $scope.editPostDialog = function (post) {
+        $mdDialog.show({
+          templateUrl: 'ffxivCrafter/views/forum/newPostDialog.html',
+          parent: angular.element(document.body),
+          clickOutsideToClose: true,
+          controller: DialogController,
+          locals: {
+            data: _.extend({}, post),
+            edit: true
+          }
+        }).then(function (data) {
+          data.lastEdited = new Date()
+          ForumPost.update({id: data._id}, data)
         }, function () {
         })
       }

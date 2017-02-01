@@ -1,18 +1,20 @@
 <md-dialog layout-padding>
-  <md-dialog-content layout="column">
+  <md-dialog-content>
     <h2>{{item.name}}</h2>
-    <md-input-container>
-      <label>Price</label>
-      <input ng-model="item.price"/>
-    </md-input-container>
-    <md-input-container>
-      <label>Price HQ</label>
-      <input ng-model="item.priceHQ"/>
-    </md-input-container>
+    <form name="priceForm" layout="column">
+      <md-input-container>
+        <label translate>item.price.nq</label>
+        <input novalidate type="number" min="0" ng-model="item.price"/>
+      </md-input-container>
+      <md-input-container>
+        <label translate>item.price.hq</label>
+        <input novalidate type="number" min="0" ng-model="item.priceHQ"/>
+      </md-input-container>
+    </form>
   </md-dialog-content>
 
   <md-dialog-actions>
-    <md-button ng-click="update(); close();">Update</md-button>
-    <md-button ng-click="close()">Close</md-button>
+    <md-button ng-click="update(); close();" ng-disabled="priceForm.$invalid" class="md-raised md-primary" translate="action.save"></md-button>
+    <md-button ng-click="close()" class="md-raised md-primary" translate="action.cancel"></md-button>
   </md-dialog-actions>
 </md-dialog>

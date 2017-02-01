@@ -33,16 +33,19 @@
               <span>Inspect item in the gamerescape-Wiki</span>
             </md-button>
 
-            <md-input-container>
-              <label>Number of Items</label>
-              <input ng-model="order.amount"></input>
-            </md-input-container>
+            <form name="toCartForm" layout="column">
+              <md-input-container>
+                <label>Number of Items</label>
+                <input type="number" min="1" novalidate required ng-model="order.amount"></input>
+              </md-input-container>
 
-            <md-checkbox ng-model="order.hq">HQ</md-checkbox>
+              <md-checkbox ng-model="order.hq">HQ</md-checkbox>
+            </form>
           </md-card-content>
+          <md-divider></md-divider>
 
           <md-card-actions layout="row" layout-align="end center">
-            <md-button class="md-raised md-primary" ng-click="addItemToCart(selectedItem, order.amount, order.hq)">Add To Cart</md-button>
+            <md-button class="md-raised md-primary" ng-disabled="toCartForm.$invalid" ng-click="addItemToCart(selectedItem, order.amount, order.hq)">Add To Cart</md-button>
           </md-card-actions>
         </md-card>
       </div>
@@ -78,8 +81,9 @@
               </md-list-item>
             </md-list>
           </md-card-content>
+          <md-divider></md-divider>
           <md-card-actions layout="row" layout-align="end center">
-            <md-button class="md-raised md-primary" ng-click="orderCart(cart)">Order</md-button>
+            <md-button class="md-raised md-primary" ng-disabled="cart.length === 0" ng-click="orderCart(cart)">Order</md-button>
           </md-card-actions>
         </md-card>
       </div>

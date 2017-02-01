@@ -1,15 +1,17 @@
 <md-dialog layout-padding>
-  <md-dialog-content layout="column">
-    <h2 translate>forum.category.new</h2>
+  <md-dialog-content>
+    <form name="categoryForm" layout="column">
+      <h2 translate>forum.category.new</h2>
 
-    <md-input-container>
-      <label translate>forum.category.name.label</label>
-      <input ng-model="data.name"/>
-    </md-input-container>
+      <md-input-container>
+        <label translate>forum.category.name.label</label>
+        <input novalidate type="text" ng-minlength="3" required ng-model="data.name"/>
+      </md-input-container>
+    </form>
   </md-dialog-content>
 
   <md-dialog-actions>
-    <md-button ng-click="save()" translate="action.save"></md-button>
-    <md-button ng-click="cancel()" translate="action.cancel"></md-button>
+    <md-button ng-click="save()" ng-disabled="categoryForm.$invalid" translate="action.save" class="md-primary md-raised"></md-button>
+    <md-button ng-click="cancel()" translate="action.cancel" class="md-primary md-raised"></md-button>
   </md-dialog-actions>
 </md-dialog>
