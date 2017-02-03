@@ -29,7 +29,7 @@
 
     <div layout="row">
       <md-switch type="checkbox" ng-model="hiddenOverviewGetSet" ng-model-options="{getterSetter: true}">
-        <span translate='{{ProjectService.isHiddenFromOverview(project, user)?"hide.from.overview":"show.in.overview"}}'></span>
+        <span translate='{{ProjectService.isHiddenFromOverview(project, user.user)?"hide.from.overview":"show.in.overview"}}'></span>
       </md-switch>
     </div>
 

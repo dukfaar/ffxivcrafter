@@ -89,5 +89,9 @@
   "delivery.craft.outputs": "Ergebnis",
   "how.many": "Wieviele?",
   "item.price.nq": "Preis",
-  "item.price.hq": "Preis HQ"
+  "item.price.hq": "Preis HQ",
+  "reporting.formula.show": "Berechnung anzeigen",
+  "reporting.formula.hide": "Berechnung verstecken",
+  "reporting.formula.calculation": "Algorithmus",
+  "reporting.formula.available.functions": "Funktionen"
 }

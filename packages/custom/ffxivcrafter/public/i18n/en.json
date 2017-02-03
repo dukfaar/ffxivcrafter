@@ -93,5 +93,9 @@
   "post.edited": "last edited: ",
   "how.many": "How many?",
   "item.price.nq": "Price",
-  "item.price.hq": "Price HQ"
+  "item.price.hq": "Price HQ",
+  "reporting.formula.show": "Show formula",
+  "reporting.formula.hide": "Hide formula",
+  "reporting.formula.calculation": "Algorithm",
+  "reporting.formula.available.functions": "Functions"
 }

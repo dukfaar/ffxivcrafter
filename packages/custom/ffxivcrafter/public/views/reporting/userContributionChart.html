@@ -29,5 +29,38 @@
         <td>{{((entry.value/chart.summedContribution)*100).toFixed(2)}} %</td>
       </tr>
     </table>
+
+    <md-switch ng-model="functionData.showFormula">
+      <span translate="{{functionData.showFormula?'reporting.formula.show':'reporting.formula.hide'}}"></span>
+    </md-switch>
+
+    <div ng-if="functionData.showFormula" layout="row">
+      <md-list dnd-list="functionData.list">
+        <h2 translate>reporting.formula.calculation</h2>
+        <md-list-item
+        ng-repeat="functionDescriptor in functionData.list"
+        dnd-draggable="functionDescriptor"
+        dnd-moved="functionData.list.splice($index,1)"
+        dnd-effect-allowed="move"
+        >
+          <span flex>{{functionDescriptor.name}}</span>
+          <md-button class="md-icon-button" ng-click="functionData.list.splice($index,1)">
+            <md-icon class="material-icons">delete</md-icon>
+          </md-button>
+        </md-list-item>
+      </md-list>
+
+      <md-list dnd-list="functionDescriptors" dnd-disable-if="true">
+        <h2 translate>reporting.formula.available.functions</h2>
+        <md-list-item
+        ng-repeat="functionDescriptor in functionDescriptors"
+        dnd-draggable="functionDescriptor"
+        dnd-effect-allowed="copy"
+        >
+          {{functionDescriptor.name}}
+        </md-list-item>
+      </md-list>
+  </div>
+
   </md-card-content>
 </md-card>
