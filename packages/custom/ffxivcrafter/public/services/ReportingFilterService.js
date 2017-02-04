@@ -1,15 +1,20 @@
 'use strict'
 
 angular.module('mean.ffxivCrafter').factory('ReportingFilterService',
-  ['_',
-    function (_) {
+  ['_', 'localStorageService',
+    function (_, localStorageService) {
+
+      if(!localStorageService.get('ignoreContributionFilterSetting')) {
+        localStorageService.set('ignoreContributionFilterSetting', 'dontCare')
+      }
+
       var logFilter = {
         numLogItems: 10,
         beginLogItems: 0,
         itemNameFilter: '',
         submitterNameFilter: '',
         projectNameFilter: '',
-        ignoreContributionFilter: 'dontCare'
+        ignoreContributionFilter: localStorageService.get('ignoreContributionFilterSetting')
       }
 
       function logFilterFunction (logItem) {
@@ -38,6 +43,7 @@ angular.module('mean.ffxivCrafter').factory('ReportingFilterService',
       }
 
       function filterLog (log) {
+        localStorageService.set('ignoreContributionFilterSetting', logFilter.ignoreContributionFilter)
         return _.filter(log, logFilterFunction)
       }
 

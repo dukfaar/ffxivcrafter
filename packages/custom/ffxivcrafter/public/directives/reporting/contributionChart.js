@@ -25,6 +25,7 @@ angular.module('mean.ffxivCrafter').directive('reportingUserContributionChart', 
         gatheringEffort: (logEntry, stack) => stack.push(logEntry.item.gatheringEffort),
         craftingLevel: (logEntry, stack) => stack.push(logEntry.recipe ? logEntry.recipe.craftingLevel : 0),
         amount: (logEntry, stack) => stack.push(logEntry.amount),
+        dontUseForContributionFlag: (logEntry, stack) => stack.push(logEntry.dontUseForContribution ? 1 : 0),
 
         one: (logEntry, stack) => stack.push(1),
         zero: (logEntry, stack) => stack.push(0),
@@ -33,7 +34,22 @@ angular.module('mean.ffxivCrafter').directive('reportingUserContributionChart', 
         multiply: (logEntry, stack) => stack.push(stack.pop() * stack.pop()),
         add: (logEntry, stack) => stack.push(stack.pop() + stack.pop()),
         floor: (logEntry, stack) => stack.push(Math.floor(stack.pop())),
-        ceil: (logEntry, stack) => stack.push(Math.ceil(stack.pop()))
+        ceil: (logEntry, stack) => stack.push(Math.ceil(stack.pop())),
+        greaterThen: (logEntry, stack) => {
+          var v1 = stack.pop()
+          var v2 = stack.pop()
+          return stack.push(v1 > v2 ? 1 : 0)
+        },
+        lessThen: (logEntry, stack) => {
+          var v1 = stack.pop()
+          var v2 = stack.pop()
+          return stack.push(v1 < v2 ? 1 : 0)
+        },
+        equals: (logEntry, stack) => {
+          var v1 = stack.pop()
+          var v2 = stack.pop()
+          return stack.push(v1 === v2 ? 1 : 0)
+        }
       }
 
       $scope.functionDescriptors = _.mapValues($scope.functionList, (value, key) => { return {name: key} })
