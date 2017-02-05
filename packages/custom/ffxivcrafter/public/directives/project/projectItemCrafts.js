@@ -5,13 +5,13 @@ angular.module('mean.ffxivCrafter').directive('projectItemCrafts', function () {
     templateUrl: '/ffxivCrafter/views/project/itemCrafts.html',
     scope: {
       project: '=',
-      projectData : '='
+      projectData: '='
     },
     controller: function ($scope, $http, deliveryService, StockService) {
       $scope.craftableFilter = ''
       $scope.addToStock = StockService.addToStock
 
-      $scope.$watch('projectData.craftableSteps', function() {
+      $scope.$watch('projectData.craftableSteps', function () {
         $scope.craftableList = $scope.projectData && $scope.projectData.craftableSteps ? Object.keys($scope.projectData.craftableSteps).map(function (key) { return $scope.projectData.craftableSteps[key] }) : []
       }, true)
 

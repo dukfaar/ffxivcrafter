@@ -6,10 +6,10 @@ angular.module('mean.ffxivCrafter').directive('projectView', function () {
     scope: {},
     controller: [
       '$scope', 'projectAnalyzerService', 'Project', 'socket', 'User', '_',
-      'ItemDatabase', '$q', '$http', 'ProjectService', 'MeanUser',
+      'ItemDatabase', '$q', '$http', 'ProjectService', 'MeanUser', '$mdDialog',
       function (
         $scope, projectAnalyzerService, Project, socket, User, _,
-        ItemDatabase, $q, $http, ProjectService, MeanUser
+        ItemDatabase, $q, $http, ProjectService, MeanUser, $mdDialog
       ) {
         $scope.user = MeanUser
         $scope.allowed = function (perm) {
@@ -46,7 +46,15 @@ angular.module('mean.ffxivCrafter').directive('projectView', function () {
         }
 
         $scope.deleteProject = function () {
-          Project.delete({id: $scope.project._id})
+          $mdDialog.show(
+            $mdDialog.confirm()
+            .title('Confirm deletion')
+            .textContent('Do you really want to delete this project?')
+            .ok('Yes, just do it')
+            .cancel('No!')
+          ).then(function () {
+            Project.delete({id: $scope.project._id})
+          })
         }
 
         $scope.hiddenOverviewGetSet = function (value) {
@@ -102,7 +110,7 @@ angular.module('mean.ffxivCrafter').directive('projectView', function () {
 
         var refetchTimeout = null
         $scope.$on('projectview change project', function (event, project) {
-          if($scope.project && $scope.project._id === project._id) {
+          if ($scope.project && $scope.project._id === project._id) {
             return
           }
 
