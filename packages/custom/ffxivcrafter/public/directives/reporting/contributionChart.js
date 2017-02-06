@@ -47,8 +47,6 @@ angular.module('mean.ffxivCrafter').directive('reportingUserContributionChart', 
           floor: ([a0]) => { this.memory[a0] = Math.floor(Number.parseFloat(this.getValue(a0))) },
           exit: (args) => { this.memory.pc = -1 },
           cmp: ([a0, a1]) => {
-            console.log(Number.parseFloat(this.getValue(a0)))
-            console.log(Number.parseFloat(this.getValue(a1)))
             this.flags.eq = Number.parseFloat(this.getValue(a0)) === Number.parseFloat(this.getValue(a1))
             this.flags.gt = Number.parseFloat(this.getValue(a0)) >= Number.parseFloat(this.getValue(a1))
             this.flags.lt = Number.parseFloat(this.getValue(a0)) <= Number.parseFloat(this.getValue(a1))
@@ -146,8 +144,6 @@ angular.module('mean.ffxivCrafter').directive('reportingUserContributionChart', 
             cpu.memory.amount = logEntry.amount
 
             cpu.execute($scope.functionData.compiledCode)
-
-            console.log(cpu.memory)
 
             return sum + Number.parseFloat(cpu.memory.contribution)
           }, 0)
