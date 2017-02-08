@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = function(myPackage,app,auth,db) {
-  var recipeController=require('../controllers/recipe')()
+module.exports = function(myPackage,app,auth,db, io) {
+  var recipeController=require('../controllers/recipe')(io)
 
   app.route('/api/recipe')
   .get(recipeController.list)
@@ -29,4 +29,7 @@ module.exports = function(myPackage,app,auth,db) {
 
   app.route('/api/import/recipe')
   .get(recipeController.fullXivdbImport)
+
+  app.route('/api/importnoOW/recipe')
+  .get(recipeController.xivdbImportNoOverwrite)
 }

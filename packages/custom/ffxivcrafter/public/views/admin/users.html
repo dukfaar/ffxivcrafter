@@ -1,0 +1,15 @@
+<page-base>
+  <md-card>
+    <md-card-content>
+      <md-list layout-fill ng-repeat="user in users track by user._id">
+        <md-list-item>
+          <span flex="30">
+            {{user.name}}
+          </span>
+          <md-chips flex ng-model="user.roles" md-on-add="updateUserRoles(user)" md-on-remove="updateUserRoles(user)">
+          </md-chips>
+        </md-list-item>
+      </md-list>
+    </md-card-content>
+  </md-card>
+</page-base>

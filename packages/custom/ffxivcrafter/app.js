@@ -54,29 +54,13 @@ function setupCircles (circles) {
   circles.registerCircle('delete categories', ['admin'])
   circles.registerCircle('delete threads', ['admin'])
   circles.registerCircle('delete forum posts', ['admin'])
+
+  circles.registerCircle('edit users', ['admin'])
+  circles.registerCircle('edit circles', ['admin'])
+  circles.registerCircle('see admin dashboard', ['admin'])
 }
 
-function setupMenus () {
-  FFXIVCrafter.menus.add({
-    title: 'Delivery',
-    link: 'home',
-    roles: ['authenticated'],
-    menu: 'main'
-  })
-  FFXIVCrafter.menus.add({
-    title: 'Calendar',
-    link: 'events calendar',
-    roles: ['see calendar'],
-    menu: 'main'
-  })
-
-  FFXIVCrafter.menus.add({
-    title: 'Forum',
-    link: 'forum index',
-    roles: ['see forum'],
-    menu: 'main'
-  })
-
+function setupMainMenu_PM () {
   FFXIVCrafter.menus.add({
     title: 'Project Manager',
     roles: ['projectManager'],
@@ -107,7 +91,9 @@ function setupMenus () {
     roles: ['projectManager'],
     path: 'main/pm'
   })
+}
 
+function setupMainMenu_Crafting () {
   FFXIVCrafter.menus.add({
     title: 'Crafting',
     roles: ['authenticated'],
@@ -133,7 +119,9 @@ function setupMenus () {
     roles: ['projectManager'],
     path: 'main/crafting'
   })
+}
 
+function setupMainMenu_AppManagement () {
   FFXIVCrafter.menus.add({
     title: 'App Management',
     roles: ['authenticated'],
@@ -152,13 +140,68 @@ function setupMenus () {
     roles: ['see recipes'],
     path: 'main/manage'
   })
+}
 
-  /*FFXIVCrafter.menus.add({
+function setupMainMenu_Admin () {
+  FFXIVCrafter.menus.add({
+    title: 'Admin',
+    roles: ['authenticated'],
+    path: 'main',
+    name: 'admin'
+  })
+  FFXIVCrafter.menus.add({
+    title: 'Dashboard',
+    link: 'admin dashboard',
+    roles: ['see admin dashboard'],
+    path: 'main/admin'
+  })
+  FFXIVCrafter.menus.add({
+    title: 'Users',
+    link: 'admin edit users',
+    roles: ['edit users'],
+    path: 'main/admin'
+  })
+  FFXIVCrafter.menus.add({
+    title: 'Circles',
+    link: 'admin edit circles',
+    roles: ['edit circles'],
+    path: 'main/admin'
+  })
+}
+
+function setupMainMenu () {
+  FFXIVCrafter.menus.add({
+    title: 'Delivery',
+    link: 'home',
+    roles: ['authenticated'],
+    menu: 'main'
+  })
+  FFXIVCrafter.menus.add({
+    title: 'Calendar',
+    link: 'events calendar',
+    roles: ['see calendar'],
+    menu: 'main'
+  })
+
+  FFXIVCrafter.menus.add({
+    title: 'Forum',
+    link: 'forum index',
+    roles: ['see forum'],
+    menu: 'main'
+  })
+
+  setupMainMenu_PM()
+
+  setupMainMenu_Crafting()
+
+  setupMainMenu_AppManagement()
+
+  /* FFXIVCrafter.menus.add({
     title: 'Airship',
     link: 'airship home',
     roles: ['manage airships'],
     menu: 'main'
-  })*/
+  }) */
 
   FFXIVCrafter.menus.add({
     title: 'Inventory',
@@ -180,19 +223,23 @@ function setupMenus () {
     path: 'main/market'
   })
 
-  /*FFXIVCrafter.menus.add({
+  /* FFXIVCrafter.menus.add({
     title: 'Hidden',
     roles: ['authenticated'],
     path: 'main',
     name: 'hidden'
-  })*/
-  /*FFXIVCrafter.menus.add({
+  }) */
+  /* FFXIVCrafter.menus.add({
     title: 'Buy & Sell',
     link: 'market home',
     roles: ['see market'],
     path: 'main/hidden'
-  })*/
+  }) */
 
+  setupMainMenu_Admin()
+}
+
+function setupAccountMenu () {
   FFXIVCrafter.menus.add({
     title: 'Level Settings',
     link: 'doldoh config',
@@ -227,6 +274,11 @@ function setupMenus () {
     roles: ['authenticated'],
     menu: 'account'
   })
+}
+
+function setupMenus () {
+  setupMainMenu()
+  setupAccountMenu()
 }
 
 function extendUser (database) {

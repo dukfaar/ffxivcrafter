@@ -5,9 +5,13 @@ var mongoose = require('mongoose')
 
 var Item = mongoose.model('Item')
 
+var Q = require('q')
+mongoose.Promise = Q.Promise
+
 module.exports = function () {
+  var xivdbService = require('../services/xivdbService')()
+
   function setItemData (item, itemData) {
-    console.log('setting item data ' + itemData.name)
     item.name = itemData.name
 
     if (itemData.gathering && itemData.gathering.length > 0) {
@@ -15,38 +19,18 @@ module.exports = function () {
       if (itemData.gathering[0].type_name === 'Mining' || itemData.gathering[0].type_name === 'Quarrying') {
         item.gatheringJob = 'Miner'
         if (item.gatheringEffort === 0) item.gatheringEffort = 1
-      }
-      else if (itemData.gathering[0].type_name === 'Logging' || itemData.gathering[0].type_name === 'Harvesting') {
+      } else if (itemData.gathering[0].type_name === 'Logging' || itemData.gathering[0].type_name === 'Harvesting') {
         item.gatheringJob = 'Botanist'
         if (item.gatheringEffort === 0) item.gatheringEffort = 1
       }
-    }
-    console.log(item)
-  }
-
-  function getDataFromXivdb (id, callback) {
-    httpreq.get('http://api.xivdb.com/item/' + id, function (err, xivItemData) {
-      if (err) throw err
-
-      callback(xivItemData)
-    })
-  }
-
-  function tryParse (data) {
-    try {
-      return JSON.parse(data)
-    } catch(e) {
-      console.log(data)
-      throw e
     }
   }
 
   return {
     importItem: function (xivid, callback) {
-      getDataFromXivdb(xivid, function (xivItemData) {
-        var item = new Item()
-
-        setItemData(item, tryParse(xivItemData.body))
+      xivdbService.getData('http://api.xivdb.com/item/' + xivid)
+      .then(function (data) {
+        setItemData(item, data)
 
         item.save(function (err) {
           if (err) throw err
@@ -55,11 +39,10 @@ module.exports = function () {
         })
       })
     },
-    findOrCreateItem: function (name, xivid, callback, overWrite) {
-      Item.findOne({name: name})
-        .exec(function (err, item) {
-          if (err) throw err
-
+    findOrCreateItem: function (name, xivid, overWrite) {
+      return Item.findOne({name: name})
+        .exec()
+        .then(function (item) {
           var loadDataFromXiv = item == null || overWrite
 
           if (item == null) {
@@ -67,18 +50,27 @@ module.exports = function () {
           }
 
           if (loadDataFromXiv) {
-            getDataFromXivdb(xivid, function (xivItemData) {
-              setItemData(item, tryParse(xivItemData.body))
+            return xivdbService.getData('http://api.xivdb.com/item/' + xivid)
+            .then(function (data) {
+              setItemData(item, data)
 
-              item.save(function (err) {
-                if (err) throw err
-
-                callback(item,true)
+              return item.save()
+              .then((item) => {
+                return item
+              })
+              .then(() => {
+                return item
+              })
+              .catch((err) => {
+                console.log(err)
+                throw err
               })
             })
-          } else {
-            callback(item,false)
           }
+          return item
+        })
+        .catch((err) => {
+          throw err
         })
     }
   }

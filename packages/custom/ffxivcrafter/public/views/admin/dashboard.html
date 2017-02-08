@@ -1,0 +1,76 @@
+<page-base layout="row">
+  <div layout="row" layout-fill>
+
+  <md-card>
+    <md-toolbar class="md-hue-1">
+      <div class="md-toolbar-tools">
+        XIVDB-Tools
+      </div>
+    </md-toolbar>
+    <md-card-content layout="column">
+      <div layout="row">
+        <md-button class="md-primary md-raised" ng-click="triggerXivdbItemImportNoOW()" translate="import.xivdb.items.nooverwrite"></md-button>
+        <md-progress-circular ng-if="itemimportNoOW.running" md-mode="indeterminate"></md-progress-circular>
+      </div>
+        <div layout="row">
+        <md-button class="md-primary md-raised" ng-click="triggerXivdbItemImport()" translate="import.xivdb.items.overwrite"></md-button>
+        <md-progress-circular ng-if="itemimport.running" md-mode="indeterminate"></md-progress-circular>
+      </div>
+      <div layout="row">
+        <md-button class="md-primary md-raised" ng-click="triggerXivdbRecipeImportNoOW()" translate="import.xivdb.recipe.nooverwrite"></md-button>
+        <md-progress-circular ng-if="recipeImportNoOW.running" md-mode="indeterminate"></md-progress-circular>
+      </div>
+      <div layout="row">
+        <md-button class="md-primary md-raised" ng-click="triggerXivdbRecipeImport()" translate="import.xivdb.recipe.overwrite"></md-button>
+        <md-progress-circular ng-if="recipeImport.running" md-mode="indeterminate"></md-progress-circular>
+      </div>
+    </md-card-content>
+  </md-card>
+  <md-card>
+    <md-card-content layout="column">
+      <div layout="row">
+        <span flex>Done:</span><span> {{itemimportNoOW.itemsDone}}</span>
+      </div>
+      <div layout="row">
+        <span flex>Total:</span><span> {{itemimportNoOW.totalItems}}</span>
+      </div>
+    </md-card-content>
+  </md-card>
+  <md-card>
+    <md-card-content layout="column">
+      <div layout="row">
+        <span flex>Done:</span><span> {{itemimport.itemsDone}}</span>
+      </div>
+      <div layout="row">
+        <span flex>Total:</span><span> {{itemimport.totalItems}}</span>
+      </div>
+    </md-card-content>
+  </md-card>
+  <md-card>
+    <md-card-content layout="column">
+      <div layout="row">
+        <span flex>Done:</span><span> {{recipeImport.recipesDone}}</span>
+      </div>
+      <div layout="row">
+        <span flex>New:</span><span> {{recipeImport.newRecipes}}</span>
+      </div>
+      <div layout="row">
+        <span flex>Total:</span><span> {{recipeImport.totalRecipes}}</span>
+      </div>
+    </md-card-content>
+  </md-card>
+  <md-card>
+    <md-card-content layout="column">
+      <div layout="row">
+        <span flex>Done:</span><span> {{recipeImportNoOW.recipesDone}}</span>
+      </div>
+      <div layout="row">
+        <span flex>New:</span><span> {{recipeImportNoOW.newRecipes}}</span>
+      </div>
+      <div layout="row">
+        <span flex>Total:</span><span> {{recipeImportNoOW.totalRecipes}}</span>
+      </div>
+    </md-card-content>
+  </md-card>
+</div>
+</page-base>

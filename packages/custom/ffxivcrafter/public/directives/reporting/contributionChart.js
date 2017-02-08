@@ -139,6 +139,10 @@ angular.module('mean.ffxivCrafter').directive('reportingUserContributionChart', 
           return _.reduce(userLogs, function (sum, logEntry) {
             cpu.memory.gatheringLevel = logEntry.item.gatheringLevel
             cpu.memory.craftingLevel = logEntry.recipe ? logEntry.recipe.craftingLevel : 0
+            cpu.memory.stars = logEntry.recipe ? logEntry.recipe.stars : 0
+            cpu.memory.requiredControl = logEntry.recipe ? logEntry.recipe.requiredControl : 0
+            cpu.memory.requiredCraftsmanship = logEntry.recipe ? logEntry.recipe.requiredCraftsmanship : 0
+            cpu.memory.masterbook = logEntry.recipe ? logEntry.recipe.masterbook : 0
             cpu.memory.gatheringEffort = logEntry.item.gatheringEffort
             cpu.memory.dontUseForContribution = logEntry.dontUseForContribution ? 1 : 0
             cpu.memory.amount = logEntry.amount

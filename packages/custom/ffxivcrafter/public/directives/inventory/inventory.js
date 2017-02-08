@@ -1,9 +1,9 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').directive('rcInventory',function() {
+angular.module('mean.ffxivCrafter').directive('rcInventory', function () {
   return {
-    templateUrl:'/ffxivCrafter/views/users/inventory.html',
-    controller: function($scope, Inventory, ItemService, _, $http, MeanUser, Recipe, ItemDatabase) {
+    templateUrl: '/ffxivCrafter/views/inventory/inventory.html',
+    controller: function ($scope, Inventory, ItemService, _, $http, UserService, Recipe, ItemDatabase) {
       $scope._ = _
       $scope.itemService = ItemService
       $scope.ItemDatabase = ItemDatabase
@@ -14,27 +14,25 @@ angular.module('mean.ffxivCrafter').directive('rcInventory',function() {
 
       function isCraftable (inventory, recipe) {
         return _.every(recipe.inputs, function (input) {
-          var invItem = _.find(inventory.items, function (item) {
-            return item.item.toString() === input.item.toString()
-          })
+          var invItem = _.find(inventory.items, item => item.item.toString() === input.item.toString())
           return invItem && invItem.amount >= input.amount
         })
       }
 
       function updateCraftables () {
         $scope.recipes.$promise.then(function () {
-          $scope.craftables = _.filter($scope.recipes, function (recipe) { return isCraftable($scope.inventory, recipe) })
+          $scope.craftables = _.filter($scope.recipes, recipe => isCraftable($scope.inventory, recipe))
         })
       }
 
       updateCraftables()
 
-      $scope.inputSum = function(recipe) {
-        var prices = _.map(recipe.inputs, function (input) { return ItemDatabase.get(input.item).price })
-        return _.reduce(prices, function (sum, price) { return sum + price }, 0)
+      $scope.inputSum = function (recipe) {
+        var prices = _.map(recipe.inputs, input => ItemDatabase.get(input.item).price)
+        return _.reduce(prices, (sum, price) => sum + price, 0)
       }
 
-      $scope.updateInventory = function() {
+      $scope.updateInventory = function () {
         Inventory.update({ id: $scope.inventory._id }, $scope.inventory)
       }
 
@@ -43,26 +41,31 @@ angular.module('mean.ffxivCrafter').directive('rcInventory',function() {
         updateCraftables()
       }
 
-      $scope.selectItem = function(item) {
-        if(!$scope.inventory.items) $scope.inventory.items = []
-        $scope.inventory.items.push({item: item._id, amount: 1})
-        $scope.pushUpdateAndUpdateCraftables()
+      $scope.addItem = function (item) {
+        if (!$scope.inventory.items) $scope.inventory.items = []
+
+        if(!_.find($scope.inventory.items, it => item._id === it._id)) {
+          $scope.inventory.items.push({item: item._id, amount: 1})
+          $scope.pushUpdateAndUpdateCraftables()
+        }
       }
 
-      $scope.removeItem = function(item) {
-        if(!$scope.inventory.items) $scope.inventory.items = []
-        $scope.inventory.items = _.reject($scope.inventory.items, function (invItem) { return item._id === invItem._id })
-        $scope.pushUpdateAndUpdateCraftables()
+      $scope.removeItem = function (item) {
+        if (!$scope.inventory.items) $scope.inventory.items = []
+        if(_.find($scope.inventory.items, it => item._id === it._id)) {
+          $scope.inventory.items = _.reject($scope.inventory.items, (invItem) => item._id === invItem._id)
+          $scope.pushUpdateAndUpdateCraftables()
+        }
       }
 
-      Inventory.query({userInventory: true }).$promise.then(function (result) {
-        if(result.length === 0) {
+      Inventory.query({user: UserService.user._id }).$promise.then(function (result) {
+        if (result.length === 0) {
           Inventory.create().$promise.then()
-          .then(function(newInventory) {
-            newInventory.user = MeanUser.user._id
+          .then(newInventory => {
+            newInventory.user = UserService.user._id
             return Inventory.update({ id: newInventory._id }, newInventory).$promise
           })
-          .then(function(savedInventory) {
+          .then(savedInventory => {
             $scope.inventory = savedInventory
           })
         } else {

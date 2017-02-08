@@ -9,9 +9,12 @@ mongoose.Promise = Q.Promise
 
 var httpreq = require('httpreq')
 
+var _ = require('lodash')
+
 module.exports = function (io) {
   var itemImport = require('../services/itemImport')()
   var itemService = require('../services/itemService')()
+  var xivdbService = require('../services/xivdbService')()
 
   var doFind = function (query, req, res) {
     if (req.query.privileged && req.query.privileged === 'true') {
@@ -49,11 +52,11 @@ module.exports = function (io) {
       doFind({}, req, res)
     },
     filteredList: function (req, res) {
-      doFind({'name': {$regex: req.params.q,$options: 'i'}}, req, res)
+      doFind({'name': {$regex: req.params.q, $options: 'i'}}, req, res)
     },
-    updateAllAgeMultipliers: function(req, res) {
+    updateAllAgeMultipliers: function (req, res) {
       itemService.updateAllAgeMultipliers()
-      .then(function(result) {
+      .then(function (result) {
         res.send('done')
       })
     },
@@ -63,14 +66,14 @@ module.exports = function (io) {
       .match({
         $or: [
           {'datedObject': false},
-          {'datedObject': {$exists:false}}
+          {'datedObject': {$exists: false}}
         ]
       })
       .project({
         name: true,
         price: true,
         priceHQ: true,
-        weightedAge:{$multiply:[{$subtract:[now, '$lastPriceUpdate']},'$ageMultiplier']}
+        weightedAge: {$multiply: [{$subtract: [now, '$lastPriceUpdate']}, '$ageMultiplier']}
       })
       .sort('-weightedAge')
       .limit(10)
@@ -138,72 +141,79 @@ module.exports = function (io) {
       })
     },
     fullXivdbImport: function (req, res) {
-      var url = 'http://api.xivdb.com/item'
+      xivdbService.getData('http://api.xivdb.com/item')
+      .then(function (data) {
 
-      httpreq.get(url, function (err, xivdata) {
-        if (err) {
-          res.status(500).send('Request failed')
-        } else {
-          var data
+        var itemsDone = 0
 
-          try {
-            data = JSON.parse(xivdata.body)
-          } catch (err) {
-            res.status(500).send('Failed to parse the xiv data')
-            return
-          }
-
-          var timeoutCounter = 0
-
-          data.forEach(function (itemData) {
-            setTimeout(function () {
-              itemImport.findOrCreateItem(itemData.name, itemData.id, function (item) {}, true)
-            }, timeoutCounter)
-
-            timeoutCounter += 100
+        function emitProgress () {
+          io.emit('xivdb item import progress', {
+            itemsDone: itemsDone,
+            totalItems: data.length
           })
-
-          res.status(200).send('working on it, this will take a while')
         }
+
+        function checkEmitProgress () {
+          if (itemsDone % 10 === 0) {
+            emitProgress()
+          }
+        }
+
+        _.reduce(data, (promise, itemData) => {
+          return promise
+          .then(() => {
+            return itemImport.findOrCreateItem(itemData.name, itemData.id, true)
+          })
+          .then((item) => {
+            itemsDone++
+
+            checkEmitProgress()
+          })
+        }, Q.delay(0))
+        .then(() => {
+          emitProgress()
+          io.emit('xivdb item import done', {})
+        })
       })
+
+      res.status(200).send('working on it, this will take a while')
     },
     fullXivdbImportNoOverwrite: function (req, res) {
-      var url = 'http://api.xivdb.com/item'
+      xivdbService.getData('http://api.xivdb.com/item')
+      .then(function (data) {
 
-      httpreq.get(url, function (err, xivdata) {
-        if (err) {
-          res.status(500).send('Request failed')
-        } else {
-          var data
+        var itemsDone = 0
 
-          try {
-            data = JSON.parse(xivdata.body)
-          } catch (err) {
-            res.status(500).send('Failed to parse the xiv data')
-            return
-          }
-
-          function checkNextItem (index) {
-            if (index >= data.length) return
-
-            var itemData = data[index]
-
-            itemImport.findOrCreateItem(itemData.name, itemData.id, function (item, newItem) {
-              if (newItem) {
-                setTimeout(function () {
-                  checkNextItem(index + 1)
-                }, 100)
-              } else {
-                checkNextItem(index + 1)
-              }
-            }, false)
-          }
-
-          checkNextItem(0)
-
-          res.status(200).send('working on it, this will take a while')
+        function emitProgress () {
+          io.emit('xivdb item import noow progress', {
+            itemsDone: itemsDone,
+            totalItems: data.length
+          })
         }
+
+        function checkEmitProgress () {
+          if (itemsDone % 10 === 0) {
+            emitProgress()
+          }
+        }
+
+        _.reduce(data, (promise, itemData) => {
+          return promise
+          .then(() => {
+            return itemImport.findOrCreateItem(itemData.name, itemData.id, false)
+          })
+          .then((item) => {
+            itemsDone++
+
+            checkEmitProgress()
+          })
+        }, Q.delay(0))
+        .then(() => {
+          emitProgress()
+          io.emit('xivdb item import noow done', {})
+        })
       })
+      res.status(200).send('working on it, this will take a while')
     },
     importList: function (req, res) {
       var importData = req.body.importText.split(/\r|\n/)

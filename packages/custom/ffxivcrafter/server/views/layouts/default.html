@@ -6,8 +6,6 @@
     <md-toolbar ng-if="(navigation.mode==='side' && useMobile()) || (navigation.mode==='top' && useMobile())" data-ng-include="'/ffxivCrafter/views/system/mobileHeader.html'"></md-toolbar>
     <md-toolbar ng-if="navigation.mode==='top' && !useMobile()" layout="row" data-role="navigation" data-ng-include="'/ffxivCrafter/views/system/header.html'"></md-toolbar>
 
-    <div data-ng-include="'/admin/views/index.html'"></div>
-
     {% block content %}{% endblock %}
 </body>
 

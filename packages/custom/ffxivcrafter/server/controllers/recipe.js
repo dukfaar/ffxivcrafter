@@ -10,8 +10,9 @@ var Q = require('q')
 mongoose.Promise = Q.Promise
 var _ = require('lodash')
 
-module.exports = function () {
+module.exports = function (io) {
   var itemImport = require('../services/itemImport')()
+  var xivdbService = require('../services/xivdbService')()
 
   var populateAndSend = function (findResult, res, req) {
     findResult
@@ -31,59 +32,66 @@ module.exports = function () {
       })
   }
 
-  function xivImportById (xivItemId,callback) {
-    console.log('Importing Recipe Id' + xivItemId)
+  function setBasicRecipeData (recipe, data) {
+    recipe.craftingJob = data.class_name
+    recipe.craftingLevel = data.level_view
+    recipe.stars = data.stars
+    recipe.requiredControl = data.required_control
+    recipe.requiredCraftsmanship = data.required_craftsmanship
+    recipe.masterbook = Math.floor(data.unlock_key / 10)
+  }
 
-    var url = 'http://api.xivdb.com/recipe/' + xivItemId
+  function xivUpdateById (xivItemId, recipe) {
+    return xivdbService.getData('http://api.xivdb.com/recipe/' + xivItemId)
+    .then(function (data) {
+      setBasicRecipeData(recipe, data)
 
-    httpreq.get(url, function (err, xivdata) {
-      if (err) {
-        throw err
-      } else {
-        var data
+      recipe.outputs = []
+      recipe.inputs = []
 
-        try {
-          data = JSON.parse(xivdata.body)
-        } catch (err) {
-          throw err
-          return
-        }
-
-        var recipe = new Recipe()
-        recipe.craftingJob = data.class_name
-        recipe.craftingLevel = data.level_view
-
-        function creationDone () {
-          recipe.save(function (err) {
-            if (err) throw err
-
-            console.log('done Importing Recipe Id' + xivItemId)
-            callback(recipe)
+      return Q.all(
+        _.flatten([
+          itemImport.findOrCreateItem(data.name_en, data.item.id, false)
+          .then(function (item) {
+            recipe.outputs.push({item: item._id, amount: data.craft_quantity})
+          }),
+          _.map(data.tree, function (input) {
+            return itemImport.findOrCreateItem(input.name, input.id, false)
+            .then(function (item) {
+              recipe.inputs.push({item: item._id, amount: input.quantity})
+            })
           })
-        }
-
-        var creationCounter = 1 + data.tree.length
-        function decreaseCounter () {
-          creationCounter--
-
-          if (creationCounter === 0) creationDone()
-        }
-
-        itemImport.findOrCreateItem(data.name_en, data.item.id, function (item) {
-          recipe.outputs.push({item: item._id, amount: data.craft_quantity})
-          decreaseCounter()
-        }, false)
-
-        data.tree.forEach(function (input) {
-          itemImport.findOrCreateItem(input.name, input.id, function (item) {
-            recipe.inputs.push({item: item._id, amount: input.quantity})
-            decreaseCounter()
-          }, false)
-        })
-      }
+        ])
+      ).then(function () {
+        return recipe.save()
+      })
     })
   }
 
+  function xivImportById (xivItemId) {
+    return xivdbService.getData('http://api.xivdb.com/recipe/' + xivItemId)
+    .then(function (data) {
+      var recipe = new Recipe()
+      setBasicRecipeData(recipe, data)
+
+      return Q.all(
+        _.flatten([
+          itemImport.findOrCreateItem(data.name_en, data.item.id, false)
+          .then(function (item) {
+            recipe.outputs.push({item: item._id, amount: data.craft_quantity})
+          }),
+          _.map(data.tree, function (input) {
+            return itemImport.findOrCreateItem(input.name, input.id, false)
+            .then(function (item) {
+              recipe.inputs.push({item: item._id, amount: input.quantity})
+            })
+          })
+        ])
+      ).then(function () {
+        return recipe.save()
+      })
+    })
+  }
 
   var RestService = require('../services/RestService')()
 
@@ -140,59 +148,114 @@ module.exports = function () {
       populateAndSend(Recipe.find({'outputs.item': req.params.id}), res, req)
     },
     fullXivdbImport: function (req, res) {
-      var url = 'http://api.xivdb.com/recipe'
+      xivdbService.getData('http://api.xivdb.com/recipe')
+      .then(function (data) {
+        var recipesDone = 0
+        var newRecipes = 0
 
-      httpreq.get(url, function (err, xivdata) {
-        if (err) {
-          res.status(500).send('Request failed')
-        } else {
-          var data
-
-          try {
-            data = JSON.parse(xivdata.body)
-          } catch (err) {
-            res.status(500).send('Failed to parse the xiv data')
-            return
-          }
-
-          var timeoutCounter = 0
-
-          function checkNextRecipe(index) {
-            if(index>=data.length) {
-              console.log('finished importing')
-              return
-            }
-
-            var recipeData=data[index]
-
-            Item.findOne({name: recipeData.name })
-              .exec(function (err, item) {
-                if (item) {
-                  Recipe.findOne({'outputs.item': item}).exec(function (err, recipe) {
-                    if (!recipe) {
-                      xivImportById(recipeData.id,function(recipe) {
-                        setTimeout(function () {
-                          checkNextRecipe(index+1)
-                        }, 100)
-                      })
-                    } else {
-                      checkNextRecipe(index+1)
-                    }
-                  })
-                } else {
-                  checkNextRecipe(index+1)
-                }
-              })
-          }
-
-          checkNextRecipe(0)
-
-          res.status(200).send('Working on it, this will take a while')
+        function emitProgress () {
+          io.emit('fullXivdbRecipeImport progress', {
+            recipesDone: recipesDone,
+            newRecipes: newRecipes,
+            totalRecipes: data.length
+          })
         }
+
+        function checkEmitProgress () {
+          if (recipesDone % 10 === 0) {
+            emitProgress()
+          }
+        }
+
+        _.reduce(data, function (promise, recipeData) {
+          return promise
+          .then(() => {
+            return Item.findOne({name: recipeData.name}).exec()
+          })
+          .then((item) => {
+            if(!item) throw new Error('Could not find item for this recipe')
+            return Recipe.findOne({'outputs.item': item._id}).exec()
+          })
+          .then((recipe) => {
+            if (!recipe) {
+              return xivImportById(recipeData.id)
+              .then(function () {
+                recipesDone++
+                newRecipes++
+
+                checkEmitProgress()
+              })
+            } else {
+              return xivUpdateById(recipeData.id, recipe)
+              .then(function () {
+                recipesDone++
+
+                checkEmitProgress()
+              })
+            }
+          })
+        }, Q.delay(0))
+        .then(() => {
+          emitProgress()
+          io.emit('fullXivdbRecipeImport done', {})
+        })
       })
+      res.status(200).send('Working on it, this will take a while')
+    },
+    xivdbImportNoOverwrite: function (req, res) {
+      xivdbService.getData('http://api.xivdb.com/recipe')
+      .then(function (data) {
+        var recipesDone = 0
+        var newRecipes = 0
+
+        function emitProgress () {
+          io.emit('xivdbRecipeImportNoOverwrite progress', {
+            recipesDone: recipesDone,
+            newRecipes: newRecipes,
+            totalRecipes: data.length
+          })
+        }
+
+        function checkEmitProgress () {
+          if (recipesDone % 10 === 0) {
+            emitProgress()
+          }
+        }
+
+        _.reduce(data, function (promise, recipeData) {
+          return promise
+          .then(() => {
+            return Item.findOne({name: recipeData.name}).exec()
+          })
+          .then((item) => {
+            if(!item) throw new Error('Could not find item for this recipe')
+            return Recipe.findOne({'outputs.item': item._id}).exec()
+          })
+          .then((recipe) => {
+            if (!recipe) {
+              return xivImportById(recipeData.id)
+              .then(function () {
+                recipesDone++
+                newRecipes++
+
+                checkEmitProgress()
+              })
+            } else {
+              recipesDone++
+
+              checkEmitProgress()
+            }
+          })
+        }, Q.delay(0))
+        .then(() => {
+          emitProgress()
+          io.emit('xivdbRecipeImportNoOverwrite done', {})
+        })
+      })
+      res.status(200).send('Working on it, this will take a while')
     },
     xivdbImport: function (req, res) {
-      xivImportById(req.params.id,function(recipe) {
+      xivImportById(req.params.id, function (recipe) {
         res.send('Import done')
       })
     }
