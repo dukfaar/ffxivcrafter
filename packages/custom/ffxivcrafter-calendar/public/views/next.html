@@ -1,0 +1,11 @@
+<md-card ng-if="events.length > 0">
+  <md-card-content>
+    <md-list>
+      <md-list-item ng-repeat="event in events | orderBy:'start' track by event._id" layout="row">
+        <span flex>{{event.title}}</span>
+        <span ng-if="eventUnderway(event)">underway</span>
+        <span>{{event.start|date:'short'}}</span>
+      </md-list-item>
+    </md-list>
+  </md-card-content>
+</md-card>

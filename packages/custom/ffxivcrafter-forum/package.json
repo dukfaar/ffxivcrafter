@@ -1,0 +1,19 @@
+{
+  "name": "ffxivCrafter.forum",
+  "version": "0.0.1",
+  "description": "",
+  "author": {
+    "name": "dukfaar"
+  },
+  "mean": "0.6.0",
+  "dependencies": {
+    "meanio-circles": "git://github.com/linnovate/meanio-circles.git",
+    "meanio-users": "git://github.com/linnovate/meanio-users.git",
+    "meanio-system": "git://github.com/linnovate/meanio-system.git",
+    "angular-translate": "latest",
+    "angular-translate-loader-static-files": "latest",
+    "angular-local-storage": "latest",
+    "angular-web-notification": "latest"
+  },
+  "license": "MIT"
+}

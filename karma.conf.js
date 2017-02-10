@@ -34,6 +34,7 @@ module.exports = function (config) {
       './packages/**/public/controllers/**/*.js': ['coverage'],
       './packages/**/public/services/**/*.js': ['coverage'],
       './packages/**/public/directives/**/*.js': ['coverage'],
+	  './packages/**/public/filters/**/*.js': ['coverage'],
 
       './packages/**/public/**/*.html': ['ng-html2js'],
 

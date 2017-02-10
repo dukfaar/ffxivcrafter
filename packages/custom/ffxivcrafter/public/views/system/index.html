@@ -110,7 +110,7 @@
                 </div>
                 <md-list-item
                   ng-click="deliveryCraftDialog(project,craftable.step.item,craftable.step,craftable)"
-                  ng-repeat="craftable in getCraftArray(project)" layout="row">                
+                  ng-repeat="craftable in getCraftArray(project)" layout="row">
                   <span flex>
                     <span>{{craftable.step.amount|floor}} {{craftable.step.item.name}}</span>
                     <span ng-if="craftable.step.hq">HQ</span>
@@ -157,6 +157,8 @@
             <old-price-list></old-price-list>
           </md-card-content>
         </md-card>
+
+        <rc-next-events ng-if="allowed('see calendar')"></rc-next-events>
       </div>
     </md-content>
   </main>

@@ -1,7 +1,6 @@
 'use strict'
 
 var Q = require('q')
-var _ = require('lodash')
 var httpreq = require('httpreq')
 
 let nextRequestTime = Date.now()
@@ -13,7 +12,7 @@ module.exports = function () {
     var now = Date.now()
     var delay = 0
 
-    if(now > nextRequestTime) delay = 0
+    if (now > nextRequestTime) delay = 0
     else delay = nextRequestTime - now
 
     nextRequestTime = now + delay + 100
@@ -38,7 +37,6 @@ module.exports = function () {
 
     return deferred.promise
   }
-
 
   return {
     getData: getData

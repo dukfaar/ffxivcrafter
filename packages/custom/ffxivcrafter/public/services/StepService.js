@@ -4,13 +4,15 @@ angular.module('mean.ffxivCrafter').factory('StepService', [ 'MeanUser',
   function (MeanUser) {
     return {
       canHarvest: function (step) {
+        if (step.item.gatheringJob === 'None') {
+          return true
+        }
+
         var map = [['Miner', 'miner'], ['Botanist', 'botanist']]
 
         for (var i in map) {
           var job = map[i]
-          if (step.item.gatheringJob === 'None') {
-            return true
-          } else if (step.item.gatheringJob === job[0]) {
+          if (step.item.gatheringJob === job[0]) {
             var hasFolklore = true
             if (step.item.unspoiledNodeTime && step.item.unspoiledNodeTime.folkloreNeeded && step.item.unspoiledNodeTime.folkloreNeeded.length > 0) {
               if (MeanUser.user[job[1] + 'Folklore']) {

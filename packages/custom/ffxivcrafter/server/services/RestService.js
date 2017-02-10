@@ -6,21 +6,18 @@ var _ = require('lodash')
 
 mongoose.Promise = Q.Promise
 
-var io = require('../config/socket')()
-
 module.exports = function () {
-
-  function skipFind(find, req) {
-    if(req.query.skip) return find.skip(parseInt(req.query.skip))
-    if(req.query.page && req.query.limit) return find.skip(parseInt(req.query.page) * parseInt(req.query.limit))
+  function skipFind (find, req) {
+    if (req.query.skip) return find.skip(parseInt(req.query.skip))
+    if (req.query.page && req.query.limit) return find.skip(parseInt(req.query.page) * parseInt(req.query.limit))
     return find
   }
 
-  function limitFind(find, req) {
+  function limitFind (find, req) {
     return req.query.limit ? find.limit(parseInt(req.query.limit)) : find
   }
 
-  function populateFind(find, req) {
+  function populateFind (find, req) {
     return req.query.populate ? find.populate(decodeURIComponent(req.query.populate)) : find
   }
 
@@ -29,7 +26,9 @@ module.exports = function () {
   }
 
   function createRestRoute (controller, apiBase) {
-    return function (myPackage, app, auth, db) {
+    return function (myPackage, app, auth, db, io) {
+      if (controller.setIo) controller.setIo(io)
+
       app.route(apiBase)
       .get(controller.list)
 
@@ -47,7 +46,7 @@ module.exports = function () {
     }
   }
 
-  function listAction(Model, req, res) {
+  function listAction (Model, req, res) {
     var findQuery = _.pickBy(req.query, function (value, key) {
       return key !== 'populate' && key !== 'skip' && key !== 'limit' && key !== 'page'
     })
@@ -64,8 +63,13 @@ module.exports = function () {
   function createRestController (modelName) {
     var Model = mongoose.model(modelName)
 
+    var io = null
+
     return {
       Model: Model,
+      setIo: function (_io) {
+        io = _io
+      },
       list: function (req, res) {
         listAction(Model, req, res)
       },
@@ -104,6 +108,8 @@ module.exports = function () {
         Model.findById({_id: req.params.id}).exec()
         .then(function (instance) {
           instance.remove(function (err, result) {
+            if (err) throw err
+
             res.send({})
             io.emit(modelName + ' deleted', req.params.id)
           })

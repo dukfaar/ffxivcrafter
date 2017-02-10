@@ -1,8 +1,8 @@
 'use strict'
 
 angular.module('mean.ffxivCrafter').factory('ProjectViewService',
-  [ 'socket', 'localStorageService', '$q',
-    function (socket, localStorageService, $q) {
+  [ 'socket', 'localStorageService', '$q', '_',
+    function (socket, localStorageService, $q, _) {
       return {
         initViewScope: function ($scope, queryFunction) {
           $scope.tabdata = {

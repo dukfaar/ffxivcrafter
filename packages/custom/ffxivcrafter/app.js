@@ -39,21 +39,7 @@ function setupCircles (circles) {
 
   circles.registerCircle('use inventory', ['authenticated'])
 
-  circles.registerCircle('see order', ['basic user'])
-
-  circles.registerCircle('see calendar', ['admin'])
-  circles.registerCircle('create events', ['admin'])
-
-  circles.registerCircle('see forum', ['admin'])
-  circles.registerCircle('create categories', ['admin'])
-  circles.registerCircle('create threads', ['admin'])
-  circles.registerCircle('create forum posts', ['admin'])
-  circles.registerCircle('edit categories', ['admin'])
-  circles.registerCircle('edit threads', ['admin'])
-  circles.registerCircle('edit forum posts', ['admin'])
-  circles.registerCircle('delete categories', ['admin'])
-  circles.registerCircle('delete threads', ['admin'])
-  circles.registerCircle('delete forum posts', ['admin'])
+  circles.registerCircle('see order', ['admin'])
 
   circles.registerCircle('edit users', ['admin'])
   circles.registerCircle('edit circles', ['admin'])
@@ -174,20 +160,8 @@ function setupMainMenu () {
     title: 'Delivery',
     link: 'home',
     roles: ['authenticated'],
-    menu: 'main'
-  })
-  FFXIVCrafter.menus.add({
-    title: 'Calendar',
-    link: 'events calendar',
-    roles: ['see calendar'],
-    menu: 'main'
-  })
-
-  FFXIVCrafter.menus.add({
-    title: 'Forum',
-    link: 'forum index',
-    roles: ['see forum'],
-    menu: 'main'
+    menu: 'main',
+    weight: 1
   })
 
   setupMainMenu_PM()
@@ -336,34 +310,22 @@ function extendUser (database) {
  * All MEAN packages require registration
  * Dependency injection is used to define required modules
  */
-FFXIVCrafter.register(function (app, users, system, admin, database, circles, http) {
+FFXIVCrafter.register(function (app, users, system, admin, database, circles, http, ffxivCrafter_io, ffxivCrafter_forum, ffxivCrafter_calendar) {
   // Set views path, template engine and default layout
   app.set('views', __dirname + '/server/views')
 
-  var io = require('./server/config/socket')(http)
-
-  FFXIVCrafter.io = io
-
-  io.sockets.on('connection', function (socket) {
-    console.log('Client Connected')
-
-    socket.on('disconnect', function (socket) {
-      console.log('Client Disconnected')
-    })
-
-    socket.on('error', function (err) {
-      console.log('Error with socket:')
-      console.log(err)
-    })
-  })
-
-  FFXIVCrafter.routes(app, users, system, io)
+  FFXIVCrafter.routes(app, users, system, ffxivCrafter_io.io)
 
   setupMenus()
 
   extendUser(database)
 
-  FFXIVCrafter.angularDependencies(['mean.system', 'mean.users', 'mean.admin', 'ngMaterial', 'LocalStorageModule', 'ngResource', 'chart.js', 'dndLists', 'pascalprecht.translate', 'angular-web-notification'])
+  FFXIVCrafter.angularDependencies([
+    'mean.system', 'mean.users', 'mean.admin',
+    'mean.ffxivCrafter_forum', 'mean.ffxivCrafter_io', 'mean.ffxivCrafter_calendar',
+    'ngMaterial', 'LocalStorageModule', 'ngResource', 'chart.js',
+    'dndLists', 'pascalprecht.translate', 'angular-web-notification'
+  ])
 
   setupCircles(circles)
 

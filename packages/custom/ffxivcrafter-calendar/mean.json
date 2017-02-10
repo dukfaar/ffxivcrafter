@@ -1,0 +1,10 @@
+{
+  "name": "ffxivCrafter_calendar",
+  "version": "0.1.0",
+  "mean": "0.6.0",
+  "dependencies": {
+    "users": "latest",
+    "circles": "latest",
+    "system": "latest"
+  }
+}

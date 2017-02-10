@@ -15,7 +15,7 @@ module.exports = function () {
     .then(function (steps) {
       item.ageMultiplier = 1.0 + 0.1 * steps.length
 
-      steps.forEach(function(step) {
+      steps.forEach(function (step) {
         item.ageMultiplier += step.amount * 0.01
       })
 
@@ -25,16 +25,16 @@ module.exports = function () {
 
   return {
     updateItemAgeMultiplier: updateItemAgeMultiplier,
-    updateAllAgeMultipliers: function() {
+    updateAllAgeMultipliers: function () {
       var deferred = Q.defer()
 
       Item.find({})
-      .exec(function(err, items) {
-        if(err) {
+      .exec(function (err, items) {
+        if (err) {
           deferred.reject(err)
         } else {
-          Q.all(items.map(function(item) { return updateItemAgeMultiplier(item) }))
-          .then(function() {
+          Q.all(items.map(function (item) { return updateItemAgeMultiplier(item) }))
+          .then(function () {
             deferred.resolve({})
           })
         }

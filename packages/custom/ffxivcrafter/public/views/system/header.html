@@ -1,12 +1,12 @@
 <div class="md-toolbar-tools" ng-controller="HeaderController as hdrctr">
   <h2 class="pressed-text" mean-token="'site-title'">RainCollector</h2>
 
-  <div ng-repeat="item in hdrctr.menus.main" ng-if="item.link || item.submenus.length > 0" layout="row">
+  <div ng-repeat="item in hdrctr.menus.main|orderBy:'weight?weight:9999'" ng-if="item.link || item.submenus.length > 0" layout="row">
     <md-button ng-if="item.link" class="md-button" aria-label="{{item.link}}" ui-route="/{{item.link}}" ng-class="{active: $uiRoute}"  ui-sref="{{item.link}}" mean-token="item.link">
       {{item.title}}
     </md-button>
 
-    <div ng-repeat="subitem in item.submenus" layout="row">
+    <div ng-repeat="subitem in item.submenus|orderBy:'weight?weight:9999'" layout="row">
       <md-button class="md-button" aria-label="{{subitem.link}}" ui-route="/{{subitem.link}}" ng-class="{active: $uiRoute}"  ui-sref="{{subitem.link}}" mean-token="subitem.link">
         {{subitem.title}}
       </md-button>

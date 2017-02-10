@@ -124,7 +124,9 @@ function devServeTask () {
         '.DS_Store', '**/.DS_Store',
         '.bower-*',
         '**/.bower-*',
-        '**/tests'
+        '**/tests',
+		'built/',
+		'tools/'
       ],
       tasks: function (changedFiles) {
         var tasks = [];
