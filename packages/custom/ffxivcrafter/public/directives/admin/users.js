@@ -9,10 +9,16 @@ angular.module('mean.ffxivCrafter').directive('adminUsers', function () {
   }
 })
 
-AdminUsers.$inject = [ '$scope', '$q', '_', 'UserService', 'User', 'Circle']
+AdminUsers.$inject = ['$scope', '$q', '_', 'UserService', 'User', 'Circle']
 
 function AdminUsers ($scope, $q, _, UserService, User, Circle) {
   $scope.UserService = UserService
   $scope.users = User.query({})
   $scope.circles = Circle.query({})
+
+  $scope.updateUserRoles = function (user) {
+    User.update({id: user._id}, user).$promise.then(() => {
+      user = User.get({id: user._id})
+    })
+  }
 }
