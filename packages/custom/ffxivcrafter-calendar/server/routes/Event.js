@@ -1,6 +1,6 @@
 'use strict'
 
-var RestService = require('../../../ffxivCrafter/server/services/RestService')()
+var RestService = require('../../../ffxivcrafter/server/services/RestService')()
 
 var EventController = RestService.createRestController('Event')
 EventController.list = function (req, res) {
