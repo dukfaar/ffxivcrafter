@@ -10,8 +10,8 @@ describe('StepService', function () {
         botanistFolklore: {
           'dravania': true
         },
-				weaverLevel: 60,
-				weaverMaster: [ false, true ]
+        weaverLevel: 60,
+        weaverMaster: [ false, true ]
       }
     })
   }))
@@ -28,7 +28,7 @@ describe('StepService', function () {
       done()
     })
 
-    it('user to be able to harvest a lowlevel', function (done) {
+    it('user is able to harvest a lowlevel item', function (done) {
       expect(StepService.canHarvest({
         item: {
           gatheringJob: 'Miner',
@@ -38,7 +38,7 @@ describe('StepService', function () {
       done()
     })
 
-    it('user to be unable to harvest an item to high of a level', function (done) {
+    it('user is unable to harvest an item to high of a level', function (done) {
       expect(StepService.canHarvest({
         item: {
           gatheringJob: 'Miner',
@@ -48,7 +48,7 @@ describe('StepService', function () {
       done()
     })
 
-    it('user to be able to harvest an item of the same level', function (done) {
+    it('user is able to harvest an item of the same level', function (done) {
       expect(StepService.canHarvest({
         item: {
           gatheringJob: 'Miner',
@@ -58,7 +58,7 @@ describe('StepService', function () {
       done()
     })
 
-    it('user to be able to harvest some dravanian botanist folklore node', function (done) {
+    it('user is able to harvest some dravanian botanist folklore node', function (done) {
       expect(StepService.canHarvest({
         item: {
           gatheringJob: 'Botanist',
@@ -71,7 +71,7 @@ describe('StepService', function () {
       done()
     })
 
-    it('user to be unable to harvest some dravanian miner folklorenode', function (done) {
+    it('user is unable to harvest some dravanian miner folklorenode', function (done) {
       expect(StepService.canHarvest({
         item: {
           gatheringJob: 'Miner',
@@ -93,7 +93,7 @@ describe('StepService', function () {
       done()
     })
 
-		it('user should never be able to harvest anything with an unknown job (like FC)', function (done) {
+    it('user should never be able to harvest anything with an unknown job (like FC)', function (done) {
       expect(StepService.canHarvest({
         item: {
           gatheringJob: 'FC'
@@ -109,56 +109,56 @@ describe('StepService', function () {
       done()
     })
 
-		it('user can craft items below his level', function (done) {
-			expect(StepService.canCraft({
-				step: {
-					recipe: {
-						craftingJob: 'Weaver',
-						craftingLevel: 13,
-						masterbook: 0,
-					}
-				}
-			})).toBe(true)
-			done()
-		})
+    it('user can craft items below his level', function (done) {
+      expect(StepService.canCraft({
+        step: {
+          recipe: {
+            craftingJob: 'Weaver',
+            craftingLevel: 13,
+            masterbook: 0
+          }
+        }
+      })).toBe(true)
+      done()
+    })
 
-		it('user can not craft items above his level', function (done) {
-			expect(StepService.canCraft({
-				step: {
-					recipe: {
-						craftingJob: 'Weaver',
-						craftingLevel: 9999,
-						masterbook: 0,
-					}
-				}
-			})).toBe(false)
-			done()
-		})
+    it('user can not craft items above his level', function (done) {
+      expect(StepService.canCraft({
+        step: {
+          recipe: {
+            craftingJob: 'Weaver',
+            craftingLevel: 9999,
+            masterbook: 0
+          }
+        }
+      })).toBe(false)
+      done()
+    })
 
-		it('user can craft items below his level that requires his mastery', function (done) {
-			expect(StepService.canCraft({
-				step: {
-					recipe: {
-						craftingJob: 'Weaver',
-						craftingLevel: 13,
-						masterbook: 2,
-					}
-				}
-			})).toBe(true)
-			done()
-		})
+    it('user can craft items below his level that requires his mastery', function (done) {
+      expect(StepService.canCraft({
+        step: {
+          recipe: {
+            craftingJob: 'Weaver',
+            craftingLevel: 13,
+            masterbook: 2
+          }
+        }
+      })).toBe(true)
+      done()
+    })
 
-		it('user can not craft items below his level that he has no mastery for', function (done) {
-			expect(StepService.canCraft({
-				step: {
-					recipe: {
-						craftingJob: 'Weaver',
-						craftingLevel: 13,
-						masterbook: 1,
-					}
-				}
-			})).toBe(false)
-			done()
-		})
+    it('user can not craft items below his level that he has no mastery for', function (done) {
+      expect(StepService.canCraft({
+        step: {
+          recipe: {
+            craftingJob: 'Weaver',
+            craftingLevel: 13,
+            masterbook: 1
+          }
+        }
+      })).toBe(false)
+      done()
+    })
   })
 })

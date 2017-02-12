@@ -1,6 +1,6 @@
 'use strict'
 
-var config = require('meanio').loadConfig(),
+var config = require('meanio').getConfig(),
   cookie = require('cookie'),
   cookieParser = require('cookie-parser'),
   socketio = require('socket.io')

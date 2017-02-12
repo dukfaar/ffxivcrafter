@@ -16,6 +16,10 @@ angular.module('mean.ffxivCrafter').directive('projectView', function () {
           return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) != -1
         }
 
+        $scope.$on('projectList changed', function (event, data) {
+          $scope.projectList = data
+        })
+
         $scope.ProjectService = ProjectService
         $scope.project = {}
         $scope.projectData = {}

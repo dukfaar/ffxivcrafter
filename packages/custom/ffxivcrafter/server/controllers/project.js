@@ -13,7 +13,7 @@ var RestService = require('../services/RestService')()
 
 var nodemailer = require('nodemailer')
 
-var config = require('meanio').loadConfig()
+var config = require('meanio').getConfig()
 
 var _ = require('lodash')
 
