@@ -1,7 +1,7 @@
 {% extends 'layouts/default.html' %}
 {% block content %}
   <div layout="row" ng-cloak layout-fill>
-    <md-sidenav md-component-id="mainSideNav" id="mainSideNav" ng-if="navigation.mode==='side' || useMobile()" class="md-sidenav-left" md-is-locked-open="$mdMedia('gt-sm')" md-whiteframe="4" data-ng-include="'/ffxivCrafter/views/system/sidenav.html'"></md-sidenav>
+    <md-sidenav md-component-id="mainSideNav" id="mainSideNav" ng-if="navigation.mode==='side' || useMobile() || inElectronApp()" class="md-sidenav-left customScrollBar" ng-style="{'margin-bottom': useMobile()?'0px':(inElectronApp()?'64px':'0px')}" md-is-locked-open="lockOpenSidenav()" md-whiteframe="4" data-ng-include="'/ffxivCrafter/views/system/sidenav.html'"></md-sidenav>
     <md-content data-ui-view style="overflow:auto" flex class="md-hue-1"></md-content>
 
     <style>

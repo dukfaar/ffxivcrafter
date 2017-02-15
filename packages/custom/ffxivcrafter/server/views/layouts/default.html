@@ -3,8 +3,8 @@
 {% include '../includes/head.html' %}
 
 <body ng-cloak class="ng-cloak" ng-class="state" layout="column" style="overflow:hidden" layout-fill ng-controller="MainAppController" md-swipe-right="onSwipeRight()" md-swipe-left="onSwipeLeft()">
-    <md-toolbar ng-if="(navigation.mode==='side' && useMobile()) || (navigation.mode==='top' && useMobile())" data-ng-include="'/ffxivCrafter/views/system/mobileHeader.html'"></md-toolbar>
-    <md-toolbar ng-if="navigation.mode==='top' && !useMobile()" layout="row" data-role="navigation" data-ng-include="'/ffxivCrafter/views/system/header.html'"></md-toolbar>
+    <md-toolbar ng-if="(navigation.mode==='side' && useMobile()) || (navigation.mode==='top' && useMobile()) || inElectronApp()" data-ng-include="'/ffxivCrafter/views/system/mobileHeader.html'"></md-toolbar>
+    <md-toolbar ng-if="navigation.mode==='top' && !useMobile() && !inElectronApp()" layout="row" data-role="navigation" data-ng-include="'/ffxivCrafter/views/system/header.html'"></md-toolbar>
 
     {% block content %}{% endblock %}
 </body>

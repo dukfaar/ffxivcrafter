@@ -2,9 +2,9 @@
 
 angular.module('mean.ffxivCrafter').controller('MainAppController',
   ['$scope', '$mdSidenav', '$q', '$mdMedia', 'SubmissionNotifyService',
-  'PublicProjectCraftableNotifyService', 'ForumPostNotifyService',
+  'PublicProjectCraftableNotifyService', 'ForumPostNotifyService', '$window',
     function ($scope, $mdSidenav, $q, $mdMedia, SubmissionNotifyService,
-      PublicProjectCraftableNotifyService, ForumPostNotifyService) {
+      PublicProjectCraftableNotifyService, ForumPostNotifyService, $window) {
       if (window.localStorage.getItem('navigation.mode') === null) window.localStorage.setItem('navigation.mode', 'top')
 
       $scope.navigation = {
@@ -29,6 +29,22 @@ angular.module('mean.ffxivCrafter').controller('MainAppController',
 
       $scope.useMobile = function () {
         return $mdMedia('sm') || $mdMedia('xs')
+      }
+
+      $scope.inElectronApp = function () {
+        return $window.isInElectronApp === true
+      }
+
+      $scope.lockOpenSidenav = function () {
+        return $mdMedia('gt-sm')
+      }
+
+      $scope.close = function () {
+        $window.close()
+      }
+
+      $scope.maximize = function () {
+        $window.ipcRenderer.send('maximize window', {})
       }
     }
   ])

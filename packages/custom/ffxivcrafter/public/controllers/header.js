@@ -1,9 +1,13 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').controller('HeaderController', ['$scope', '$rootScope', 'Menus', 'MeanUser', '$state', '$mdSidenav',
-  function ($scope, $rootScope, Menus, MeanUser, $state, $mdSidenav) {
+angular.module('mean.ffxivCrafter').controller('HeaderController', ['$scope', '$rootScope', 'Menus', 'MeanUser', '$state', '$mdSidenav', '$window',
+  function ($scope, $rootScope, Menus, MeanUser, $state, $mdSidenav, $window) {
     $scope.allowed = function (perm) {
       return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) != -1
+    }
+
+    $scope.inElectronApp = function () {
+      return $window.isInElectronApp === true
     }
 
     var vm = this

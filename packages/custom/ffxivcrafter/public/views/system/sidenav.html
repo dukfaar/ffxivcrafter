@@ -1,5 +1,5 @@
-<div layout="column" ng-controller="HeaderController as hdrctr" layout-fill>
-  <h2 style="text-align: center">RainCollector</h2>
+<div layout="column" ng-controller="HeaderController as hdrctr">
+  <h2 style="text-align: center" ng-if="!inElectronApp()">RainCollector</h2>
 
   <div class="mainMenu">
     <div ng-repeat="item in hdrctr.menus.main|orderBy:'weight?weight:9999'" ng-if="item.link || item.submenus.length > 0" layout="column">
