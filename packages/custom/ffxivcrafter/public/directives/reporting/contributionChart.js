@@ -44,12 +44,47 @@ angular.module('mean.ffxivCrafter').directive('reportingUserContributionChart', 
         $scope.updateGraph($scope.lastLog)
       })
 
+      var craftMap = {
+        'Weaver': 'weaver',
+        'Culinarian': 'culinarian',
+        'Alchemist': 'alchimist',
+        'Blacksmith': 'blacksmith',
+        'Carpenter': 'carpenter',
+        'Armorer': 'armorer',
+        'Goldsmith': 'goldsmith',
+        'Leatherworker': 'leatherworker'
+      }
+
+      var gatherMap = {'Miner': 'miner', 'Botanist': 'botanist'}
+
       $scope.updateGraph = function (log) {
         var groupedByUser = _.groupBy(log, function (logItem) { return logItem.submitter.name })
         var countedByUser = _.mapValues(groupedByUser, function (userLogs) {
           return _.reduce(userLogs, function (sum, logEntry) {
-            cpu.memory.gatheringLevel = logEntry.item.gatheringLevel
+            cpu.memory.gatheringLevel = logEntry.item.gatheringLevel ? logEntry.item.gatheringLevel : 0
             cpu.memory.craftingLevel = logEntry.recipe ? logEntry.recipe.craftingLevel : 0
+
+            if(logEntry.recipe) {
+              cpu.memory.userJobLevel = logEntry.submitter[craftMap[logEntry.recipe.craftingJob] + 'Level']
+            } else if(gatherMap[logEntry.item.gatheringJob]) {
+              cpu.memory.userJobLevel = logEntry.submitter[gatherMap[logEntry.item.gatheringJob] + 'Level']
+            } else {
+              cpu.memory.userJobLevel = 0
+            }
+
+            cpu.memory.isUnspoiledNode = logEntry.item.unspoiledNode ? 1 : 0
+            if(logEntry.item.unspoiledNode) {
+              cpu.memory.unspoiledTime = logEntry.item.unspoiledNodeTime.time
+              cpu.memory.unspoiledDuration = logEntry.item.unspoiledNodeTime.duration
+              cpu.memory.unspoiledAmPm = logEntry.item.unspoiledNodeTime.ampm
+              cpu.memory.unspoiledFolklore = logEntry.item.unspoiledNodeTime.folkloreNeeded != '' ? 1 : 0
+            } else {
+              cpu.memory.unspoiledTime = 0
+              cpu.memory.unspoiledDuration = 0
+              cpu.memory.unspoiledAmPm = 0
+              cpu.memory.unspoiledFolklore = 0
+            }
+
             cpu.memory.stars = logEntry.recipe ? logEntry.recipe.stars : 0
             cpu.memory.requiredControl = logEntry.recipe ? logEntry.recipe.requiredControl : 0
             cpu.memory.requiredCraftsmanship = logEntry.recipe ? logEntry.recipe.requiredCraftsmanship : 0
