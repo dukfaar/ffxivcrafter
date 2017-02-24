@@ -16,6 +16,8 @@ module.exports = function (io) {
   var itemService = require('../services/itemService')()
   var xivdbService = require('../services/xivdbService')()
 
+  var oldestItems = null
+
   var doFind = function (query, req, res) {
     if (req.query.privileged && req.query.privileged === 'true') {
       query['canBeOrderedByUnprivileged'] = true
@@ -47,6 +49,49 @@ module.exports = function (io) {
     })
   }
 
+  var oldestItemsTimeout = null
+
+  function clearOldestItemsTimeout() {
+    if(oldestItemsTimeout) {
+      clearTimeout(oldestItemsTimeout)
+      oldestItemsTimeout = null
+    }
+  }
+
+  function clearOldestItems() {
+    oldestItems = null
+    clearOldestItemsTimeout()
+  }
+
+  function queryOldestItems() {
+    var now = new Date()
+    return Item.aggregate()
+    .match({
+      $or: [
+        {'datedObject': false},
+        {'datedObject': {$exists: false}}
+      ]
+    })
+    .project({
+      name: true,
+      price: true,
+      priceHQ: true,
+      weightedAge: {$multiply: [{$subtract: [now, '$lastPriceUpdate']}, '$ageMultiplier']}
+    })
+    .sort('-weightedAge')
+    .limit(10)
+    .exec()
+    .then(function(result) {
+      oldestItems = result
+      clearOldestItemsTimeout()
+      oldestItemsTimeout = setTimeout(clearOldestItems, 1000*60*10)
+      return oldestItems
+    })
+    .catch(function(err) {
+      throw err
+    })
+  }
+
   return {
     list: function (req, res) {
       doFind({}, req, res)
@@ -61,26 +106,13 @@ module.exports = function (io) {
       })
     },
     oldest: function (req, res) {
-      var now = new Date()
-      Item.aggregate()
-      .match({
-        $or: [
-          {'datedObject': false},
-          {'datedObject': {$exists: false}}
-        ]
-      })
-      .project({
-        name: true,
-        price: true,
-        priceHQ: true,
-        weightedAge: {$multiply: [{$subtract: [now, '$lastPriceUpdate']}, '$ageMultiplier']}
-      })
-      .sort('-weightedAge')
-      .limit(10)
-      .exec(function (err, result) {
-        if (err) throw err
-        res.send(result)
-      })
+      if(oldestItems === null) {
+        queryOldestItems()
+        .then(function(result) {
+          res.send(oldestItems)
+        })
+      }
+      else res.send(oldestItems)
     },
     create: function (req, res) {
       var item = new Item()
@@ -88,6 +120,8 @@ module.exports = function (io) {
 
       item.save(function (err) {
         if (err) res.send(err)
+
+        clearOldestItems()
 
         res.json({text: 'Item created'})
       })
@@ -112,6 +146,8 @@ module.exports = function (io) {
         change.date = item.lastPriceUpdate
         change.save().then(function (change) { io.emit('new price change entry', {item: item}) })
 
+        clearOldestItems()
+
         return item.save()
       }).then(function (item) {
         io.emit('price data changed', {item: item})
@@ -124,6 +160,8 @@ module.exports = function (io) {
       Item.findByIdAndUpdate(req.params.id, req.body, function (err, item) {
         if (err) throw err
 
+        clearOldestItems()
+
         io.emit('item data changed', {item: item})
         res.send(item)
       })
@@ -132,12 +170,15 @@ module.exports = function (io) {
       Item.findByIdAndRemove(req.params.id, function (err) {
         if (err) throw err
 
+        clearOldestItems()
+
         res.send({})
       })
     },
     xivdbImport: function (req, res) {
       itemImport.importItem(req.params.id, function (item) {
         res.status(200).send('Imported ' + item.name + ' imported')
+        clearOldestItems()
       })
     },
     fullXivdbImport: function (req, res) {
@@ -172,6 +213,7 @@ module.exports = function (io) {
         }, Q.delay(0))
         .then(() => {
           emitProgress()
+          clearOldestItems()
           io.emit('xivdb item import done', {})
         })
       })
@@ -209,6 +251,7 @@ module.exports = function (io) {
           })
         }, Q.delay(0))
         .then(() => {
+          clearOldestItems()
           emitProgress()
           io.emit('xivdb item import noow done', {})
         })

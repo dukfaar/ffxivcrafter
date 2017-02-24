@@ -1,0 +1,26 @@
+config:
+  target: 'http://localhost:3000'
+  phases:
+    - duration: 60
+      arrivalRate: 20
+  defaults:
+    headers:
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.JTdCJTIyX2lkJTIyOiUyMjU3Y2RhNGMyMmVhZjA2MjI1NzM1OTRkYiUyMiwlMjJlbWFpbCUyMjolMjJkdWtmYWFyQGdtYWlsLmNvbSUyMiwlMjJ1c2VybmFtZSUyMjolMjJkdWtmYWFyJTIyLCUyMm5hbWUlMjI6JTIyZHVrZmFhciUyMiwlMjJfX3YlMjI6MSwlMjJyZXNldFBhc3N3b3JkRXhwaXJlcyUyMjolMjIyMDE3LTAxLTMxVDIwOjE1OjQwLjYyMlolMjIsJTIycmVzZXRQYXNzd29yZFRva2VuJTIyOiUyMjE1MDNiNjJiMmExNjM1OWVmMWI0YzlmYTJjMDg2MGYxZWFjMmY2YjklMjIsJTIybGVhdGhlcndvcmtlck1hc3RlciUyMjolNUJudWxsLG51bGwsdHJ1ZSx0cnVlJTVELCUyMmxlYXRoZXJ3b3JrZXJTcGVjaWFsaXN0JTIyOmZhbHNlLCUyMmxlYXRoZXJ3b3JrZXJMZXZlbCUyMjo2MCwlMjJnb2xkc21pdGhNYXN0ZXIlMjI6JTVCdHJ1ZSxudWxsLHRydWUsdHJ1ZSU1RCwlMjJnb2xkc21pdGhTcGVjaWFsaXN0JTIyOmZhbHNlLCUyMmdvbGRzbWl0aExldmVsJTIyOjYwLCUyMmFybW9yZXJNYXN0ZXIlMjI6JTVCbnVsbCxudWxsLHRydWUsdHJ1ZSU1RCwlMjJhcm1vcmVyU3BlY2lhbGlzdCUyMjp0cnVlLCUyMmFybW9yZXJMZXZlbCUyMjo2MCwlMjJjYXJwZW50ZXJNYXN0ZXIlMjI6JTVCbnVsbCxudWxsLHRydWUsdHJ1ZSU1RCwlMjJjYXJwZW50ZXJTcGVjaWFsaXN0JTIyOmZhbHNlLCUyMmNhcnBlbnRlckxldmVsJTIyOjYwLCUyMmJsYWNrc21pdGhNYXN0ZXIlMjI6JTVCZmFsc2UsbnVsbCx0cnVlLHRydWUlNUQsJTIyYmxhY2tzbWl0aFNwZWNpYWxpc3QlMjI6ZmFsc2UsJTIyYmxhY2tzbWl0aExldmVsJTIyOjYwLCUyMmFsY2hpbWlzdE1hc3RlciUyMjolNUJudWxsLG51bGwsdHJ1ZSx0cnVlJTVELCUyMmFsY2hpbWlzdFNwZWNpYWxpc3QlMjI6ZmFsc2UsJTIyYWxjaGltaXN0TGV2ZWwlMjI6NjAsJTIyY3VsaW5hcmlhbk1hc3RlciUyMjolNUJudWxsLG51bGwsdHJ1ZSx0cnVlJTVELCUyMmN1bGluYXJpYW5TcGVjaWFsaXN0JTIyOnRydWUsJTIyY3VsaW5hcmlhbkxldmVsJTIyOjYwLCUyMndlYXZlck1hc3RlciUyMjolNUJ0cnVlLG51bGwsdHJ1ZSx0cnVlJTVELCUyMndlYXZlclNwZWNpYWxpc3QlMjI6dHJ1ZSwlMjJ3ZWF2ZXJMZXZlbCUyMjo2MCwlMjJib3RhbmlzdEZvbGtsb3JlJTIyOiU3QiUyMmFiYWxhdGhpYSUyMjpmYWxzZSwlMjJkcmF2YW5pYSUyMjp0cnVlLCUyMmNvZXJ0aGFzJTIyOmZhbHNlJTdELCUyMmJvdGFuaXN0TGV2ZWwlMjI6NjAsJTIybWluZXJGb2xrbG9yZSUyMjolN0IlMjJhYmFsYXRoaWElMjI6dHJ1ZSwlMjJkcmF2YW5pYSUyMjp0cnVlLCUyMmNvZXJ0aGFzJTIyOnRydWUlN0QsJTIybWluZXJMZXZlbCUyMjo2MCwlMjJwcm92aWRlciUyMjolMjJsb2NhbCUyMiwlMjJyb2xlcyUyMjolNUIlMjJhdXRoZW50aWNhdGVkJTIyLCUyMmFkbWluJTIyLCUyMnByb2plY3RNYW5hZ2VyJTIyJTVEJTdE.TW-riQZX5G6xacl-gIqb9CM5Hczv1WVKkIbbn0c_c5k'
+
+scenarios:
+  -
+    name: 'Get Index, Indentity and old items'
+    flow:
+    - get:
+        url: "/"
+    - get:
+        url: "/api/users/me"
+    - get:
+        url: "/api/circles/mine"
+    - get:
+        url: "/api/item/oldest"
+  -
+    name: 'Querying of the public projects'
+    flow:
+    - get:
+        url: "/api/project/public"
