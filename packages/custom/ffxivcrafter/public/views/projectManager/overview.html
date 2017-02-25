@@ -1,6 +1,6 @@
 <page-base>
   <div layout-wrap flex layout="row" layout-xs="column" layout-sm="row">
-    <column>
+    <!--<column>
       <md-card>
         <md-toolbar class="md-hue-2">
           <div class="md-toolbar-tools">
@@ -36,7 +36,7 @@
           </md-list>
         </md-card-content>
       </md-card>
-    </column>
+    </column>-->
 
     <column>
       <md-card>
@@ -57,6 +57,76 @@
               {{stockItem.amount}} {{stockItem.hq?'HQ':''}} {{stockItem.item.name}}
             </md-list-item>
           </md-list>
+        </md-card-content>
+      </md-card>
+    </column>
+
+    <column>
+      <md-card>
+        <md-toolbar class="md-hue-2">
+          <div class="md-toolbar-tools">
+            <span flex translate>overview.selling.projects</span>
+          </div>
+        </md-toolbar>
+        <md-card-content>
+          <table>
+            <tr><td>Total</td><td>{{data.sellingProjectsSummary.total|number}}</td></tr>
+            <tr ng-repeat="(user, amount) in data.sellingProjectsSummary.values">
+              <td>{{user}}</td><td>{{amount.toFixed(0)|number}}</td>
+            </tr>
+          </table>
+
+          <md-divider></md-divider>
+
+          <md-list>
+            <md-list-item ng-repeat="project in sellingProjects" layout="column" layout-align="start start">
+              <h3 flex>{{project.name}}</h3>
+              <span flex>Selling for {{project.price|number}}</span>
+              <table flex>
+                <tr ng-repeat="(user, contri) in data.sellingProjectsContributions[$index]">
+                  <td>{{user}}</td>
+                  <td>{{(100*contri/data.sellingProjectsContributionsSum[$parent.$index]).toFixed(2)}}%</td>
+                  <td>{{(project.price*contri/data.sellingProjectsContributionsSum[$parent.$index]).toFixed(0)|number}}</td>
+                </tr>
+              </table>
+            </md-list-item>
+          </md-list>
+
+        </md-card-content>
+      </md-card>
+    </column>
+
+    <column>
+      <md-card>
+        <md-toolbar class="md-hue-2">
+          <div class="md-toolbar-tools">
+            <span flex translate>overview.sold.projects</span>
+          </div>
+        </md-toolbar>
+        <md-card-content>
+          <table>
+            <tr><td>Total</td><td>{{data.soldProjectsSummary.total|number}}</td></tr>
+            <tr ng-repeat="(user, amount) in data.soldProjectsSummary.values">
+              <td>{{user}}</td><td>{{amount.toFixed(0)|number}}</td>
+            </tr>
+          </table>
+
+          <md-divider></md-divider>
+
+          <md-list>
+            <md-list-item ng-repeat="project in soldProjects" layout="column" layout-align="start start">
+              <h3 flex>{{project.name}}</h3>
+              <span flex>Sold for {{project.price|number}}</span>
+              <table flex>
+                <tr ng-repeat="(user, contri) in data.soldProjectsContributions[$index]">
+                  <td>{{user}}</td>
+                  <td>{{(100*contri/data.soldProjectsContributionsSum[$parent.$index]).toFixed(2)}}%</td>
+                  <td>{{(project.price*contri/data.soldProjectsContributionsSum[$parent.$index]).toFixed(0)|number}}</td>
+                </tr>
+              </table>
+            </md-list-item>
+          </md-list>
+
         </md-card-content>
       </md-card>
     </column>

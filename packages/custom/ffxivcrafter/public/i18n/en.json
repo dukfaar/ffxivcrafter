@@ -95,5 +95,7 @@
   "item.price.nq": "Price",
   "item.price.hq": "Price HQ",
   "reporting.code.show": "Show code",
-  "reporting.code.hide": "Hide code"
+  "reporting.code.hide": "Hide code",
+  "overview.selling.projects": "Projects in sale",
+  "overview.sold.projects": "Sold projects"
 }

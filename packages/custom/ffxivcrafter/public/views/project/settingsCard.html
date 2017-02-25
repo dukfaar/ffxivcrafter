@@ -27,6 +27,24 @@
       <md-switch ng-if="!project.private" ng-model="project.public" ng-change="updateProject(project)">{{project.public?'public':'non-public'}} project</md-switch>
     </div>
 
+    <div ng-if="!project.private">
+      <md-input-container>
+        <label translate>project.state</label>
+        <md-select ng-model="project.state" ng-change="updateProject(project)">
+          <md-option ng-value="'Open'">Open</md-option>
+          <md-option ng-value="'Selling'">Selling</md-option>
+          <md-option ng-value="'Sold'">Sold</md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+
+    <div ng-if="!project.private && (project.state === 'Selling' || project.state === 'Sold')">
+      <md-input-container>
+        <label translate>project.price</label>
+        <input type="number" ng-model="project.price" ng-change="updateProject(project)" ng-model-options="{debounce: 300}">
+      </md-input-container>
+    </div>
+
     <div layout="row">
       <md-switch type="checkbox" ng-model="hiddenOverviewGetSet" ng-model-options="{getterSetter: true}">
         <span translate='{{ProjectService.isHiddenFromOverview(project, user.user)?"hide.from.overview":"show.in.overview"}}'></span>

@@ -18,6 +18,8 @@ var CraftingProjectSchema = new Schema({
   }],
   public: { type: Boolean, default: false },
   private: { type: Boolean, default: true },
+  state: { type: String, enum: ['Open', 'Selling', 'Sold'], default: 'Open' },
+  price: { type: Number, default: 0 },
   comment: { type: String, default: '' },
   notes: { type: String, default: ''},
   tags: {type: String, default: ''}
