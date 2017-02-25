@@ -36,7 +36,7 @@ angular.module('mean.ffxivCrafter').filter('kanbanText', function ($sce, _) {
       return value.toLocaleString()
     })
 
-    resultText = _.replace(resultText, /\[portion\s*=\s*(\d+\.?\d*)\]/g, function(match, p1, offset, string) {
+    resultText = _.replace(resultText, /\[portion\s*=\s*(\d+\.?\d*)(:(\w+))?\]/g, function(match, p1, p2, p3, offset, string) {
       var value = Number.parseFloat(p1)
       var portion = (price - cc) * (value / 100)
 

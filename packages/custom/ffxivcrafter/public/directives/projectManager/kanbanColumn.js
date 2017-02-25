@@ -33,7 +33,7 @@ angular.module('mean.ffxivCrafter').directive('kanbanColumn', function () {
 
       function sortCards() {
         $scope.cards = _.sortBy($scope.cards, function(card) {
-          return card.order?card.order:card._id
+          return card.order != null && card.order != undefined?card.order:card._id
         })
       }
 
@@ -128,7 +128,7 @@ angular.module('mean.ffxivCrafter').directive('kanbanColumn', function () {
         removeCardFromArrayAndReindex(data)
       })
 
-      socket.on('KanbanCard updated', function (data) {
+      function updateCard (data) {
         var cardInThisColumn = _.find($scope.cards, function (card) { return card._id == data._id })
 
         //card removed?
@@ -138,15 +138,12 @@ angular.module('mean.ffxivCrafter').directive('kanbanColumn', function () {
 
         //card added
         if(!cardInThisColumn && $scope.column._id == data.column) {
-          console.log($scope.cards)
           _.forEach($scope.cards, function(card) {
             if (card.order >= data.order) {
               card.order++
             }
           })
-          console.log($scope.cards)
           $scope.cards.push(data)
-          console.log($scope.cards)
           sortCards()
           assignCardOrderByIndex()
         }
@@ -174,6 +171,16 @@ angular.module('mean.ffxivCrafter').directive('kanbanColumn', function () {
           sortCards()
 
           $scope.$digest()
+      }
+
+      var updateCardTimeout = null
+
+      socket.on('KanbanCard updated', function (data) {
+        if(updateCardTimeout) clearTimeout(updateCardTimeout)
+        updateCardTimeout = setTimeout(() => {
+          updateCard(data)
+          updateCardTimeout = null
+        }, 300)
       })
     }
   }
