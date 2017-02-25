@@ -1,0 +1,26 @@
+<div layout-padding layout="row">
+  <div flex layout="column">
+    <h2>Open</h2>
+    <div
+      style="margin-bottom:1em"
+      ng-repeat="tabproject in projectList" ng-if="tabproject.state === 'Open' || !tabproject.state"
+      ng-include="'/ffxivCrafter/views/project/kanbanCard.html'">
+    </div>
+  </div>
+  <div flex>
+    <h2>Selling</h2>
+    <div
+      style="margin-bottom:1em"
+      ng-repeat="tabproject in projectList|filter:{state:'Selling'}"
+      ng-include="'/ffxivCrafter/views/project/kanbanCard.html'">
+    </div>
+  </div>
+  <div flex>
+    <h2>Sold</h2>
+    <div
+      style="margin-bottom:1em"
+      ng-repeat="tabproject in projectList|filter:{state:'Sold'}"
+      ng-include="'/ffxivCrafter/views/project/kanbanCard.html'">
+    </div>
+  </div>
+</div>

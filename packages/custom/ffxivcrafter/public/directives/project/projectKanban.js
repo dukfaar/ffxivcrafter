@@ -1,8 +1,8 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').directive('projectKanban', function () {
+angular.module('mean.ffxivCrafter').directive('projectGrid', function () {
   return {
-    templateUrl: '/ffxivCrafter/views/project/kanban.html',
+    templateUrl: '/ffxivCrafter/views/project/grid.html',
     scope: {
       projectList: '='
     },

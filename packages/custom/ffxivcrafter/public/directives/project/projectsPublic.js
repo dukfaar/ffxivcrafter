@@ -2,7 +2,7 @@
 
 angular.module('mean.ffxivCrafter').directive('projectsPublic', function () {
   return {
-    templateUrl: '/ffxivCrafter/views/project/private.html',
+    templateUrl: '/ffxivCrafter/views/project/public.html',
     controller: [
       '$scope', 'projectAnalyzerService', 'Project', 'User',
       'localStorageService', '_', 'MeanUser', 'socket', 'ProjectViewService',

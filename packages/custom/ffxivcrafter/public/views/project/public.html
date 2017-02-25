@@ -1,0 +1,24 @@
+<div flex>
+  <main style="overflow:auto">
+    <div flex>
+      <md-content>
+        <project-tabs project-list="tabdata.projectList" initializing="tabdata.useOverview" ng-show="!tabdata.showProjectOverview || !tabdata.useOverview"></project-tabs>
+
+        <project-view ng-show="!tabdata.showProjectOverview || !tabdata.useOverview"></project-view>
+        <project-kanban ng-if="tabdata.showProjectOverview && tabdata.useOverview" project-list="tabdata.projectList"></project-kanban>
+      </md-content>
+    </div>
+  </main>
+</div>
+
+<style>
+.stepList {
+  padding:0.5em 0 0.5em 0.5em;
+}
+
+.step select {
+  border:0;
+}
+
+.md-errors-spacer:empty { display: none; }
+</style>
