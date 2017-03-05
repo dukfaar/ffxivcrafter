@@ -62,12 +62,12 @@ angular.module('mean.ffxivCrafter').controller('IndexController',
       $scope.markStepAsWorked = function (step) {
         if (!step.workedOnBy) step.workedOnBy = []
         step.workedOnBy.push(MeanUser.user)
-        ProjectStep.update({id: step._id}, step)
+        ProjectStep.update({id: step._id}, {workedOnBy: step.workedOnBy})
       }
 
       $scope.removeMarkStepAsWorked = function (step) {
         _.remove(step.workedOnBy, function (user) { return user._id === MeanUser.user._id })
-        ProjectStep.update({id: step._id}, step)
+        ProjectStep.update({id: step._id}, {workedOnBy: step.workedOnBy})
       }
 
       $scope.isWorkedByMe = function (step) {
