@@ -37,13 +37,15 @@ function setupCircles (circles) {
 
   circles.registerCircle('manage airships', ['admin'])
 
-  circles.registerCircle('use inventory', ['authenticated'])
+  circles.registerCircle('use inventory', ['admin'])
 
   circles.registerCircle('see order', ['admin'])
 
   circles.registerCircle('edit users', ['admin'])
   circles.registerCircle('edit circles', ['admin'])
   circles.registerCircle('see admin dashboard', ['admin'])
+
+  circles.registerCircle('see all projects', ['admin'])
 }
 
 function setupMainMenu_PM () {
@@ -151,6 +153,13 @@ function setupMainMenu_Admin () {
     title: 'Circles',
     link: 'admin edit circles',
     roles: ['edit circles'],
+    path: 'main/admin'
+  })
+
+  FFXIVCrafter.menus.add({
+    title: 'All Projects',
+    link: 'admin projects',
+    roles: ['see all projects'],
     path: 'main/admin'
   })
 }

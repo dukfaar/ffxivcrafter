@@ -24,6 +24,7 @@
   "project": "Project",
   "go.to.project": "Go to project",
   "ordered.by": "ordered by",
+  "created.by": "created by",
   "project.comment": "Comment",
   "project.notes": "Notes",
   "project.settings": "Settings",

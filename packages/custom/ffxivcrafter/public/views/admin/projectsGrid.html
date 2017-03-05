@@ -1,0 +1,38 @@
+
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <md-input-container>
+      <label>Name</label>
+      <input type="text" ng-model="filter.name"/>
+    </md-input-container>
+  </div>
+</md-toolbar><div layout-padding>
+  
+  <md-grid-list md-cols="4" md-gutter="1em" md-row-height="13em">
+    <md-grid-tile ng-repeat="tabproject in projectList| filter:{creator: {name: filter.name}}">
+      <md-card layout-fill>
+        <md-toolbar ng-class="{'md-hue-1':!tabproject.private && tabproject.public, 'md-hue-2':tabproject.private, 'md-hue-3':tabproject.order}">
+          <div class="md-toolbar-tools">
+            <span>{{tabproject.name}}</span>
+          </div>
+        </md-toolbar>
+
+        <md-card-content flex style="overflow: auto;" class="customScrollBar">
+          <div style="white-space: pre">{{tabproject.notes}}</div>
+        </md-card-content>
+        <md-divider></md-divider>
+
+        <md-card-actions layout="row" layout-align="start center">
+          <div ng-if="tabproject.order">
+            <i><span translate>ordered.by</span> {{tabproject.creator.name}}</i>
+          </div>
+          <div ng-if="!tabproject.order">
+            <i><span translate>created.by</span> {{tabproject.creator.name}}</i>
+          </div>
+          <div flex></div>
+          <md-button ng-click="makeProjectActive(tabproject)" translate="go.to.project" aria-label="go to project"></md-button>
+        </md-card-actions>
+      </md-card>
+    </md-grid-tile>
+  </md-grid-list>
+</div>

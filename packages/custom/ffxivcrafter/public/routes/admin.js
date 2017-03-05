@@ -25,5 +25,12 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
         circles: ['edit circles']
       }
     })
+    .state('admin projects', {
+      url: '/admin/projects',
+      template: '<admin-projects></admin-projects>',
+      requiredCircles: {
+        circles: ['see all projects']
+      }
+    })
   }
 ])
