@@ -144,6 +144,7 @@ module.exports = function (io) {
         change.price = req.params.price
         change.priceHQ = req.params.priceHQ
         change.date = item.lastPriceUpdate
+        change.updatedBy = req.user._id
         change.save().then(function (change) { io.emit('new price change entry', {item: item}) })
 
         clearOldestItems()
