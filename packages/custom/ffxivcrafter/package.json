@@ -18,7 +18,8 @@
     "angular-chart.js": "latest",
     "angular-drag-and-drop-lists": "latest",
     "angular-web-notification": "latest",
-    "httpreq": "latest"
+    "httpreq": "latest",
+    "node-schedule": "latest"
   },
   "license": "MIT"
 }

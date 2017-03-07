@@ -338,5 +338,12 @@ FFXIVCrafter.register(function (app, users, system, admin, database, circles, ht
 
   setupCircles(circles)
 
+  var glob = require('glob')
+  var path = require('path')
+
+  glob.sync(__dirname + '/server/jobs/**/*.js').forEach(function (file) {
+    require(path.resolve(file))
+  })
+
   return FFXIVCrafter
 })

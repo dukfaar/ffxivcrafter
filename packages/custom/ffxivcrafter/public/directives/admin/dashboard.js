@@ -157,6 +157,10 @@ angular.module('mean.ffxivCrafter').directive('adminDashboard', function () {
             $scope.recipeImportNoOW.done = false
           })
         }
+
+        $scope.triggerItemPriceUpdateSummaries = function () {
+          $http.get('/api/itemPriceUpdateSummaryTrigger')
+        }
       }
     ]
   }

@@ -1,5 +1,7 @@
 'use strict'
 
+var itemPriceUpdateSummaryJob = require('../jobs/priceUpdateSummary')()
+
 module.exports = function (myPackage, app, auth, db) {
   var itemPriceUpdateController = require('../controllers/itemPriceUpdate')()
 
@@ -17,4 +19,10 @@ module.exports = function (myPackage, app, auth, db) {
 
   app.route('/api/itemPriceUpdate/:id')
   .put(itemPriceUpdateController.update)
+
+  app.route('/api/itemPriceUpdateSummaryTrigger')
+  .get(function(req, res) {
+    itemPriceUpdateSummaryJob.triggerAllPriceUpdateSummaries()
+    res.send({})
+  })
 }
