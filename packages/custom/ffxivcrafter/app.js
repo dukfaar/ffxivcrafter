@@ -333,7 +333,8 @@ FFXIVCrafter.register(function (app, users, system, admin, database, circles, ht
     'mean.system', 'mean.users', 'mean.admin',
     'mean.ffxivCrafter_forum', 'mean.ffxivCrafter_io', 'mean.ffxivCrafter_calendar', 'mean.ffxivCrafter_base',
     'ngMaterial', 'LocalStorageModule', 'ngResource', 'chart.js',
-    'dndLists', 'pascalprecht.translate', 'angular-web-notification'
+    'dndLists', 'pascalprecht.translate', 'angular-web-notification',
+    'angular-google-analytics'
   ])
 
   setupCircles(circles)

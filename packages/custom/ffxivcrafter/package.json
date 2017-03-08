@@ -19,7 +19,8 @@
     "angular-drag-and-drop-lists": "latest",
     "angular-web-notification": "latest",
     "httpreq": "latest",
-    "node-schedule": "latest"
+    "node-schedule": "latest",
+    "angular-google-analytics": "latest"
   },
   "license": "MIT"
 }

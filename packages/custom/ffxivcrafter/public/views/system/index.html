@@ -69,13 +69,13 @@
                       <md-tooltip><span translate translate-value-name="{{gathers.step.workedOnBy[0].name}}">step.workedon</span></md-tooltip>
                     </span>
                     <span ng-if="gathers.step.workedOnBy && gathers.step.workedOnBy.length > 0 && isWorkedByMe(gathers.step)">
-                      <md-button class="md-icon-button" ng-click="removeMarkStepAsWorked(gathers.step)">
+                      <md-button class="md-icon-button" ga-track-event="['gathering step paw', 'marked as not worked', 'manual']" ng-click="removeMarkStepAsWorked(gathers.step)">
                         <md-icon class="material-icon" style="color: green">pets</md-icon>
                       </md-button>
                       <md-tooltip><span translate>step.youworkedon</span></md-tooltip>
                     </span>
                     <span ng-if="!gathers.step.workedOnBy || gathers.step.workedOnBy.length == 0">
-                      <md-button class="md-icon-button" ng-click="markStepAsWorked(gathers.step)">
+                      <md-button class="md-icon-button" ga-track-event="['gathering step paw', 'marked as worked', 'manual']" ng-click="markStepAsWorked(gathers.step)">
                         <md-icon class="material-icon" style="color: grey">pets</md-icon>
                       </md-button>
                       <md-tooltip><span translate>step.noneworkedon</span></md-tooltip>
@@ -122,13 +122,13 @@
                     <md-tooltip><span translate translate-value-name="{{craftable.step.step.workedOnBy[0].name}}">step.workedon</span></md-tooltip>
                   </span>
                   <span ng-if="craftable.step.step.workedOnBy && craftable.step.step.workedOnBy.length > 0 && isWorkedByMe(craftable.step.step)">
-                    <md-button class="md-icon-button" ng-click="removeMarkStepAsWorked(craftable.step.step)">
+                    <md-button class="md-icon-button" ga-track-event="['crafting step paw', 'marked as not worked', 'manual']" ng-click="removeMarkStepAsWorked(craftable.step.step)">
                       <md-icon class="material-icon" style="color: green">pets</md-icon>
                     </md-button>
                     <md-tooltip><span translate>step.youworkedon</span></md-tooltip>
                   </span>
                   <span ng-if="!craftable.step.step.workedOnBy || craftable.step.step.workedOnBy.length == 0">
-                    <md-button class="md-icon-button" ng-click="markStepAsWorked(craftable.step.step)">
+                    <md-button class="md-icon-button" ga-track-event="['crafting step paw', 'marked as worked', 'manual']" ng-click="markStepAsWorked(craftable.step.step)">
                       <md-icon class="material-icon" style="color: grey">pets</md-icon>
                     </md-button>
                     <md-tooltip><span translate>step.noneworkedon</span></md-tooltip>
