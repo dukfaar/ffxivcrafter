@@ -14,7 +14,7 @@
   </md-dialog-content>
 
   <md-dialog-actions>
-    <md-button ng-click="update(); close();" ng-disabled="priceForm.$invalid" class="md-raised md-primary" translate="action.save"></md-button>
-    <md-button ng-click="close()" class="md-raised md-primary" translate="action.cancel"></md-button>
+    <md-button ng-click="update(); close();" ga-track-event="['priceupdatedialog', 'close', 'update']" ng-disabled="priceForm.$invalid" class="md-raised md-primary" translate="action.save"></md-button>
+    <md-button ng-click="close()" ga-track-event="['priceupdatedialog', 'close', 'cancel']" class="md-raised md-primary" translate="action.cancel"></md-button>
   </md-dialog-actions>
 </md-dialog>

@@ -53,6 +53,7 @@
                 </div>
                 <md-list-item
                   ng-click="deliveryDialog(project,gathers.item,gathers)"
+                  ga-track-event="['gatherDialog', 'opened', 'from delivery']"
                   ng-repeat="gathers in getGatherArray(project) | orderBy:'item.gatheringLevel':true"
                   layout="row">
                   <span flex layout="row">
@@ -110,6 +111,7 @@
                 </div>
                 <md-list-item
                   ng-click="deliveryCraftDialog(project,craftable.step.item,craftable.step,craftable)"
+                  ga-track-event="['craftDialog', 'opened', 'from delivery']"
                   ng-repeat="craftable in getCraftArray(project)" layout="row">
                   <span flex>
                     <span>{{craftable.step.amount|floor}} {{craftable.step.item.name}}</span>
