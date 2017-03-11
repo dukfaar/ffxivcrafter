@@ -11,12 +11,13 @@ var moment = require('moment')
 var _ = require('lodash')
 
 var nodemailer = require('nodemailer')
+var sendmailTransport = require('nodemailer-sendmail-transport')
 var config = require('meanio').getConfig()
 
 var fs = require('fs')
 
 function sendMail (mailOptions) {
-    var transport = nodemailer.createTransport(config.mailer);
+    var transport = nodemailer.createTransport(sendmailTransport());
     transport.sendMail(mailOptions, function (err, response) {
         if (err) return err
         return response
@@ -64,7 +65,7 @@ function priceUpdateSummaryJob(amount, offsetType, subjectType) {
       _.forEach(users, user => {
         var mailOptions = {
             to: user.email,
-            from: config.emailFrom,
+            from: 'raincollector@dukfaar.com',
             subject: subjectType + 'ItemPriceUpdate Report',
             html: updateText
         }
