@@ -26,36 +26,10 @@
   <md-card ng-if="posts.length > 0">
     <md-card-content>
       <paginate list="posts" limit="10">
-        <paginate-view>
-          <div layout="column">
-            <div layout="row">
-              <div layout-padding>{{paginateViewController.item.creator.name}}</div>
-              <div layout-padding flex>
-                <div style="white-space:pre-wrap;" ng-bind-html="paginateViewController.item.text|kanbanText"></div>
-                <div layout="row" layout-align="start center" layout-padding>
-                  <span>{{'post.posted'|translate}} {{paginateViewController.item.created|date: 'short'}}</span>
-                  <span ng-if="paginateViewController.item.lastEdited">{{'paginateViewController.item.edited'|translate}} {{paginateViewController.item.lastEdited|date: 'short'}}</span>
-                  <span flex></span>
-                  <md-button
-                    class="md-icon-button"
-                    ng-if="allowed('edit forum posts') && user._id === paginateViewController.item.creator._id"
-                    ng-click="editPostDialog(paginateViewController.item)"
-                    ga-track-event="['forum message', 'edit', 'dialog open']">
-                    <md-icon class="material-icons" style="font-size: 16px">edit</md-icon>
-                  </md-button>
-                  <md-button
-                    class="md-icon-button"
-                    ng-if="allowed('delete forum posts') && user._id === paginateViewController.item.creator._id"
-                    ng-click="deletePostDialog(paginateViewController.item)"
-                    ga-track-event="['forum message', 'delete', 'dialog open']">
-                    <md-icon class="material-icons" style="font-size: 16px">delete</md-icon>
-                  </md-button>
-                </div>
-              </div>
-            </div>
-            <md-divider></md-divider>
-          </div>
-        </paginate-view>
+        <div ng-repeat="post in paginateController.getPage()">
+          <forum-post post="post"></forum-post>
+          <md-divider></md-divider>
+        </div>
         <paginate-controls page-buttons="1"></paginate-controls>
       </paginate>
     </md-card-content>

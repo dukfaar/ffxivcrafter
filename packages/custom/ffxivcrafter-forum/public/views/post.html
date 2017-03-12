@@ -1,0 +1,25 @@
+<div layout="row">
+  <div layout-padding>{{post.creator.name}}</div>
+  <div layout-padding flex>
+    <div style="white-space:pre-wrap;" ng-bind-html="post.text|kanbanText"></div>
+    <div layout="row" layout-align="start center" layout-padding>
+      <span>{{'post.posted'|translate}} {{post.created|date: 'short'}}</span>
+      <span ng-if="paginateViewController.item.lastEdited">{{'post.edited'|translate}} {{post.lastEdited|date: 'short'}}</span>
+      <span flex></span>
+      <md-button
+        class="md-icon-button"
+        ng-if="allowed('edit forum posts') && user._id === post.creator._id"
+        ng-click="editPostDialog(post)"
+        ga-track-event="['forum message', 'edit', 'dialog open']">
+        <md-icon class="material-icons" style="font-size: 16px">edit</md-icon>
+      </md-button>
+      <md-button
+        class="md-icon-button"
+        ng-if="allowed('delete forum posts') && user._id === post.creator._id"
+        ng-click="deletePostDialog(post)"
+        ga-track-event="['forum message', 'delete', 'dialog open']">
+        <md-icon class="material-icons" style="font-size: 16px">delete</md-icon>
+      </md-button>
+    </div>
+  </div>
+</div>

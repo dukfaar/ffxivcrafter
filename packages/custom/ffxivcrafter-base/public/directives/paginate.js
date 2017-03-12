@@ -2,12 +2,13 @@
 
 angular.module('mean.ffxivCrafter_base').directive('paginate', function () {
   return {
+    controller: PaginateController,
     controllerAs: 'paginateController',
     bindToController: {
       list: '=',
       limit: '='
     },
-    controller: PaginateController
+    scope: true
   }
 })
 
@@ -46,5 +47,9 @@ function PaginateController (_) {
 
   this.prevPage = function () {
     this.toPage(this.currentPage - 1)
+  }
+
+  this.getPage = function () {
+    return _.slice(this.list, this.getStart(), this.getStart() + this.limit)
   }
 }
