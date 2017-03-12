@@ -6,10 +6,18 @@
     <h1>{{thread.title}}</h1>
     <span flex></span>
     <div layout="row" layout-align="center center">
-      <md-button class="md-raised md-primary" ng-if="allowed('delete threads') && user._id === thread.creator._id" ng-click="deleteThreadDialog()">
+      <md-button
+        class="md-raised md-primary"
+        ng-if="allowed('delete threads') && user._id === thread.creator._id"
+        ng-click="deleteThreadDialog()"
+        ga-track-event="['forum thread', 'delete', 'dialog open']">
         <md-icon class="material-icons">delete</md-icon>
       </md-button>
-      <md-button class="md-raised md-primary" ng-if="allowed('create forum posts')" ng-click="createPostDialog()">
+      <md-button
+        class="md-raised md-primary"
+        ng-if="allowed('create forum posts')"
+        ng-click="createPostDialog()"
+        ga-track-event="['forum thread', 'comment', 'dialog open']">
         <md-icon class="material-icons">comment</md-icon>
       </md-button>
     </div>
@@ -17,27 +25,39 @@
 
   <md-card ng-if="posts.length > 0">
     <md-card-content>
-      <div ng-repeat="post in posts" layout="column">
-        <div layout="row">
-          <div layout-padding>{{post.creator.name}}</div>
-          <div layout-padding flex>
-            <div style="white-space:pre-wrap;" ng-bind-html="post.text|kanbanText"></div>
-            <div layout="row" layout-align="start center" layout-padding>
-              <span>{{'post.posted'|translate}} {{post.created|date: 'short'}}</span>
-              <span ng-if="post.lastEdited">{{'post.edited'|translate}} {{post.lastEdited|date: 'short'}}</span>
-              <span flex></span>
-              <md-button class="md-icon-button" ng-if="allowed('edit forum posts') && user._id === post.creator._id" ng-click="editPostDialog(post)">
-                <md-icon class="material-icons" style="font-size: 16px">edit</md-icon>
-              </md-button>
-              <md-button class="md-icon-button" ng-if="allowed('delete forum posts') && user._id === post.creator._id" ng-click="deletePostDialog(post)">
-                <md-icon class="material-icons" style="font-size: 16px">delete</md-icon>
-              </md-button>
+      <paginate list="posts" limit="10">
+        <paginate-view>
+          <div layout="column">
+            <div layout="row">
+              <div layout-padding>{{paginateViewController.item.creator.name}}</div>
+              <div layout-padding flex>
+                <div style="white-space:pre-wrap;" ng-bind-html="paginateViewController.item.text|kanbanText"></div>
+                <div layout="row" layout-align="start center" layout-padding>
+                  <span>{{'post.posted'|translate}} {{paginateViewController.item.created|date: 'short'}}</span>
+                  <span ng-if="paginateViewController.item.lastEdited">{{'paginateViewController.item.edited'|translate}} {{paginateViewController.item.lastEdited|date: 'short'}}</span>
+                  <span flex></span>
+                  <md-button
+                    class="md-icon-button"
+                    ng-if="allowed('edit forum posts') && user._id === paginateViewController.item.creator._id"
+                    ng-click="editPostDialog(paginateViewController.item)"
+                    ga-track-event="['forum message', 'edit', 'dialog open']">
+                    <md-icon class="material-icons" style="font-size: 16px">edit</md-icon>
+                  </md-button>
+                  <md-button
+                    class="md-icon-button"
+                    ng-if="allowed('delete forum posts') && user._id === paginateViewController.item.creator._id"
+                    ng-click="deletePostDialog(paginateViewController.item)"
+                    ga-track-event="['forum message', 'delete', 'dialog open']">
+                    <md-icon class="material-icons" style="font-size: 16px">delete</md-icon>
+                  </md-button>
+                </div>
+              </div>
             </div>
+            <md-divider></md-divider>
           </div>
-        </div>
-
-        <md-divider ng-if="!$last"></md-divider>
-      </div>
+        </paginate-view>
+        <paginate-controls page-buttons="1"></paginate-controls>
+      </paginate>
     </md-card-content>
   </md-card>
 </div>

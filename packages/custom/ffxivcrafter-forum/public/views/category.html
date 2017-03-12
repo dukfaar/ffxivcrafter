@@ -6,13 +6,25 @@
     <h1>{{category.name}}</h1>
     <span flex></span>
     <div layout="row" layout-align="center center">
-      <md-button class="md-raised md-primary" ng-if="allowed('delete categories') && category.parent" ng-click="deleteCategoryDialog()">
+      <md-button
+        class="md-raised md-primary"
+        ng-if="allowed('delete categories') && category.parent"
+        ng-click="deleteCategoryDialog()"
+        ga-track-event="['forum category', 'delete', 'dialog open']">
         <md-icon class="material-icons">delete</md-icon>
       </md-button>
-      <md-button class="md-raised md-primary" ng-if="allowed('create categories')" ng-click="createSubCategoryDialog()">
+      <md-button
+        class="md-raised md-primary"
+        ng-if="allowed('create categories')"
+        ng-click="createSubCategoryDialog()"
+        ga-track-event="['forum category', 'create category', 'dialog open']">
         <md-icon class="material-icons">create_new_folder</md-icon>
       </md-button>
-      <md-button class="md-raised md-primary" ng-if="allowed('create threads')" ng-click="createThreadDialog()">
+      <md-button
+        class="md-raised md-primary"
+        ng-if="allowed('create threads')"
+        ng-click="createThreadDialog()"
+        ga-track-event="['forum category', 'create thread', 'dialog open']">
         <md-icon class="material-icons">message</md-icon>
       </md-button>
     </div>

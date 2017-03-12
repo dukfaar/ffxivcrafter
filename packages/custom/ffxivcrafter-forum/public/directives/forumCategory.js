@@ -6,7 +6,7 @@ angular.module('mean.ffxivCrafter_forum').directive('forumCategory', function ()
     scope: {
       categoryId: '=categoryId'
     },
-    controller: function ($scope, $q, _, ForumCategory, socket, ForumThread, ForumPost, $mdDialog, MeanUser, $location) {
+    controller: function ($scope, $q, _, ForumCategory, socket, ForumThread, ForumPost, $mdDialog, MeanUser, $location, Analytics) {
       $scope.allowed = function (perm) {
         return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) != -1
       }
@@ -56,6 +56,7 @@ angular.module('mean.ffxivCrafter_forum').directive('forumCategory', function ()
           clickOutsideToClose: true,
           controller: DialogController
         }).then(function (data) {
+          Analytics.trackEvent(['forum category', 'create category', 'created'])
           var newCategory = new ForumCategory(data)
           newCategory.parent = $scope.categoryId
           newCategory.creator = MeanUser.user
@@ -63,6 +64,7 @@ angular.module('mean.ffxivCrafter_forum').directive('forumCategory', function ()
             $scope.subCategories = ForumCategory.query({parent: $scope.categoryId})
           })
         }, function () {
+          Analytics.trackEvent(['forum category', 'create category', 'canceled'])
         })
       }
 
@@ -73,12 +75,13 @@ angular.module('mean.ffxivCrafter_forum').directive('forumCategory', function ()
           .ok('Please do it!')
           .cancel('Hell no!')
         ).then(function() {
+          Analytics.trackEvent(['forum category', 'delete category', 'deleted'])
           ForumCategory.delete({id: $scope.categoryId}).$promise
           .then(function () {
             $location.path('/forum/category/' + $scope.category.parent)
           })
         }, function() {
-
+          Analytics.trackEvent(['forum category', 'delete category', 'canceled'])
         })
       }
 
@@ -89,6 +92,7 @@ angular.module('mean.ffxivCrafter_forum').directive('forumCategory', function ()
           clickOutsideToClose: true,
           controller: DialogController
         }).then(function (data) {
+          Analytics.trackEvent(['forum category', 'create thread', 'created'])
           var newThread = new ForumThread(data.thread)
           newThread.category = $scope.categoryId
           newThread.creator = MeanUser.user
@@ -101,6 +105,7 @@ angular.module('mean.ffxivCrafter_forum').directive('forumCategory', function ()
             newPost.$save()
           })
         }, function () {
+          Analytics.trackEvent(['forum category', 'create thread', 'canceled'])
         })
       }
     }
