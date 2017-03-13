@@ -31,6 +31,12 @@ angular.module('mean.ffxivCrafter').filter('kanbanText', function ($sce, _) {
       return '<a target="_blank" href=\"' + p1 + '\">' + p2 + '</a>'
     })
 
+    resultText = _.replace(resultText, /\[img\s*=\s*(\w*)\]/g, function(match, p1, offset, string) {
+      var id = p1
+
+      return '<img style="max-width:100%" src="/api/imageData/' + id + '"/>'
+    })
+
     var price = 0
     var cc = 0
 

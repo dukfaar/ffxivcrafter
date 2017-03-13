@@ -1,0 +1,39 @@
+<md-dialog style="position: relative"
+  ng-mouseover="detailController.imagemouseover = true"
+  ng-mouseleave="detailController.imagemouseover = false"
+  >
+  <div class="detail_overlay" ng-class="{'detail_overlay_show': detailController.imagemouseover}">
+    <div style="width:100%" layout-padding layout="row">
+      <div layout="column">
+        <span>Image-ID: {{detailController.image._id}}</span>
+        <span>Uploaded: {{detailController.image.uploadDate|date:'short'}} by {{detailController.UserDatabase.get(detailController.image.uploader).name}}</span>
+      </div>
+      <span flex></span>
+      <md-button class="md-icon-button" ga-track-event="['image detail', 'delete', 'open confirm']" ng-click="detailController.deleteImage(detailController.image)">
+        <md-icon class="material-icons">delete</md-icon>
+      </md-button>
+    </div>
+  </div>
+  <div style="overflow: auto">
+    <img
+      ng-src="/api/imageData/{{detailController.image._id}}"
+      style="max-width: 100%"
+      />
+  </div>
+</md-dialog>
+
+<style>
+  .detail_overlay {
+    position: absolute;
+    background: rgba(0,0,0,0.5);
+    width:100%;
+    overflow:none;
+    transition: top 0.3s;
+    top: -5em;
+  }
+
+  .detail_overlay_show {
+    transition: top 0.3s;
+    top: 0;
+  }
+</style>

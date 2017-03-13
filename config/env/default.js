@@ -71,5 +71,6 @@ module.exports = {
   emailFrom: 'raincollector@dukfaar.com', // sender address like ABC <abc@example.com>
   mailer: {
     sendmail: true
-  }
+  },
+  imageStorageBase: rootPath + '/../rc_imageStorage/'
 }

@@ -100,7 +100,7 @@ angular.module('mean.ffxivCrafter_forum').directive('forumThread', function () {
           clickOutsideToClose: true,
           controller: DialogController,
           locals: {
-            data: {},
+            data: {text: "Write Some Text!"},
             edit: false
           }
         }).then(function (data) {
@@ -124,7 +124,7 @@ angular.module('mean.ffxivCrafter_forum').directive('forumThread', function () {
           clickOutsideToClose: true,
           controller: DialogController,
           locals: {
-            data: _.extend({}, post),
+            data: _.extend({ text: "" }, post),
             edit: true
           }
         }).then(function (data) {

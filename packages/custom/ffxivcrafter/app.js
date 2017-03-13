@@ -319,7 +319,7 @@ function extendUser (database) {
  * All MEAN packages require registration
  * Dependency injection is used to define required modules
  */
-FFXIVCrafter.register(function (app, users, system, admin, database, circles, http, ffxivCrafter_io, ffxivCrafter_forum, ffxivCrafter_calendar, ffxivCrafter_base) {
+FFXIVCrafter.register(function (app, users, system, admin, database, circles, http, ffxivCrafter_io, ffxivCrafter_forum, ffxivCrafter_calendar, ffxivCrafter_base, ffxivCrafter_gallery) {
   // Set views path, template engine and default layout
   app.set('views', __dirname + '/server/views')
 
@@ -331,7 +331,7 @@ FFXIVCrafter.register(function (app, users, system, admin, database, circles, ht
 
   FFXIVCrafter.angularDependencies([
     'mean.system', 'mean.users', 'mean.admin',
-    'mean.ffxivCrafter_forum', 'mean.ffxivCrafter_io', 'mean.ffxivCrafter_calendar', 'mean.ffxivCrafter_base',
+    'mean.ffxivCrafter_forum', 'mean.ffxivCrafter_gallery', 'mean.ffxivCrafter_io', 'mean.ffxivCrafter_calendar', 'mean.ffxivCrafter_base',
     'ngMaterial', 'LocalStorageModule', 'ngResource', 'chart.js',
     'dndLists', 'pascalprecht.translate', 'angular-web-notification',
     'angular-google-analytics'

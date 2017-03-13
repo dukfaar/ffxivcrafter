@@ -36,6 +36,9 @@ angular.module('mean.ffxivCrafter_forum').directive('forumCategory', function ()
 
       function DialogController ($scope, $mdDialog) {
         $scope.data = {
+          post: {
+            text: ""
+          }
         }
 
         $scope.hide = function () {

@@ -2,7 +2,26 @@
   <md-dialog-content>
     <md-tabs layout-fill md-dynamic-height>
       <md-tab label="Editor" layout-fill>
-        <form name="threadForm" layout="column">
+        <form name="threadForm" layout="column" ng-controller="TextEditorController as editorController">
+          <md-toolbar layout="row">
+            <div class="md-toolbar-tools">
+              <md-button class="md-icon-button" ng-click="editorController.addBold()">
+                <md-icon class="materal-icons">format_bold</md-icon>
+              </md-button>
+              <md-button class="md-icon-button" ng-click="editorController.addItalic()">
+                <md-icon class="materal-icons">format_italic</md-icon>
+              </md-button>
+              <md-button class="md-icon-button" ng-click="editorController.addUnderline()">
+                <md-icon class="materal-icons">format_underline</md-icon>
+              </md-button>
+              <md-button class="md-icon-button" ng-click="editorController.addURL()">
+                <md-icon class="materal-icons">insert_link</md-icon>
+              </md-button>
+              <md-button class="md-icon-button" ng-click="editorController.addImage()">
+                <md-icon class="materal-icons">insert_photo</md-icon>
+              </md-button>
+            </div>
+          </md-toolbar>
           <h2 translate>forum.thread.new</h2>
           <md-input-container>
             <label translate>forum.thread.title.label</label>
@@ -11,7 +30,7 @@
 
           <md-input-container flex>
             <label translate>forum.post.text.label</label>
-            <textarea novalidate ng-minlength="10" required rows="10" ng-model="data.post.text" flex></textarea>
+            <textarea class="editorText" novalidate ng-minlength="10" required rows="10" ng-model="data.post.text" flex></textarea>
           </md-input-container>
         </form>
       </md-tab>
