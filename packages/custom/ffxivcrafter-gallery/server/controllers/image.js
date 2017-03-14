@@ -78,13 +78,13 @@ module.exports = function (io) {
       })
     },
     getImageData: function (req, res) {
-      fs.readFile(config.imageStorageBase + '/image_' + req.params.id + '.png', function(err, data) {
+      fs.readFile(config.imageStorageBase + '/image_' + req.params.id + '.jpg', function(err, data) {
         if(err) res.status(500).send(err)
         else res.send(data)
       })
     },
     getImageThumbnailData: function (req, res) {
-      fs.readFile(config.imageStorageBase + '/image_thumbnail_' + req.params.id + '.png', function(err, data) {
+      fs.readFile(config.imageStorageBase + '/image_thumbnail_' + req.params.id + '.jpg', function(err, data) {
         if(err) res.status(500).send(err)
         else res.send(data)
       })
@@ -102,10 +102,10 @@ module.exports = function (io) {
     delete: function (req, res) {
       Image.findByIdAndRemove(req.params.id).exec()
       .then(function () {
-        fs.unlink(config.imageStorageBase + '/image_thumbnail_' + req.params.id + '.png', function (err) {
+        fs.unlink(config.imageStorageBase + '/image_thumbnail_' + req.params.id + '.jpg', function (err) {
         })
 
-        fs.unlink(config.imageStorageBase + '/image_' + req.params.id + '.png', function (err) {
+        fs.unlink(config.imageStorageBase + '/image_' + req.params.id + '.jpg', function (err) {
           if(err) {
             res.status(500).send(err)
           } else {
