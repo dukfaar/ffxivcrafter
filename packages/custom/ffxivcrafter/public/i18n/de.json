@@ -91,5 +91,6 @@
   "item.price.nq": "Preis",
   "item.price.hq": "Preis HQ",
   "reporting.code.show": "Berechnung anzeigen",
-  "reporting.code.hide": "Berechnung verstecken"
+  "reporting.code.hide": "Berechnung verstecken",
+  "gallery.filter.tag": "Tag-Suche"
 }

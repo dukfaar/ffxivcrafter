@@ -6,7 +6,8 @@ var Schema = mongoose.Schema
 
 var ImageSchema = new Schema({
   uploader: { type: Schema.ObjectId, ref: 'User' },
-  uploadDate: { type: Date, default: new Date() }
+  uploadDate: { type: Date, default: new Date() },
+  tags: [{type: String}]
 })
 
 mongoose.model('Image', ImageSchema)

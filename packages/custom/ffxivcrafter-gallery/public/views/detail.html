@@ -7,6 +7,14 @@
       <div layout="column">
         <span>Image-ID: {{detailController.image._id}}</span>
         <span>Uploaded: {{detailController.image.uploadDate|date:'short'}} by {{detailController.UserDatabase.get(detailController.image.uploader).name}}</span>
+        <span>
+          <md-chips
+            ng-model="detailController.image.tags"
+            md-on-add="detailController.updateImage(detailController.image)"
+            md-on-remove="detailController.updateImage(detailController.image)"
+            placeholder="Please tag me!">
+          </md-chips>
+        </span>
       </div>
       <span flex></span>
       <md-button class="md-icon-button" ga-track-event="['image detail', 'delete', 'open confirm']" ng-click="detailController.deleteImage(detailController.image)">
@@ -29,7 +37,7 @@
     width:100%;
     overflow:none;
     transition: top 0.3s;
-    top: -5em;
+    top: -20em;
   }
 
   .detail_overlay_show {

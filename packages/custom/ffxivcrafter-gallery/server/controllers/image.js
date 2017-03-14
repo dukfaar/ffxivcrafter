@@ -14,6 +14,8 @@ var RestService = require('../../../ffxivcrafter/server/services/RestService')()
 
 var formidable = require('formidable')
 
+var sharp = require('sharp')
+
 var _ = require('lodash')
 
 module.exports = function (io) {
@@ -35,12 +37,27 @@ module.exports = function (io) {
       newImage.uploadDate = new Date()
       newImage.save()
       .then(() => {
-        form.on('fileBegin', function (name, file){
-          file.path = config.imageStorageBase + '/image_' + newImage._id + '.png'
+        form.on('fileBegin', function (name, file) {
+          var splitType = _.split(file.type, '/')
+          if(splitType[0] != 'image') throw "Not an Image"
+          var extension = splitType[1]
+          file.path = config.imageStorageBase + '/image_upload_' + newImage._id + '.' + extension
         })
 
-        form.on('file', function (name, file){
-          io.emit('image created')
+        form.on('file', function (name, file) {
+          Q.all([
+            sharp(file.path)
+              .toFile(config.imageStorageBase + '/image_' + newImage._id + '.jpg'),
+
+            sharp(file.path)
+              .resize(200, 200)
+              .max()
+              .toFile(config.imageStorageBase + '/image_thumbnail_' + newImage._id + '.jpg')
+          ]).then(function () {
+            fs.unlink(file.path, function (err) {
+              io.emit('image created')
+            })
+          })
         })
 
         form.parse(req, function(err, fields, files) {
@@ -66,6 +83,12 @@ module.exports = function (io) {
         else res.send(data)
       })
     },
+    getImageThumbnailData: function (req, res) {
+      fs.readFile(config.imageStorageBase + '/image_thumbnail_' + req.params.id + '.png', function(err, data) {
+        if(err) res.status(500).send(err)
+        else res.send(data)
+      })
+    },
     update: function (req, res) {
       Image.findByIdAndUpdate(req.params.id, req.body).exec()
       .then(function (part) {
@@ -79,6 +102,9 @@ module.exports = function (io) {
     delete: function (req, res) {
       Image.findByIdAndRemove(req.params.id).exec()
       .then(function () {
+        fs.unlink(config.imageStorageBase + '/image_thumbnail_' + req.params.id + '.png', function (err) {
+        })
+
         fs.unlink(config.imageStorageBase + '/image_' + req.params.id + '.png', function (err) {
           if(err) {
             res.status(500).send(err)

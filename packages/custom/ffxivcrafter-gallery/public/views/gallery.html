@@ -1,7 +1,25 @@
-<page-base layout-padding ngf-drop="galleryController.uploadDroppedFiles($files)" ngf-accept="'image/*'" ngf-pattern="'image/*'" ngf-multiple="true" layout-fill>
-  <md-grid-list md-cols="8" md-gutter="1em" md-row-height="1:1">
-    <md-grid-tile ng-repeat="image in galleryController.imageList track by image._id">
-      <img ng-src="/api/imageData/{{image._id}}" ga-track-event="['gallery', 'open detail', image._id]" ng-click="galleryController.detailViewImage(image)" style="max-width:100%; max-height:100%;"/>
-    </md-grid-tile>
-  </md-grid-list>
+<page-base style="position: relative;" ngf-drop="galleryController.uploadDroppedFiles($files)" ngf-accept="'image/*'" ngf-pattern="'image/*'" ngf-multiple="true" layout-fill>
+  <div layout-padding>
+    <md-grid-list md-cols="8" md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-gutter="0.5em" md-row-height="1:1">
+      <md-grid-tile ng-repeat="image in galleryController.imageList | filter: galleryController.tagFilter.bind(galleryController) track by image._id">
+        <img ng-src="/api/imageThumbnailData/{{image._id}}" ga-track-event="['gallery', 'open detail', image._id]" ng-click="galleryController.detailViewImage(image)" style="max-width:100%; max-height:100%;"/>
+      </md-grid-tile>
+    </md-grid-list>
+  </div>
+
+  <div md-whiteframe="4" style="position: absolute; top:0; right:0; border-bottom-left-radius: 2em; background: rgba(0,0,0,0.5)" layout-align="center center">
+    <md-input-container id="tagSearchField">
+      <label>
+        <md-icon class="material-icons">search</md-icon>
+        <span translate>gallery.filter.tag</span>
+      </label>
+      <input type="text" ng-model="galleryController.filter.tag"/>
+    </md-input-container>
+  </div>
 </page-base>
+
+<style>
+#tagSearchField .md-errors-spacer {
+  display: none;
+}
+</style>

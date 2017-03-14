@@ -37,6 +37,10 @@ function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDial
     this.image = image
     this.UserDatabase = UserDatabase
 
+    this.updateImage = function (image) {
+      $http.put('/api/image/'+image._id, image)
+    }
+
     this.deleteImage = function (image) {
       $mdDialog.show(
         $mdDialog.confirm()
@@ -67,6 +71,18 @@ function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDial
     }, function() {
 
     })
+  }
+
+  this.filter = {
+    tag: ""
+  }
+
+  this.tagFilter = function (image) {
+    var tag = _.trim(this.filter.tag)
+    if(tag.length === 0) return true
+
+    var tags = image.tags || []
+    return _.includes(tags, tag)
   }
 
   this.imageList = []

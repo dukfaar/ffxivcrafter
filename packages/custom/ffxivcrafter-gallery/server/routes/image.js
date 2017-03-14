@@ -11,6 +11,8 @@ module.exports = function(myPackage,app,auth,db, io) {
 
   app.route('/api/imageData/:id')
   .get(craftingController.getImageData)
+  app.route('/api/imageThumbnailData/:id')
+  .get(craftingController.getImageThumbnailData)
 
   app.route('/api/image')
   .post(craftingController.create)

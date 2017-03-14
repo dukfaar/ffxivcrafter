@@ -98,5 +98,6 @@
   "reporting.code.show": "Show code",
   "reporting.code.hide": "Hide code",
   "overview.selling.projects": "Projects in sale",
-  "overview.sold.projects": "Sold projects"
+  "overview.sold.projects": "Sold projects",
+  "gallery.filter.tag": "Tag-Search"
 }
