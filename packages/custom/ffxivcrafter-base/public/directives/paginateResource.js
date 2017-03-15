@@ -6,7 +6,8 @@ angular.module('mean.ffxivCrafter_base').directive('paginateResource', function 
     controllerAs: 'paginateController',
     bindToController: {
       limit: '=',
-      resource: '='
+      resource: '=',
+      queryParams: '='
     },
     scope: true
   }
@@ -29,13 +30,29 @@ function PaginateResourceController (_, $q) {
     if(this.fetchingLength) return $q.when()
 
     this.fetchingLength = true
-    return this.resource.count().$promise
+    return this.resource.count(this.queryParams).$promise
     .then((result) => {
       this.length = result.count
       this.fetchingLength = false
     })
     .catch((err) => {
       this.fetchingLength = false
+    })
+  }
+
+  this.fetchList = function () {
+    if(this.fetchingList) return $q.when()
+
+    this.fetchingList = true
+
+    var q = this.resource.query(_.extend({}, this.queryParams, {skip: this.getStart(), limit: this.limit}))
+
+    return q.$promise.then((result) => {
+      this.list = result
+      this.fetchingList = false
+    })
+    .catch(() => {
+      this.fetchingList = false
     })
   }
 
@@ -53,22 +70,6 @@ function PaginateResourceController (_, $q) {
 
   this.onFirstPage = function () {
     return this.currentPage === 0
-  }
-
-  this.fetchList = function () {
-    if(this.fetchingList) return $q.when()
-
-    this.fetchingList = true
-
-    var q = this.resource.query({skip: this.getStart(), limit: this.limit})
-
-    return q.$promise.then((result) => {
-      this.list = result
-      this.fetchingList = false
-    })
-    .catch(() => {
-      this.fetchingList = false
-    })
   }
 
   this.toPage = function (toPage) {

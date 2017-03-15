@@ -14,7 +14,7 @@ function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDial
   this.Image = Image
 
   this.filter = {
-    tag: ""
+    tags: null
   }
 
   this.uploadImage = function (file) {
@@ -89,6 +89,11 @@ function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDial
     if(this.triggerGetImageListTimeout) clearTimeout(this.triggerGetImageListTimeout)
 
     this.triggerGetImageListTimeout = setTimeout(doGetImageList.bind(this),300)
+  }
+
+  this.tagSearchChanged = function () {
+    if (this.filter.tags.length === 0) this.filter.tags = null
+    triggerGetImageList.bind(this)()
   }
 
   socket.on('image created', triggerGetImageList.bind(this))

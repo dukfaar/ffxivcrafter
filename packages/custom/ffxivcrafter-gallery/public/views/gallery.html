@@ -1,6 +1,11 @@
 <page-base style="position: relative;" ngf-drop="galleryController.uploadDroppedFiles($files)" ngf-accept="'image/*'" ngf-pattern="'image/*'" ngf-multiple="true" layout-fill>
   <div layout-padding>
-    <paginate-resource limit="32" resource="galleryController.Image" ng-init="galleryController.refetchCallback = paginateController.triggerRefetch.bind(paginateController)">
+    <paginate-resource
+      limit="32"
+      resource="galleryController.Image"
+      ng-init="galleryController.refetchCallback = paginateController.triggerRefetch.bind(paginateController)"
+      query-params="galleryController.filter"
+      >
       <md-grid-list md-cols="8" md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-gutter="0.5em" md-row-height="1:1">
         <md-grid-tile ng-repeat="image in paginateController.getPage() track by image._id">
           <img ng-src="/api/imageThumbnailData/{{image._id}}" ga-track-event="['gallery', 'open detail', image._id]" ng-click="galleryController.detailViewImage(image)" style="max-width:100%; max-height:100%;"/>
@@ -17,9 +22,8 @@
         <span translate>gallery.filter.tag</span>
       </label>
       <input type="text"
-        ng-model="galleryController.filter.tag"
-        ng-change="galleryController.getImageList()"
-        ng-model-options="{debounce: 300}"/>
+        ng-model="galleryController.filter.tags"
+        ng-change="galleryController.tagSearchChanged()"/>
     </md-input-container>
   </div>
 </page-base>
