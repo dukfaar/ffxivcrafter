@@ -30,11 +30,19 @@ function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDial
     })
   }
 
-  function ImageDetailDialogController ($scope, image, $http, $mdDialog, UserDatabase, Image) {
+  function ImageDetailDialogController ($scope, image, $http, $mdDialog, UserDatabase, Image, UserService) {
     this.image = image
     this.UserDatabase = UserDatabase
 
     this.updateImage = (image) => { Image.update({id: image._id}, image)}
+
+    this.canEdit = function (image) {
+      return UserService.allowed('admin') || image.uploader === UserService.user._id
+    }
+
+    this.canDelete = function (image) {
+      return UserService.allowed('admin') || image.uploader === UserService.user._id
+    }
 
     this.deleteImage = function (image) {
       $mdDialog.show(

@@ -9,6 +9,7 @@
         <span>Uploaded: {{detailController.image.uploadDate|date:'short'}} by {{detailController.UserDatabase.get(detailController.image.uploader).name}}</span>
         <span>
           <md-chips
+            readonly="!detailController.canEdit(detailController.image)"
             ng-model="detailController.image.tags"
             md-on-add="detailController.updateImage(detailController.image)"
             md-on-remove="detailController.updateImage(detailController.image)"
@@ -17,7 +18,10 @@
         </span>
       </div>
       <span flex></span>
-      <md-button class="md-icon-button" ga-track-event="['image detail', 'delete', 'open confirm']" ng-click="detailController.deleteImage(detailController.image)">
+      <md-button
+        ng-if="detailController.canDelete(detailController.image)"
+        class="md-icon-button"
+        ga-track-event="['image detail', 'delete', 'open confirm']" ng-click="detailController.deleteImage(detailController.image)">
         <md-icon class="material-icons">delete</md-icon>
       </md-button>
     </div>
