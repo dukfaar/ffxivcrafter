@@ -32,6 +32,9 @@ module.exports = function () {
       app.route(apiBase)
       .get(controller.list)
 
+      app.route(apiBase+'/count')
+      .get(controller.count)
+
       app.route(apiBase)
       .post(controller.create)
 
