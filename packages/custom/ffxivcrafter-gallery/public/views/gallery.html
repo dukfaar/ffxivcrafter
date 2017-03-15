@@ -1,10 +1,13 @@
 <page-base style="position: relative;" ngf-drop="galleryController.uploadDroppedFiles($files)" ngf-accept="'image/*'" ngf-pattern="'image/*'" ngf-multiple="true" layout-fill>
   <div layout-padding>
-    <md-grid-list md-cols="8" md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-gutter="0.5em" md-row-height="1:1">
-      <md-grid-tile ng-repeat="image in galleryController.imageList | filter: galleryController.tagFilter.bind(galleryController) track by image._id">
-        <img ng-src="/api/imageThumbnailData/{{image._id}}" ga-track-event="['gallery', 'open detail', image._id]" ng-click="galleryController.detailViewImage(image)" style="max-width:100%; max-height:100%;"/>
-      </md-grid-tile>
-    </md-grid-list>
+    <paginate-resource limit="32" resource="galleryController.Image" ng-init="galleryController.refetchCallback = paginateController.triggerRefetch.bind(paginateController)">
+      <md-grid-list md-cols="8" md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-gutter="0.5em" md-row-height="1:1">
+        <md-grid-tile ng-repeat="image in paginateController.getPage() track by image._id">
+          <img ng-src="/api/imageThumbnailData/{{image._id}}" ga-track-event="['gallery', 'open detail', image._id]" ng-click="galleryController.detailViewImage(image)" style="max-width:100%; max-height:100%;"/>
+        </md-grid-tile>
+      </md-grid-list>
+      <paginate-controls page-buttons="2"></paginate-controls>
+    </paginate-resource>
   </div>
 
   <div md-whiteframe="4" style="position: absolute; top:0; right:0; border-bottom-left-radius: 2em; background: rgba(0,0,0,0.5)" layout-align="center center">
@@ -13,7 +16,10 @@
         <md-icon class="material-icons">search</md-icon>
         <span translate>gallery.filter.tag</span>
       </label>
-      <input type="text" ng-model="galleryController.filter.tag"/>
+      <input type="text"
+        ng-model="galleryController.filter.tag"
+        ng-change="galleryController.getImageList()"
+        ng-model-options="{debounce: 300}"/>
     </md-input-container>
   </div>
 </page-base>

@@ -45,6 +45,20 @@ module.exports = function () {
       .put(controller.update)
     }
   }
+  function countAction (Model, req, res) {
+    var findQuery = _.pickBy(req.query, function (value, key) {
+      return key !== 'populate' && key !== 'skip' && key !== 'limit' && key !== 'page'
+    })
+
+    Model.count(findQuery)
+    .exec()
+    .then((c) => {
+      res.send({count: c})
+    })
+    .catch((err) => {
+      res.status(500).send(err)
+    })
+  }
 
   function listAction (Model, req, res) {
     var findQuery = _.pickBy(req.query, function (value, key) {
@@ -72,6 +86,9 @@ module.exports = function () {
       },
       list: function (req, res) {
         listAction(Model, req, res)
+      },
+      count: function (req, res) {
+        countAction(Model, req, res)
       },
       create: function (req, res) {
         var instance = new Model(req.body)
@@ -124,6 +141,7 @@ module.exports = function () {
   return {
     list: doList,
     listAction: listAction,
+    countAction: countAction,
     skipFind: skipFind,
     limitFind: limitFind,
     populateFind: populateFind,

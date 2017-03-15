@@ -8,14 +8,13 @@ angular.module('mean.ffxivCrafter_gallery').directive('rcGallery',function () {
   }
 })
 
-GalleryController.$inject = ['$scope', '$http', 'Analytics', 'Upload', '_', 'socket', '$mdDialog']
+GalleryController.$inject = ['$scope', '$http', 'Analytics', 'Upload', '_', 'socket', '$mdDialog', 'Image']
 
-function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDialog) {
-  this.getImageList = function () {
-    $http.get('/api/image')
-    .then(function (result) {
-      this.imageList = result.data
-    }.bind(this))
+function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDialog, Image) {
+  this.Image = Image
+
+  this.filter = {
+    tag: ""
   }
 
   this.uploadImage = function (file) {
@@ -31,15 +30,11 @@ function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDial
     })
   }
 
-
-
-  function ImageDetailDialogController ($scope, image, $http, $mdDialog, UserDatabase) {
+  function ImageDetailDialogController ($scope, image, $http, $mdDialog, UserDatabase, Image) {
     this.image = image
     this.UserDatabase = UserDatabase
 
-    this.updateImage = function (image) {
-      $http.put('/api/image/'+image._id, image)
-    }
+    this.updateImage = (image) => { Image.update({id: image._id}, image)}
 
     this.deleteImage = function (image) {
       $mdDialog.show(
@@ -50,7 +45,7 @@ function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDial
         .cancel('No!')
       )
       .then(function() {
-        $http.delete('/api/image/' + image._id)
+        Image.delete({id: image._id})
       })
     }
   }
@@ -73,22 +68,6 @@ function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDial
     })
   }
 
-  this.filter = {
-    tag: ""
-  }
-
-  this.tagFilter = function (image) {
-    var tag = _.trim(this.filter.tag)
-    if(tag.length === 0) return true
-
-    var tags = image.tags || []
-    return _.includes(tags, tag)
-  }
-
-  this.imageList = []
-
-  this.getImageList()
-
   this.image = {
     file: null
   }
@@ -99,8 +78,10 @@ function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDial
 
   this.triggerGetImageListTimeout = null
 
+  this.refetchCallback = null
+
   function doGetImageList () {
-    this.getImageList()
+    if(this.refetchCallback) this.refetchCallback()
     this.triggerGetImageListTimeout = null
   }
 
@@ -112,9 +93,11 @@ function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDial
 
   socket.on('image created', triggerGetImageList.bind(this))
   socket.on('image deleted', triggerGetImageList.bind(this))
+  socket.on('image updated', triggerGetImageList.bind(this))
 
   $scope.$on('$destroy', function () {
     socket.off('image created', triggerGetImageList.bind(this))
     socket.off('image deleted', triggerGetImageList.bind(this))
+    socket.off('image updated', triggerGetImageList.bind(this))
   }.bind(this))
 }

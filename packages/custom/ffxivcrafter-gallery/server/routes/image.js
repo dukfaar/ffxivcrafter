@@ -6,6 +6,9 @@ module.exports = function(myPackage,app,auth,db, io) {
   app.route('/api/image/')
   .get(craftingController.list)
 
+  app.route('/api/image/count')
+  .get(craftingController.count)
+
   app.route('/api/image/:id')
   .get(craftingController.get)
 

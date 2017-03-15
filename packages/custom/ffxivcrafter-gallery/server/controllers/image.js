@@ -21,13 +21,10 @@ var _ = require('lodash')
 module.exports = function (io) {
   return {
     list: function (req, res) {
-      RestService.list(Image.find({}), req)
-      .then(function(result) {
-        res.send(result)
-      })
-      .catch(function(error) {
-        res.status(500).send(error)
-      })
+      RestService.listAction(Image, req, res)
+    },
+    count: function (req, res) {
+      RestService.countAction(Image, req, res)
     },
     create: function (req, res) {
       var form = new formidable.IncomingForm()
