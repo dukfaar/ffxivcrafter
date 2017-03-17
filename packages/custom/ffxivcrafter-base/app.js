@@ -5,7 +5,9 @@ var Module = require('meanio').Module
 var FFXIVCrafterBase = new Module('ffxivCrafter_base')
 
 FFXIVCrafterBase.register(function () {
-  FFXIVCrafterBase.angularDependencies([])
+  FFXIVCrafterBase.angularDependencies([
+    'mean.users'
+  ])
 
   return FFXIVCrafterBase
 })

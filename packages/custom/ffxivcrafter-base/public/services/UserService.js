@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').factory('UserService', [
+angular.module('mean.ffxivCrafter_base').factory('UserService', [
   'MeanUser',
   function (MeanUser) {
     return {
