@@ -29,16 +29,12 @@ module.exports = function (io) {
 
   return {
     list: function (req, res) {
-      console.log(req.query)
       modifyQuery(req.query)
-      console.log(req.query)
 
       RestService.listAction(Image, req, res)
     },
     count: function (req, res) {
-      console.log(req.query)
       modifyQuery(req.query)
-      console.log(req.query)
 
       RestService.countAction(Image, req, res)
     },
