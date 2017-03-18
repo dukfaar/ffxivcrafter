@@ -1,28 +1,28 @@
 'use strict';
 
 module.exports = function(myPackage,app,auth,db, io) {
-  var craftingController=require('../controllers/image')(io);
+  var imageController=require('../controllers/image')(io);
 
   app.route('/api/image/')
-  .get(craftingController.list)
+  .get(imageController.list)
 
   app.route('/api/image/count')
-  .get(craftingController.count)
+  .get(imageController.count)
 
   app.route('/api/image/:id')
-  .get(craftingController.get)
+  .get(imageController.get)
 
   app.route('/api/imageData/:id')
-  .get(craftingController.getImageData)
+  .get(imageController.getImageData)
   app.route('/api/imageThumbnailData/:id')
-  .get(craftingController.getImageThumbnailData)
+  .get(imageController.getImageThumbnailData)
 
   app.route('/api/image')
-  .post(craftingController.create)
+  .post(imageController.create)
 
   app.route('/api/image/:id')
-  .delete(craftingController.delete)
+  .delete(imageController.delete)
 
   app.route('/api/image/:id')
-  .put(craftingController.update)
+  .put(imageController.update)
 }
