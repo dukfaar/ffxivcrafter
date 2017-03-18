@@ -1,5 +1,16 @@
 <page-base style="position: relative;" ngf-drop="galleryController.uploadDroppedFiles($files)" ngf-accept="'image/*'" ngf-pattern="'image/*'" ngf-multiple="true" layout-fill>
   <div layout-padding>
+    <div ng-if="galleryController.filesToUpload > 0">
+      <md-progress-linear
+        md-mode="determinate"
+        value="{{galleryController.fileProgress}}">
+      </md-progress-linear>
+      <md-progress-linear
+        md-mode="determinate"
+        value="{{galleryController.totalProgress}}">
+      </md-progress-linear>
+    </div>
+
     <paginate-resource
       limit="32"
       resource="galleryController.Image"

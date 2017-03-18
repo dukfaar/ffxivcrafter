@@ -32,37 +32,38 @@ module.exports = function (io) {
       var newImage = new Image()
       newImage.uploader = req.user._id
       newImage.uploadDate = new Date()
-      newImage.save()
-      .then(() => {
-        form.on('fileBegin', function (name, file) {
-          var splitType = _.split(file.type, '/')
-          if(splitType[0] != 'image') throw "Not an Image"
-          var extension = splitType[1]
-          file.path = config.imageStorageBase + '/image_upload_' + newImage._id + '.' + extension
-        })
 
-        form.on('file', function (name, file) {
-          Q.all([
-            sharp(file.path)
-              .toFile(config.imageStorageBase + '/image_' + newImage._id + '.jpg'),
+      form.on('fileBegin', function (name, file) {
+        var splitType = _.split(file.type, '/')
+        if(splitType[0] != 'image') throw "Not an Image"
+        var extension = splitType[1]
+        file.path = config.imageStorageBase + '/image_upload_' + newImage._id + '.' + extension
+      })
 
-            sharp(file.path)
-              .resize(200, 200)
-              .max()
-              .toFile(config.imageStorageBase + '/image_thumbnail_' + newImage._id + '.jpg')
-          ]).then(function () {
-            fs.unlink(file.path, function (err) {
+      form.on('file', function (name, file) {
+        Q.all([
+          sharp(file.path)
+            .toFile(config.imageStorageBase + '/image_' + newImage._id + '.jpg'),
+
+          sharp(file.path)
+            .resize(200, 200)
+            .max()
+            .toFile(config.imageStorageBase + '/image_thumbnail_' + newImage._id + '.jpg')
+        ]).then(function () {
+          fs.unlink(file.path, function (err) {
+            newImage.save()
+            .then(() => {
               io.emit('image created')
             })
           })
         })
-
-        form.parse(req, function(err, fields, files) {
-          res.send({})
-        })
+        .catch(function (err) {
+          res.status(500).send(err)
+        })        
       })
-      .catch(function (err) {
-        res.status(500).send(err)
+
+      form.parse(req, function(err, fields, files) {
+        res.send({})
       })
     },
     get: function (req, res) {

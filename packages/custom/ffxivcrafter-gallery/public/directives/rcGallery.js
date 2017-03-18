@@ -8,14 +8,23 @@ angular.module('mean.ffxivCrafter_gallery').directive('rcGallery',function () {
   }
 })
 
-GalleryController.$inject = ['$scope', '$http', 'Analytics', 'Upload', '_', 'socket', '$mdDialog', 'Image']
+GalleryController.$inject = ['$scope', '$http', 'Analytics', 'Upload', '_', 'socket', '$mdDialog', 'Image', '$q']
 
-function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDialog, Image) {
+function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDialog, Image, $q) {
   this.Image = Image
 
   this.filter = {
     tags: null
   }
+
+  this.resetFileuploadValues = function () {
+    this.filesToUpload = 0
+    this.filesDone = 0
+    this.totalProgress = 0
+    this.fileProgress = 0
+  }
+
+  this.resetFileuploadValues()
 
   this.uploadImage = function (file) {
     return Upload.upload({
@@ -25,8 +34,23 @@ function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDial
   }
 
   this.uploadDroppedFiles = function (files) {
-    _.forEach(files, (file) => {
-      this.uploadImage(file)
+    this.filesToUpload = files.length
+    _.reduce(files, (promise, file) => {
+      return promise.then(() => {
+        this.fileProgress = 0
+        return this.uploadImage(file)
+      })
+      .then((resp) => {
+        this.filesDone ++
+        this.totalProgress = 100.0 * (this.filesDone / this.filesToUpload)
+      },(err) => {
+
+      },(progress) => {
+        if (progress) this.fileProgress = 100.0 * progress.loaded / progress.total
+      })
+    },$q.when())
+    .then(() => {
+      this.resetFileuploadValues()
     })
   }
 
