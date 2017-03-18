@@ -61,7 +61,7 @@ describe('PaginateResourceDirective', function () {
      $httpBackend.verifyNoOutstandingExpectation()
      $httpBackend.verifyNoOutstandingRequest()
      jasmine.clock().uninstall()
-   })
+  })
 
   it('compiles', function (done) {
     var element = angular.element('<paginate-resource resource="mockResource" limit="10"></paginate>')
