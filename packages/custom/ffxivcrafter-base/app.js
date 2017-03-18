@@ -6,7 +6,7 @@ var FFXIVCrafterBase = new Module('ffxivCrafter_base')
 
 FFXIVCrafterBase.register(function () {
   FFXIVCrafterBase.angularDependencies([
-    'mean.users'
+    'mean.users', 'ngResource'
   ])
 
   return FFXIVCrafterBase
