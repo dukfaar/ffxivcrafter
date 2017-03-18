@@ -15,7 +15,7 @@ angular.module('mean.ffxivCrafter').directive('kanbanColumn', function () {
 
       function assignCardOrder() {
         _.forEach($scope.cards,function (card, index) {
-          if(card.order == null || card.order == undefined) {
+          if(card.order === null || card.order === undefined) {
             card.order = index
             KanbanCard.update({id: card._id}, card)
           }
@@ -24,7 +24,7 @@ angular.module('mean.ffxivCrafter').directive('kanbanColumn', function () {
 
       function assignCardOrderByIndex() {
         _.forEach($scope.cards,function (card, index) {
-          if(card.order != index) {
+          if(card.order !== index) {
             card.order = index
             KanbanCard.update({id: card._id}, card)
           }
@@ -33,7 +33,7 @@ angular.module('mean.ffxivCrafter').directive('kanbanColumn', function () {
 
       function sortCards() {
         $scope.cards = _.sortBy($scope.cards, function(card) {
-          return card.order != null && card.order != undefined?card.order:card._id
+          return (card.order !== null && card.order !== undefined)?card.order:card._id
         })
       }
 
@@ -108,19 +108,19 @@ angular.module('mean.ffxivCrafter').directive('kanbanColumn', function () {
       }
 
       socket.on('KanbanColumn updated', function (data) {
-        if(data._id == $scope.column._id) {
+        if(data._id === $scope.column._id) {
           _.assign($scope.column, data)
           $scope.$digest()
         }
       })
 
       socket.on('KanbanCard created', function (data) {
-        if(data.column == $scope.column._id)
+        if(data.column === $scope.column._id)
           getAndOrderCards()
       })
 
       function removeCardFromArrayAndReindex(id) {
-        _.remove($scope.cards, function(card) { return card._id == id })
+        _.remove($scope.cards, function(card) { return card._id === id })
         assignCardOrderByIndex()
       }
 
@@ -129,15 +129,15 @@ angular.module('mean.ffxivCrafter').directive('kanbanColumn', function () {
       })
 
       function updateCard (data) {
-        var cardInThisColumn = _.find($scope.cards, function (card) { return card._id == data._id })
+        var cardInThisColumn = _.find($scope.cards, function (card) { return card._id === data._id })
 
         //card removed?
-        if(cardInThisColumn && $scope.column._id != data.column) {
+        if(cardInThisColumn && $scope.column._id !== data.column) {
           removeCardFromArrayAndReindex(data._id)
         }
 
         //card added
-        if(!cardInThisColumn && $scope.column._id == data.column) {
+        if(!cardInThisColumn && $scope.column._id === data.column) {
           _.forEach($scope.cards, function(card) {
             if (card.order >= data.order) {
               card.order++
@@ -148,10 +148,10 @@ angular.module('mean.ffxivCrafter').directive('kanbanColumn', function () {
           assignCardOrderByIndex()
         }
 
-        if(cardInThisColumn && data.column == $scope.column._id)
+        if(cardInThisColumn && data.column === $scope.column._id)
           //card was in this column and it still is
           if(cardInThisColumn.order > data.order) {
-            for(var i = data.order; i < cardInThisColumn.order; i++) {
+            for(let i = data.order; i < cardInThisColumn.order; i++) {
               $scope.cards[i].order++
 
               KanbanCard.update({id: $scope.cards[i]._id}, $scope.cards[i])
@@ -160,7 +160,7 @@ angular.module('mean.ffxivCrafter').directive('kanbanColumn', function () {
 
           //moved down
           else if(cardInThisColumn.order < data.order) {
-            for(var i = cardInThisColumn.order + 1; i < data.order; i++) {
+            for(let i = cardInThisColumn.order + 1; i < data.order; i++) {
               $scope.cards[i].order--
 
               KanbanCard.update({id: $scope.cards[i]._id}, $scope.cards[i])

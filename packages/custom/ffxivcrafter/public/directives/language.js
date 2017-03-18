@@ -6,7 +6,7 @@ angular.module('mean.ffxivCrafter')
 
 angular.module('mean.ffxivCrafter').directive('languageSelect', function () {
   return {
-    templateUrl: "/ffxivCrafter/views/system/languageSelect.html",
+    templateUrl: '/ffxivCrafter/views/system/languageSelect.html',
     scope: {
 
     },

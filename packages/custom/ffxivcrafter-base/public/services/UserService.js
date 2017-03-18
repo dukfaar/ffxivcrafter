@@ -6,7 +6,7 @@ angular.module('mean.ffxivCrafter_base').factory('UserService', [
     return {
       user: MeanUser.user,
       allowed: function (permission) {
-        return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(permission) != -1
+        return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(permission) !== -1
       }
     }
   }])

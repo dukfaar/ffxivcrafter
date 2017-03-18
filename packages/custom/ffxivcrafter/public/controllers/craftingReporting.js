@@ -1,13 +1,11 @@
 'use strict'
 
 angular.module('mean.ffxivCrafter').controller('CraftingReportingController',
-  ['$scope', '$http', 'socket', 'MeanUser', '$q', 'localStorageService', 'ProjectStockChange', 'Project', '$stateParams', '_', '$compile', '$document', 'ReportingFilterService', 'ItemDatabase', 'RecipeDatabase', 'ProjectDatabase',
-    function ($scope, $http, socket, MeanUser, $q, localStorageService, ProjectStockChange, Project, $stateParams, _, $compile, $document, ReportingFilterService, ItemDatabase, RecipeDatabase, ProjectDatabase) {
+  ['$scope', '$http', 'socket', 'MeanUser', '$q', 'localStorageService', 'ProjectStockChange', 'Project', '$stateParams', '_', '$compile', '$document', 'ReportingFilterService', 'ItemDatabase', 'RecipeDatabase', 'ProjectDatabase', 'UserService',
+    function ($scope, $http, socket, MeanUser, $q, localStorageService, ProjectStockChange, Project, $stateParams, _, $compile, $document, ReportingFilterService, ItemDatabase, RecipeDatabase, ProjectDatabase, UserService) {
       $scope.ItemDatabase = ItemDatabase
       $scope.user = MeanUser
-      $scope.allowed = function (perm) {
-        return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) != -1
-      }
+      $scope.allowed = UserService.allowed
 
       $scope.log = []
       $scope.filteredLog = []

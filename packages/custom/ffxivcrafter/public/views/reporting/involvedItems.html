@@ -18,14 +18,14 @@
           {{item.item.name}}
         </td>
         <td>
-          <span ng-if="!allowed('edit itemdata')">{{item.item.gatheringLevel}}</span>
-          <md-input-container ng-if="allowed('edit itemdata')">
+          <span ng-if="!UserService.allowed('edit itemdata')">{{item.item.gatheringLevel}}</span>
+          <md-input-container ng-if="UserService.allowed('edit itemdata')">
             <input ng-model="item.item.gatheringLevel" ng-model-options="{debounce: 300}" ng-change="updateItem(item.item)"/>
           </md-input-container>
         </td>
         <td>
-          <span ng-if="!allowed('edit itemdata')">{{item.item.gatheringEffort}}</span>
-          <md-input-container ng-if="allowed('edit itemdata')">
+          <span ng-if="!UserService.allowed('edit itemdata')">{{item.item.gatheringEffort}}</span>
+          <md-input-container ng-if="UserService.allowed('edit itemdata')">
             <input ng-model="item.item.gatheringEffort" ng-model-options="{debounce: 300}" ng-change="updateItem(item.item)"/>
           </md-input-container>
         </td>

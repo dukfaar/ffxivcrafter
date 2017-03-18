@@ -14,7 +14,7 @@
     </md-switch>
 
     <md-switch
-      ng-if="allowed('see forum')"
+      ng-if="UserService.allowed('see forum')"
       ng-model="NotificationSettingsService.enabled.forumpost"
       ng-change="NotificationSettingsService.saveForumpost()"
       >
