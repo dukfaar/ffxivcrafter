@@ -19,6 +19,8 @@ function ProjectViewController (
       $scope.projectList = data
     })
 
+    $scope.UserService = UserService
+
     $scope.ProjectService = ProjectService
     $scope.project = {}
     $scope.projectData = {}
