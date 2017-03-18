@@ -19,11 +19,27 @@ var sharp = require('sharp')
 var _ = require('lodash')
 
 module.exports = function (io) {
+
+  function modifyQuery (query) {
+    if(query.tags) {
+      query.tags = { $regex: new RegExp(query.tags, "i") }
+    }
+    return query
+  }
+
   return {
     list: function (req, res) {
+      console.log(req.query)
+      modifyQuery(req.query)
+      console.log(req.query)
+
       RestService.listAction(Image, req, res)
     },
     count: function (req, res) {
+      console.log(req.query)
+      modifyQuery(req.query)
+      console.log(req.query)
+
       RestService.countAction(Image, req, res)
     },
     create: function (req, res) {
@@ -59,7 +75,7 @@ module.exports = function (io) {
         })
         .catch(function (err) {
           res.status(500).send(err)
-        })        
+        })
       })
 
       form.parse(req, function(err, fields, files) {
