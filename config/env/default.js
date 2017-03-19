@@ -72,5 +72,6 @@ module.exports = {
   mailer: {
     sendmail: true
   },
-  imageStorageBase: rootPath + '/../rc_imageStorage/'
+  imageStorageBase: rootPath + '/../rc_imageStorage/',
+  newsletterStorageBase: rootPath + '/../rc_newsletterStorage/'
 }

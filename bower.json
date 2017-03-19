@@ -14,6 +14,7 @@
     "angular-ui-select": "latest",
     "angular-sanitize": "latest",
     "angular-material": "^1.1.0",
-	"html5-desktop-notifications2": "latest"
+    "html5-desktop-notifications2": "latest",
+    "ng-pdf-viewer": "latest"
   }
 }
