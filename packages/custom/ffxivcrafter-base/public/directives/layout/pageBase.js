@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').directive('pageBase', function () {
+angular.module('mean.ffxivCrafter_base').directive('pageBase', function () {
   return {
     transclude: true,
     replace: true,

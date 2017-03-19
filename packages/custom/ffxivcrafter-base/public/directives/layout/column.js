@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').directive('column', function () {
+angular.module('mean.ffxivCrafter_base').directive('column', function () {
   return {
     transclude: true,
     replace: true,
