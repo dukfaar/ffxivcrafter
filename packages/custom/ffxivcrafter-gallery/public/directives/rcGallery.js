@@ -1,10 +1,10 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter_gallery').directive('rcGallery',function () {
+angular.module('mean.ffxivCrafter_gallery').directive('rcGallery', function () {
   return {
     controller: GalleryController,
     controllerAs: 'galleryController',
-    templateUrl: '/ffxivCrafter_gallery/views/gallery.html',
+    templateUrl: '/ffxivCrafter_gallery/views/gallery.html'
   }
 })
 
@@ -43,12 +43,12 @@ function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDial
       .then((resp) => {
         this.filesDone ++
         this.totalProgress = 100.0 * (this.filesDone / this.filesToUpload)
-      },(err) => {
-
-      },(progress) => {
+      }, (err) => {
+        console.error(err)
+      }, (progress) => {
         if (progress) this.fileProgress = 100.0 * progress.loaded / progress.total
       })
-    },$q.when())
+    }, $q.when())
     .then(() => {
       this.resetFileuploadValues()
     })
@@ -58,7 +58,7 @@ function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDial
     this.image = image
     this.UserDatabase = UserDatabase
 
-    this.updateImage = (image) => { Image.update({id: image._id}, image)}
+    this.updateImage = (image) => { Image.update({id: image._id}, image) }
 
     this.canEdit = function (image) {
       return UserService.allowed('admin') || image.uploader === UserService.user._id
@@ -76,7 +76,7 @@ function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDial
         .ok('Yes, just do it')
         .cancel('No!')
       )
-      .then(function() {
+      .then(function () {
         Image.delete({id: image._id})
       })
     }
@@ -95,7 +95,7 @@ function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDial
     })
     .then(function (data) {
 
-    }, function() {
+    }, function () {
 
     })
   }
@@ -113,14 +113,14 @@ function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDial
   this.refetchCallback = null
 
   function doGetImageList () {
-    if(this.refetchCallback) this.refetchCallback()
+    if (this.refetchCallback) this.refetchCallback()
     this.triggerGetImageListTimeout = null
   }
 
   function triggerGetImageList () {
-    if(this.triggerGetImageListTimeout) clearTimeout(this.triggerGetImageListTimeout)
+    if (this.triggerGetImageListTimeout) clearTimeout(this.triggerGetImageListTimeout)
 
-    this.triggerGetImageListTimeout = setTimeout(doGetImageList.bind(this),300)
+    this.triggerGetImageListTimeout = setTimeout(doGetImageList.bind(this), 300)
   }
 
   this.tagSearchChanged = function () {

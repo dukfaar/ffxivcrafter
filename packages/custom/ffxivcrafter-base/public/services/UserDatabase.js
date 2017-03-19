@@ -1,12 +1,16 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter_base').factory('UserDatabase', ['User', function (User) {
+angular.module('mean.ffxivCrafter_base').factory('UserDatabase', UserDatabase)
+
+UserDatabase.$inject = ['User']
+
+function UserDatabase (User) {
   var users = {}
 
   return {
     get: function (id) {
-      if(!users[id]) users[id] = User.get({id: id})
+      if (!users[id]) users[id] = User.get({id: id})
       return users[id]
     }
   }
-}])
+}
