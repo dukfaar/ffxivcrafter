@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter')
+angular.module('mean.ffxivCrafter_base')
   .config(function ($mdThemingProvider) {
     var theme = $mdThemingProvider.theme('default')
 
