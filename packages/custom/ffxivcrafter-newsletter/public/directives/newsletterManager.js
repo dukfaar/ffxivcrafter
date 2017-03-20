@@ -37,7 +37,9 @@ function NewsletterManagerDirectiveController ($scope, Upload, _, $q, socket, Ne
   }.bind(this))
 
   function doGetList () {
-    this.newsletterList = Newsletter.query({})
+    Newsletter.query({}).$promise.then(function (result) {
+      this.newsletterList = result
+    }.bind(this))
 
     this.triggerGetListTimeout = null
   }
