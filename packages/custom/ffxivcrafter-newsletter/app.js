@@ -40,7 +40,7 @@ FFXIVCrafterNewsletter.register(function (app, users, system, circles, ffxivCraf
 
   setupCircles(circles)
 
-  FFXIVCrafterNewsletter.angularDependencies(['pdf-viewer'])
+  FFXIVCrafterNewsletter.angularDependencies(['pdf-viewer', 'ngFileUpload', 'mean.ffxivCrafter_base', 'mean.system'])
 
   return FFXIVCrafterNewsletter
 })

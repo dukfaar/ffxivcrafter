@@ -13,7 +13,7 @@ angular.module('mean.ffxivCrafter_newsletter').config(['$meanStateProvider',
     })
     .state('newsletter manage', {
       url: '/newsletter/manage',
-      templateUrl: '/ffxivCrafter_newsletter/views/manage.html',
+      template: '<newsletter-manager></newsletter-manager>',
       requiredCircles: {
         circles: ['manage newsletter']
       }

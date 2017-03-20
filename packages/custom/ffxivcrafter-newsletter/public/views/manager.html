@@ -1,0 +1,34 @@
+<page-base
+  ngf-drop="newsletterManagerController.uploadDroppedFiles($files)"
+  ngf-accept="'application/pdf'"
+  ngf-pattern="'application/pdf'"
+  ngf-multiple="true"
+  layout-fill
+  layout="column">
+  <div layout-padding>
+    <div ng-if="newsletterManagerController.filesToUpload > 0">
+      <md-progress-linear
+        md-mode="determinate"
+        value="{{newsletterManagerController.fileProgress}}">
+      </md-progress-linear>
+      <md-progress-linear
+        md-mode="determinate"
+        value="{{newsletterManagerController.totalProgress}}">
+      </md-progress-linear>
+    </div>
+
+    <div layout="row" layout-wrap>
+      <md-card ng-repeat="newsletter in newsletterManagerController.newsletterList">
+        <md-card-content layout="column">
+          <span>{{newsletter.uploadDate|date: 'short'}}</span>
+          <span>uploaded by {{newsletterManagerController.UserDatabase.get(newsletter.uploader).name}}</span>
+          <md-switch
+            ng-model="newsletter.isCurrent"
+            ng-change="newsletterManagerController.updateNewsletter(newsletter)">
+            {{newsletter.isCurrent?'displayed as the current newsletter':'not the current newsletter'}}
+          </md-switch>
+        </md-card-content>
+      </md-card>
+    </div>
+  </div>
+</page-base>
