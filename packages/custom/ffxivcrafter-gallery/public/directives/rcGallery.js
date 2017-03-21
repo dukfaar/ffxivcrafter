@@ -8,51 +8,16 @@ angular.module('mean.ffxivCrafter_gallery').directive('rcGallery', function () {
   }
 })
 
-GalleryController.$inject = ['$scope', '$http', 'Analytics', 'Upload', '_', 'socket', '$mdDialog', 'Image', '$q']
+GalleryController.$inject = ['$scope', '$http', 'Analytics', 'FileUpload', '_', 'socket', '$mdDialog', 'Image', '$q']
 
-function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDialog, Image, $q) {
+function GalleryController ($scope, $http, Analytics, FileUpload, _, socket, $mdDialog, Image, $q) {
   this.Image = Image
 
   this.filter = {
     tags: null
   }
 
-  this.resetFileuploadValues = function () {
-    this.filesToUpload = 0
-    this.filesDone = 0
-    this.totalProgress = 0
-    this.fileProgress = 0
-  }
-
-  this.resetFileuploadValues()
-
-  this.uploadImage = function (file) {
-    return Upload.upload({
-      url: '/api/image',
-      data: { file: file }
-    })
-  }
-
-  this.uploadDroppedFiles = function (files) {
-    this.filesToUpload = files.length
-    _.reduce(files, (promise, file) => {
-      return promise.then(() => {
-        this.fileProgress = 0
-        return this.uploadImage(file)
-      })
-      .then((resp) => {
-        this.filesDone ++
-        this.totalProgress = 100.0 * (this.filesDone / this.filesToUpload)
-      }, (err) => {
-        console.error(err)
-      }, (progress) => {
-        if (progress) this.fileProgress = 100.0 * progress.loaded / progress.total
-      })
-    }, $q.when())
-    .then(() => {
-      this.resetFileuploadValues()
-    })
-  }
+  this.FileUpload = FileUpload.getUploader('/api/image')
 
   function ImageDetailDialogController ($scope, image, $http, $mdDialog, UserDatabase, Image, UserService) {
     this.image = image
@@ -102,10 +67,6 @@ function GalleryController ($scope, $http, Analytics, Upload, _, socket, $mdDial
 
   this.image = {
     file: null
-  }
-
-  this.uploadFile = function () {
-    this.uploadImage(this.image.file)
   }
 
   this.triggerGetImageListTimeout = null

@@ -1,13 +1,13 @@
-<page-base style="position: relative;" ngf-drop="galleryController.uploadDroppedFiles($files)" ngf-accept="'image/*'" ngf-pattern="'image/*'" ngf-multiple="true" layout-fill>
+<page-base style="position: relative;" ngf-drop="galleryController.FileUpload.uploadFiles($files)" ngf-accept="'image/*'" ngf-pattern="'image/*'" ngf-multiple="true" layout-fill>
   <div layout-padding>
-    <div ng-if="galleryController.filesToUpload > 0">
+    <div ng-if="galleryController.FileUpload.uploadData.filesToUpload > 0">
       <md-progress-linear
         md-mode="determinate"
-        value="{{galleryController.fileProgress}}">
+        value="{{galleryController.FileUpload.uploadData.fileProgress}}">
       </md-progress-linear>
       <md-progress-linear
         md-mode="determinate"
-        value="{{galleryController.totalProgress}}">
+        value="{{galleryController.FileUpload.uploadData.totalProgress}}">
       </md-progress-linear>
     </div>
 

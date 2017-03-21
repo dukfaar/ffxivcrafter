@@ -32,7 +32,7 @@ FFXIVCrafterGallery.register(function (app, users, system, database, circles, ff
 
   setupCircles(circles)
 
-  FFXIVCrafterGallery.angularDependencies(['ngFileUpload'])
+  FFXIVCrafterGallery.angularDependencies([])
 
   return FFXIVCrafterGallery
 })

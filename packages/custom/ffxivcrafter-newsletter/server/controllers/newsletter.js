@@ -66,6 +66,8 @@ module.exports = function (io) {
     newNewsletter.uploadDate = new Date()
     newNewsletter.format = 'pdf'
 
+    let errorSend = false
+
     form.on('fileBegin', function (name, file) {
       // var splitType = _.split(file.type, '/')
       // if(splitType[0] != 'image') throw "Not an Image"
@@ -81,12 +83,14 @@ module.exports = function (io) {
       })
       .catch(function (err) {
         res.status(500).send(err)
+        errorSend = true
       })
     })
 
     form.parse(req, function (err, fields, files) {
-      if (err) res.status(500).send(err)
-      res.send({})
+      if (err) {
+        if(!errorSend) res.status(500).send(err)
+      } else res.send({})
     })
   }
 }

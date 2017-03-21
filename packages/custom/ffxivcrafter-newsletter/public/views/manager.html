@@ -1,19 +1,19 @@
 <page-base
-  ngf-drop="newsletterManagerController.uploadDroppedFiles($files)"
+  ngf-drop="newsletterManagerController.FileUpload.uploadFiles($files)"
   ngf-accept="'application/pdf'"
   ngf-pattern="'application/pdf'"
   ngf-multiple="true"
   layout-fill
   layout="column">
   <div layout-padding>
-    <div ng-if="newsletterManagerController.filesToUpload > 0">
+    <div ng-if="newsletterManagerController.FileUpload.uploadData.filesToUpload > 0">
       <md-progress-linear
         md-mode="determinate"
-        value="{{newsletterManagerController.fileProgress}}">
+        value="{{newsletterManagerController.FileUpload.uploadData.fileProgress}}">
       </md-progress-linear>
       <md-progress-linear
         md-mode="determinate"
-        value="{{newsletterManagerController.totalProgress}}">
+        value="{{newsletterManagerController.FileUpload.uploadData.totalProgress}}">
       </md-progress-linear>
     </div>
 
