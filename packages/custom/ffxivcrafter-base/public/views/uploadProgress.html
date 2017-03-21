@@ -1,0 +1,10 @@
+<div ng-if="uploadProgressController.uploadData.filesToUpload > 0">
+  <md-progress-linear
+    md-mode="determinate"
+    value="{{uploadProgressController.uploadData.fileProgress}}">
+  </md-progress-linear>
+  <md-progress-linear
+    md-mode="determinate"
+    value="{{uploadProgressController.uploadData.totalProgress}}">
+  </md-progress-linear>
+</div>
