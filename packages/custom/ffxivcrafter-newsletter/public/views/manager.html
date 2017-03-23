@@ -18,12 +18,8 @@
     </div>
 
     <div layout="row" layout-wrap>
-      <md-card ng-repeat="newsletter in newsletterManagerController.newsletterList track by newsletter._id">
+      <md-card ng-repeat="newsletter in newsletterManagerController.newsletterList">
         <md-card-content layout="column">
-          <md-input-container>
-            <label>Title</label>
-            <input type="text" ng-model="newsletter.title" ng-change="newsletterManagerController.updateNewsletter(newsletter)"/>
-          </md-input-container>
           <span>{{newsletter.uploadDate|date: 'short'}}</span>
           <span>uploaded by {{newsletterManagerController.UserDatabase.get(newsletter.uploader).name}}</span>
           <md-switch
