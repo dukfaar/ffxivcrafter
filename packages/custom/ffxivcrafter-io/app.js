@@ -12,8 +12,8 @@ var FFXIVCrafterIO = new Module('ffxivCrafter_io')
  * All MEAN packages require registration
  * Dependency injection is used to define required modules
  */
-FFXIVCrafterIO.register(function (app, http) {
-  var io = require(__dirname + '/server/config/socket')(http)
+FFXIVCrafterIO.register(function (app, http, https) {
+  var io = require(__dirname + '/server/config/socket')(https || http)
 
   FFXIVCrafterIO.io = io
 
