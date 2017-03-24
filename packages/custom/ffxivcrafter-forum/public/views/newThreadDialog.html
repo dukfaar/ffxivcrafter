@@ -4,22 +4,7 @@
       <md-tab label="Editor" layout-fill>
         <form name="threadForm" layout="column" ng-controller="TextEditorController as editorController">
           <md-toolbar layout="row">
-            <div class="md-toolbar-tools">
-              <md-button class="md-icon-button" ng-click="editorController.addBold()">
-                <md-icon class="materal-icons">format_bold</md-icon>
-              </md-button>
-              <md-button class="md-icon-button" ng-click="editorController.addItalic()">
-                <md-icon class="materal-icons">format_italic</md-icon>
-              </md-button>
-              <md-button class="md-icon-button" ng-click="editorController.addUnderline()">
-                <md-icon class="materal-icons">format_underline</md-icon>
-              </md-button>
-              <md-button class="md-icon-button" ng-click="editorController.addURL()">
-                <md-icon class="materal-icons">insert_link</md-icon>
-              </md-button>
-              <md-button class="md-icon-button" ng-click="editorController.addImage()">
-                <md-icon class="materal-icons">insert_photo</md-icon>
-              </md-button>
+            <div class="md-toolbar-tools" ng-include="'/ffxivCrafter_forum/views/editorToolbar.html'">            
             </div>
           </md-toolbar>
           <h2 translate>forum.thread.new</h2>

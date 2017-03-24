@@ -26,14 +26,6 @@
         <md-switch ng-model="palettes.dark" ng-change="setDark(palettes.dark)">Dark ({{palettes.dark?'true': 'false'}})</md-switch>
 
         <md-input-container flex="33%">
-          <label>Navigation Position</label>
-          <md-select ng-model="navigation.mode" ng-change="setNavigationMode()">
-            <md-option value="top">top</md-option>
-            <md-option value="side">side</md-option>
-          </md-select>
-        </md-input-container>
-
-        <md-input-container flex="33%">
           <label>IndexMode</label>
           <md-select ng-model="indexMode.mode" ng-change="saveIndexMode()">
             <md-option value="unifiedProjects">Unified Projects</md-option>

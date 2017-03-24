@@ -92,5 +92,7 @@
   "item.price.hq": "Preis HQ",
   "reporting.code.show": "Berechnung anzeigen",
   "reporting.code.hide": "Berechnung verstecken",
-  "gallery.filter.tag": "Tag-Suche"
+  "gallery.filter.tag": "Tag-Suche",
+  "event.new": "Neues Event anlegen",
+  "index.crafters.corner": "Pfotenwerker Ecke"
 }

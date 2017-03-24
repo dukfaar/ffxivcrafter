@@ -1,16 +1,6 @@
 'use strict'
 
-var sslBase = '/etc/letsencrypt/live/dukfaar.com/'
-
 module.exports = {
-  https: {
-    port: 3001,
-    ssl: {
-      key: sslBase + 'privkey.pem',
-      cert: sslBase + 'cert.pem',
-      ca: sslBase + 'chain.pem'
-    }
-  }, 
   db: 'mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'localhost') + '/mean-dev',
   /**
    * Database options that will be passed directly to mongoose.connect

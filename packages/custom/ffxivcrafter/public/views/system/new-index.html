@@ -1,0 +1,142 @@
+<div flex ng-controller="NewIndexController">
+  <main style="overflow:auto">
+    <md-content layout-wrap layout="row" layout-xs="column" layout-sm="row">
+      <div layout="column" flex="60" flex-xs="100" flex-sm="100">
+        <md-card>
+          <md-card-content style="white-space:pre-wrap;" ng-bind-html="newsText | kanbanText"></md-card-content>
+        </md-card>
+      </div>
+
+      <div layout="column" flex="40" flex-xs="100" flex-sm="100">
+        <md-card ng-if="UserService.allowed('see public gather tasks') || UserService.allowed('see public craft tasks')">
+          <md-toolbar class="md-hue-2">
+            <div class="md-toolbar-tools">
+              <span translate>index.crafters.corner</span>
+              <span flex></span>
+              <md-input-container class="md-accent" style="padding-bottom:0px;margin-left:25px">
+                <label style="color:wheat" translate>filter</label>
+                <input style="color:wheat" ng-model="filters.gatherCraftFilter" size="10"/>
+              </md-input-container>
+            </div>
+          </md-toolbar>
+          <md-card-content style="overflow: scroll">
+            <div style="height:20px" ng-if="showUnspoiledTimelime">
+              <div style="position: relative; background: white; top: -10px;" style="height: 20px; width:100%">
+                <div ng-repeat="project in PublicProjectService.projectList" style="width: 100%">
+                  <div style="position: absolute"
+                        class="gatheringTimeFrame"
+                        ng-repeat="gathers in getGatherArray(project)"
+                        ng-if="gathers.item.unspoiledNode && (gathers.item.unspoiledNodeTime.ampm === 'AM' || gathers.item.unspoiledNodeTime.ampm == 'AM/PM')"
+                        ng-style="{'left': ((gathers.item.unspoiledNodeTime.time/24)*100)+'%', 'width': gathers.item.unspoiledNodeTime.duration/6 + 'px'}"
+                        >
+                  </div>
+                  <div style="position: absolute"
+                        class="gatheringTimeFrame"
+                        ng-repeat="gathers in getGatherArray(project)"
+                        ng-if="gathers.item.unspoiledNode && (gathers.item.unspoiledNodeTime.ampm === 'PM' || gathers.item.unspoiledNodeTime.ampm == 'AM/PM')"
+                        ng-style="{'left': (((gathers.item.unspoiledNodeTime.time+12)/24)*100)+'%', 'width': gathers.item.unspoiledNodeTime.duration/6 + 'px'}"
+                        >
+                  </div>
+                </div>
+                <div style="position: absolute"
+                      ng-style="{'left': (((currentEorzeanTime.h+currentEorzeanTime.m/60)/24)*100)+'%', 'top': '0px', 'width': '1px', 'height':'20px', 'background': 'green'}">
+                </div>
+              </div>
+              <style>
+                .gatheringTimeFrame {
+                  top: 5px;
+                  height: 10px;
+                  border-radius: 1px;
+                  background-color: lightblue
+                }
+              </style>
+            </div>
+
+            <md-list ng-if="UserService.allowed('see public craft tasks')">
+              <div ng-repeat="project in PublicProjectService.projectList">
+                <div ng-if="indexMode == 'separateProjects' && getCraftArray(project).length > 0">
+                  <span translate>project</span>:
+                  <span>{{project.name}}</span>
+                </div>
+                <md-list-item
+                  ng-click="deliveryCraftDialog(project,craftable.step.item,craftable.step,craftable)"
+                  ga-track-event="['craftDialog', 'opened', 'from delivery']"
+                  ng-repeat="craftable in getCraftArray(project)" layout="row">
+                  <span flex>
+                    <span>{{craftable.step.amount|floor}} {{craftable.step.item.name}}</span>
+                    <span ng-if="craftable.step.hq">HQ</span>
+                  </span>
+                  <span ng-if="craftable.step.step.workedOnBy && craftable.step.step.workedOnBy.length > 0 && !isWorkedByMe(craftable.step.step)">
+                    <md-button class="md-icon-button">
+                      <md-icon class="material-icon" style="color: orange">pets</md-icon>
+                    </md-button>
+                    <md-tooltip><span translate translate-value-name="{{craftable.step.step.workedOnBy[0].name}}">step.workedon</span></md-tooltip>
+                  </span>
+                  <span ng-if="craftable.step.step.workedOnBy && craftable.step.step.workedOnBy.length > 0 && isWorkedByMe(craftable.step.step)">
+                    <md-button class="md-icon-button" ga-track-event="['crafting step paw', 'marked as not worked', 'manual']" ng-click="removeMarkStepAsWorked(craftable.step.step)">
+                      <md-icon class="material-icon" style="color: green">pets</md-icon>
+                    </md-button>
+                    <md-tooltip><span translate>step.youworkedon</span></md-tooltip>
+                  </span>
+                  <span ng-if="!craftable.step.step.workedOnBy || craftable.step.step.workedOnBy.length == 0">
+                    <md-button class="md-icon-button" ga-track-event="['crafting step paw', 'marked as worked', 'manual']" ng-click="markStepAsWorked(craftable.step.step)">
+                      <md-icon class="material-icon" style="color: grey">pets</md-icon>
+                    </md-button>
+                    <md-tooltip><span translate>step.noneworkedon</span></md-tooltip>
+                  </span>
+                </md-list-item>
+              </div>
+            </md-list>
+
+            <md-divider></md-divider>
+
+            <md-list ng-if="UserService.allowed('see public gather tasks')">
+              <div ng-repeat="project in PublicProjectService.projectList">
+                <div ng-if="indexMode == 'separateProjects' && getGatherArray(project).length > 0">
+                  <span translate>project </span>:
+                  <span>{{project.name}}</span>
+                </div>
+                <md-list-item
+                  ng-click="deliveryDialog(project,gathers.item,gathers)"
+                  ga-track-event="['gatherDialog', 'opened', 'from delivery']"
+                  ng-repeat="gathers in getGatherArray(project) | orderBy:'item.gatheringLevel':true"
+                  layout="row">
+                  <span flex layout="row">
+                    <span>{{gathers.outstanding}} {{gathers.item.name}}</span>
+                    <span ng-if="gathers.hq">HQ</span>
+                    <span flex></span>
+                    <span ng-if="gathers.item.unspoiledNode">
+                      Next: {{EorzeanTimeService.timeToNode(currentEorzeanTime, gathers.item.unspoiledNodeTime).realMinutes}}m {{EorzeanTimeService.timeToNode(currentEorzeanTime, gathers.item.unspoiledNodeTime).realSeconds}}s
+                    </span>
+                    <span ng-if="gathers.step.workedOnBy && gathers.step.workedOnBy.length > 0 && !isWorkedByMe(gathers.step)">
+                      <md-button class="md-icon-button">
+                        <md-icon class="material-icon" style="color: orange">pets</md-icon>
+                      </md-button>
+                      <md-tooltip><span translate translate-value-name="{{gathers.step.workedOnBy[0].name}}">step.workedon</span></md-tooltip>
+                    </span>
+                    <span ng-if="gathers.step.workedOnBy && gathers.step.workedOnBy.length > 0 && isWorkedByMe(gathers.step)">
+                      <md-button class="md-icon-button" ga-track-event="['gathering step paw', 'marked as not worked', 'manual']" ng-click="removeMarkStepAsWorked(gathers.step)">
+                        <md-icon class="material-icon" style="color: green">pets</md-icon>
+                      </md-button>
+                      <md-tooltip><span translate>step.youworkedon</span></md-tooltip>
+                    </span>
+                    <span ng-if="!gathers.step.workedOnBy || gathers.step.workedOnBy.length == 0">
+                      <md-button class="md-icon-button" ga-track-event="['gathering step paw', 'marked as worked', 'manual']" ng-click="markStepAsWorked(gathers.step)">
+                        <md-icon class="material-icon" style="color: grey">pets</md-icon>
+                      </md-button>
+                      <md-tooltip><span translate>step.noneworkedon</span></md-tooltip>
+                    </span>
+                  </span>
+                </md-list-item>
+              </div>
+            </md-list>
+          </md-card-content>
+        </md-card>
+      </div>
+    </md-content>
+  </main>
+</div>
+
+<style>
+.md-errors-spacer:empty { display: none; }
+</style>

@@ -5,10 +5,8 @@ angular.module('mean.ffxivCrafter').controller('MainAppController',
   'PublicProjectCraftableNotifyService', 'ForumPostNotifyService', '$window',
     function ($scope, $mdSidenav, $q, $mdMedia, SubmissionNotifyService,
       PublicProjectCraftableNotifyService, ForumPostNotifyService, $window) {
-      if (window.localStorage.getItem('navigation.mode') === null) window.localStorage.setItem('navigation.mode', 'top')
-
       $scope.navigation = {
-        mode: window.localStorage.getItem('navigation.mode')
+        mode: 'side'
       }
 
       $scope.openSideNav = function () {

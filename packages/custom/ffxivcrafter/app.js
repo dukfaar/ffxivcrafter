@@ -46,6 +46,8 @@ function setupCircles (circles) {
   circles.registerCircle('see admin dashboard', ['admin'])
 
   circles.registerCircle('see all projects', ['admin'])
+
+  circles.registerCircle('edit newspage', ['admin'])
 }
 
 function setupMainMenu_PM () {
@@ -160,6 +162,13 @@ function setupMainMenu_Admin () {
     title: 'All Projects',
     link: 'admin projects',
     roles: ['see all projects'],
+    path: 'main/admin'
+  })
+
+  FFXIVCrafter.menus.add({
+    title: 'News Settings',
+    link: 'admin news',
+    roles: ['edit newspage'],
     path: 'main/admin'
   })
 }

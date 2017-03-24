@@ -9,7 +9,7 @@
         <span>{{calendarData.currentYear}}</span>
       </h2>
 
-      <md-button ng-if="allowed('create events')" class="md-raised md-primary" ng-click="createNewEvent()">New Event</md-button>
+      <md-button ng-if="UserService.allowed('create events')" class="md-raised md-primary" ng-click="createNewEvent()">New Event</md-button>
       <md-button class="md-raised md-primary" ng-click="nextMonth()"><md-icon class="material-icons">arrow_forward</md-icon></md-button>
     </div>
 

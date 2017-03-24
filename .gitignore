@@ -75,3 +75,5 @@ modules/views/
 
 #webpack
 /bundle
+
+nohup.out

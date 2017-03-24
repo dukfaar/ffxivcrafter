@@ -3,21 +3,21 @@
 var path = require('path')
 var rootPath = path.join(__dirname, '/../..')
 
+var sslBase = '/etc/letsencrypt/live/dukfaar.com/'
+
 module.exports = {
   root: rootPath,
   http: {
     port: process.env.PORT || 3000
   },
   https: {
-    port: false,
-
-    // Paths to key and cert as string
+    port: 3001,
     ssl: {
-      key: '',
-      cert: '',
-      ca: ''
+      key: sslBase + 'privkey.pem',
+      cert: sslBase + 'cert.pem',
+      ca: sslBase + 'chain.pem'
     }
-  },
+  }, 
   favicon: rootPath + '/packages/custom/ffxivcrafter/public/assets/img/icons/favicon.ico',
   hostname: process.env.HOST || process.env.HOSTNAME,
   db: process.env.MONGOHQ_URL,
