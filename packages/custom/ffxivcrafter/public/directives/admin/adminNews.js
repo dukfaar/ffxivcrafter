@@ -31,8 +31,10 @@ function AdminNewsController (ApplicationSetting) {
     .$promise
     .then(function (response) {
       if (response.length === 0) {
-        // TODO: create news object
-        console.error('No newstext resource found, please create me')
+        let newSetting = new ApplicationSetting()
+        newSetting.name = 'newsText'
+        newSetting.text = ''
+        newSetting.$save().then(vm.fetchNews)
       } else {
         vm.newsResource = response[0]
       }
