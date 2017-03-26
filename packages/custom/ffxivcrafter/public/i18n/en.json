@@ -101,5 +101,11 @@
   "overview.sold.projects": "Sold projects",
   "gallery.filter.tag": "Tag-Search",
   "event.new": "Create new event",
-  "index.crafters.corner": "Craftscat Corner"
+  "index.crafters.corner": "Craftscat Corner",
+  "account.settings.name": "Name",
+  "account.settings.username": "Username",
+  "account.settings.avatarImage": "Avatar Image-ID",
+  "account.settings.general.header": "General Settings",
+  "account.settings.name.description": "Your name is what gets shown everywhere, when you post in the forum, upload images or order things. It's best to use your ingame name here.",
+  "account.settings.username.description": "Not really used in many places. Either user your ingame name or if you change your names more often then your pants, use a name that we can remember."
 }

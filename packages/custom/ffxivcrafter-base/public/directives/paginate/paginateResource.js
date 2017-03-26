@@ -24,10 +24,10 @@ function PaginateResourceController (_, $q) {
   this.fetchingList = false
 
   this.fetchLength = function () {
-    if(!this.resource) throw "Resource not defined"
-    if(!this.resource.count) throw "Resource does not have a count method; please implement"
+    if (!this.resource) throw new Error('Resource not defined')
+    if (!this.resource.count) throw new Error('Resource does not have a count method; please implement')
 
-    if(this.fetchingLength) return $q.when()
+    if (this.fetchingLength) return $q.when()
 
     this.fetchingLength = true
     return this.resource.count(this.queryParams).$promise
@@ -36,12 +36,13 @@ function PaginateResourceController (_, $q) {
       this.fetchingLength = false
     })
     .catch((err) => {
+      console.error(err)
       this.fetchingLength = false
     })
   }
 
   this.fetchList = function () {
-    if(this.fetchingList) return $q.when()
+    if (this.fetchingList) return $q.when()
 
     this.fetchingList = true
 
@@ -60,11 +61,11 @@ function PaginateResourceController (_, $q) {
     return Math.ceil(this.length / this.limit)
   }
 
-  this.getStart = function() {
+  this.getStart = function () {
     return this.currentPage * this.limit
   }
 
-  this.onLastPage = function() {
+  this.onLastPage = function () {
     return this.currentPage === (this.maxPages() - 1)
   }
 
@@ -91,13 +92,13 @@ function PaginateResourceController (_, $q) {
 
   this.triggerRefetch = function () {
     this.fetchLength()
-    .then(function() {
+    .then(function () {
       this.toPage(this.currentPage)
     }.bind(this))
   }
 
-  //timeout is needed because the resource objects seems to get initialized later
-  setTimeout(function() {
+  // timeout is needed because the resource objects seems to get initialized later
+  setTimeout(function () {
     this.fetchLength()
     .then(function () { this.toPage(0) }.bind(this))
   }.bind(this), 0)

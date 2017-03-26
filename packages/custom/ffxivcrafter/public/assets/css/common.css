@@ -7,3 +7,7 @@ custom-directive-container-adder {
 [rc-custom-directive-container] {
   position: relative;
 }
+
+.no-error-spacer .md-error-spacer {
+  display: none;
+}

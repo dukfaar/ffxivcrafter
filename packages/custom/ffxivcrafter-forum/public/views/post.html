@@ -1,5 +1,10 @@
 <div layout="row">
-  <div layout-padding>{{post.creator.name}}</div>
+  <div layout-padding layout="column">
+    <span>{{post.creator.name}}</span>
+    <img
+      ng-if="post.creator.avatarImage && post.creator.avatarImage.length > 0"
+      ng-src="/api/imageThumbnailData/{{post.creator.avatarImage}}"/>
+  </div>
   <div layout-padding flex>
     <div style="white-space:pre-wrap;" ng-bind-html="post.text|kanbanText"></div>
     <div layout="row" layout-align="start center" layout-padding>

@@ -7,6 +7,9 @@ var Module = require('meanio').Module
 
 var FFXIVCrafter = new Module('ffxivCrafter')
 
+var mongoose = require('mongoose')
+var Schema = mongoose.Schema
+
 function setupCircles (circles) {
   circles.registerCircle('projectManager', ['admin'])
 
@@ -240,6 +243,13 @@ function setupAccountMenu () {
   })
 
   FFXIVCrafter.menus.add({
+    title: 'Account Settings',
+    link: 'account settings',
+    roles: ['authenticated'],
+    menu: 'account'
+  })
+
+  FFXIVCrafter.menus.add({
     title: 'Theme Settings',
     link: 'theme settings',
     roles: ['authenticated'],
@@ -276,6 +286,7 @@ function setupMenus () {
 function extendUser (database) {
   var UserModel = database.connection.model('User')
   UserModel.schema.add({
+    avatarImage: { type: Schema.ObjectId, ref: 'Image' },
     minerLevel: { type: Number, min: 1, max: 60, default: 1 },
     minerFolklore: {
       coerthas: { type: Boolean, default: false },

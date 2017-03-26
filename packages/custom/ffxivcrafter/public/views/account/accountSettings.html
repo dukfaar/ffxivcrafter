@@ -1,0 +1,60 @@
+<page-base layout-fill>
+  <div layout="row" layout-wrap>
+    <md-card flex>
+      <md-toolbar class="md-hue-2">
+        <div class="md-toolbar-tools" layout-align="start center" translate>
+          account.settings.general.header
+        </div>
+      </md-toolbar>
+      <md-card-content layout="column">
+        <div layout="row">
+          <md-input-container class="no-error-spacer" flex="30">
+            <label translate>account.settings.name</label>
+            <input
+              type="text"
+              ng-model="accountSettingsController.UserService.user.name"
+              ng-model-options="{debounce: 300}"
+              ng-change="accountSettingsController.UserService.updateUser()"/>
+          </md-input-container>
+          <div translate flex="70">
+            account.settings.name.description
+          </div>
+        </div>
+        <div layout="row">
+          <md-input-container class="no-error-spacer" flex="30">
+            <label translate>account.settings.username</label>
+            <input
+              type="text"
+              ng-model="accountSettingsController.UserService.user.username"
+              ng-model-options="{debounce: 300}"
+              ng-change="accountSettingsController.UserService.updateUser()"/>
+          </md-input-container>
+          <div translate flex="70">
+            account.settings.username.description
+          </div>
+        </div>
+      </md-card-content>
+    </md-card>
+
+    <md-card flex>
+      <md-toolbar class="md-hue-2">
+        <div class="md-toolbar-tools" layout-align="start start">
+          <md-input-container class="no-error-spacer">
+            <label translate>account.settings.avatarImage</label>
+            <input
+              type="text"
+              size="32"
+              ng-model="accountSettingsController.UserService.user.avatarImage"
+              ng-model-options="{debounce: 300}"
+              ng-change="accountSettingsController.UserService.updateUser()"/>
+          </md-input-container>
+        </div>
+      </md-toolbar>
+      <md-card-content>
+        <img
+          ng-if="accountSettingsController.UserService.user.avatarImage && accountSettingsController.UserService.user.avatarImage.length > 0"
+          ng-src="/api/imageThumbnailData/{{accountSettingsController.UserService.user.avatarImage}}"/>
+      </md-card-content>
+    </md-card>
+  </div>
+</page-base>

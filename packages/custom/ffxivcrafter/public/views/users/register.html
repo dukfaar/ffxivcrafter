@@ -10,25 +10,34 @@
   <md-card-content>
 
     <md-input-container class="md-block">
-      <label>Full Name</label>
+      <label>Name</label>
       <input type="text" ng-model="reg.user.name">
+      <md-tooltip>This name will be shown everywhere, use your character's name here.</md-tooltip>
     </md-input-container>
     <md-input-container class="md-block">
       <label>Email Address</label>
       <input type="email" ng-model="reg.user.email">
+      <md-tooltip>Thats what you will use to log in.</md-tooltip>
     </md-input-container>
     <md-input-container class="md-block">
       <label>Username</label>
       <input type="text" ng-model="reg.user.username">
+      <md-tooltip>If you change your character's name every 5 seconds, use something we can recognize you with. Otherwise: Character's name!</md-tooltip>
     </md-input-container>
     <md-input-container class="md-block">
       <label>Password</label>
       <input type="password" ng-model="reg.user.password">
+      <md-tooltip>It's a password silly cat!</md-tooltip>
     </md-input-container>
     <md-input-container class="md-block">
       <label>Confirm Password</label>
       <input type="password" ng-model="reg.user.confirmPassword">
+      <md-tooltip>Just to be sure that there is no typo and that you didn't just smash your paws on the keyboard randomly.</md-tooltip>
     </md-input-container>
+
+    <div>
+      Once you clicked Join, please tell Dukfaar about it. Until he gives you permissions, you wont see much in the RainCollector.
+    </div>
   </md-card-content>
   <md-card-actions layout="row" layout-align="end center">
     <md-button ui-sref="forgot-password">Forgot Password</md-button>
