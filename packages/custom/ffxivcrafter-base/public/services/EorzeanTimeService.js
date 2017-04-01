@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('mean.ffxivCrafter').factory('EorzeanTimeService', function () {
+angular.module('mean.ffxivCrafter_base').factory('EorzeanTimeService', function () {
   var eorzeanTimeConstant = 3600 / 175
 
   function dateToEorzeanEpoch (date) {

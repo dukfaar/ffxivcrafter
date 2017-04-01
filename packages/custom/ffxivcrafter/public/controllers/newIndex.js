@@ -4,38 +4,20 @@ angular.module('mean.ffxivCrafter').controller('NewIndexController', IndexContro
 
 IndexController.$inject = [
   '$scope', 'deliveryService', '_', 'localStorageService',
-  'EorzeanTimeService', '$interval', 'ProjectStep',
-  'ProjectService', 'PublicProjectService', 'StepService', 'UserService',
-  'ApplicationSetting'
+  'CurrentEorzeanTimeService', 'EorzeanTimeService', '$interval', 'ProjectStep',
+  'ProjectService', 'PublicProjectService', 'StepService', 'UserService'
 ]
 
 function IndexController (
       $scope, deliveryService, _, localStorageService,
-      EorzeanTimeService, $interval, ProjectStep,
-      ProjectService, PublicProjectService, StepService, UserService,
-      ApplicationSetting
+      CurrentEorzeanTimeService, EorzeanTimeService, $interval, ProjectStep,
+      ProjectService, PublicProjectService, StepService, UserService
     ) {
   $scope.PublicProjectService = PublicProjectService
   $scope.UserService = UserService
-  $scope.newsText = 'Loading'
 
-  ApplicationSetting.query({name: 'newsText'})
-  .$promise
-  .then(function(response) {
-    if(response.length === 0) $scope.newsText = 'Sorry no news data available'
-    else $scope.newsText = response[0].text
-  })
-
+  $scope.CurrentEorzeanTimeService = CurrentEorzeanTimeService
   $scope.EorzeanTimeService = EorzeanTimeService
-
-  $scope.currentEorzeanTime = EorzeanTimeService.getEorzeanTime()
-  var timeInterval = $interval(function () {
-    $scope.currentEorzeanTime = EorzeanTimeService.getEorzeanTime()
-  }, 1000)
-
-  $scope.$on('$destroy', function () {
-    $interval.cancel(timeInterval)
-  })
 
   $scope.filters = {
     gatherCraftFilter: ''

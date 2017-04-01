@@ -19,10 +19,9 @@ var sharp = require('sharp')
 var _ = require('lodash')
 
 module.exports = function (io) {
-
   function modifyQuery (query) {
-    if(query.tags) {
-      query.tags = { $regex: new RegExp(query.tags, "i") }
+    if (query.tags) {
+      query.tags = { $regex: new RegExp(query.tags, 'i') }
     }
     return query
   }
@@ -47,22 +46,24 @@ module.exports = function (io) {
 
       form.on('fileBegin', function (name, file) {
         var splitType = _.split(file.type, '/')
-        if(splitType[0] != 'image') throw "Not an Image"
-        var extension = splitType[1]
-        file.path = config.imageStorageBase + '/image_upload_' + newImage._id + '.' + extension
+        if (splitType[0] !== 'image') throw new Error('Not an Image')
+        newImage.filetype = splitType[1]
+
+        file.path = config.imageStorageBase + '/image_upload_' + newImage._id + '.' + newImage.filetype
       })
 
       form.on('file', function (name, file) {
         Q.all([
           sharp(file.path)
-            .toFile(config.imageStorageBase + '/image_' + newImage._id + '.jpg'),
+            .toFile(config.imageStorageBase + '/image_' + newImage._id + '.' + newImage.filetype),
 
           sharp(file.path)
             .resize(200, 200)
             .max()
-            .toFile(config.imageStorageBase + '/image_thumbnail_' + newImage._id + '.jpg')
+            .toFile(config.imageStorageBase + '/image_thumbnail_' + newImage._id + '.' + newImage.filetype)
         ]).then(function () {
           fs.unlink(file.path, function (err) {
+            if (err) throw err
             newImage.save()
             .then(() => {
               io.emit('image created')
@@ -74,7 +75,7 @@ module.exports = function (io) {
         })
       })
 
-      form.parse(req, function(err, fields, files) {
+      form.parse(req, function (err, fields, files) {
         res.send({})
       })
     },
@@ -88,15 +89,33 @@ module.exports = function (io) {
       })
     },
     getImageData: function (req, res) {
-      fs.readFile(config.imageStorageBase + '/image_' + req.params.id + '.jpg', function(err, data) {
-        if(err) res.status(500).send(err)
-        else res.send(data)
+      Image.findById(req.params.id).exec().then(function (image) {
+        fs.readFile(config.imageStorageBase + '/image_' + req.params.id + '.' + (image.filetype ? image.filetype : 'jpg'), function (err, data) {
+          if (err) throw new Error(err)
+          else {
+            res.setHeader('Content-Type', 'image/' + (image.filetype ? image.filetype : 'jpg'))
+            res.send(data)
+          }
+        })
+      })
+      .catch(function (error) {
+        console.log('Error loading image thumbnail:' + error)
+        res.status(500).send('Error while loading image. Sorry!')
       })
     },
     getImageThumbnailData: function (req, res) {
-      fs.readFile(config.imageStorageBase + '/image_thumbnail_' + req.params.id + '.jpg', function(err, data) {
-        if(err) res.status(500).send(err)
-        else res.send(data)
+      Image.findById(req.params.id).exec().then(function (image) {
+        fs.readFile(config.imageStorageBase + '/image_thumbnail_' + req.params.id + '.' + (image.filetype ? image.filetype : 'jpg'), function (err, data) {
+          if (err) throw new Error(err)
+          else {
+            res.setHeader('Content-Type', 'image/' + (image.filetype ? image.filetype : 'jpg'))
+            res.send(data)
+          }
+        })
+      })
+      .catch(function (error) {
+        console.log('Error loading image thumbnail:' + error)
+        res.status(500).send('Error while loading image. Sorry!')
       })
     },
     update: function (req, res) {
@@ -110,19 +129,21 @@ module.exports = function (io) {
       })
     },
     delete: function (req, res) {
-      Image.findByIdAndRemove(req.params.id).exec()
-      .then(function () {
-        fs.unlink(config.imageStorageBase + '/image_thumbnail_' + req.params.id + '.jpg', function (err) {
+      Image.findById(req.params.id).exec()
+      .then(function (image) {
+        fs.unlink(config.imageStorageBase + '/image_thumbnail_' + req.params.id + '.' + (image.filetype ? image.filetype : 'jpg'), function (err) {
+          if (err) throw new Error(err)
         })
 
-        fs.unlink(config.imageStorageBase + '/image_' + req.params.id + '.jpg', function (err) {
-          if(err) {
-            res.status(500).send(err)
-          } else {
-            io.emit('image deleted')
-            res.send({})
-          }
+        fs.unlink(config.imageStorageBase + '/image_' + req.params.id + '.' + (image.filetype ? image.filetype : 'jpg'), function (err) {
+          if (err) throw new Error(err)
         })
+
+        return Image.findByIdAndRemove(req.params.id).exec()
+      })
+      .then(function () {
+        io.emit('image deleted')
+        res.send({})
       })
       .catch(function (err) {
         res.status(500).send(err)

@@ -2,9 +2,7 @@
   <main style="overflow:auto">
     <md-content layout-wrap layout="row" layout-xs="column" layout-sm="row">
       <div layout="column" flex="60" flex-xs="100" flex-sm="100">
-        <md-card>
-          <md-card-content style="white-space:pre-wrap;" ng-bind-html="newsText | kanbanText"></md-card-content>
-        </md-card>
+        <index-news-card></index-news-card>
       </div>
 
       <div layout="column" flex="40" flex-xs="100" flex-sm="100">
@@ -39,7 +37,7 @@
                   </div>
                 </div>
                 <div style="position: absolute"
-                      ng-style="{'left': (((currentEorzeanTime.h+currentEorzeanTime.m/60)/24)*100)+'%', 'top': '0px', 'width': '1px', 'height':'20px', 'background': 'green'}">
+                      ng-style="{'left': (((CurrentEorzeanTimeService.currentEorzeanTime.h+CurrentEorzeanTimeService.currentEorzeanTime.m/60)/24)*100)+'%', 'top': '0px', 'width': '1px', 'height':'20px', 'background': 'green'}">
                 </div>
               </div>
               <style>
@@ -106,7 +104,7 @@
                     <span ng-if="gathers.hq">HQ</span>
                     <span flex></span>
                     <span ng-if="gathers.item.unspoiledNode">
-                      Next: {{EorzeanTimeService.timeToNode(currentEorzeanTime, gathers.item.unspoiledNodeTime).realMinutes}}m {{EorzeanTimeService.timeToNode(currentEorzeanTime, gathers.item.unspoiledNodeTime).realSeconds}}s
+                      Next: {{EorzeanTimeService.timeToNode(CurrentEorzeanTimeService.currentEorzeanTime, gathers.item.unspoiledNodeTime).realMinutes}}m {{EorzeanTimeService.timeToNode(CurrentEorzeanTimeService.currentEorzeanTime, gathers.item.unspoiledNodeTime).realSeconds}}s
                     </span>
                     <span ng-if="gathers.step.workedOnBy && gathers.step.workedOnBy.length > 0 && !isWorkedByMe(gathers.step)">
                       <md-button class="md-icon-button">

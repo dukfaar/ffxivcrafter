@@ -1,42 +1,7 @@
 <div layout="column" ng-controller="HeaderController as hdrctr">
   <h2 style="text-align: center" ng-if="!inElectronApp()">RainCollector</h2>
 
-  <div class="mainMenu">
-    <div ng-repeat="item in hdrctr.menus.main|orderBy:'weight?weight:9999'" ng-if="item.link || item.submenus.length > 0" layout="column">
-      <md-button class="menuItem" ng-if="item.link" layout="row" aria-label="{{item.link}}" ui-route="/{{item.link}}" ng-class="{active: $uiRoute}"  ui-sref="{{item.link}}" mean-token="item.link">
-        <span style>{{item.title}}</span>
-        <span flex></span>
-      </md-button>
-
-      <a class="md-button menuItem" ng-if="!item.link" ng-disabled="true" layout="row">
-        <span style>{{item.title}}</span>
-        <span flex></span>
-      </a>
-
-      <div ng-if="item.submenus.length>0" layout="column" class="subMenu">
-        <div ng-repeat="subitem in item.submenus|orderBy:'weight?weight:9999'" class="menuItem">
-          <md-button layout="row" aria-label="{{subitem.link}}" ui-route="/{{subitem.link}}" ng-class="{active: $uiRoute}"  ui-sref="{{subitem.link}}" mean-token="subitem.link">
-            <span>{{subitem.title}}</span>
-            <span flex></span>
-          </md-button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <style>
-  .mainMenu .menuItem {
-    font-size: 1.05em;
-  }
-
-  .subMenu {
-    padding-left: 1em;
-  }
-
-  .mainMenu .menuItem .menuItem {
-    font-size: 1.00em;
-  }
-  </style>
+  <sidenav-menu menus="hdrctr.menus.main" font-size="1.05"></sidenav-menu>
 
   <span flex></span>
   <md-button class="md-button" aria-label="Sign Up" ui-sref="auth.register" ng-if="!hdrctr.hdrvars.authenticated">

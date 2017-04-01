@@ -1,0 +1,41 @@
+<div>
+  <div
+    ng-repeat="item in sidenavMenuController.menus|orderBy:'weight?weight:9999'"
+    ng-if="item.link || item.submenus.length > 0"
+    layout="column">
+
+    <md-button
+      ng-if="item.link"
+      ng-style="{'font-size': sidenavMenuController.fontSize+'em'}"
+      layout="row"
+      class="menuItem"
+      aria-label="{{item.link}}"
+      ui-route="/{{item.link}}"
+      ng-class="{active: $uiRoute}"
+      ui-sref="{{item.link}}"
+      mean-token="item.link"
+      >
+      <span style>{{item.title}}</span>
+      <span flex></span>
+    </md-button>
+
+    <a
+      ng-if="!item.link"
+      ng-style="{'font-size': sidenavMenuController.fontSize + 'em'}"
+      layout="row"
+      class="md-button menuItem"
+      ng-disabled="true"
+      >
+      <span style>{{item.title}}</span>
+      <span flex></span>
+    </a>
+
+    <sidenav-menu
+      ng-if="item.submenus && item.submenus.length > 0"
+      menus="item.submenus"
+      font-size="sidenavMenuController.fontSize-0.05"
+      style="padding-left:1em"
+      >
+    </sidenav-menu>
+  </div>
+</div>
