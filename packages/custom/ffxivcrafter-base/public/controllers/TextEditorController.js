@@ -17,6 +17,8 @@ function TextEditorController ($scope, $element, _) {
   this.addLeft = addLeft
   this.addCenter = addCenter
   this.addRight = addRight
+  this.addColor = addColor
+  this.addFontSize = addFontSize
 
   function doInjectTagInplace (before, tagOpen, tagClose, after) {
     setText(before + '[' + tagOpen + '][/' + tagClose + ']' + after)
@@ -112,6 +114,14 @@ function TextEditorController ($scope, $element, _) {
 
   function addUrl () {
     injectParameterTags('a', 'URL')
+  }
+
+  function addColor () {
+    injectParameterTags('color', 'COLOR')
+  }
+
+  function addFontSize () {
+    injectParameterTags('font-size', 'SIZE')
   }
 
   function addImage () {

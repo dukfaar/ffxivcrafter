@@ -15,7 +15,9 @@ angular.module('mean.ffxivCrafter').filter('kanbanText', function ($sce, _) {
       'project': { tag: 'a', param: p => 'href="/project/view/' + p + '"' },
       'fcategory': { tag: 'a', param: p => 'href="/forum/category/' + p + '"' },
       'fthread': { tag: 'a', param: p => 'href="/forum/thread/' + p + '"' },
-      'a': { tag: 'a', param: p => 'target="_blank" href="' + p + '"' }
+      'a': { tag: 'a', param: p => 'target="_blank" href="' + p + '"' },
+      'color': { tag: 'span', param: color => 'style="color: ' + color + ';"' },
+      'font-size': { tag: 'span', param: color => 'style="font-size: ' + color + ';"' }
     }
 
     _.forEach(tagsToConvertDirectly, (tag) => {
@@ -24,14 +26,14 @@ angular.module('mean.ffxivCrafter').filter('kanbanText', function ($sce, _) {
     })
 
     _.forEach(tagsToMapWithParam, (value, key) => {
-      resultText = _.replace(resultText, new RegExp('\\[' + key + '(\\s*=\\s*([\s\S]))?\\]', 'g'), function (match, p1, p2, offset, string) {
+      resultText = _.replace(resultText, new RegExp('\\[' + key + '(\\s*=\\s*([\\S]*?))?\\]', 'g'), function (match, p1, p2, offset, string) {
         let paramText = null
         if (_.isFunction(value.param)) {
           paramText = value.param(p2)
         } else {
           paramText = value.param
         }
-        return '<' + value.tag + ' ' + value.param + '>'
+        return '<' + value.tag + ' ' + paramText + '>'
       })
       resultText = _.replace(resultText, new RegExp('\\[/' + key + '\\]', 'g'), '</' + value.tag + '>')
     })

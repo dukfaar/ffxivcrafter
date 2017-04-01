@@ -8,6 +8,6 @@ custom-directive-container-adder {
   position: relative;
 }
 
-.no-error-spacer .md-error-spacer {
+.no-error-spacer .md-errors-spacer {
   display: none;
 }
