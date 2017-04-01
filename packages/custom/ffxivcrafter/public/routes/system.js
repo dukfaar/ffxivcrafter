@@ -11,13 +11,13 @@ function SystemRoutes ($meanStateProvider, $urlRouterProvider) {
   $meanStateProvider
     .state('home', {
       url: '/',
-      templateUrl: 'ffxivCrafter/views/system/index.html'
+      templateUrl: 'ffxivCrafter/views/system/new-index.html'
     })
 
   $meanStateProvider
-      .state('new home', {
-        url: '/newhome',
-        templateUrl: 'ffxivCrafter/views/system/new-index.html'
+      .state('old home', {
+        url: '/oldhome',
+        templateUrl: 'ffxivCrafter/views/system/index.html'
       })
 
   $meanStateProvider

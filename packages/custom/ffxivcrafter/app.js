@@ -178,7 +178,7 @@ function setupMainMenu_Admin () {
 
 function setupMainMenu () {
   FFXIVCrafter.menus.add({
-    title: 'Delivery',
+    title: 'Index',
     link: 'home',
     roles: ['authenticated'],
     menu: 'main',
