@@ -21,8 +21,12 @@ module.exports = function () {
     return req.query.populate ? find.populate(decodeURIComponent(req.query.populate)) : find
   }
 
+  function selectFind (find, req) {
+    return req.query.select?find.select(req.query.select):find
+  }
+
   function doList (find, req) {
-    return populateFind(limitFind(skipFind(find, req), req), req).lean().exec()
+    return populateFind(selectFind(limitFind(skipFind(find, req), req), req), req).lean().exec()
   }
 
   function createRestRoute (controller, apiBase) {
@@ -50,7 +54,7 @@ module.exports = function () {
   }
   function countAction (Model, req, res) {
     var findQuery = _.pickBy(req.query, function (value, key) {
-      return key !== 'populate' && key !== 'skip' && key !== 'limit' && key !== 'page'
+      return key !== 'populate' && key !== 'skip' && key !== 'limit' && key !== 'page' && key !== 'select'
     })
 
     Model.count(findQuery)
@@ -65,7 +69,7 @@ module.exports = function () {
 
   function listAction (Model, req, res) {
     var findQuery = _.pickBy(req.query, function (value, key) {
-      return key !== 'populate' && key !== 'skip' && key !== 'limit' && key !== 'page'
+      return key !== 'populate' && key !== 'skip' && key !== 'limit' && key !== 'page' && key !== 'select'
     })
 
     doList(Model.find(findQuery), req)
@@ -106,7 +110,7 @@ module.exports = function () {
         })
       },
       get: function (req, res) {
-        populateFind(Model.findById(req.params.id), req).exec()
+        selectFind(populateFind(Model.findById(req.params.id), req), req).exec()
         .then(function (instance) {
           res.send(instance)
         })

@@ -11,6 +11,7 @@ angular.module('mean.ffxivCrafter_gallery').directive('rcGallery', function () {
 GalleryController.$inject = ['$scope', '$http', 'Analytics', 'FileUpload', '_', 'socket', '$mdDialog', 'Image', '$q']
 
 function GalleryController ($scope, $http, Analytics, FileUpload, _, socket, $mdDialog, Image, $q) {
+  let vm = this
   this.Image = Image
 
   this.filter = {
@@ -74,28 +75,22 @@ function GalleryController ($scope, $http, Analytics, FileUpload, _, socket, $md
   this.refetchCallback = null
 
   function doGetImageList () {
-    if (this.refetchCallback) this.refetchCallback()
-    this.triggerGetImageListTimeout = null
+    if (vm.refetchCallback) vm.refetchCallback()
+    vm.triggerGetImageListTimeout = null
   }
 
   function triggerGetImageList () {
-    if (this.triggerGetImageListTimeout) clearTimeout(this.triggerGetImageListTimeout)
+    if (vm.triggerGetImageListTimeout) clearTimeout(vm.triggerGetImageListTimeout)
 
-    this.triggerGetImageListTimeout = setTimeout(doGetImageList.bind(this), 300)
+    vm.triggerGetImageListTimeout = setTimeout(doGetImageList, 300)
   }
 
   this.tagSearchChanged = function () {
-    if (this.filter.tags.length === 0) this.filter.tags = null
-    triggerGetImageList.bind(this)()
+    if (vm.filter.tags.length === 0) vm.filter.tags = null
+    triggerGetImageList()
   }
 
-  socket.on('image created', triggerGetImageList.bind(this))
-  socket.on('image deleted', triggerGetImageList.bind(this))
-  socket.on('image updated', triggerGetImageList.bind(this))
-
-  $scope.$on('$destroy', function () {
-    socket.off('image created', triggerGetImageList.bind(this))
-    socket.off('image deleted', triggerGetImageList.bind(this))
-    socket.off('image updated', triggerGetImageList.bind(this))
-  }.bind(this))
+  socket.auto('image created', triggerGetImageList, $scope)
+  socket.auto('image deleted', triggerGetImageList, $scope)
+  socket.auto('image updated', triggerGetImageList, $scope)
 }

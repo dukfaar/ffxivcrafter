@@ -13,12 +13,15 @@ AdminUsers.$inject = ['$scope', '$q', '_', 'UserService', 'User', 'Circle']
 
 function AdminUsers ($scope, $q, _, UserService, User, Circle) {
   $scope.UserService = UserService
-  $scope.users = User.query({})
   $scope.circles = Circle.query({})
+  $scope.auto = {}
+  $scope.editableCircles = editableCircles
 
   $scope.updateUserRoles = function (user) {
-    User.update({id: user._id}, user).$promise.then(() => {
-      user = User.get({id: user._id})
-    })
+    User.update({id: user._id}, user)
+  }
+
+  function editableCircles (searchText) {
+    return _.filter(_.filter(_.map($scope.circles, c => c.name), c => UserService.allowed(c)), c => _.includes(c, searchText))
   }
 }

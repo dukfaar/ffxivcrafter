@@ -45,6 +45,13 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
             return MeanUser.checkLoggedOut()
           }
         }
-      });
+      })
+      .state('member list', {
+        url: '/users/memberlist',
+        templateUrl: 'ffxivCrafter/views/users/memberList.html',
+        requiredCircles: {
+          circles: ['see memberlist']
+        }
+      })
   }
-]);
+])

@@ -1,28 +1,49 @@
 <page-base>
   <div layout="row">
-    <md-card>
-      <md-card-content>
-        <md-list layout-fill ng-repeat="user in users track by user._id">
-          <md-list-item>
-            <span flex="30">
-              {{user.name}}
-            </span>
-            <md-chips flex ng-model="user.roles" md-on-add="updateUserRoles(user)" md-on-remove="updateUserRoles(user)">
-            </md-chips>
-          </md-list-item>
-        </md-list>
-      </md-card-content>
-    </md-card>
-    <md-card>
-      <md-card-content>
-        <md-list layout-fill ng-repeat="circle in circles track by circle._id">
-          <md-list-item>
-            <span>
-              {{circle.name}}
-            </span>
-          </md-list-item>
-        </md-list>
-      </md-card-content>
-    </md-card>
+    <div>
+      <md-card>
+        <md-card-content ng-controller="UserList as userListCtrl">
+          <md-list layout-fill>
+            <md-list-item ng-repeat="user in userListCtrl.users track by user._id">
+              <span flex="30">
+                {{user.name}}
+              </span>
+              <md-chips
+                flex
+                ng-model="user.roles"
+                md-on-add="updateUserRoles(user)"
+                md-on-remove="updateUserRoles(user)"
+                md-require-match="true"
+                >
+                <md-autocomplete
+                  md-selected-item="auto[user._id].selectedItem"
+                  md-search-text="auto[user._id].searchText"
+                  md-items="circle in editableCircles(auto[user._id].searchText)"
+                  md-item-text="circle"
+                  >
+                  <span md-highlight-text="auto[user._id].searchText">{{circle}}</span>
+                </md-autocomplete>
+                <md-button class="md-icon-button md-chip-remove" md-chip-remove ng-if="UserService.allowed($chip)">
+                  <md-icon class="material-icons">close</md-icon>
+                </md-button>
+              </md-chips>
+            </md-list-item>
+          </md-list>
+        </md-card-content>
+      </md-card>
+    </div>
+    <div>
+      <md-card>
+        <md-card-content>
+          <md-list layout-fill>
+            <md-list-item ng-repeat="circle in editableCircles('') track by circle">
+              <span>
+                {{circle}}
+              </span>
+            </md-list-item>
+          </md-list>
+        </md-card-content>
+      </md-card>
+    </div>
   </div>
 </page-base>

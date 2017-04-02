@@ -1,0 +1,28 @@
+<page-base layout-fill >
+  <md-card>
+    <md-card-content ng-controller="MemberList as memberListCtrl">
+      <md-list>
+        <md-list-item ng-repeat="user in memberListCtrl.users | filter: filter.user track by user._id" layout="row" layout-wrap>
+          <span flex="10">
+            <img height="50"
+              ng-if="user.avatarImage && user.avatarImage.length > 0"
+              ng-src="/api/imageThumbnailData/{{user.avatarImage}}"/>
+          </span>
+          <span flex-xs="100" flex-sm="100" flex="30">{{user.name}}</span>
+          <span flex-xs="100" flex-sm="100" flex="30">{{user.username}}</span>
+        </md-list-item>
+      </md-list>
+    </md-card-content>
+  </md-card>
+</page-base>
+
+<div md-whiteframe="4" style="position: absolute; top:0; right:0; border-bottom-left-radius: 2em; background: rgba(0,0,0,0.5)" layout-align="center center">
+  <md-input-container class="no-error-spacer">
+    <label>
+      <md-icon class="material-icons">search</md-icon>
+      <span translate>memberlist.filter.label</span>
+    </label>
+    <input type="text"
+      ng-model="filter.user"/>
+  </md-input-container>
+</div>

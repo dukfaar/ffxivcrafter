@@ -23,7 +23,7 @@ function AdminNewsController (ApplicationSetting) {
   this.fetchNews()
 
   function updateNews () {
-    ApplicationSetting.update({id: this.newsResource._id}, this.newsResource)
+    ApplicationSetting.update({id: vm.newsResource._id}, vm.newsResource)
   }
 
   function fetchNews () {

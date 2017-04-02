@@ -45,7 +45,10 @@ function setupCircles (circles) {
   circles.registerCircle('see order', ['admin'])
 
   circles.registerCircle('edit users', ['admin'])
+  circles.registerCircle('edit user permissions', ['edit users'])
+
   circles.registerCircle('edit circles', ['admin'])
+
   circles.registerCircle('see admin dashboard', ['admin'])
 
   circles.registerCircle('see all projects', ['admin'])
@@ -149,9 +152,9 @@ function setupMainMenu_Admin () {
     path: 'main/admin'
   })
   FFXIVCrafter.menus.add({
-    title: 'Users',
+    title: 'User Permissions',
     link: 'admin edit users',
-    roles: ['edit users'],
+    roles: ['edit user permissions'],
     path: 'main/admin'
   })
   FFXIVCrafter.menus.add({

@@ -14,6 +14,7 @@ function NewsletterManagerDirective () {
 NewsletterManagerDirectiveController.$inject = ['$scope', '_', '$q', 'socket', 'Newsletter', 'UserDatabase', 'FileUpload']
 
 function NewsletterManagerDirectiveController ($scope, _, $q, socket, Newsletter, UserDatabase, FileUpload) {
+  let vm = this
   this.FileUpload = FileUpload.getUploader('/api/newsletter/upload')
   this.UserDatabase = UserDatabase
   this.doGetList = doGetList
@@ -23,32 +24,32 @@ function NewsletterManagerDirectiveController ($scope, _, $q, socket, Newsletter
 
   this.doGetList()
 
-  socket.on('newsletter created', triggerGetList.bind(this))
-  socket.on('newsletter deleted', triggerGetList.bind(this))
-  socket.on('newsletter updated', triggerGetList.bind(this))
+  socket.on('newsletter created', triggerGetList)
+  socket.on('newsletter deleted', triggerGetList)
+  socket.on('newsletter updated', triggerGetList)
 
   $scope.$on('$destroy', function () {
-    socket.off('newsletter created', triggerGetList.bind(this))
-    socket.off('newsletter deleted', triggerGetList.bind(this))
-    socket.off('newsletter updated', triggerGetList.bind(this))
-  }.bind(this))
+    socket.off('newsletter created', triggerGetList)
+    socket.off('newsletter deleted', triggerGetList)
+    socket.off('newsletter updated', triggerGetList)
+  })
 
   function doGetList () {
-    this.newsletterList = Newsletter.query({})
+    vm.newsletterList = Newsletter.query({})
 
-    this.triggerGetListTimeout = null
+    vm.triggerGetListTimeout = null
   }
 
   function triggerGetList () {
-    if (this.triggerGetListTimeout) clearTimeout(this.triggerGetListTimeout)
+    if (vm.triggerGetListTimeout) clearTimeout(vm.triggerGetListTimeout)
 
-    this.triggerGetListTimeout = setTimeout(doGetList.bind(this), 300)
+    vm.triggerGetListTimeout = setTimeout(doGetList, 300)
   }
 
   function updateNewsletter (newsletter) {
     if (newsletter.isCurrent) {
       _.forEach(
-        _.filter(this.newsletterList, (n) => { return n.isCurrent && n._id !== newsletter._id }),
+        _.filter(vm.newsletterList, (n) => { return n.isCurrent && n._id !== newsletter._id }),
         function (n) {
           n.isCurrent = false
           Newsletter.update({id: n._id}, n)

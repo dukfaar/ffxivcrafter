@@ -94,5 +94,6 @@
   "reporting.code.hide": "Berechnung verstecken",
   "gallery.filter.tag": "Tag-Suche",
   "event.new": "Neues Event anlegen",
-  "index.crafters.corner": "Pfotenwerker Ecke"
+  "index.crafters.corner": "Pfotenwerker Ecke",
+  "memberlist.filter.label": "Filter"
 }
