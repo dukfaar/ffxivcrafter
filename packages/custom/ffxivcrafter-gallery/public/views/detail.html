@@ -1,37 +1,73 @@
-<md-dialog style="position: relative"
+<md-dialog style="position: relative; min-width:90%; min-height:90%; max-width:90%; max-height:90%;"
   ng-mouseover="detailController.imagemouseover = true"
   ng-mouseleave="detailController.imagemouseover = false"
+  layout-fill
   >
-  <div class="detail_overlay" ng-class="{'detail_overlay_show': detailController.imagemouseover}">
-    <div style="width:100%" layout-padding layout="row">
-      <div layout="column">
-        <span>Image-ID: {{detailController.image._id}}</span>
-        <span>Uploaded: {{detailController.image.uploadDate|date:'short'}} by {{detailController.UserDatabase.get(detailController.image.uploader).name}}</span>
-        <span>
-          <md-chips
-            readonly="!detailController.canEdit(detailController.image)"
-            ng-model="detailController.image.tags"
-            md-on-add="detailController.updateImage(detailController.image)"
-            md-on-remove="detailController.updateImage(detailController.image)"
-            placeholder="Please tag me!">
-          </md-chips>
-        </span>
+  <md-dialog-content layout="column" layout-fill>
+    <div layout="row" layout-fill style="overflow: hidden">
+      <div flex="80" style="position: relative">
+        <div class="detail_overlay" ng-class="{'detail_overlay_show': detailController.imagemouseover}">
+          <div style="width:100%" layout-padding layout="row">
+            <div layout="column">
+              <span>Image-ID: {{detailController.image._id}}</span>
+              <span>Uploaded: {{detailController.image.uploadDate|date:'short'}} by {{detailController.UserDatabase.get(detailController.image.uploader).name}}</span>
+              <span>
+                <md-chips
+                  readonly="!detailController.canEdit(detailController.image)"
+                  ng-model="detailController.image.tags"
+                  md-on-add="detailController.updateImage(detailController.image)"
+                  md-on-remove="detailController.updateImage(detailController.image)"
+                  placeholder="Please tag me!">
+                </md-chips>
+              </span>
+            </div>
+            <span flex></span>
+            <md-button
+              ng-if="detailController.canDelete(detailController.image)"
+              class="md-icon-button"
+              ga-track-event="['image detail', 'delete', 'open confirm']" ng-click="detailController.deleteImage(detailController.image)">
+              <md-icon class="material-icons">delete</md-icon>
+            </md-button>
+          </div>
+        </div>
+        <div style="overflow: auto" layout="row" layout-align="center start" layout-fill>
+          <img
+            ng-src="/api/imageData/{{detailController.image._id}}"
+            style="max-width: 100%"
+            />
+        </div>
       </div>
-      <span flex></span>
-      <md-button
-        ng-if="detailController.canDelete(detailController.image)"
-        class="md-icon-button"
-        ga-track-event="['image detail', 'delete', 'open confirm']" ng-click="detailController.deleteImage(detailController.image)">
-        <md-icon class="material-icons">delete</md-icon>
-      </md-button>
+      <div layout="column" flex="20">
+        <div md-whiteframe="4" layout="column" style="overflow: auto" flex>
+          <md-list>
+            <md-list-item ng-if="detailController.comments.length === 0" translate>
+              gallery.comments.empty
+            </md-list-item>
+            <md-list-item ng-repeat="comment in detailController.comments track by comment._id">
+              <div layout="column" layout-padding>
+                <div flex>{{detailController.UserDatabase.get(comment.commentor).name}}</div>
+                <div layout="row">
+                  <img style="max-height: 50px; max-width:50px"
+                    ng-if="detailController.UserDatabase.get(comment.commentor).avatarImage && detailController.UserDatabase.get(comment.commentor).avatarImage.length > 0"
+                    ng-src="/api/imageThumbnailData/{{detailController.UserDatabase.get(comment.commentor).avatarImage}}"/>
+                  <div>
+                    {{comment.text}}
+                  </div>
+                </div>
+              </div>
+              <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+          </md-list>
+        </div>
+        <div md-whiteframe="4" layout="row">
+          <md-input-container class="no-error-spacer" flex>
+            <label translate>gallery.comment.new</label>
+            <input type="text" ng-model="detailController.commentInputText" ng-keyup="$event.keyCode == 13 && detailController.sendComment()" flex/>
+          </md-input-container>
+        </div>
+      </div>
     </div>
-  </div>
-  <div style="overflow: auto">
-    <img
-      ng-src="/api/imageData/{{detailController.image._id}}"
-      style="max-width: 100%"
-      />
-  </div>
+  </md-dialog-content>
 </md-dialog>
 
 <style>

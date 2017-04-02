@@ -15,14 +15,45 @@ function GalleryController ($scope, $http, Analytics, FileUpload, _, socket, $md
   this.Image = Image
 
   this.filter = {
-    tags: null
+    tags: null,
+    order: '-uploadDate'
   }
 
   this.FileUpload = FileUpload.getUploader('/api/image')
 
-  function ImageDetailDialogController ($scope, image, $http, $mdDialog, UserDatabase, Image, UserService) {
+  ImageDetailDialogController.$inject = ['$scope', 'image', '$http', '$mdDialog', 'UserDatabase', 'Image', 'ImageComment', 'UserService', 'socket']
+
+  function ImageDetailDialogController ($scope, image, $http, $mdDialog, UserDatabase, Image, ImageComment, UserService, socket) {
+    let detail_vm = this
     this.image = image
     this.UserDatabase = UserDatabase
+    this.sendComment = sendComment
+    this.commentInputText = ''
+
+    this.comments = []
+    getComments()
+
+    socket.auto('ImageComment created', getComments, $scope)
+    socket.auto('ImageComment updated', getComments, $scope)
+    socket.auto('ImageComment deleted', getComments, $scope)
+
+    function getComments () {
+      ImageComment.query({image: image._id, select: 'commentor text date'}).$promise.then(result => { detail_vm.comments = result })
+    }
+
+    function sendComment () {
+      if (detail_vm.commentInputText.length === 0) return
+
+      let newComment = new ImageComment()
+      newComment.image = detail_vm.image._id
+      newComment.commentor = UserService.user._id
+      newComment.date = new Date()
+      newComment.text = detail_vm.commentInputText
+
+      newComment.$save().then(() => {
+        this.commentInputText = ''
+      })
+    }
 
     this.updateImage = (image) => { Image.update({id: image._id}, image) }
 

@@ -108,5 +108,7 @@
   "account.settings.general.header": "General Settings",
   "account.settings.name.description": "Your name is what gets shown everywhere, when you post in the forum, upload images or order things. It's best to use your ingame name here.",
   "account.settings.username.description": "Not really used in many places. Either user your ingame name or if you change your names more often then your pants, use a name that we can remember.",
-  "memberlist.filter.label": "Filter"
+  "memberlist.filter.label": "Filter",
+  "gallery.comment.new": "New comment",
+  "gallery.comments.empty": "No one has left a comment yet :-( be the first one!"
 }
