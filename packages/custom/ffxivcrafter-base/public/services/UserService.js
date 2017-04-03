@@ -3,11 +3,11 @@
 angular.module('mean.ffxivCrafter_base')
 .factory('UserService', UserService)
 
-UserService.$inject = ['MeanUser', 'User', '$timeout']
+UserService.$inject = ['MeanUser', 'User', '$timeout', 'UserDatabase']
 
-function UserService (MeanUser, User, $timeout) {
+function UserService (MeanUser, User, $timeout, UserDatabase) {
   var service = {
-    user: MeanUser.user,
+    user: UserDatabase.get(MeanUser.user._id),
     allowed: allowed,
     updateUser: updateUser,
     regrabUser: regrabUser
@@ -20,10 +20,10 @@ function UserService (MeanUser, User, $timeout) {
   }
 
   function updateUser () {
-    User.update({ id: MeanUser.user._id }, MeanUser.user)
+    User.update({ id: MeanUser.user._id }, service.user)
   }
 
   function regrabUser () {
-    service.user = MeanUser.user
+    service.user = UserDatabase.get(MeanUser.user._id)
   }
 }

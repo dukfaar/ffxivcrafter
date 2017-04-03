@@ -18,7 +18,7 @@ function HeaderController ($scope, $rootScope, Menus, MeanUser, $state, $mdSiden
   vm.menus = {}
   vm.hdrvars = {
     authenticated: MeanUser.loggedin,
-    user: MeanUser.user,
+    user: UserService.user,
     isAdmin: MeanUser.isAdmin
   }
 
@@ -52,7 +52,7 @@ function HeaderController ($scope, $rootScope, Menus, MeanUser, $state, $mdSiden
 
     vm.hdrvars = {
       authenticated: MeanUser.loggedin,
-      user: MeanUser.user,
+      user: UserService.user,
       isAdmin: MeanUser.isAdmin
     }
 
