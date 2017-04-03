@@ -47,9 +47,11 @@
               <div layout="column" layout-padding>
                 <div flex>{{detailController.UserDatabase.get(comment.commentor).name}}</div>
                 <div layout="row">
-                  <img style="max-height: 50px; max-width:50px"
-                    ng-if="detailController.UserDatabase.get(comment.commentor).avatarImage && detailController.UserDatabase.get(comment.commentor).avatarImage.length > 0"
-                    ng-src="/api/imageThumbnailData/{{detailController.UserDatabase.get(comment.commentor).avatarImage}}"/>
+                  <a ng-href="/account/profile/{{comment.commentor}}">
+                    <img style="max-height: 50px; max-width:50px"
+                      ng-if="detailController.UserDatabase.get(comment.commentor).avatarImage && detailController.UserDatabase.get(comment.commentor).avatarImage.length > 0"
+                      ng-src="/api/imageThumbnailData/{{detailController.UserDatabase.get(comment.commentor).avatarImage}}"/>
+                  </a>
                   <div>
                     {{comment.text}}
                   </div>

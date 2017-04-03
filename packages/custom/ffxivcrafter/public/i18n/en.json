@@ -110,5 +110,6 @@
   "account.settings.username.description": "Not really used in many places. Either user your ingame name or if you change your names more often then your pants, use a name that we can remember.",
   "memberlist.filter.label": "Filter",
   "gallery.comment.new": "New comment",
-  "gallery.comments.empty": "No one has left a comment yet :-( be the first one!"
+  "gallery.comments.empty": "No one has left a comment yet :-( be the first one!",
+  "profile.aboutme.label": "About Me"
 }

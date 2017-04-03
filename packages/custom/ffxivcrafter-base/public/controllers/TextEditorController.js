@@ -137,6 +137,7 @@ function TextEditorController ($scope, $element, _) {
     if ($scope.$parent.data && $scope.$parent.data.text) return $scope.$parent.data.text
     else if ($scope.$parent.data && $scope.$parent.data.post) return $scope.$parent.data.post.text
     else if ($scope.$parent.$parent.adminNewsController) return $scope.$parent.$parent.adminNewsController.newsResource.text
+    else if ($scope.$parent.accountSettingsController.UserService.user) return $scope.$parent.accountSettingsController.UserService.user.aboutme
     else throw new Error('Cannot get Text, please fix me')
   }
 
@@ -145,6 +146,7 @@ function TextEditorController ($scope, $element, _) {
     if ($scope.$parent.data && $scope.$parent.data.text) $scope.$parent.data.text = text
     else if ($scope.$parent.data && $scope.$parent.data.post) $scope.$parent.data.post.text = text
     else if ($scope.$parent.$parent.adminNewsController) $scope.$parent.$parent.adminNewsController.newsResource.text = text
+    else if ($scope.$parent.accountSettingsController.UserService.user) $scope.$parent.accountSettingsController.UserService.user.aboutme = text
     else throw new Error('Cannot set Text, please fix me')
   }
 }

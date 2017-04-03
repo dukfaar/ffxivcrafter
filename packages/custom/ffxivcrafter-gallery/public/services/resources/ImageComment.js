@@ -2,7 +2,7 @@
 
 angular.module('mean.ffxivCrafter_gallery').factory('ImageComment', ['$resource',
   function ($resource) {
-    var apiBase = '/api/rest/imageComment'
+    var apiBase = '/api/rest/imageComment/'
     return $resource(apiBase + ':id',{id: '@id'},{
       update: {
         method: 'PUT'

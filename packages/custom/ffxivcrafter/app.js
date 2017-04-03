@@ -54,6 +54,9 @@ function setupCircles (circles) {
   circles.registerCircle('see all projects', ['admin'])
 
   circles.registerCircle('edit newspage', ['admin'])
+
+  circles.registerCircle('see memberlist', ['admin'])
+  circles.registerCircle('see profile', ['admin'])
 }
 
 function setupMainMenu_PM () {
@@ -209,6 +212,13 @@ function setupMainMenu () {
   })
 
   FFXIVCrafter.menus.add({
+    title: 'Memberlist',
+    link: 'member list',
+    roles: ['see memberlist'],
+    menu: 'main'
+  })
+
+  FFXIVCrafter.menus.add({
     title: 'Market',
     roles: ['authenticated'],
     path: 'main',
@@ -334,7 +344,10 @@ function extendUser (database) {
 
     leatherworkerLevel: { type: Number, min: 1, max: 60, default: 1 },
     leatherworkerSpecialist: { type: Boolean, default: false },
-    leatherworkerMaster: [Boolean]
+    leatherworkerMaster: [Boolean],
+
+    aboutme: { type: String },
+    birthday: { type: Date }
   })
 }
 
