@@ -45,7 +45,9 @@
             </md-list-item>
             <md-list-item ng-repeat="comment in detailController.comments track by comment._id">
               <div layout="column" layout-padding>
-                <div flex>{{detailController.UserDatabase.get(comment.commentor).name}}</div>
+                <a ng-href="/account/profile/{{comment.commentor}}">
+                  <div flex>{{detailController.UserDatabase.get(comment.commentor).name}}</div>
+                </a>
                 <div layout="row">
                   <a ng-href="/account/profile/{{comment.commentor}}">
                     <img style="max-height: 50px; max-width:50px"
