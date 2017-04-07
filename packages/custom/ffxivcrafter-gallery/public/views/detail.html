@@ -50,7 +50,7 @@
                 </a>
                 <div layout="row">
                   <a ng-href="/account/profile/{{comment.commentor}}">
-                    <img style="max-height: 50px; max-width:50px"
+                    <img class="md-avatar" style="max-height: 50px; max-width:50px"
                       ng-if="detailController.UserDatabase.get(comment.commentor).avatarImage && detailController.UserDatabase.get(comment.commentor).avatarImage.length > 0"
                       ng-src="/api/imageThumbnailData/{{detailController.UserDatabase.get(comment.commentor).avatarImage}}"/>
                   </a>

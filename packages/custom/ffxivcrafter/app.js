@@ -346,8 +346,8 @@ function extendUser (database) {
     leatherworkerSpecialist: { type: Boolean, default: false },
     leatherworkerMaster: [Boolean],
 
-    aboutme: { type: String },
-    birthday: { type: Date }
+    aboutme: { type: String, default: '' },
+    birthday: { type: Date, default: null }
   })
 }
 

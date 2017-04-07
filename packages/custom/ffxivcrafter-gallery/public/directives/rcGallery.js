@@ -8,11 +8,12 @@ angular.module('mean.ffxivCrafter_gallery').directive('rcGallery', function () {
   }
 })
 
-GalleryController.$inject = ['$scope', '$http', 'Analytics', 'FileUpload', '_', 'socket', '$mdDialog', 'Image', '$q']
+GalleryController.$inject = ['$scope', '$http', 'Analytics', 'FileUpload', '_', 'socket', '$mdDialog', 'Image', '$q', '$mdMedia']
 
-function GalleryController ($scope, $http, Analytics, FileUpload, _, socket, $mdDialog, Image, $q) {
+function GalleryController ($scope, $http, Analytics, FileUpload, _, socket, $mdDialog, Image, $q, $mdMedia) {
   let vm = this
   this.Image = Image
+  this.$mdMedia = $mdMedia
 
   this.filter = {
     tags: null,

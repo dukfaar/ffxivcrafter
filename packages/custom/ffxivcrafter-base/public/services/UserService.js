@@ -3,9 +3,9 @@
 angular.module('mean.ffxivCrafter_base')
 .factory('UserService', UserService)
 
-UserService.$inject = ['MeanUser', 'User', '$timeout', 'UserDatabase']
+UserService.$inject = ['$rootScope', 'MeanUser', 'User', '$timeout', 'UserDatabase']
 
-function UserService (MeanUser, User, $timeout, UserDatabase) {
+function UserService ($rootScope, MeanUser, User, $timeout, UserDatabase) {
   var service = {
     user: UserDatabase.get(MeanUser.user._id),
     allowed: allowed,
@@ -24,6 +24,9 @@ function UserService (MeanUser, User, $timeout, UserDatabase) {
   }
 
   function regrabUser () {
-    service.user = UserDatabase.get(MeanUser.user._id)
+    UserDatabase.get(MeanUser.user._id).$promise.then((result) => {
+      service.user = result
+      $rootScope.$broadcast('userservice refetched user')
+    })
   }
 }

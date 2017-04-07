@@ -7,11 +7,11 @@
           ng-repeat="user in memberListCtrl.users | filter: filter.user track by user._id"
           layout="row"
           layout-wrap>
-          <span flex="10">
-            <img height="50"
-              ng-if="user.avatarImage && user.avatarImage.length > 0"
-              ng-src="/api/imageThumbnailData/{{user.avatarImage}}"/>
-          </span>
+          <img
+            class="md-avatar"
+            ng-if="user.avatarImage && user.avatarImage.length > 0"
+            ng-src="/api/imageThumbnailData/{{user.avatarImage}}"/>
+          <span ng-if="!(user.avatarImage && user.avatarImage.length > 0)" class="md-avatar"></span>
           <span flex-xs="100" flex-sm="100" flex="30">{{user.name}}</span>
           <span flex-xs="100" flex-sm="100" flex="30">{{user.username}}</span>
         </md-list-item>

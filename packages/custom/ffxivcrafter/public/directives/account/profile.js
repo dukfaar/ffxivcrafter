@@ -15,9 +15,13 @@ function AccountProfileDirective () {
   }
 }
 
-AccountProfileController.$inject = ['$scope', 'UserService', 'User', '$timeout', 'ForumPost', 'ImageComment', 'Image']
+AccountProfileController.$inject = ['$scope', 'UserService', 'User', '$timeout',
+  'ForumPost', 'ImageComment', 'Image', '$mdMedia',
+  'UserCombatClasses', 'UserBirthday', 'UserDataService']
 
-function AccountProfileController ($scope, UserService, User, $timeout, ForumPost, ImageComment, Image) {
+function AccountProfileController ($scope, UserService, User, $timeout,
+  ForumPost, ImageComment, Image, $mdMedia,
+  UserCombatClasses, UserBirthday, UserDataService) {
   let vm = this
   this.UserService = UserService
   this.profileUser = {}
@@ -25,6 +29,9 @@ function AccountProfileController ($scope, UserService, User, $timeout, ForumPos
   this.galleryCommentCount = null
   this.latestForumPosts = []
   this.latestImages = []
+  this.$mdMedia = $mdMedia
+  this.userCombatClasses = {}
+  this.birthday = null
 
   $timeout(initialize, 0)
 
@@ -47,6 +54,16 @@ function AccountProfileController ($scope, UserService, User, $timeout, ForumPos
 
     Image.query({uploader: vm.userId, order: '-uploadDate', limit: 6}).$promise.then((result) => {
       vm.latestImages = result
+    })
+
+    UserDataService.fetchOrCreateUserDataForUserId(UserCombatClasses, vm.userId)
+    .then(userCombatClasses => {
+        vm.userCombatClasses = userCombatClasses
+    })
+
+    UserDataService.fetchOrCreateUserDataForUserId(UserBirthday, vm.userId)
+    .then(birthday => {
+        vm.birthday = birthday
     })
   }
 }
