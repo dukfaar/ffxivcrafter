@@ -3,8 +3,10 @@
 angular.module('mean.ffxivCrafter').controller('MainAppController',
   ['$scope', '$mdSidenav', '$q', '$mdMedia', 'SubmissionNotifyService',
   'PublicProjectCraftableNotifyService', 'ForumPostNotifyService', '$window',
+  'ImageCommentNotifyService',
     function ($scope, $mdSidenav, $q, $mdMedia, SubmissionNotifyService,
-      PublicProjectCraftableNotifyService, ForumPostNotifyService, $window) {
+      PublicProjectCraftableNotifyService, ForumPostNotifyService, $window,
+      ImageCommentNotifyService) {
       $scope.navigation = {
         mode: 'side'
       }
