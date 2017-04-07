@@ -66,7 +66,7 @@ module.exports = function (io) {
             if (err) throw err
             newImage.save()
             .then(() => {
-              io.emit('image created')
+              io.emit('image created', newImage)
             })
           })
         })

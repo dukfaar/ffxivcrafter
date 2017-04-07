@@ -20,5 +20,21 @@
       >
       <span translate="{{NotificationSettingsService.enabled.forumpost?'notifications.forumpost.enabled':'notifications.forumpost.disabled'}}"></span>
     </md-switch>
+
+    <md-switch
+      ng-if="UserService.allowed('see gallery')"
+      ng-model="NotificationSettingsService.enabled.image"
+      ng-change="NotificationSettingsService.saveImage()"
+      >
+      <span translate="{{NotificationSettingsService.enabled.image?'notifications.image.enabled':'notifications.image.disabled'}}"></span>
+    </md-switch>
+
+    <md-switch
+      ng-if="UserService.allowed('see gallery')"
+      ng-model="NotificationSettingsService.enabled.imagecomment"
+      ng-change="NotificationSettingsService.saveImagecomment()"
+      >
+      <span translate="{{NotificationSettingsService.enabled.imagecomment?'notifications.imagecomment.enabled':'notifications.imagecomment.disabled'}}"></span>
+    </md-switch>
   </md-card>
 </page-base>
