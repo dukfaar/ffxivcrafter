@@ -26,6 +26,9 @@ function AccountSettingsController ($scope, UserService, UserCombatClasses, User
     fetchBirthday()
   })
 
+  fetchCombatClasses()
+  fetchBirthday()
+
   function fetchCombatClasses () {
     UserDataService.fetchOrCreateUserData(UserCombatClasses)
     .then(userCombatClasses => {
