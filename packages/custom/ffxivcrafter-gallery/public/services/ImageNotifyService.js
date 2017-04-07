@@ -8,7 +8,6 @@ ImageNotifyService.$inject = ['socket', '$q', 'webNotification',
 function ImageNotifyService (socket, $q, webNotification,
       NotificationSettingsService, $translate, User) {
   socket.on('image created', function (data) {
-    console.log('triggered')
     if (NotificationSettingsService.enabled.image) {
       $q.all({
         uploader: User.get({id: data.uploader}).$promise
