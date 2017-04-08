@@ -79,10 +79,10 @@ function priceUpdateSummaryJob(amount, offsetType, subjectType) {
   }
 }
 
-schedule.scheduleJob('0 0 * * *', priceUpdateSummaryJob(1, 'days', 'Daily')) //every day
+/*schedule.scheduleJob('0 0 * * *', priceUpdateSummaryJob(1, 'days', 'Daily')) //every day
 schedule.scheduleJob('0 0 * * 0', priceUpdateSummaryJob(1, 'weeks', 'Weekly')) //every sunday
 schedule.scheduleJob('0 0 1 * *', priceUpdateSummaryJob(1, 'months', 'Monthly')) //every first day of the month
-schedule.scheduleJob('0 0 1 1 *', priceUpdateSummaryJob(1, 'years', 'Yearly')) //every first month of a year
+schedule.scheduleJob('0 0 1 1 *', priceUpdateSummaryJob(1, 'years', 'Yearly')) //every first month of a year*/
 
 module.exports = function () {
   return {
