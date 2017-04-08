@@ -144,5 +144,6 @@
   "job.leatherworker.label": "Leatherworker",
   "job.weaver.label": "Weaver",
   "account.tab.general.label": "General",
-  "account.tab.character.label": "Character"
+  "account.tab.character.label": "Character",
+  "account.tab.doldoh.label": "Disciples of the Land/Hand Levels"
 }

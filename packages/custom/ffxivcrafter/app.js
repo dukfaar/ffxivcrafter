@@ -249,13 +249,6 @@ function setupMainMenu () {
 
 function setupAccountMenu () {
   FFXIVCrafter.menus.add({
-    title: 'Level Settings',
-    link: 'doldoh config',
-    roles: ['authenticated'],
-    menu: 'account'
-  })
-
-  FFXIVCrafter.menus.add({
     title: 'Account Settings',
     link: 'account settings',
     roles: ['authenticated'],

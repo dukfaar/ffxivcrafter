@@ -1,0 +1,52 @@
+<md-content layout="column" layout-fill layout-padding flex>
+  <md-card>
+    <md-card-header>
+      <md-card-header-text class="md-title" translate="DOL"><md-card-header-text>
+    </md-card-header>
+    <md-card-content layout="row" >
+      <div layout="column">
+        <md-input-container>
+          <label>Botanist Level</label>
+          <input type="number" min="0" novalidate ng-model="accountSettingsController.UserService.user.botanistLevel" ng-model-options="{debounce:300}" ng-change="accountSettingsController.UserService.updateUser()"></input>
+        </md-input-container>
+        <md-checkbox ng-model="accountSettingsController.UserService.user.botanistFolklore.coerthas" ng-change="accountSettingsController.UserService.updateUser()">Coerthas Folklore</md-checkbox>
+        <md-checkbox ng-model="accountSettingsController.UserService.user.botanistFolklore.dravania" ng-change="accountSettingsController.UserService.updateUser()">Dravania Folklore</md-checkbox>
+        <md-checkbox ng-model="accountSettingsController.UserService.user.botanistFolklore.abalathia" ng-change="accountSettingsController.UserService.updateUser()">Abalathia Folklore</md-checkbox>
+      </div>
+
+      <div layout="column">
+        <md-input-container>
+          <label>Miner Level</label>
+          <input type="number" min="0" novalidate ng-model="accountSettingsController.UserService.user.minerLevel" ng-model-options="{debounce:300}" ng-change="accountSettingsController.UserService.updateUser()"></input>
+        </md-input-container>
+        <md-checkbox ng-model="accountSettingsController.UserService.user.minerFolklore.coerthas" ng-change="accountSettingsController.UserService.updateUser()">Coerthas Folklore</md-checkbox>
+        <md-checkbox ng-model="accountSettingsController.UserService.user.minerFolklore.dravania" ng-change="accountSettingsController.UserService.updateUser()">Dravania Folklore</md-checkbox>
+        <md-checkbox ng-model="accountSettingsController.UserService.user.minerFolklore.abalathia" ng-change="accountSettingsController.UserService.updateUser()">Abalathia Folklore</md-checkbox>
+      </div>
+    </md-card-content>
+  </md-card>
+
+  <md-card>
+    <md-card-header>
+      <md-card-header-text class="md-title" translate="DOH"></md-card-header-text>
+    </md-card-header>
+    <md-card-content layout="row">
+      <div layout="column"
+        ng-repeat="crafter in [
+          'weaver', 'alchimist', 'culinarian',
+          'leatherworker', 'blacksmith', 'carpenter',
+          'armorer', 'goldsmith'
+        ]">
+        <md-input-container>
+          <label><span translate="job.{{crafter}}.label"></span> <span>Level</span></label>
+          <input type="number" min="0" novalidate ng-model="accountSettingsController.UserService.user[crafter+'Level']" ng-model-options="{debounce:300}" ng-change="accountSettingsController.UserService.updateUser()"></input>
+        </md-input-container>
+        <md-checkbox ng-model="accountSettingsController.UserService.user[crafter+'Specialist']" ng-change="accountSettingsController.UserService.updateUser()">Specialist</md-checkbox>
+        <md-checkbox ng-model="accountSettingsController.UserService.user[crafter+'Master'][0]" ng-change="accountSettingsController.UserService.updateUser()">Master 1</md-checkbox>
+        <md-checkbox ng-model="accountSettingsController.UserService.user[crafter+'Master'][1]" ng-change="accountSettingsController.UserService.updateUser()">Master 2</md-checkbox>
+        <md-checkbox ng-model="accountSettingsController.UserService.user[crafter+'Master'][2]" ng-change="accountSettingsController.UserService.updateUser()">Master 3</md-checkbox>
+        <md-checkbox ng-model="accountSettingsController.UserService.user[crafter+'Master'][3]" ng-change="accountSettingsController.UserService.updateUser()">Master 4</md-checkbox>
+      </div>
+    </md-card-content>
+  </md-card>
+</md-content>

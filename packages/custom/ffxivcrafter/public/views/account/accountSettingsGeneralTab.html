@@ -1,0 +1,123 @@
+<div layout="column" layout-gt-sm="row" layout-wrap>
+  <div layout="column" flex>
+    <div>
+      <md-card flex>
+        <md-toolbar class="md-hue-2">
+          <div class="md-toolbar-tools" layout-align="start center" translate>
+            account.settings.general.header
+          </div>
+        </md-toolbar>
+        <md-card-content layout="column">
+          <div layout="row">
+            <md-input-container class="no-error-spacer" flex="30">
+              <label translate>account.settings.name</label>
+              <input
+                type="text"
+                ng-model="accountSettingsController.UserService.user.name"
+                ng-model-options="{debounce: 300}"
+                ng-change="accountSettingsController.UserService.updateUser()"/>
+            </md-input-container>
+            <div translate flex="70">
+              account.settings.name.description
+            </div>
+          </div>
+          <div layout="row">
+            <md-input-container class="no-error-spacer" flex="30">
+              <label translate>account.settings.username</label>
+              <input
+                type="text"
+                ng-model="accountSettingsController.UserService.user.username"
+                ng-model-options="{debounce: 300}"
+                ng-change="accountSettingsController.UserService.updateUser()"/>
+            </md-input-container>
+            <div translate flex="70">
+              account.settings.username.description
+            </div>
+          </div>
+          Your Birthday:
+          <md-datepicker
+            ng-model="accountSettingsController.birthday.birthday"
+            ng-model-options="{debounce: 300}"
+            ng-change="accountSettingsController.updateBirthday()"
+            md-current-view="year"
+            maxdate="new Date()">
+          </md-datepicker>
+        </md-card-content>
+      </md-card>
+    </div>
+    <div>
+      <md-card>
+        <md-card-content>
+          <md-tabs layout-fill md-dynamic-height>
+            <md-tab label="Editor" layout-fill>
+              <form name="postForm" layout="column" ng-controller="TextEditorController as editorController">
+                <md-toolbar layout="row">
+                  <div class="md-toolbar-tools" ng-include="'/ffxivCrafter_forum/views/editorToolbar.html'">
+                  </div>
+                </md-toolbar>
+
+                <md-input-container flex>
+                  <label translate>profile.aboutme.label</label>
+                  <textarea class="editorText" novalidate ng-minlength="10" required rows="10" ng-model="accountSettingsController.UserService.user.aboutme" flex></textarea>
+                </md-input-container>
+              </form>
+            </md-tab>
+            <md-tab label="Preview">
+              <div style="white-space:pre-wrap" ng-bind-html="accountSettingsController.UserService.user.aboutme|kanbanText"></div>
+            </md-tab>
+          </md-tabs>
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button ng-click="accountSettingsController.UserService.updateUser()">Save</md-button>
+        </md-card-actions>
+      </md-card>
+    </div>
+  </div>
+
+  <div layout="column">
+    <div>
+      <md-card flex>
+        <md-toolbar class="md-hue-2">
+          <div class="md-toolbar-tools" layout-align="start start">
+            <md-input-container class="no-error-spacer">
+              <label translate>account.settings.avatarImage</label>
+              <input
+                type="text"
+                size="32"
+                ng-model="accountSettingsController.UserService.user.avatarImage"
+                ng-model-options="{debounce: 300}"
+                ng-change="accountSettingsController.UserService.updateUser()"/>
+            </md-input-container>
+          </div>
+        </md-toolbar>
+        <md-card-content>
+          <img
+            ng-if="accountSettingsController.UserService.user.avatarImage && accountSettingsController.UserService.user.avatarImage.length > 0"
+            ng-src="/api/imageThumbnailData/{{accountSettingsController.UserService.user.avatarImage}}"/>
+        </md-card-content>
+      </md-card>
+    </div>
+    <div>
+      <md-card flex>
+        <md-card-content layout="column">
+          <md-input-container
+            ng-repeat="job in [
+              'scholar', 'whitemage', 'astrologian',
+              'paladin', 'warrior', 'darkknight',
+              'ninja', 'monk', 'dragoon',
+              'blackmage', 'summoner', 'machinist', 'bard'
+            ]">
+            <label translate="job.{{job}}.label"></label>
+            <input type="number" novalidate min="0" max="60"
+              ng-model="accountSettingsController.userCombatClasses[job + 'Level']"
+              ng-model-option="{debounce: 300}"
+              ng-change="accountSettingsController.updateCombatClasses()"
+              flex
+              />
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+
+    </div>
+  </div>
+</div>
