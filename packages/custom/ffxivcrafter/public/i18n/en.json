@@ -132,5 +132,17 @@
   "job.dragoon.label": "Dragoon",
   "job.monk.label": "Monk",
   "job.summoner.label": "Summoner",
-  "job.ninja.label": "Ninja"
+  "job.ninja.label": "Ninja",
+  "job.botanist.label": "Botanist",
+  "job.miner.label": "Miner",
+  "job.carpenter.label": "Carpenter",
+  "job.blacksmith.label": "Blacksmith",
+  "job.goldsmith.label": "Goldsmith",
+  "job.armorer.label": "Armorer",
+  "job.alchimist.label": "Alchemist",
+  "job.culinarian.label": "Culinarian",
+  "job.leatherworker.label": "Leatherworker",
+  "job.weaver.label": "Weaver",
+  "account.tab.general.label": "General",
+  "account.tab.character.label": "Character"
 }

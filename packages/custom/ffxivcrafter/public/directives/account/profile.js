@@ -27,8 +27,10 @@ function AccountProfileController ($scope, UserService, User, $timeout,
   this.profileUser = {}
   this.forumPostCount = null
   this.galleryCommentCount = null
+  this.galleryImageCount = null
   this.latestForumPosts = []
   this.latestImages = []
+  this.latestImageComments = []
   this.$mdMedia = $mdMedia
   this.userCombatClasses = {}
   this.birthday = null
@@ -36,7 +38,10 @@ function AccountProfileController ($scope, UserService, User, $timeout,
   $timeout(initialize, 0)
 
   function initialize () {
-    User.get({id: vm.userId, select: 'username name avatarImage aboutme'}).$promise.then((result) => {
+    User.get({
+      id: vm.userId,
+      select: 'username name avatarImage aboutme minerLevel botanistLevel goldsmithLevel leatherworkerLevel weaverLevel culinarianLevel alchimistLevel blacksmithLevel carpenterLevel armorerLevel'
+    }).$promise.then((result) => {
       vm.profileUser = result
     })
 
@@ -48,12 +53,20 @@ function AccountProfileController ($scope, UserService, User, $timeout,
       vm.galleryCommentCount = result.count
     })
 
+    Image.count({uploader: vm.userId}).$promise.then((result) => {
+      vm.galleryImageCount = result.count
+    })
+
     ForumPost.query({creator: vm.userId, order: '-created', limit: 5}).$promise.then((result) => {
       vm.latestForumPosts = result
     })
 
     Image.query({uploader: vm.userId, order: '-uploadDate', limit: 6}).$promise.then((result) => {
       vm.latestImages = result
+    })
+
+    ImageComment.query({commentor: vm.userId, order: '-date', limit: 5}).$promise.then((result) => {
+      vm.latestImageComments = result
     })
 
     UserDataService.fetchOrCreateUserDataForUserId(UserCombatClasses, vm.userId)

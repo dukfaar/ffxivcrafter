@@ -1,0 +1,60 @@
+<md-content layout="row" layout-fill>
+  <div flex="100" flex-gt-sm="50">
+    <md-card>
+      <md-card-content>
+        <div style="display:table" layout-fill>
+          <md-slider-container
+          style="display:table-row"
+            ng-repeat="job in [
+              'scholar', 'whitemage', 'astrologian',
+              'paladin', 'warrior', 'darkknight',
+              'ninja', 'monk', 'dragoon',
+              'blackmage', 'summoner', 'machinist', 'bard'
+            ]">
+            <div translate="job.{{job}}.label" style="display:table-cell"></div>
+            <md-slider
+              layout-padding
+              style="display:table-cell"
+              md-discrete
+              ng-readonly="true"
+              ng-disabled="true"
+              ng-model="accountProfileController.userCombatClasses[job + 'Level']"
+              min="0"
+              max="60"
+              >
+            </md-slider>
+          </md-slider-container>
+        </div>
+      </md-card-content>
+    </md-card>
+  </div>
+  <div flex="100" flex-gt-sm="50">
+    <md-card>
+      <md-card-content>
+        <div style="display:table" layout-fill>
+          <md-slider-container
+          style="display:table-row"
+            ng-repeat="job in [
+              'botanist', 'miner',
+              'weaver', 'alchimist', 'culinarian',
+              'leatherworker', 'blacksmith', 'carpenter',
+              'armorer', 'goldsmith'
+            ]">
+            <div translate="job.{{job}}.label" style="display:table-cell"></div>
+            <md-slider
+              layout-padding
+              style="display:table-cell"
+              md-discrete
+              ng-readonly="true"
+              ng-disabled="true"
+              ng-model="accountProfileController.profileUser[job + 'Level']"
+              min="0"
+              max="60"
+              >
+            </md-slider>
+          </md-slider-container>
+        </div>
+      </md-card-content>
+    </md-card>
+  </div>
+</md-content>
