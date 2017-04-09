@@ -17,7 +17,7 @@ function GalleryController ($scope, $http, Analytics, FileUpload, _, socket, $md
 
   this.filter = {
     tags: null,
-    order: '-uploadDate'
+    sort: '-uploadDate'
   }
 
   this.FileUpload = FileUpload.getUploader('/api/image')

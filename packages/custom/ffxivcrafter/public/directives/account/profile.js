@@ -57,15 +57,15 @@ function AccountProfileController ($scope, UserService, User, $timeout,
       vm.galleryImageCount = result.count
     })
 
-    ForumPost.query({creator: vm.userId, order: '-created', limit: 5}).$promise.then((result) => {
+    ForumPost.query({creator: vm.userId, sort: '-created', limit: 5}).$promise.then((result) => {
       vm.latestForumPosts = result
     })
 
-    Image.query({uploader: vm.userId, order: '-uploadDate', limit: 6}).$promise.then((result) => {
+    Image.query({uploader: vm.userId, sort: '-uploadDate', limit: 6}).$promise.then((result) => {
       vm.latestImages = result
     })
 
-    ImageComment.query({commentor: vm.userId, order: '-date', limit: 5}).$promise.then((result) => {
+    ImageComment.query({commentor: vm.userId, sort: '-date', limit: 5}).$promise.then((result) => {
       vm.latestImageComments = result
     })
 

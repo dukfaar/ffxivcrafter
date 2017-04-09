@@ -25,12 +25,12 @@ module.exports = function () {
     return req.query.select?find.select(req.query.select):find
   }
 
-  function orderFind (find, req) {
-    return req.query.order?find.sort(req.query.order):find
+  function sortFind (find, req) {
+    return req.query.sort?find.sort(req.query.sort):find
   }
 
   function doList (find, req) {
-    return orderFind(populateFind(selectFind(limitFind(skipFind(find, req), req), req), req), req).lean().exec()
+    return sortFind(populateFind(selectFind(limitFind(skipFind(find, req), req), req), req), req).lean().exec()
   }
 
   function createRestRoute (controller, apiBase) {
@@ -58,7 +58,7 @@ module.exports = function () {
   }
   function countAction (Model, req, res) {
     var findQuery = _.pickBy(req.query, function (value, key) {
-      return key !== 'populate' && key !== 'skip' && key !== 'limit' && key !== 'page' && key !== 'select' && key !== 'order'
+      return key !== 'populate' && key !== 'skip' && key !== 'limit' && key !== 'page' && key !== 'select' && key !== 'sort'
     })
 
     Model.count(findQuery)
@@ -73,7 +73,7 @@ module.exports = function () {
 
   function listAction (Model, req, res) {
     var findQuery = _.pickBy(req.query, function (value, key) {
-      return key !== 'populate' && key !== 'skip' && key !== 'limit' && key !== 'page' && key !== 'select' && key !== 'order'
+      return key !== 'populate' && key !== 'skip' && key !== 'limit' && key !== 'page' && key !== 'select' && key !== 'sort'
     })
 
     doList(Model.find(findQuery), req)
