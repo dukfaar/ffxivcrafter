@@ -1,5 +1,5 @@
 <md-content layout-fill>
-  <div layout="row" layout-xs="column" layout-sm="column">
+  <div layout="row" layout-xs="column" layout-sm="column" layout-fill>
     <div layout="column" flex>
         <h1 layout="row" layout-align="center center">{{accountProfileController.profileUser.name}}</h1>
 
@@ -19,36 +19,38 @@
         </md-tabs>
     </div>
 
-    <div layout="column">
-      <md-card ng-if="accountProfileController.profileUser.avatarImage && accountProfileController.profileUser.avatarImage.length > 0">
-        <md-card-content>
-          <img ng-src="/api/imageThumbnailData/{{accountProfileController.profileUser.avatarImage}}"/>
-          <div ng-if="accountProfileController.rank">
-            Rank: {{accountProfileController.rank.name}}
-          </div>
-          <div ng-if="accountProfileController.birthday">
-            Birthday: {{accountProfileController.birthday.birthday|date:'longDate'}}
-          </div>
-        </md-card-content>
-      </md-card>
+    <div layout="column" style="overflow: scroll">
+      <div>
+        <md-card ng-if="accountProfileController.profileUser.avatarImage && accountProfileController.profileUser.avatarImage.length > 0">
+          <md-card-content>
+            <img ng-src="/api/imageThumbnailData/{{accountProfileController.profileUser.avatarImage}}"/>
+            <div ng-if="accountProfileController.rank">
+              Rank: {{accountProfileController.rank.name}}
+            </div>
+            <div ng-if="accountProfileController.birthday">
+              Birthday: {{accountProfileController.birthday.birthday|date:'longDate'}}
+            </div>
+          </md-card-content>
+        </md-card>
 
-      <md-card>
-        <md-card-content>
-          Forum Posts: {{accountProfileController.forumPostCount}}
-        </md-card-content>
-      </md-card>
+        <md-card>
+          <md-card-content>
+            Forum Posts: {{accountProfileController.forumPostCount}}
+          </md-card-content>
+        </md-card>
 
-      <md-card>
-        <md-card-content>
-          Gallery images: {{accountProfileController.galleryImageCount}}
-        </md-card-content>
-      </md-card>
+        <md-card>
+          <md-card-content>
+            Gallery images: {{accountProfileController.galleryImageCount}}
+          </md-card-content>
+        </md-card>
 
-      <md-card>
-        <md-card-content>
-          Gallery comments: {{accountProfileController.galleryCommentCount}}
-        </md-card-content>
-      </md-card>
+        <md-card>
+          <md-card-content>
+            Gallery comments: {{accountProfileController.galleryCommentCount}}
+          </md-card-content>
+        </md-card>
+      </div>
     </div>
   </div>
 </md-content>
