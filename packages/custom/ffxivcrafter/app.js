@@ -57,6 +57,8 @@ function setupCircles (circles) {
 
   circles.registerCircle('see memberlist', ['admin'])
   circles.registerCircle('see profile', ['admin'])
+
+  circles.registerCircle('edit user ranks', ['admin'])
 }
 
 function setupMainMenu_PM () {
@@ -158,6 +160,12 @@ function setupMainMenu_Admin () {
     title: 'User Permissions',
     link: 'admin edit users',
     roles: ['edit user permissions'],
+    path: 'main/admin'
+  })
+  FFXIVCrafter.menus.add({
+    title: 'User Ranks',
+    link: 'admin edit ranks',
+    roles: ['edit user ranks'],
     path: 'main/admin'
   })
   FFXIVCrafter.menus.add({

@@ -14,6 +14,7 @@
           <span ng-if="!(user.avatarImage && user.avatarImage.length > 0)" class="md-avatar"></span>
           <span flex-xs="100" flex-sm="100" flex="30">{{user.name}}</span>
           <span flex-xs="100" flex-sm="100" flex="30">{{user.username}}</span>
+          <span flex-xs="100" flex-sm="100" flex="30">{{memberListCtrl.userRanks[user._id].name}}</span>
         </md-list-item>
       </md-list>
     </md-card-content>

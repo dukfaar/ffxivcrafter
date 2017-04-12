@@ -18,6 +18,13 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
         circles: ['edit user permissions']
       }
     })
+    .state('admin edit ranks', {
+      url: '/admin/edit/ranks',
+      template: '<admin-ranks></admin-ranks>',
+      requiredCircles: {
+        circles: ['edit user ranks']
+      }
+    })
     .state('admin edit circles', {
       url: '/admin/edit/circles',
       template: '<admin-circles></admin-circles>',

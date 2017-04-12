@@ -17,13 +17,14 @@ function AccountProfileDirective () {
 
 AccountProfileController.$inject = ['$scope', 'UserService', 'User', '$timeout',
   'ForumPost', 'ImageComment', 'Image', '$mdMedia',
-  'UserCombatClasses', 'UserBirthday', 'UserDataService']
+  'UserCombatClasses', 'UserBirthday', 'UserDataService', 'UserRank', 'RankDatabase']
 
 function AccountProfileController ($scope, UserService, User, $timeout,
   ForumPost, ImageComment, Image, $mdMedia,
-  UserCombatClasses, UserBirthday, UserDataService) {
+  UserCombatClasses, UserBirthday, UserDataService, UserRank, RankDatabase) {
   let vm = this
   this.UserService = UserService
+  this.RankDatabase = RankDatabase
   this.profileUser = {}
   this.forumPostCount = null
   this.galleryCommentCount = null
@@ -34,6 +35,7 @@ function AccountProfileController ($scope, UserService, User, $timeout,
   this.$mdMedia = $mdMedia
   this.userCombatClasses = {}
   this.birthday = null
+  this.rank = null
 
   $timeout(initialize, 0)
 
@@ -77,6 +79,11 @@ function AccountProfileController ($scope, UserService, User, $timeout,
     UserDataService.fetchOrCreateUserDataForUserId(UserBirthday, vm.userId)
     .then(birthday => {
         vm.birthday = birthday
+    })
+
+    UserDataService.fetchOrCreateUserDataForUserId(UserRank, vm.userId)
+    .then(userRank => {
+      vm.rank = RankDatabase.get(userRank.rank)
     })
   }
 }

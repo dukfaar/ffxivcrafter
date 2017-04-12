@@ -1,0 +1,44 @@
+<page-base >
+  <div layout="column" layout-gt-sm="row">
+    <div flex>
+      <md-card>
+        <md-card-content>
+          <md-list layout-fill>
+            <md-list-item flex ng-repeat="user in adminRankController.users track by user._id" layout="row">
+              <span>{{user.name}}</span>
+
+              <md-select flex ng-model="adminRankController.userRanks[user._id].rank" ng-change="adminRankController.updateUserRank(user, adminRankController.userRanks[user._id])">
+                <md-option ng-value="rank._id" ng-repeat="rank in adminRankController.ranks track by rank._id">
+                  {{rank.name}}
+                </md-option>
+              </md-select>
+            </md-list-item>
+          </md-list>
+        </md-card-content>
+      </md-card>
+    </div>
+
+    <div flex>
+      <md-card>
+        <md-card-content>
+          <div ng-repeat="rank in adminRankController.ranks track by rank._id">
+            <md-input-container>
+              <label translate>rank.name.label</label>
+              <input type="text" ng-model="rank.name" ng-model-options="{debounce: 300}" ng-change="adminRankController.updateRank(rank)" />
+            </md-input-container>
+            <md-button class="md-icon-button" ng-click="adminRankController.deleteRank(rank)">
+              <md-icon class="material-icons">delete</md-icon>
+            </md-button>
+          </div>
+
+          <md-button ng-click="adminRankController.createRank()">create rank</md-button>
+        </md-card-content>
+      </md-card>
+    </div>
+  </div>
+  <style>
+  .md-select-value {
+    text-align: right;
+  }
+  </style>
+</page-base>
