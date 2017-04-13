@@ -11,6 +11,7 @@ angular.module('mean.ffxivCrafter_calendar')
 CalendarController.$inject = ['$scope', '$http', '$mdDialog', '_', '$mdMedia', 'Event', 'UserService', 'socket']
 
 function CalendarController ($scope, $http, $mdDialog, _, $mdMedia, Event, UserService, socket) {
+  let calenderScope = $scope
   $scope.UserService = UserService
 
   $scope._ = _
@@ -22,6 +23,33 @@ function CalendarController ($scope, $http, $mdDialog, _, $mdMedia, Event, UserS
   $scope.refetchEventData = refetchEventData
   $scope.setCalendarMonth = setCalendarMonth
 
+  $scope.openEditEventView = function (event) {
+    $mdDialog.show({
+      templateUrl: 'ffxivCrafter_calendar/views/newEventDialog.html',
+      parent: angular.element(document.body),
+      locals: {
+        data: event
+      },
+      controller: function ($scope, data) {
+        $scope.data = data
+        $scope.edit = true
+
+        $scope.hide = function () {
+          $mdDialog.hide()
+        }
+        $scope.cancel = function () {
+          $mdDialog.cancel()
+        }
+        $scope.save = function () {
+          $mdDialog.hide($scope.data)
+        }
+      },
+      clickOutsideToClose: true
+    }).then(function (result) {
+      Event.update({id: event._id}, result)
+    })
+  }
+
   $scope.calendarData = {
     currentMonth: 0,
     currentYear: 0,
@@ -32,15 +60,9 @@ function CalendarController ($scope, $http, $mdDialog, _, $mdMedia, Event, UserS
 
   function triggerEventRefresh () { $scope.refetchEventData() }
 
-  socket.on('event created', triggerEventRefresh)
-  socket.on('event updated', triggerEventRefresh)
-  socket.on('event deleted', triggerEventRefresh)
-
-  $scope.$on('destroy', function () {
-    socket.off('event created', triggerEventRefresh)
-    socket.off('event updated', triggerEventRefresh)
-    socket.off('event deleted', triggerEventRefresh)
-  })
+  socket.auto('Event created', triggerEventRefresh, $scope)
+  socket.auto('Event updated', triggerEventRefresh, $scope)
+  socket.auto('Event deleted', triggerEventRefresh, $scope)
 
   $scope.addEmptyTiles = function () {
     return $mdMedia('gt-sm')
@@ -62,11 +84,37 @@ function CalendarController ($scope, $http, $mdDialog, _, $mdMedia, Event, UserS
         $scope.cancel = function () {
           $mdDialog.cancel()
         }
+        $scope.edit = function () {
+          calenderScope.openEditEventView($scope.data)
+        }
+        $scope.delete = function () {
+          $mdDialog.show(
+            $mdDialog.confirm()
+            .title('Confirm delete')
+            .textContent('Do you really want to delete this event?')
+            .ok('Begone!')
+            .cancel('Stay awhile an listen!')
+          ).then(function () {
+            Event.delete({id: $scope.data._id})
+          })
+        }
+
+        function isEventCreator () { return data.creator === UserService.user._id }
+
+        $scope.canEditEvent = function () {
+          return isEventCreator()
+        }
+        $scope.canDeleteEvent = function () {
+          return isEventCreator()
+        }
       },
       clickOutsideToClose: true
     }).then(function (result) {
+
     })
   }
+
+
 
   $scope.createNewEvent = function () {
     $mdDialog.show({
@@ -98,6 +146,7 @@ function CalendarController ($scope, $http, $mdDialog, _, $mdMedia, Event, UserS
 
   $scope.doCreateNewEvent = function (data) {
     var newEvent = new Event(data)
+    newEvent.creator = UserService.user._id
     newEvent.$save()
   }
 

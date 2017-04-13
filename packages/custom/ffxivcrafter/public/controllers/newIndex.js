@@ -23,6 +23,14 @@ function IndexController (
     gatherCraftFilter: ''
   }
 
+  $scope.projectFilter = function (project) {
+    if(_.includes($scope.filters.gatherCraftFilter, '#private')) {
+      return project.private
+    }
+
+    return true
+  }
+
     // possible modes: unifiedProjects, separateProjects
   if (localStorageService.get('indexMode') == null) localStorageService.set('indexMode', 'separateProjects')
   $scope.indexMode = localStorageService.get('indexMode')
@@ -71,12 +79,12 @@ function IndexController (
   }
 
   $scope.gatheringFilter = function (step) {
-    var filter = _.lowerCase($scope.filters.gatherCraftFilter)
+    var filter = _.lowerCase(_.replace($scope.filters.gatherCraftFilter, '#private', ''))
     return _.lowerCase(step.item.name).indexOf(filter) !== -1 || _.lowerCase(step.item.gatheringJob).indexOf(filter) !== -1
   }
 
   $scope.craftingFilter = function (step) {
-    var filter = _.lowerCase($scope.filters.gatherCraftFilter)
+    var filter = _.lowerCase(_.replace($scope.filters.gatherCraftFilter, '#private', ''))
     return _.lowerCase(step.step.item.name).indexOf(filter) !== -1 || _.lowerCase(step.step.recipe.craftingJob).indexOf(filter) !== -1
   }
 

@@ -1,0 +1,26 @@
+<md-card ng-if="eventTickerController.events.length > 0">
+  <md-card-content layout-fill>
+    <div
+      layout="row"
+      class="tickerItem"
+      ng-style="{opacity: $index===eventTickerController.currentIndex?'1':'0'}"
+      ng-repeat="event in eventTickerController.events">
+      <div>{{event.title}}</div>
+      <div>&nbsp;-&nbsp;</div>
+      <div>{{event.start|date:'short'}}</div>
+      <div>&nbsp;</div>
+      <div ng-if="$index===eventTickerController.currentIndex && eventTickerController.eventUnderway(event)">
+        <em translate>event.underway</em>
+      </div>
+    </div>
+    <div layout-fill style="">&nbsp;</div>
+
+    <style>
+      .tickerItem {
+        position: absolute;
+        -webkit-transition: all 8s;
+        transition: all .8s;
+      }
+    </style>
+  </md-card-content>
+</md-card>

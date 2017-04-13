@@ -3,16 +3,15 @@
 
     <h2>{{data.title}}</h2>
 
-    <label>Description</label>
-    <pre>
-      {{data.description}}
-    </pre>
+    <p style="white-space:pre-wrap;">{{data.description}}</p>
 
-    <span>{{data.start|date:'short'}}</span>
-    <span>{{data.end|date:'short'}}</span>
+    <div layout="row"><span flex>Start:</span><span> {{data.start|date:'short'}}</span></div>
+    <div layout="row"><span flex>End:</span><span> {{data.end|date:'short'}}</span></div>
   </md-dialog-content>
 
   <md-dialog-actions>
-    <md-button ng-click="cancel()" translate="action.cancel" class="md-primary md-raised"></md-button>
+    <md-button ng-if="canDeleteEvent()" ng-click="delete()" translate="action.delete" class="md-primary md-raised"></md-button>
+    <md-button ng-if="canEditEvent()" ng-click="edit()" translate="action.edit" class="md-primary md-raised"></md-button>
+    <md-button ng-click="cancel()" translate="action.close" class="md-primary md-raised"></md-button>
   </md-dialog-actions>
 </md-dialog>

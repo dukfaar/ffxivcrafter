@@ -18,6 +18,9 @@
   "kanban.overview.stock.overview": "Public Stockoverview",
   "action.save": "Save",
   "action.cancel": "Cancel",
+  "action.close": "Close",
+  "action.edit": "Edit",
+  "action.delete": "Delete",
   "action.column.add": "Add Column",
   "filter": "Filter",
   "itemfilter": "Itemfilter",
@@ -109,6 +112,7 @@
   "overview.sold.projects": "Sold projects",
   "gallery.filter.tag": "Tag-Search",
   "event.new": "Create new event",
+  "event.edit": "Edit event",
   "index.crafters.corner": "Craftscat Corner",
   "account.settings.name": "Name",
   "account.settings.username": "Username",
@@ -146,5 +150,6 @@
   "account.tab.general.label": "General",
   "account.tab.character.label": "Character",
   "account.tab.doldoh.label": "Disciples of the Land/Hand Levels",
-  "rank.name.label": "Rank"
+  "rank.name.label": "Rank",
+  "event.underway": "Event is underway"
 }

@@ -1,3 +1,4 @@
+
 'use strict'
 
 var fs = require('fs')
@@ -91,7 +92,7 @@ module.exports = function (io) {
     getImageData: function (req, res) {
       Image.findById(req.params.id).exec().then(function (image) {
         fs.readFile(config.imageStorageBase + '/image_' + req.params.id + '.' + (image.filetype ? image.filetype : 'jpg'), function (err, data) {
-          if (err) throw new Error(err)
+          if (err) res.status(500).send('')
           else {
             res.setHeader('Content-Type', 'image/' + (image.filetype ? image.filetype : 'jpg'))
             res.send(data)
@@ -106,7 +107,7 @@ module.exports = function (io) {
     getImageThumbnailData: function (req, res) {
       Image.findById(req.params.id).exec().then(function (image) {
         fs.readFile(config.imageStorageBase + '/image_thumbnail_' + req.params.id + '.' + (image.filetype ? image.filetype : 'jpg'), function (err, data) {
-          if (err) throw new Error(err)
+          if (err) res.status(500).send('')
           else {
             res.setHeader('Content-Type', 'image/' + (image.filetype ? image.filetype : 'jpg'))
             res.send(data)

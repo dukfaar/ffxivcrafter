@@ -2,6 +2,7 @@
   <main style="overflow:auto">
     <md-content layout-wrap layout="row" layout-xs="column" layout-sm="row">
       <div layout="column" flex="60" flex-xs="100" flex-sm="100">
+        <event-ticker ng-if="UserService.allowed('see calendar')"></event-ticker>
         <index-news-card></index-news-card>
       </div>
 
@@ -20,7 +21,7 @@
           <md-card-content style="overflow: scroll">
             <div style="height:20px" ng-if="showUnspoiledTimelime">
               <div style="position: relative; background: white; top: -10px;" style="height: 20px; width:100%">
-                <div ng-repeat="project in PublicProjectService.projectList" style="width: 100%">
+                <div ng-repeat="project in PublicProjectService.projectList | filter: projectFilter" style="width: 100%">
                   <div style="position: absolute"
                         class="gatheringTimeFrame"
                         ng-repeat="gathers in getGatherArray(project)"
@@ -51,7 +52,7 @@
             </div>
 
             <md-list ng-if="UserService.allowed('see public craft tasks')">
-              <div ng-repeat="project in PublicProjectService.projectList">
+              <div ng-repeat="project in PublicProjectService.projectList | filter: projectFilter">
                 <div ng-if="indexMode == 'separateProjects' && getCraftArray(project).length > 0">
                   <span translate>project</span>:
                   <span>{{project.name}}</span>
@@ -89,7 +90,7 @@
             <md-divider></md-divider>
 
             <md-list ng-if="UserService.allowed('see public gather tasks')">
-              <div ng-repeat="project in PublicProjectService.projectList">
+              <div ng-repeat="project in PublicProjectService.projectList | filter: projectFilter">
                 <div ng-if="indexMode == 'separateProjects' && getGatherArray(project).length > 0">
                   <span translate>project </span>:
                   <span>{{project.name}}</span>

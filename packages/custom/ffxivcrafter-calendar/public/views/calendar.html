@@ -25,15 +25,16 @@
 
       <md-grid-tile ng-repeat="day in calendarData.days track by day.day" md-colspan="1" md-rowspan="1">
         <md-card layout-fill>
-          <md-card-content>
+          <md-card-content style="overflow: auto">
             <div style="position: absolute; bottom: 0.5em; right: 0.5em;">
               {{day.day}}
             </div>
 
             <div layout="column" layout-align="start start">
-              <div ng-repeat="event in day.events track by $index" layout-fill layout="row" ng-click="openEventView(event)">
+              <div ng-repeat="event in day.events | orderBy: 'start' track by $index" layout-fill layout="column" ng-click="openEventView(event)">
                 <span flex>{{event.title}}</span>
                 <span>{{event.start | date: 'shortTime'}}</span>
+                <md-divider ng-if="!$last"></md-divider>
               </div>
             </div>
           </md-card-content>
