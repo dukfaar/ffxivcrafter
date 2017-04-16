@@ -46,17 +46,16 @@ function HeaderController ($scope, $rootScope, Menus, MeanUser, $state, $mdSiden
 
   $scope.isCollapsed = false
 
+  $rootScope.$on('userservice refetched user', function () {
+    vm.hdrvars.user = UserService.user
+  })
+
   $rootScope.$on('loggedin', function () {
     queryMenu('main', defaultMainMenu)
     queryMenu('account', [])
 
-    vm.hdrvars = {
-      authenticated: MeanUser.loggedin,
-      user: UserService.user,
-      isAdmin: MeanUser.isAdmin
-    }
-
-    UserService.regrabUser()
+    vm.hdrvars.authenticated = MeanUser.loggedin
+    vm.hdrvars.isAdmin = MeanUser.isAdmin
   })
 
   vm.logout = function () {
@@ -64,14 +63,11 @@ function HeaderController ($scope, $rootScope, Menus, MeanUser, $state, $mdSiden
   }
 
   $rootScope.$on('logout', function () {
-    vm.hdrvars = {
-      authenticated: false,
-      user: {},
-      isAdmin: false
-    }
+    vm.hdrvars.authenticated = false
+    vm.hdrvars.isAdmin = false
+  
     queryMenu('main', defaultMainMenu)
     queryMenu('account', [])
-    UserService.regrabUser()
     $state.go('home')
   })
 

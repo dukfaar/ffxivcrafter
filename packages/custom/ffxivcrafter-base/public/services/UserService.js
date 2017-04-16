@@ -13,6 +13,9 @@ function UserService ($rootScope, MeanUser, User, $timeout, UserDatabase) {
     regrabUser: regrabUser
   }
 
+  $rootScope.$on('logout', regrabUser)
+  $rootScope.$on('loggedin', regrabUser)
+
   return service
 
   function allowed (permission) {
@@ -24,6 +27,7 @@ function UserService ($rootScope, MeanUser, User, $timeout, UserDatabase) {
   }
 
   function regrabUser () {
+    console.log(MeanUser.user)
     UserDatabase.get(MeanUser.user._id).$promise.then((result) => {
       service.user = result
       $rootScope.$broadcast('userservice refetched user')

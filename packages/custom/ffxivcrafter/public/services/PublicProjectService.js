@@ -43,6 +43,8 @@ angular.module('mean.ffxivCrafter').factory('PublicProjectService',
       socket.on('project deleted', projectChangeListener)
       socket.on('new project created', projectChangeListener)
 
+      $rootScope.$on('userservice refetched user', projectChangeListener)
+
       return data
     }
   ])
