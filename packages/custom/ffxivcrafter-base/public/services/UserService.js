@@ -27,7 +27,6 @@ function UserService ($rootScope, MeanUser, User, $timeout, UserDatabase) {
   }
 
   function regrabUser () {
-    console.log(MeanUser.user)
     UserDatabase.get(MeanUser.user._id).$promise.then((result) => {
       service.user = result
       $rootScope.$broadcast('userservice refetched user')
