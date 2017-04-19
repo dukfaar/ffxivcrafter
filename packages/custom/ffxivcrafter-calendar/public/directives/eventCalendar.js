@@ -8,11 +8,14 @@ angular.module('mean.ffxivCrafter_calendar')
   }
 })
 
-CalendarController.$inject = ['$scope', '$http', '$mdDialog', '_', '$mdMedia', 'Event', 'UserService', 'socket']
+CalendarController.$inject = ['$scope', '$http', '$mdDialog', '_', '$mdMedia',
+  'Event', 'UserService', 'socket', 'EventUser', 'UserDatabase']
 
-function CalendarController ($scope, $http, $mdDialog, _, $mdMedia, Event, UserService, socket) {
+function CalendarController ($scope, $http, $mdDialog, _, $mdMedia, Event,
+  UserService, socket, EventUser, UserDatabase) {
   let calenderScope = $scope
   $scope.UserService = UserService
+  $scope.UserDatabase = UserDatabase
 
   $scope._ = _
 
@@ -77,6 +80,39 @@ function CalendarController ($scope, $http, $mdDialog, _, $mdMedia, Event, UserS
       },
       controller: function ($scope, data) {
         $scope.data = data
+        $scope.UserDatabase = UserDatabase
+
+        $scope.eventUsers = []
+
+        function fetchUsers () {
+          $scope.eventUsers = EventUser.query({event: data._id})
+        }
+
+        fetchUsers()
+
+        socket.auto('EventUser created', fetchUsers, $scope)
+        socket.auto('EventUser updated', fetchUsers, $scope)
+        socket.auto('EventUser deleted', fetchUsers, $scope)
+
+        $scope.signUp = signUp
+        $scope.signDown = signDown
+        $scope.isSignedup = isSignedup
+
+        function isSignedup () {
+          return _.find($scope.eventUsers, eu => { return eu.user === UserService.user._id }) !== undefined
+        }
+
+        function signDown () {
+          EventUser.delete({id: _.find($scope.eventUsers, eu => { return eu.user === UserService.user._id })._id})
+        }
+
+        function signUp () {
+          let newSignup = new EventUser()
+          newSignup.user = UserService.user._id
+          newSignup.event = $scope.data._id
+          newSignup.signedUp = new Date()
+          newSignup.$save()
+        }
 
         $scope.hide = function () {
           $mdDialog.hide()
@@ -113,8 +149,6 @@ function CalendarController ($scope, $http, $mdDialog, _, $mdMedia, Event, UserS
 
     })
   }
-
-
 
   $scope.createNewEvent = function () {
     $mdDialog.show({
@@ -196,7 +230,6 @@ function CalendarController ($scope, $http, $mdDialog, _, $mdMedia, Event, UserS
       buildCalendarDays()
     })
   }
-
 
   setCalendarMonth($scope.now.getMonth() + 1, $scope.now.getFullYear())
 

@@ -151,5 +151,7 @@
   "account.tab.character.label": "Character",
   "account.tab.doldoh.label": "Disciples of the Land/Hand Levels",
   "rank.name.label": "Rank",
-  "event.underway": "Event is underway"
+  "event.underway": "Event is underway",
+  "action.event.signup": "Sign Up",
+  "action.event.signdown": "Leave Event"
 }

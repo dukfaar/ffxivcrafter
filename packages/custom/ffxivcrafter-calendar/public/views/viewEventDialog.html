@@ -1,15 +1,30 @@
 <md-dialog layout-padding>
-  <md-dialog-content layout="column">
+  <md-dialog-content layout="column" layout-gt-sm="row">
+    <div layout="column">
+      <h2>{{data.title}}</h2>
 
-    <h2>{{data.title}}</h2>
+      <p style="white-space:pre-wrap;">{{data.description}}</p>
 
-    <p style="white-space:pre-wrap;">{{data.description}}</p>
-
-    <div layout="row"><span flex>Start:</span><span> {{data.start|date:'short'}}</span></div>
-    <div layout="row"><span flex>End:</span><span> {{data.end|date:'short'}}</span></div>
+      <div layout="row"><span flex>Start:</span><span> {{data.start|date:'short'}}</span></div>
+      <div layout="row"><span flex>End:</span><span> {{data.end|date:'short'}}</span></div>
+    </div>
+    <div>
+      <md-list>
+        <md-list-item ng-repeat="eu in eventUsers track by eu._id">
+          <a ng-href="/account/profile/{{eu.user}}" layout="row" layout-align="center center">
+            <img class="md-avatar" style="max-height: 50px; max-width:50px"
+              ng-if="UserDatabase.get(eu.user).avatarImage && UserDatabase.get(eu.user).avatarImage.length > 0"
+              ng-src="/api/imageThumbnailData/{{UserDatabase.get(eu.user).avatarImage}}"/>
+              <div flex>{{UserDatabase.get(eu.user).name}}</div>
+          </a>
+        </md-list-item>
+      </md-list>
+    </div>
   </md-dialog-content>
 
   <md-dialog-actions>
+    <md-button ng-if="isSignedup()" ng-click="signDown()" translate="action.event.signdown" class="md-primary md-raised"></md-button>
+    <md-button ng-if="!isSignedup()" ng-click="signUp()" translate="action.event.signup" class="md-primary md-raised"></md-button>
     <md-button ng-if="canDeleteEvent()" ng-click="delete()" translate="action.delete" class="md-primary md-raised"></md-button>
     <md-button ng-if="canEditEvent()" ng-click="edit()" translate="action.edit" class="md-primary md-raised"></md-button>
     <md-button ng-click="cancel()" translate="action.close" class="md-primary md-raised"></md-button>
