@@ -48,12 +48,12 @@ function processCommand (message) {
 botDef.bot.on('message', message => {
   if (message.author.id === botDef.bot.user.id) return {}// nicht auf dich selbst antworten du holzkopf
 
-  if (message.author.bot) {
-    message.channel.sendMessage('I\'m not talking to bots!')
-    return {}
-  }
-
   if (_.includes(message.content, botDef.commandTrigger)) {
+    if (message.author.bot) {
+      message.channel.sendMessage('I\'m not talking to bots!')
+      return {}
+    }
+
     message.content = _.trim(message.content.replace(botDef.commandTrigger, ''))
     processCommand(message)
   }
