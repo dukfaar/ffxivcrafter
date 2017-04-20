@@ -1,0 +1,13 @@
+{
+  "name": "ffxivCrafter.bot",
+  "version": "0.0.1",
+  "description": "",
+  "author": {
+    "name": "dukfaar"
+  },
+  "mean": "0.6.0",
+  "dependencies": {
+    "discord.js": "latest"
+  },
+  "license": "MIT"
+}

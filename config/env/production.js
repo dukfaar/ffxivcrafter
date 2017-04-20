@@ -77,5 +77,8 @@ module.exports = {
       pass: 'Simba1590'
     }
   },
-  secret: 'SOME_TOKEN_SECRET'
+  secret: 'SOME_TOKEN_SECRET',
+  discord: {
+    token: 'MzA0NTkyMDc1NDM1ODAyNjM2.C9o4_Q.6pkxuEBAZR_r8Se4HhtbkWhA-oc'
+  }
 }
