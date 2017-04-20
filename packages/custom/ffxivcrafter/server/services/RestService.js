@@ -56,13 +56,17 @@ module.exports = function () {
       .put(controller.update)
     }
   }
-  function countAction (Model, req, res) {
-    var findQuery = _.pickBy(req.query, function (value, key) {
+
+  function countOperation(Model, query) {
+    var findQuery = _.pickBy(query, function (value, key) {
       return key !== 'populate' && key !== 'skip' && key !== 'limit' && key !== 'page' && key !== 'select' && key !== 'sort'
     })
 
-    Model.count(findQuery)
-    .exec()
+    return Model.count(findQuery).exec()
+  }
+
+  function countAction (Model, req, res) {
+    countOperation(Model, req.query)
     .then((c) => {
       res.send({count: c})
     })
@@ -71,12 +75,20 @@ module.exports = function () {
     })
   }
 
-  function listAction (Model, req, res) {
-    var findQuery = _.pickBy(req.query, function (value, key) {
+  function getFindQuery (query) {
+    return _.pickBy(query, function (value, key) {
       return key !== 'populate' && key !== 'skip' && key !== 'limit' && key !== 'page' && key !== 'select' && key !== 'sort'
     })
+  }
 
-    doList(Model.find(findQuery), req)
+  function listOperation (Model, req) {
+    var findQuery = getFindQuery(req.query)
+
+    return doList(Model.find(findQuery), req)
+  }
+
+  function listAction (Model, req, res) {
+    listOperation(Model, req)
     .then(function (result) {
       res.send(result)
     })
@@ -152,7 +164,9 @@ module.exports = function () {
   return {
     list: doList,
     listAction: listAction,
+    listOperation: listOperation,
     countAction: countAction,
+    countOperation: countOperation,
     skipFind: skipFind,
     limitFind: limitFind,
     populateFind: populateFind,
