@@ -24,11 +24,11 @@ module.exports = function (botDef) {
 
       UserDiscord.findOne({discord: discordName})
       .exec()
-      .then((userDiscord) => {
-        userDiscord.murderAttempts += 1
-        userDiscord.save()
-
+      .then((userDiscord) => {  
         if(userDiscord) {
+          userDiscord.murderAttempts += 1
+          userDiscord.save()
+
           return User.findById(userDiscord.user)
           .select('race username')
           .lean()
