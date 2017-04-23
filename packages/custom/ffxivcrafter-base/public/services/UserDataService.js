@@ -27,6 +27,6 @@ function UserDataService (UserService) {
   }
 
   function fetchOrCreateUserData (Resource) {
-    return fetchOrCreateUserDataForUserId(Resource, UserService.user._id)
+    return UserService.user._id ? fetchOrCreateUserDataForUserId(Resource, UserService.user._id) : null
   }
 }
