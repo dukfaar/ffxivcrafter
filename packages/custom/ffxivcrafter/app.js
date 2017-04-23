@@ -348,7 +348,8 @@ function extendUser (database) {
     leatherworkerMaster: [Boolean],
 
     aboutme: { type: String, default: '' },
-    birthday: { type: Date, default: null }
+    birthday: { type: Date, default: null },
+    race: { type: String, enum: ['Miqo\'te', 'Lalafell', 'Hyur', 'Elezen', 'Roegadyn', 'Au Ra'] }
   })
 }
 

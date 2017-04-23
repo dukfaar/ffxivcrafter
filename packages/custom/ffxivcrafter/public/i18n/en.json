@@ -153,5 +153,14 @@
   "rank.name.label": "Rank",
   "event.underway": "Event is underway",
   "action.event.signup": "Sign Up",
-  "action.event.signdown": "Leave Event"
+  "action.event.signdown": "Leave Event",
+  "race": "Race",
+  "race.lalafell": "Lalafell",
+  "race.hyur": "Hyur",
+  "race.aura": "Au Ra",
+  "race.miqote": "Miqo'te",
+  "race.roegadyn": "Roegadyn",
+  "race.elezen": "Elezen",
+  "account.settings.discord": "Discord ID",
+  "account.settings.discord.description": "Your Discord ID in the form of name#number"
 }

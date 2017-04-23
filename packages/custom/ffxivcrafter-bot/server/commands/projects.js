@@ -10,8 +10,10 @@ module.exports = function (botDef) {
     command: command
   }
 
+  var CraftingProject
+
   function command (params, message) {
-    var CraftingProject = mongoose.model('CraftingProject')
+    CraftingProject = CraftingProject || mongoose.model('CraftingProject')
 
     CraftingProject.find({public: true, private: false})
     .exec().then((projects) => {

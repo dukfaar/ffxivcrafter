@@ -19,12 +19,14 @@ module.exports = function (botDef) {
     return query
   }
 
+  var Image
+
   function command (params, message) {
     let req = {
       query: params.length > 1 ? modifyQuery({tags: params[1]}) : ''
     }
 
-    var Image = mongoose.model('Image')
+    Image = Image || mongoose.model('Image')
 
     RestService.countOperation(Image, req.query)
     .then((c) => {

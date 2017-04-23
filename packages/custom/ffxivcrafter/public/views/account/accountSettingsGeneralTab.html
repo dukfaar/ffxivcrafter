@@ -34,14 +34,48 @@
               account.settings.username.description
             </div>
           </div>
-          Your Birthday:
-          <md-datepicker
-            ng-model="accountSettingsController.birthday.birthday"
-            ng-model-options="{debounce: 300}"
-            ng-change="accountSettingsController.updateBirthday()"
-            md-current-view="year"
-            maxdate="new Date()">
-          </md-datepicker>
+          <div>
+            <md-input-container>
+              <label>Your Birthday:</label>
+              <md-datepicker
+                ng-model="accountSettingsController.birthday.birthday"
+                ng-model-options="{debounce: 300}"
+                ng-change="accountSettingsController.updateBirthday()"
+                md-current-view="year"
+                maxdate="new Date()">
+              </md-datepicker>
+            </md-input-container>
+          </div>
+          <div>
+            <md-input-container>
+              <label translate>race</label>
+              <md-select
+                ng-model="accountSettingsController.UserService.user.race"
+                ng-model-options="{debounce: 300}"
+                ng-change="accountSettingsController.UserService.updateUser()"
+                >
+                <md-option ng-value="'Elezen'" translate>race.elezen</md-option>
+                <md-option ng-value="'Miqo\'te'" translate>race.miqote</md-option>
+                <md-option ng-value="'Hyur'" translate>race.hyur</md-option>
+                <md-option ng-value="'Lalafell'" translate>race.lalafell</md-option>
+                <md-option ng-value="'Roegadyn'" translate>race.roegadyn</md-option>
+                <md-option ng-value="'Au Ra'" translate>race.aura</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+          <div layout="row">
+            <md-input-container class="no-error-spacer" flex="30">
+              <label translate>account.settings.discord</label>
+              <input
+                type="text"
+                ng-model="accountSettingsController.discord.discord"
+                ng-model-options="{debounce: 300}"
+                ng-change="accountSettingsController.updateDiscordName()"/>
+            </md-input-container>
+            <div translate flex="70">
+              account.settings.discord.description
+            </div>
+          </div>
         </md-card-content>
       </md-card>
     </div>

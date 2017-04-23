@@ -17,7 +17,8 @@ const token = config.discord.token
 
 let botDef = {
   bot: new Discord.Client(),
-  commandList: {}
+  commandList: {},
+  wordDetectorList: {}
 }
 
 botDef.bot.on('ready', () => {
@@ -36,13 +37,36 @@ glob.sync(__dirname + '/server/commands/**/*.js').forEach(function (file) {
   botDef.commandList[commandDef.name] = commandDef
 })
 
+glob.sync(__dirname + '/server/wordDetectors/**/*.js').forEach(function (file) {
+  let wordDetectorDef = require(path.resolve(file))(botDef)
+  botDef.wordDetectorList[wordDetectorDef.name] = wordDetectorDef
+})
+
 function processCommand (message) {
   let params = _.split(message.content, ' ')
   let command = params[0]
   let commandDef = botDef.commandList[command]
   let commandExec = commandDef ? (commandDef.command ? commandDef.command : stubCommand) : undefined
-  if (commandExec) commandExec(params, message)
-  else message.channel.sendMessage('I don\'t know that command, sorry')
+  if (commandExec) {
+    commandExec(params, message)
+    return true
+  } else {
+    return false
+  }
+}
+
+function processWordDetector (message) {
+  let applicable = []
+  _.forEach(botDef.wordDetectorList, d => {
+    let value = d.canApply(message)
+    if (value !== null) applicable.push(d)
+  })
+
+  if (applicable.length === 0) return false
+
+  applicable[0].apply(message)
+
+  return true
 }
 
 botDef.bot.on('message', message => {
@@ -55,7 +79,11 @@ botDef.bot.on('message', message => {
     }
 
     message.content = _.trim(message.content.replace(botDef.commandTrigger, ''))
-    processCommand(message)
+
+    if(processCommand(message)) return {}
+    if(processWordDetector(message)) return {}
+
+    message.channel.sendMessage('I don\'t know what you are talking about')
   }
 })
 
