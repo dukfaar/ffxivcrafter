@@ -42,7 +42,7 @@ function AccountProfileController ($scope, UserService, User, $timeout,
   function initialize () {
     User.get({
       id: vm.userId,
-      select: 'username name avatarImage aboutme minerLevel botanistLevel goldsmithLevel leatherworkerLevel weaverLevel culinarianLevel alchimistLevel blacksmithLevel carpenterLevel armorerLevel'
+      select: 'username name avatarImage aboutme minerLevel botanistLevel goldsmithLevel leatherworkerLevel weaverLevel culinarianLevel alchimistLevel blacksmithLevel carpenterLevel armorerLevel race'
     }).$promise.then((result) => {
       vm.profileUser = result
     })
@@ -73,12 +73,12 @@ function AccountProfileController ($scope, UserService, User, $timeout,
 
     UserDataService.fetchOrCreateUserDataForUserId(UserCombatClasses, vm.userId)
     .then(userCombatClasses => {
-        vm.userCombatClasses = userCombatClasses
+      vm.userCombatClasses = userCombatClasses
     })
 
     UserDataService.fetchOrCreateUserDataForUserId(UserBirthday, vm.userId)
     .then(birthday => {
-        vm.birthday = birthday
+      vm.birthday = birthday
     })
 
     UserDataService.fetchOrCreateUserDataForUserId(UserRank, vm.userId)
