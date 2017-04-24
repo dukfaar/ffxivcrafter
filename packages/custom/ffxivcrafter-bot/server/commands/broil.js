@@ -38,7 +38,7 @@ module.exports = function (botDef) {
           .lean()
           .exec()
           .then(user => {
-            responses.push('What do you think i am? A lalafell? Get lost, ')
+            responses.push('What do you think i am? A lalafell? Get lost,')
             switch(user.race) {
               case 'Miqo\'te':
                 responses.push('you furball.')

@@ -3,9 +3,9 @@
 angular.module('mean.ffxivCrafter_base')
 .factory('UserDataService', UserDataService)
 
-UserDataService.$inject = ['UserService']
+UserDataService.$inject = ['MeanUser']
 
-function UserDataService (UserService) {
+function UserDataService (MeanUser) {
   var service = {
     fetchOrCreateUserDataForUserId: fetchOrCreateUserDataForUserId,
     fetchOrCreateUserData: fetchOrCreateUserData
@@ -20,13 +20,13 @@ function UserDataService (UserService) {
           return result[0]
         } else {
           let newR = new Resource()
-          newR.user = UserService.user._id
+          newR.user = id
           return newR.$save().then(() => { return fetchOrCreateUserData(Resource) })
         }
       })
   }
 
   function fetchOrCreateUserData (Resource) {
-    return UserService.user._id ? fetchOrCreateUserDataForUserId(Resource, UserService.user._id) : null
+    return fetchOrCreateUserDataForUserId(Resource, MeanUser.user._id)
   }
 }
