@@ -24,8 +24,8 @@
         <md-card ng-if="accountProfileController.profileUser.avatarImage && accountProfileController.profileUser.avatarImage.length > 0">
           <md-card-content>
             <img ng-src="/api/imageThumbnailData/{{accountProfileController.profileUser.avatarImage}}"/>
-            <div ng-if="accountProfileController.UserService.user.race">
-              Race: {{accountProfileController.UserService.user.race}}
+            <div ng-if="accountProfileController.profileUser.race">
+              Race: {{accountProfileController.profileUser.race}}
             </div>
             <div ng-if="accountProfileController.rank">
               Rank: {{accountProfileController.rank.name}}
