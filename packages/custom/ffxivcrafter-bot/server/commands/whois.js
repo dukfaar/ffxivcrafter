@@ -50,7 +50,7 @@ module.exports = function (botDef) {
             lines.push('That\'s a ' + user.race)
           }
 
-          if(userBirthday) lines.push('Creation date: ' + userBirthday.birthday.toDateString())
+          if(userBirthday && userBirthday.birthday) lines.push('Creation date: ' + userBirthday.birthday.toDateString())
           if(rank) lines.push('Rank: ' + rank.name)
 
           message.channel.sendMessage(lines.join('\n'))
