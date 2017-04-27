@@ -22,11 +22,14 @@ module.exports = function (botDef) {
   var Image
 
   function command (params, message) {
+    var commandLessParams = _.slice(params, 1)
+
     let req = {
-      query: params.length > 1 ? modifyQuery({tags: params[1]}) : ''
+      query: params.length > 1 ? modifyQuery({tags: _.join(commandLessParams, ' ')}) : ''
     }
 
     Image = Image || mongoose.model('Image')
+
 
     RestService.countOperation(Image, req.query)
     .then((c) => {

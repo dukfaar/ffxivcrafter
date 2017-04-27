@@ -30,8 +30,7 @@ module.exports = function (botDef) {
               User.findById(userRanks[0].user).exec().then(user => {
                 message.channel.sendMessage('The current winner of the golden potato is: ' + user.name)
               })
-            }
-            else {
+            } else {
               var usersPromises = _.map(userRanks, userRank => User.findById(userRank.user).exec())
               q.all(usersPromises)
               .then(users => {

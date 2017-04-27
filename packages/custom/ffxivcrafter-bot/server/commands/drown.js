@@ -1,6 +1,7 @@
 'use strict'
 
 var mongoose = require('mongoose')
+var _ = require('lodash')
 
 module.exports = function (botDef) {
   return {
@@ -17,19 +18,21 @@ module.exports = function (botDef) {
 
   function command (params, message) {
     User = User || mongoose.model('User')
-    UserDiscord  = UserDiscord || mongoose.model('UserDiscord')
+    UserDiscord = UserDiscord || mongoose.model('UserDiscord')
 
     var discordName = message.author.username + '#' + message.author.discriminator
 
-    if (params.length > 1 && params[1] !== botDef.commandTrigger) {
-      message.channel.sendMessage(drownString(params[1]))
+    var commandLessParams = _.slice(params, 1)
+
+    if (params.length > 1 && !_.includes(commandLessParams, botDef.commandTrigger)) {
+      message.channel.sendMessage(drownString(_.join(commandLessParams, ' ')))
     } else {
       var responses = ['You tried drowning me?']
 
       UserDiscord.findOne({discord: discordName})
       .exec()
       .then((userDiscord) => {
-        if(userDiscord) {
+        if (userDiscord) {
           userDiscord.murderAttempts += 1
           userDiscord.save()
 
@@ -39,7 +42,7 @@ module.exports = function (botDef) {
           .exec()
           .then(user => {
             responses.push('I\'m a RAIN-Collector, what did you expect,')
-            switch(user.race) {
+            switch (user.race) {
               case 'Miqo\'te':
                 responses.push('you furball.')
                 break

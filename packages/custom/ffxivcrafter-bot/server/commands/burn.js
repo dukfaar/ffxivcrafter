@@ -1,6 +1,7 @@
 'use strict'
 
 var mongoose = require('mongoose')
+var _ = require('lodash')
 
 module.exports = function (botDef) {
   return {
@@ -11,21 +12,27 @@ module.exports = function (botDef) {
   var User
   var UserDiscord
 
+  function burnString (name) {
+    return '(ﾉ･ｪ･)ﾉ –==≡炎炎炎炎炎炎炎炎' + name + '炎炎炎'
+  }
+
   function command (params, message) {
     User = User || mongoose.model('User')
-    UserDiscord  = UserDiscord || mongoose.model('UserDiscord')
+    UserDiscord = UserDiscord || mongoose.model('UserDiscord')
 
     var discordName = message.author.username + '#' + message.author.discriminator
 
-    if (params.length > 1 && params[1] !== botDef.commandTrigger) {
-      message.channel.sendMessage('(ﾉ･ｪ･)ﾉ –==≡炎炎炎炎炎炎炎炎' + params[1] + '炎炎炎')
+    var commandLessParams = _.slice(params, 1)
+
+    if (params.length > 1 && !_.includes(commandLessParams, botDef.commandTrigger)) {
+      message.channel.sendMessage(burnString(_.join(commandLessParams, ' ')))
     } else {
       var responses = ['You tried burning me?']
 
       UserDiscord.findOne({discord: discordName})
       .exec()
-      .then((userDiscord) => {  
-        if(userDiscord) {
+      .then((userDiscord) => {
+        if (userDiscord) {
           userDiscord.murderAttempts += 1
           userDiscord.save()
 
@@ -35,7 +42,7 @@ module.exports = function (botDef) {
           .exec()
           .then(user => {
             responses.push('I will remember that,')
-            switch(user.race) {
+            switch (user.race) {
               case 'Miqo\'te':
                 responses.push('you furball.')
                 break
@@ -58,7 +65,7 @@ module.exports = function (botDef) {
                 responses.push('funny creature.')
                 break
             }
-            responses.push('\n(ﾉ･ｪ･)ﾉ –==≡炎炎炎炎炎炎炎炎' + user.username + '炎炎炎')
+            responses.push('\n' + burnString(user.username))
           })
         } else {
           responses.push('Now, thats a bit harsh isn\'t it?')
