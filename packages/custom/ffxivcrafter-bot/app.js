@@ -56,7 +56,7 @@ glob.sync(__dirname + '/server/wordDetectors/**/*.js').forEach(function (file) {
 
 function processCommand (message) {
   let params = _.split(message.content, ' ')
-  let commandDef = _.find(botDef.commandList, c => { return _.startsWith(message, c.name + ' ') })
+  let commandDef = _.find(botDef.commandList, c => { return _.startsWith(message, c.name) })
   let commandExec = commandDef ? (commandDef.command ? commandDef.command : stubCommand) : undefined
   if (commandExec) {
     commandExec(params, message)
