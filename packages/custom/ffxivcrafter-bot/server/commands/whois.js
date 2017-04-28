@@ -45,7 +45,7 @@ module.exports = function (botDef) {
           let lines = []
 
           if (userDiscord) {
-            lines.push('That\'s a ' + user.race + ' who tried to kill me ' + userDiscord.murderAttempts + ' times')
+            lines.push('That\'s a ' + user.race + ' who tried to kill me ' + userDiscord.murderAttempts + ' times and hugged me ' + (userDiscord.rcHugs||0) + ' times' )
           } else {
             lines.push('That\'s a ' + user.race)
           }
