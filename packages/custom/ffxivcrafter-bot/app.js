@@ -30,7 +30,8 @@ botDef.bot.on('error', error => {
 })
 
 botDef.bot.on('disconnect', event => {
-  console.log("DISCORD-DISCONNECT: " + event)
+  console.log("DISCORD-DISCONNECT: " + event.code)
+  console.log("DISCORD-DISCONNECT: " + event.reason)
 })
 
 botDef.bot.on('reconnecting', event => {
@@ -56,7 +57,9 @@ glob.sync(__dirname + '/server/wordDetectors/**/*.js').forEach(function (file) {
 
 function processCommand (message) {
   let params = _.split(message.content, ' ')
-  let commandDef = _.find(botDef.commandList, c => { return _.startsWith(message, c.name) })
+  let commandDef = _.find(botDef.commandList, c => {
+    return _.isRegExp(c.name)?c.name.test(message):_.startsWith(message, c.name)
+  })
   let commandExec = commandDef ? (commandDef.command ? commandDef.command : stubCommand) : undefined
   if (commandExec) {
     commandExec(params, message)

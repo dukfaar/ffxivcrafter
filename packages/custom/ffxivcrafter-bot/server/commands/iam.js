@@ -6,8 +6,10 @@ var q = require('q')
 var mongoose = require('mongoose')
 
 module.exports = function (botDef) {
+  var commandRegex = /([iI] am|[iI]'m) (.*)/
+
   return {
-    name: 'i am',
+    name: commandRegex,
     command: command
   }
 
@@ -19,7 +21,7 @@ module.exports = function (botDef) {
     User = User || mongoose.model('User')
 
     var discordName = message.author.username + '#' + message.author.discriminator
-    var usernameParameter = _.join(_.slice(params, 2), ' ')
+    var usernameParameter = commandRegex.exec(message)[2]
 
     q.spread([
       UserDiscord.findOne({discord: discordName}).lean().exec(),
