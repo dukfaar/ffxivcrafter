@@ -4,6 +4,7 @@
   "mean": "0.6.0",
   "dependencies": {
     "ffxivCrafter": "latest",
-    "ffxivCrafter_gallery": "latest"
+    "ffxivCrafter_gallery": "latest",
+    "ffxivCrafter_io": "latest"
   }
 }

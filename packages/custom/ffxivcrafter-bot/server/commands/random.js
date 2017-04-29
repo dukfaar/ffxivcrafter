@@ -30,7 +30,6 @@ module.exports = function (botDef) {
 
     Image = Image || mongoose.model('Image')
 
-
     RestService.countOperation(Image, req.query)
     .then((c) => {
       if (c > 0) {
