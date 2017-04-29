@@ -13,7 +13,7 @@ angular.module('mean.ffxivCrafter_forum').directive('forumCategory', function ()
 
       $scope.category = ForumCategory.get({id: $scope.categoryId})
       $scope.subCategories = ForumCategory.query({parent: $scope.categoryId})
-      $scope.threads = ForumThread.query({category: $scope.categoryId})
+      $scope.threads = ForumThread.query({category: $scope.categoryId, sort: 'lastUpdate'})
 
       $scope.threadOrderFunction = function (thread) {
         return new Date(thread.lastUpdate)
@@ -28,16 +28,12 @@ angular.module('mean.ffxivCrafter_forum').directive('forumCategory', function ()
         }
       }
 
-      socket.on('ForumThread created', creationListener)
-
-      $scope.$on('$destroy', function () {
-        socket.off('ForumThread created', creationListener)
-      })
+      socket.auto('ForumThread created', creationListener, $scope)
 
       function DialogController ($scope, $mdDialog) {
         $scope.data = {
           post: {
-            text: ""
+            text: ''
           }
         }
 

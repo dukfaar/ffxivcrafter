@@ -131,6 +131,9 @@ angular.module('mean.ffxivCrafter_forum').directive('forumThread', function () {
           Analytics.trackEvent(['forum message', 'edit message', 'edited'])
           data.lastEdited = new Date()
           ForumPost.update({id: data._id}, data)
+          
+          $scope.thread.lastUpdate = new Date()
+          ForumThread.update({id: $scope.thread._id}, $scope.thread)
         }, function () {
           Analytics.trackEvent(['forum message', 'edit message', 'canceled'])
         })

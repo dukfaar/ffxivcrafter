@@ -50,6 +50,7 @@
         <md-list-item ng-repeat="thread in threads| orderBy:threadOrderFunction:true" ng-href="/forum/thread/{{thread._id}}"layout="row">
           <md-icon class="material-icons">forum</md-icon>
           <span flex>{{thread.title}}</span>
+          <span>Last update: {{thread.lastUpdate|date:'short'}}</span>
         </md-list-item>
       </md-list>
     </md-card-content>
