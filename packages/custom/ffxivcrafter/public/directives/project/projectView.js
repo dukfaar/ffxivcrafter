@@ -24,6 +24,9 @@ function ProjectViewController (
     $scope.ProjectService = ProjectService
     $scope.project = {}
     $scope.projectData = {}
+    $scope.stepDeletion = {
+      enabled: false
+    }
 
     $scope.users = User.query({})
     $scope.getUser = function (id) {
@@ -164,7 +167,10 @@ function ProjectViewController (
       }
     }
 
-    var stepChangeListener = changeListenerFactory('stepId', recursiveFindStep)
+    //var stepChangeListener = changeListenerFactory('stepId', recursiveFindStep)
+    var stepChangeListener = () => {
+      getAndCalcProject($scope.project._id)
+    }
     var priceChangeListener = changeListenerFactory('item', recursiveFindItem)
 
     socket.on('project data changed', projectChangeListener)

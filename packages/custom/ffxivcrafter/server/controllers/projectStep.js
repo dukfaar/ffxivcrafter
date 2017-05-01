@@ -8,7 +8,7 @@ module.exports = function (io) {
   var itemService = require('../services/itemService')()
 
   function recursiveDeleteStep (step, callback) {
-    var toGo = step.inputs.length
+    var toGo = step.inputs ? step.inputs.length : 0
 
     var doRemoveAndCallback = function () {
       var stepItem = step.item
@@ -32,9 +32,11 @@ module.exports = function (io) {
 
     if (toGo === 0) doRemoveAndCallback()
 
-    step.inputs.forEach(function (subStep) {
-      recursiveDeleteStep(subStep, countdownCallback)
-    })
+    if(step.inputs) {
+      step.inputs.forEach(function (subStep) {
+        recursiveDeleteStep(subStep, countdownCallback)
+      })
+    }
   }
 
   return {

@@ -24,18 +24,15 @@ function NewsletterManagerDirectiveController ($scope, _, $q, socket, Newsletter
 
   this.doGetList()
 
-  socket.on('newsletter created', triggerGetList)
-  socket.on('newsletter deleted', triggerGetList)
-  socket.on('newsletter updated', triggerGetList)
-
-  $scope.$on('$destroy', function () {
-    socket.off('newsletter created', triggerGetList)
-    socket.off('newsletter deleted', triggerGetList)
-    socket.off('newsletter updated', triggerGetList)
-  })
+  socket.auto('newsletter created', triggerGetList, $scope)
+  socket.auto('newsletter deleted', triggerGetList, $scope)
+  socket.auto('newsletter updated', triggerGetList, $scope)
 
   function doGetList () {
-    vm.newsletterList = Newsletter.query({})
+    Newsletter.query({})
+    .$promise.then(result => {
+      vm.newsletterList = result
+    })
 
     vm.triggerGetListTimeout = null
   }
