@@ -7,12 +7,14 @@ angular.module('mean.ffxivCrafter').factory('PublicProjectService',
       MeanUser, $rootScope) {
       var data = {
         projectList: [],
+        unfilteredProjectList: [],
         projectData: {}
       }
 
       function updateList () {
         $http.get('api/project/public')
         .then(function (response) {
+          data.unfilteredProjectList = response.data
           data.projectList = _.reject(response.data, function (p) { return ProjectService.isHiddenFromOverview(p, MeanUser.user) })
 
           data.projectData = {}
@@ -26,7 +28,8 @@ angular.module('mean.ffxivCrafter').factory('PublicProjectService',
       updateList()
 
       var updateTimeout = null
-      function projectChangeListener (ev, data) {
+
+      function checkAndSetUpdateTimeout () {
         if (updateTimeout) {
           clearTimeout(updateTimeout)
         }
@@ -37,9 +40,21 @@ angular.module('mean.ffxivCrafter').factory('PublicProjectService',
         }, 500)
       }
 
+      function projectChangeListener (ev, data) {
+          checkAndSetUpdateTimeout()
+      }
+
+      function projectDataChangeListener (ev, projectId) {
+        console.log(projectId)
+
+        if(_.find(data.unfilteredProjectList, p => p._id === projectId)) {
+          checkAndSetUpdateTimeout()
+        }
+      }
+
       socket.on('project stock changed', projectChangeListener)
       socket.on('project step data changed', projectChangeListener)
-      socket.on('project data changed', projectChangeListener)
+      socket.on('project data changed', projectDataChangeListener)
       socket.on('project deleted', projectChangeListener)
       socket.on('new project created', projectChangeListener)
 

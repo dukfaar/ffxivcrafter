@@ -32,13 +32,17 @@ module.exports = function (io) {
 
     step.inputs = []
 
-    return Item.findById(itemId).exec()
+    return Item.findById(itemId)
+    .select('availableFromNpc')
+    .lean()
+    .exec()
     .then(function (item) {
       step.item = item
       step.hq = hq ? hq : false
 
       return Recipe
         .find({'outputs.item': itemId})
+        .lean()
         .exec()
         .then(function (recipes) {
           if (recipes.length === 0) {
@@ -64,9 +68,7 @@ module.exports = function (io) {
           step.save()
         })
         .then(function () {
-          return updateItem(itemId)
-        })
-        .then(function () {
+          var endTime = new Date().getTime()
           return step
         })
     })
@@ -307,7 +309,7 @@ module.exports = function (io) {
     },
     addToProject: function (req, res) {
       CraftingProject.findById(req.params.projectId)
-        .populate('creator tree stock.item')
+        .populate('tree')
         .exec()
         .then(function (project) {
           return projectToMetaProject(project)

@@ -3,8 +3,8 @@
 angular.module('mean.ffxivCrafter').directive('projectManagerOverview', function () {
   return {
     templateUrl: '/ffxivCrafter/views/projectManager/overview.html',
-    controller: function ($scope, Global, $http, $timeout, $q, _, Project, ItemDatabase, ContributionService, ProjectStockChange, ProjectDatabase, RecipeDatabase) {
-      $scope.allProjects = Project.query({})
+    controller: function ($scope, Global, $http, $timeout, $q, _, Project, ItemDatabase, ContributionService, ProjectStockChange, ProjectDatabase, RecipeDatabase, UserDatabase) {
+      $scope.allProjects = Project.query({select: 'name stock public private order state price'})
       $scope.orderProjects = []
       $scope.publicProjects = []
       $scope.sellingProjects = []
@@ -19,21 +19,24 @@ angular.module('mean.ffxivCrafter').directive('projectManagerOverview', function
       }
 
       function getAndProcessProject(project) {
-        var log = ProjectStockChange.query({projectId: project._id, populate: 'submitter'})
-        return log.$promise.then(() => {
+        var log = ProjectStockChange.query({projectId: project._id})
+        return log.$promise
+        .then(() => {
           _.forEach(log, function (logEntry) {
             logEntry.item = ItemDatabase.get(logEntry.item)
             logEntry.project = logEntry.project ? ProjectDatabase.get(logEntry.project) : null
             logEntry.recipe = logEntry.recipe ? RecipeDatabase.get(logEntry.recipe) : null
+            logEntry.submitter = logEntry.submitter ? UserDatabase.get(logEntry.submitter) : null
           })
 
           var itemPromises = _.map(log, function (logEntry) { return logEntry.item.$promise })
           var recipePromises = _.reject(_.map(log, function (logEntry) { return logEntry.recipe ? logEntry.recipe.$promise : null }), _.isNull)
           var projectPromises = _.reject(_.map(log, function (logEntry) { return logEntry.project ? logEntry.project.$promise : null }), _.isNull)
+          var userPromises = _.reject(_.map(log, function (logEntry) { return logEntry.submitter ? logEntry.submitter.$promise : null }), _.isNull)
 
-          return $q.all(_.flatten([itemPromises, recipePromises, projectPromises]))
+          return $q.all(_.flatten([itemPromises, recipePromises, projectPromises, userPromises]))
         })
-        .then(()=>{
+        .then(() => {
           return ContributionService.processLog(log)
         })
       }
