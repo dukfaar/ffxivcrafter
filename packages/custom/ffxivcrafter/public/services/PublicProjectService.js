@@ -45,8 +45,6 @@ angular.module('mean.ffxivCrafter').factory('PublicProjectService',
       }
 
       function projectDataChangeListener (ev, projectId) {
-        console.log(projectId)
-
         if(_.find(data.unfilteredProjectList, p => p._id === projectId)) {
           checkAndSetUpdateTimeout()
         }

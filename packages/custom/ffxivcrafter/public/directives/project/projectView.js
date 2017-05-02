@@ -137,7 +137,7 @@ function ProjectViewController (
         refetchTimeout = setTimeout(function () {
           refetchTimeout = null
           getAndCalcProject(data.projectId)
-        }, 300)
+        }, 500)
       }
     }
 
