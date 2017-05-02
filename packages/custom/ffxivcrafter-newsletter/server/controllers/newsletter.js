@@ -20,7 +20,8 @@ module.exports = function (io) {
     current: current,
     upload: upload,
     list: list,
-    update: update
+    update: update,
+    getData: getData
   }
 
   function list (req, res) {
@@ -45,6 +46,25 @@ module.exports = function (io) {
       if (newsletters.length === 0) res.status(500).send({error: 'no current newsletter found'})
 
       let newsletter = newsletters[0]
+      let extension = 'pdf'
+      let path = config.newsletterStorageBase + '/newsletter_' + newsletter._id + '.' + extension
+
+      fs.readFile(path, function (err, data) {
+        if (err) res.status(500).send(err)
+        else res.send(data)
+      })
+    })
+    .catch(function (err) {
+      res.status(500).send(err)
+    })
+  }
+
+  function getData (req, res) {
+    Newsletter.findById(req.params.id)
+    .exec()
+    .then(function (newsletter) {
+      if (!newsletter) res.status(500).send({error: 'newsletterdata not found'})
+
       let extension = 'pdf'
       let path = config.newsletterStorageBase + '/newsletter_' + newsletter._id + '.' + extension
 

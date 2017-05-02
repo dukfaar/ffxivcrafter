@@ -1,0 +1,16 @@
+<page-base>
+  <md-tabs md-selected="newsletterArchiveController.viewed">
+    <md-tab ng-repeat="newsletter in newsletterArchiveController.newsletterList track by newsletter._id">
+      <md-tab-label>{{newsletter.name}}</md-tab-label>
+    </md-tab>
+  </md-tabs>
+  <div layout="column" layout-padding>
+    <pdf-wrapper style="height: 100%; overflow: auto;" flex>
+      <pdf-viewer
+        ng-if="newsletterArchiveController.viewed !== null"
+        width="{{pdfWrapperController.element.clientWidth}}"
+        url="/api/newsletter/getData/{{newsletterArchiveController.newsletterList[newsletterArchiveController.viewed]._id}}">
+      </pdf-viewer>
+    </pdf-wrapper>
+  </div>
+</page-base>

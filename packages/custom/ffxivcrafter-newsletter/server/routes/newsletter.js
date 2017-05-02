@@ -12,6 +12,9 @@ module.exports = function (myPackage, app, auth, db, io) {
   app.route('/api/newsletter/:id')
   .put(newsletterController.update)
 
+  app.route('/api/newsletter/getData/:id')
+  .get(newsletterController.getData)
+
   app.route('/api/newsletter/upload')
   .post(newsletterController.upload)
 }

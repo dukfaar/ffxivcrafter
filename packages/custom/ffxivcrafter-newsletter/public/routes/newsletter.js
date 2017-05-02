@@ -1,6 +1,5 @@
 'use strict'
 
-//Setting up route
 angular.module('mean.ffxivCrafter_newsletter').config(['$meanStateProvider',
   function ($meanStateProvider) {
     $meanStateProvider
@@ -9,6 +8,13 @@ angular.module('mean.ffxivCrafter_newsletter').config(['$meanStateProvider',
       templateUrl: '/ffxivCrafter_newsletter/views/index.html',
       requiredCircles: {
         circles: ['see newsletter']
+      }
+    })
+    .state('newsletter archive', {
+      url: '/newsletter/archive',
+      template: '<newsletter-archive></newsletter-archive>',
+      requiredCircles: {
+        circles: ['see newsletter archive']
       }
     })
     .state('newsletter manage', {

@@ -9,6 +9,7 @@ var FFXIVCrafterNewsletter = new Module('ffxivCrafter_newsletter')
 
 function setupCircles (circles) {
   circles.registerCircle('see newsletter', ['admin'])
+  circles.registerCircle('see newsletter archive', ['admin'])
   circles.registerCircle('manage newsletter', ['admin'])
 }
 
@@ -20,6 +21,12 @@ function setupMenus () {
     menu: 'main',
     name: 'newsletter',
     weight: 6
+  })
+  FFXIVCrafterNewsletter.menus.add({
+    title: 'Newsletter Archive',
+    link: 'newsletter archive',
+    roles: ['see newsletter archive'],
+    menu: 'main/newsletter'
   })
   FFXIVCrafterNewsletter.menus.add({
     title: 'Manage Newsletter',
