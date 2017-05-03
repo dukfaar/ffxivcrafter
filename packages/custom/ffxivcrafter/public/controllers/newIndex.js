@@ -67,8 +67,10 @@ function IndexController (
   }
 
   $scope.removeMarkStepAsWorked = function (step) {
-    _.remove(step.workedOnBy, function (user) { return user._id === UserService.user._id })
-    ProjectStep.update({id: step._id}, {workedOnBy: step.workedOnBy})
+    if ($scope.isWorkedByMe(step)) {
+      _.remove(step.workedOnBy, function (user) { return user._id === UserService.user._id })
+      ProjectStep.update({id: step._id}, {workedOnBy: step.workedOnBy})
+    }
   }
 
   $scope.isWorkedByMe = function (step) {
