@@ -68,7 +68,6 @@ module.exports = function (io) {
           step.save()
         })
         .then(function () {
-          var endTime = new Date().getTime()
           return step
         })
     })
@@ -104,6 +103,7 @@ module.exports = function (io) {
   }
 
   return {
+    stepForItem: stepForItem,
     merge: function (req, res) {
       var project1, project2
 

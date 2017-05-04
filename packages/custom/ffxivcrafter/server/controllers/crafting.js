@@ -95,6 +95,9 @@ function getMaterialEffort(list) {
 
 module.exports = function() {
   return {
+    buildCraftingTree: buildCraftingTree,
+    buildMaterialList: buildMaterialList,
+    getMaterialPrice: getMaterialPrice,
     craftItem:function(req,res) {
       Item.findById(req.params.id,function(err,targetItem) {
         if(err) throw err;
