@@ -21,8 +21,6 @@ angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog
       }
 
       $scope.isFiltered = function () {
-        console.log($scope.step.item.name)
-        console.log($scope.filter.text)
         return !_.includes(_.toLower($scope.step.item.name),_.toLower($scope.filter.text))
       }
 
