@@ -8,15 +8,22 @@ angular.module('mean.ffxivCrafter').directive('projectStep', function ($mdDialog
       stepDeletion: '=',
       deletedStep: '&',
       showDeleter: '=',
-      projectData: '='
+      projectData: '=',
+      filter: '='
     },
-    controller: function ($scope) {
+    controller: function ($scope, _) {
       $scope.updateStep = function () {
         var step = $.extend(true, {}, $scope.step)
         delete step.inputs
         delete step.item
         delete step.recipe
         $http.put('/api/projectstep/' + step._id, step)
+      }
+
+      $scope.isFiltered = function () {
+        console.log($scope.step.item.name)
+        console.log($scope.filter.text)
+        return !_.includes(_.toLower($scope.step.item.name),_.toLower($scope.filter.text))
       }
 
       if ($rootScope.showingAllProjectStepChildren === true) {
