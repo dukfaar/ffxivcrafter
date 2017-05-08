@@ -32,14 +32,15 @@ module.exports = function (botDef) {
       if (item) {
         lines.push(item.name)
         lines.push(`Currently known prices: ${item.price}/${item.priceHQ}`)
-        if (item.gatheringJob !== 'None')
+        if (item.gatheringJob !== 'None') {
           lines.push(`Gathered by: ${item.gatheringJob} at Level ${item.gatheringLevel}`)
+        }
 
         CraftingController.buildCraftingTree(item, 0, (tree) => {
           var materialList = {}
 
           CraftingController.buildMaterialList(tree, materialList)
-          if(tree.inputs.length > 0) {
+          if (tree.inputs.length > 0) {
             var materialPrice = CraftingController.getMaterialPrice(materialList)
 
             message.channel.sendMessage(`I also found out how to build that thing. The materials would cost about ${materialPrice}gil. (As far as i know about them! No guarantees!)`)
@@ -141,6 +142,6 @@ module.exports = function (botDef) {
         message.channel.sendMessage('Something went wrong here....')
         console.log(message)
         break
-      }
+    }
   }
 }
