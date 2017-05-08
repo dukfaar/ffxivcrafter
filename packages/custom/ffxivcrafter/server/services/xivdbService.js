@@ -15,7 +15,7 @@ module.exports = function () {
     if (now > nextRequestTime) delay = 0
     else delay = nextRequestTime - now
 
-    nextRequestTime = now + delay + 100
+    nextRequestTime = now + delay + 200
 
     Q.delay(delay)
     .then(function () {
