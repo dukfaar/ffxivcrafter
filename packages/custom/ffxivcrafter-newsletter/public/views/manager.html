@@ -8,7 +8,7 @@
   <div layout-padding>
     <upload-progress upload-data="newsletterManagerController.FileUpload.uploadData"></upload-progress>
     <div layout="row" layout-wrap>
-      <md-card ng-repeat="newsletter in newsletterManagerController.newsletterList track by newsletter._id">
+      <md-card ng-repeat="newsletter in newsletterManagerController.newsletterList |orderBy:'uploadDate':false track by newsletter._id">
         <md-card-content layout="column">
           <md-input-container>
             <label>Name</label>
