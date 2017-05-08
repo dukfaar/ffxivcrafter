@@ -28,6 +28,10 @@ function ProjectViewController (
       enabled: false
     }
 
+    $scope.filter = {
+      text: ''
+    }
+
     $scope.users = User.query({})
     $scope.getUser = function (id) {
       return _.find($scope.users, function (u) { return u._id === id })

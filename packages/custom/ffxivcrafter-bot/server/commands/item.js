@@ -59,7 +59,7 @@ module.exports = function (botDef) {
   }
 
   function searchCommand (params, message, regexResult, itemName) {
-    Item.find({name: new RegExp(`${itemName}`, 'i')})
+    Item.find({name: new RegExp(itemName, 'i')})
     .select('name')
     .lean().exec()
     .then((items) => {
@@ -70,7 +70,7 @@ module.exports = function (botDef) {
         lines.push(`* ${i.name}`)
       })
 
-      message.channel.sendMessage(lines.join('\n'))
+      message.channel.sendMessage(_.truncate(lines.join('\n'), {length: 2000, separator: '\n', omission: '\n* ...'}))
     })
     .catch(err => {
       console.log('DISCORD-COMMAND-ERROR: ' + err)

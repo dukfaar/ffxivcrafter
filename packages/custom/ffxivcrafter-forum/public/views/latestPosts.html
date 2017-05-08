@@ -1,0 +1,13 @@
+<div>
+  <md-card>
+    <md-card-content>
+      <md-list>
+        <md-list-item  ng-repeat="post in latestPostsController.posts" layout="column">
+          <div>{{post.thread.title}}</div>
+          <div style="white-space:pre-wrap;" ng-bind-html="post.text|kanbanText"></div>
+          <md-divider ng-if="!$last"></md-divider>
+        </md-list-item>
+      </md-list>
+    </md-card-content>
+  </md-card>
+</div>

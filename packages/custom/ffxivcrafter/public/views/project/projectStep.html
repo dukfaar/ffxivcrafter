@@ -1,5 +1,5 @@
 <div class="step" ng-if="step.step!=='Meta'" flex layout="column">
-  <div layout="row">
+  <div layout="row" ng-if="!isFiltered()">
     <md-icon class="material-icons" ng-if="step.inputs.length>0" ng-click="toggleChildren()">{{hideChildren?'chevron_right':'expand_more'}}</md-icon>
     <md-icon class="material-icons" ng-if="step.inputs.length===0"></md-icon>
     <div layout="column" flex>
@@ -30,13 +30,13 @@
     </div>
   </div>
 
-  <div ng-if="step.inputs.length>0 && !hideChildren" class="stepList">
-    <project-step data-step="childStep" ng-repeat="childStep in step.inputs" step-deletion="stepDeletion" deleted-step="deletedStep()" show-deleter="step.step==='Meta'" project-data="projectData"></project-step>
+  <div ng-if="step.inputs.length>0 && (!hideChildren || isFiltered())" class="stepList">
+    <project-step data-step="childStep" ng-repeat="childStep in step.inputs" filter="filter" step-deletion="stepDeletion" deleted-step="deletedStep()" show-deleter="step.step==='Meta'" project-data="projectData"></project-step>
   </div>
 </div>
 
 <div ng-if="step.step==='Meta'">
   <div ng-if="step.inputs.length>0">
-    <project-step data-step="childStep" ng-repeat="childStep in step.inputs" step-deletion="stepDeletion" deleted-step="deletedStep()" show-deleter="step.step==='Meta'" project-data="projectData"></project-step>
+    <project-step data-step="childStep" ng-repeat="childStep in step.inputs" filter="filter" step-deletion="stepDeletion" deleted-step="deletedStep()" show-deleter="step.step==='Meta'" project-data="projectData"></project-step>
   </div>
 </div>
