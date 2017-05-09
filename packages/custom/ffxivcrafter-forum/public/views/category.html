@@ -8,7 +8,11 @@
       <md-tooltip>Back To Parent</md-tooltip>
       <md-icon class="material-icon">arrow_backwards</md-icon>
     </md-button>
-    <h1 class="forum-category-title">{{category.name}}</h1>
+    <h1 ng-if="!canEditCategory()" class="forum-category-title">{{category.name}}</h1>
+    <md-input-container class="no-error-spacer" ng-if="canEditCategory()">
+      <label>Name</label>
+      <input type="text" ng-model="category.name" ng-change="updateCategory()" ng-model-options="{debounce:300}" />
+    </md-input-container>
     <span flex></span>
 
     <md-button
@@ -18,14 +22,6 @@
       ga-track-event="['forum category', 'delete', 'dialog open']">
       <md-tooltip>Delete Category</md-tooltip>
       <md-icon class="material-icons">delete</md-icon>
-    </md-button>
-    <md-button
-      class="md-icon-button"
-      ng-if="allowed('edit categories') && category.parent"
-      ng-click="editCategoryDialog()"
-      ga-track-event="['forum category', 'edit', 'dialog open']">
-      <md-tooltip>Edit Category</md-tooltip>
-      <md-icon class="material-icons">edit</md-icon>
     </md-button>
     <md-button
       class="md-icon-button"

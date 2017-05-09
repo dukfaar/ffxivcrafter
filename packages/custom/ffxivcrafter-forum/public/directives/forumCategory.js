@@ -14,9 +14,19 @@ angular.module('mean.ffxivCrafter_forum').directive('forumCategory', function ()
       $scope.category = ForumCategory.get({id: $scope.categoryId})
       $scope.subCategories = ForumCategory.query({parent: $scope.categoryId})
       $scope.threads = ForumThread.query({category: $scope.categoryId, sort: 'lastUpdate'})
+      $scope.canEditCategory = canEditCategory
+      $scope.updateCategory = updateCategory
 
       $scope.threadOrderFunction = function (thread) {
         return new Date(thread.lastUpdate)
+      }
+
+      function canEditCategory () {
+        return $scope.allowed('admin') || $scope.allowed('forum moderator')
+      }
+
+      function updateCategory () {
+        ForumCategory.update({id: $scope.categoryId}, $scope.category)
       }
 
       function creationListener (newThread) {
