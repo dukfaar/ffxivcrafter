@@ -1,27 +1,34 @@
-<div layout="column" layout-padding ng-cloak>
-  <div layout="row" layout-align="start center">
-    <md-button ng-if="thread.category" class="md-fab md-mini md-primary md-hue-2" aria-label="back" ng-href="/forum/category/{{thread.category}}">
+<md-toolbar class="md-hue-2">
+  <div class="md-toolbar-tools">
+    <md-button
+      ng-if="thread.category"
+      class="md-icon-button"
+      aria-label="back"
+      ng-href="/forum/category/{{thread.category}}">
+      <md-tooltip>Back To Parent</md-tooltip>
       <md-icon class="material-icon">arrow_backwards</md-icon>
     </md-button>
-    <h1>{{thread.title}}</h1>
+    <h1 class="forum-thread-title">{{thread.title}}</h1>
     <span flex></span>
-    <div layout="row" layout-align="center center">
-      <md-button
-        class="md-raised md-primary"
-        ng-if="allowed('delete threads') && user._id === thread.creator._id"
-        ng-click="deleteThreadDialog()"
-        ga-track-event="['forum thread', 'delete', 'dialog open']">
-        <md-icon class="material-icons">delete</md-icon>
-      </md-button>
-      <md-button
-        class="md-raised md-primary"
-        ng-if="allowed('create forum posts')"
-        ng-click="createPostDialog()"
-        ga-track-event="['forum thread', 'comment', 'dialog open']">
-        <md-icon class="material-icons">comment</md-icon>
-      </md-button>
-    </div>
+
+    <md-button
+      class="md-icon-button"
+      ng-if="allowed('delete threads') && user._id === thread.creator._id"
+      ng-click="deleteThreadDialog()"
+      ga-track-event="['forum thread', 'delete', 'dialog open']">
+      <md-tooltip>Delete Thread</md-tooltip>
+      <md-icon class="material-icons">delete</md-icon>
+    </md-button>
+    <md-button
+      class="md-icon-button"
+      ng-if="allowed('create forum posts')"
+      ng-click="createPostDialog()"
+      ga-track-event="['forum thread', 'comment', 'dialog open']">
+      <md-tooltip>Add Post</md-tooltip>
+      <md-icon class="material-icons">comment</md-icon>
+    </md-button>
   </div>
+</md-toolbar>
 
   <md-card ng-if="posts.length > 0">
     <md-card-content>
@@ -34,4 +41,10 @@
       </paginate>
     </md-card-content>
   </md-card>
+</div>
+
+<div>
+.forum-thread-title {
+  font-size: 1em;
+}
 </div>

@@ -1,43 +1,53 @@
-<div layout="column" layout-padding ng-cloak>
-  <div layout="row" layout-align="start center">
-    <md-button ng-if="category.parent" class="md-fab md-mini md-primary md-hue-2" aria-label="back" ng-href="/forum/category/{{category.parent}}">
+<md-toolbar class="md-hue-2">
+  <div class="md-toolbar-tools">
+    <md-button
+      ng-if="category.parent"
+      class="md-icon-button"
+      aria-label="back"
+      ng-href="/forum/category/{{category.parent}}">
+      <md-tooltip>Back To Parent</md-tooltip>
       <md-icon class="material-icon">arrow_backwards</md-icon>
     </md-button>
-    <h1>{{category.name}}</h1>
+    <h1 class="forum-category-title">{{category.name}}</h1>
     <span flex></span>
-    <div layout="row" layout-align="center center">
-      <md-button
-        class="md-raised md-primary"
-        ng-if="allowed('delete categories') && category.parent"
-        ng-click="deleteCategoryDialog()"
-        ga-track-event="['forum category', 'delete', 'dialog open']">
-        <md-icon class="material-icons">delete</md-icon>
-      </md-button>
-      <md-button
-        class="md-raised md-primary"
-        ng-if="allowed('edit categories') && category.parent"
-        ng-click="editCategoryDialog()"
-        ga-track-event="['forum category', 'edit', 'dialog open']">
-        <md-icon class="material-icons">edit</md-icon>
-      </md-button>
-      <md-button
-        class="md-raised md-primary"
-        ng-if="allowed('create categories')"
-        ng-click="createSubCategoryDialog()"
-        ga-track-event="['forum category', 'create category', 'dialog open']">
-        <md-icon class="material-icons">create_new_folder</md-icon>
-      </md-button>
-      <md-button
-        class="md-raised md-primary"
-        ng-if="allowed('create threads')"
-        ng-click="createThreadDialog()"
-        ga-track-event="['forum category', 'create thread', 'dialog open']">
-        <md-icon class="material-icons">message</md-icon>
-      </md-button>
-    </div>
+
+    <md-button
+      class="md-icon-button"
+      ng-if="allowed('delete categories') && category.parent"
+      ng-click="deleteCategoryDialog()"
+      ga-track-event="['forum category', 'delete', 'dialog open']">
+      <md-tooltip>Delete Category</md-tooltip>
+      <md-icon class="material-icons">delete</md-icon>
+    </md-button>
+    <md-button
+      class="md-icon-button"
+      ng-if="allowed('edit categories') && category.parent"
+      ng-click="editCategoryDialog()"
+      ga-track-event="['forum category', 'edit', 'dialog open']">
+      <md-tooltip>Edit Category</md-tooltip>
+      <md-icon class="material-icons">edit</md-icon>
+    </md-button>
+    <md-button
+      class="md-icon-button"
+      ng-if="allowed('create categories')"
+      ng-click="createSubCategoryDialog()"
+      ga-track-event="['forum category', 'create category', 'dialog open']">
+      <md-tooltip>Create New Category</md-tooltip>
+      <md-icon class="material-icons">create_new_folder</md-icon>
+    </md-button>
+    <md-button
+      class="md-icon-button"
+      ng-if="allowed('create threads')"
+      ng-click="createThreadDialog()"
+      ga-track-event="['forum category', 'create thread', 'dialog open']">
+      <md-tooltip>Create New Thread</md-tooltip>
+      <md-icon class="material-icons">message</md-icon>
+    </md-button>
+
   </div>
+</md-toolbar>
 
-
+<div layout="column" layout-padding ng-cloak>
   <md-card ng-if="subCategories.length > 0">
     <md-card-content layout="column">
       <h2 translate>forum.categories</h2>
@@ -63,3 +73,9 @@
     </md-card-content>
   </md-card>
 </div>
+
+<style>
+.forum-category-title {
+  font-size: 1em;
+}
+</style>
