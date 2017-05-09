@@ -30,18 +30,15 @@
   </div>
 </md-toolbar>
 
-  <md-card ng-if="posts.length > 0">
-    <md-card-content>
-      <paginate list="posts" limit="10">
-        <div ng-repeat="post in paginateController.getPage()">
-          <forum-post post="post"></forum-post>
-          <md-divider></md-divider>
-        </div>
-        <paginate-controls page-buttons="1"></paginate-controls>
-      </paginate>
-    </md-card-content>
-  </md-card>
-</div>
+<paginate list="posts" limit="10">
+  <div ng-repeat="post in paginateController.getPage()">
+    <md-card><md-card-content><forum-post post="post"></forum-post></md-card-content></md-card>
+  </div>
+  <div layout-padding>
+    <paginate-controls page-buttons="1"></paginate-controls>
+  </div>
+</paginate>
+
 
 <style>
 .forum-thread-title {
