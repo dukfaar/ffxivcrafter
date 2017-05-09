@@ -11,3 +11,19 @@ custom-directive-container-adder {
 .no-error-spacer .md-errors-spacer {
   display: none;
 }
+
+.md-button.paginate {
+  margin:20px 0;
+}
+
+.md-button.paginate-left {
+    border-radius: 10px 0 0 10px;
+}
+
+.md-button.paginate-middle {
+    border-radius: 0;
+}
+
+.md-button.paginate-right {
+    border-radius: 0 10px 10px 0;
+}

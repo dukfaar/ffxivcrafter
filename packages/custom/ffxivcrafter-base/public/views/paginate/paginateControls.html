@@ -1,12 +1,12 @@
 <div layout="row">
-  <md-button class="md-raised" ng-disabled="paginateController.onFirstPage()" ng-click="paginateController.toPage(0)">&lt;&lt;</md-button>
-  <md-button class="md-raised" ng-disabled="paginateController.onFirstPage()" ng-click="paginateController.prevPage()">&lt;</md-button>
-  <md-button class="md-raised"
+  <md-button class="md-raised paginate paginate-left" ng-disabled="paginateController.onFirstPage()" ng-click="paginateController.toPage(0)">&lt;&lt;</md-button>
+  <md-button class="md-raised paginate paginate-middle" ng-disabled="paginateController.onFirstPage()" ng-click="paginateController.prevPage()">&lt;</md-button>
+  <md-button class="md-raised paginate paginate-middle"
     ng-disabled="paginateController.currentPage==pageNum"
     ng-repeat="pageNum in paginateControlsController.getPageArray(paginateController.currentPage, paginateController.maxPages())"
     ng-click="paginateController.toPage(pageNum)">
     {{pageNum}}
   </md-button>
-  <md-button class="md-raised" ng-disabled="paginateController.onLastPage()" ng-click="paginateController.nextPage()">&gt;</md-button>
-  <md-button class="md-raised" ng-disabled="paginateController.onLastPage()" ng-click="paginateController.toPage(paginateController.maxPages())">&gt;&gt;</md-button>
+  <md-button class="md-raised paginate paginate-middle" ng-disabled="paginateController.onLastPage()" ng-click="paginateController.nextPage()">&gt;</md-button>
+  <md-button class="md-raised paginate paginate-right" ng-disabled="paginateController.onLastPage()" ng-click="paginateController.toPage(paginateController.maxPages())">&gt;&gt;</md-button>
 </div>
