@@ -28,7 +28,7 @@ function NewsletterArchiveDirectiveController ($scope, _, $q, socket, Newsletter
   function doGetList () {
     Newsletter.query({})
     .$promise.then(result => {
-      vm.newsletterList = result
+      vm.newsletterList = _.orderBy(result,[d => new Date(d.uploadDate)], ['asc'])
     })
 
     vm.triggerGetListTimeout = null

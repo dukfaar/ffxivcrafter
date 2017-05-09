@@ -1,6 +1,6 @@
 <page-base>
   <md-tabs md-selected="newsletterArchiveController.viewed">
-    <md-tab ng-repeat="newsletter in newsletterArchiveController.newsletterList track by newsletter._id">
+    <md-tab ng-repeat="newsletter in newsletterArchiveController.newsletterList|orderBy:'uploadDate':false track by newsletter._id">
       <md-tab-label>{{newsletter.name}}</md-tab-label>
     </md-tab>
   </md-tabs>
