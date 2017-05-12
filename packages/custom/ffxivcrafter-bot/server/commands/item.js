@@ -5,7 +5,7 @@ var q = require('q')
 var mongoose = require('mongoose')
 mongoose.Promise = q.Promise
 
-var CraftingController = require('../../../ffxivcrafter/server/controllers/crafting')()
+
 
 module.exports = function (botDef) {
   var commandRegex = /([iI]tem) ([iI]nfo|[oO]rder|[sS]earch) (.+)/
@@ -14,6 +14,7 @@ module.exports = function (botDef) {
     command: command
   }
 
+  var CraftingController
   var CraftingProject
   var UserDiscord
   var User
@@ -123,7 +124,8 @@ module.exports = function (botDef) {
     Item = Item || mongoose.model('Item')
     Recipe = Recipe || mongoose.model('Recipe')
     ProjectController = ProjectController || require('../../../ffxivcrafter/server/controllers/project')(botDef.io)
-
+    CraftingController = require('../../../ffxivcrafter/server/controllers/crafting')()
+    
     var regexResult = commandRegex.exec(message)
     var subCommand = regexResult[2]
     var itemName = regexResult[3]

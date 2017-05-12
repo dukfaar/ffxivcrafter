@@ -102,6 +102,45 @@ module.exports = function () {
 
     var io = null
 
+    function doCreate(req, res) {
+      var instance = new Model(req.body)
+
+      return instance.save()
+      .then(function () {
+        res.send(instance)
+        io.emit(modelName + ' created', instance)
+      })
+      .catch(function (err) {
+        res.status(500).send(err)
+      })
+    }
+
+    function doUpdate (req, res) {
+      return Model.findByIdAndUpdate(req.params.id, req.body, {new: true}).exec()
+      .then(function (instance) {
+        res.send({})
+        io.emit(modelName + ' updated', instance)
+      })
+      .catch(function (err) {
+        res.status(500).send(err)
+      })
+    }
+
+    function doDelete (req, res) {
+      return Model.findById({_id: req.params.id}).exec()
+      .then(function (instance) {
+        instance.remove(function (err, result) {
+          if (err) throw err
+
+          res.send({})
+          io.emit(modelName + ' deleted', req.params.id)
+        })
+      })
+      .catch(function (err) {
+        res.status(500).send(err)
+      })
+    }
+
     return {
       Model: Model,
       setIo: function (_io) {
@@ -113,17 +152,9 @@ module.exports = function () {
       count: function (req, res) {
         countAction(Model, req, res)
       },
+      doCreate: doCreate,
       create: function (req, res) {
-        var instance = new Model(req.body)
-
-        instance.save()
-        .then(function () {
-          res.send(instance)
-          io.emit(modelName + ' created', instance)
-        })
-        .catch(function (err) {
-          res.status(500).send(err)
-        })
+        doCreate(req, res)
       },
       get: function (req, res) {
         selectFind(populateFind(Model.findById(req.params.id), req), req).exec()
@@ -134,29 +165,13 @@ module.exports = function () {
           res.status(500).send(err)
         })
       },
+      doUpdate: doUpdate,
       update: function (req, res) {
-        Model.findByIdAndUpdate(req.params.id, req.body, {new: true}).exec()
-        .then(function (instance) {
-          res.send({})
-          io.emit(modelName + ' updated', instance)
-        })
-        .catch(function (err) {
-          res.status(500).send(err)
-        })
+        doUpdate(req, res)
       },
+      doDelete: doDelete,
       delete: function (req, res) {
-        Model.findById({_id: req.params.id}).exec()
-        .then(function (instance) {
-          instance.remove(function (err, result) {
-            if (err) throw err
-
-            res.send({})
-            io.emit(modelName + ' deleted', req.params.id)
-          })
-        })
-        .catch(function (err) {
-          res.status(500).send(err)
-        })
+        doDelete(req, res)
       }
     }
   }

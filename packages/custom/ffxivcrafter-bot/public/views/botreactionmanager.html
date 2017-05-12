@@ -1,0 +1,23 @@
+<div layout="column">
+  <div layout-padding ng-repeat="reaction in botReactionManagerController.reactionList track by reaction._id">
+    <md-card layout-fill>
+      <md-card-content layout="row" layout-fill>
+        <md-input-container>
+          <label>Trigger (Regex)</label>
+          <input ng-model="reaction.trigger" ng-model-options="{debounce: 300}" ng-change="botReactionManagerController.updateReaction(reaction)"/>
+        </md-input-container>
+        <md-input-container flex>
+          <label>Reaction</label>
+          <input ng-model="reaction.reaction" ng-model-options="{debounce: 300}" ng-change="botReactionManagerController.updateReaction(reaction)"/>
+        </md-input-container>
+        <md-input-container>
+          <label>Probability</label>
+          <input type="number" ng-model="reaction.probability" ng-model-options="{debounce: 300}" ng-change="botReactionManagerController.updateReaction(reaction)"/>
+        </md-input-container>
+        <md-button class="md-raised md-primary" ng-click="botReactionManagerController.deleteReaction(reaction)" translate="bot.reaction.delete"></md-button>
+      </md-card-content>
+    </md-card>
+  </div>
+
+  <md-button class="md-raised md-primary" ng-click="botReactionManagerController.addReaction()" translate="bot.reaction.add"></md-button>
+</div>

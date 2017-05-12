@@ -14,6 +14,8 @@ let botDef = {
   commandList: {}
 }
 
+var botReaction = require('./botReaction')(botDef)
+
 botDef.bot.on('ready', () => {
   botDef.commandTrigger = '<@' + botDef.bot.user.id + '>'
 })
@@ -71,6 +73,8 @@ botDef.bot.on('message', message => {
     if (processCommand(message)) return {}
 
     message.channel.sendMessage('I don\'t know what you are talking about')
+  } else {
+    botReaction.process(message)
   }
 })
 
