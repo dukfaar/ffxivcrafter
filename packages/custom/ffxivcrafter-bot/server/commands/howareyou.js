@@ -19,8 +19,8 @@ module.exports = function (botDef) {
     UserDiscord.find().lean().exec().then((discordUsers) => {
       let sentences = []
 
-      let totalMurders = _.reduce(discordUsers, (sum, u) => { return sum + u.murderAttempts }, 0)
-      let totalHugs = _.reduce(discordUsers, (sum, u) => { return sum + u.rcHugs }, 0)
+      let totalMurders = _.reduce(discordUsers, (sum, u) => { return sum + ((u && u.murderAttempts) ? u.murderAttempts : 0) }, 0)
+      let totalHugs = _.reduce(discordUsers, (sum, u) => { return sum + ((u && u.rcHugs) ? u.rcHugs : 0) }, 0)
 
       sentences.push('My house was built ' + os.uptime() + ' seconds ago')
       sentences.push('I am awake since ' + process.uptime() + ' seconds')
