@@ -55,7 +55,7 @@ module.exports = {
     loginPage: '/auth/login',
     cssFramework: 'bootstrap'
   },
-  clusterSticky: true,
+  clusterSticky: false,
   stickyOptions: {
     proxy: true, // activate layer 4 patching
     header: 'x-forwarded-for', // provide here your header containing the users ip
