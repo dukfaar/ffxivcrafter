@@ -20,7 +20,7 @@ controller.update = (req, res) => {
 }
 
 controller.delete = (req, res) => {
-  controller.doDelete()
+  controller.doDelete(req, res)
   .then(() => {
     BotReactionHandler.fetchReactions()
   })
