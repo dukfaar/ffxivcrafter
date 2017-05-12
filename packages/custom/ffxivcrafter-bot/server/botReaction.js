@@ -6,16 +6,24 @@ var reactionHandler = require('./reactionHandler')
 
 module.exports = function (botDef) {
   return {
-      process: process
+      process: processMessage
   }
 
-  function process(message) {
+  function processMessage(message) {
     reactionHandler.getReactions().then(reactions => {
-      let matchingReactions = _.filter(reactions, reaction => new RegExp(reaction.trigger).test(message))
+      let matchingReactions = _.filter(reactions, reaction => {
+        let regex = new RegExp(reaction.trigger)
+        return regex.test(message)
+      })
 
-      if(matchingReactions.length > 0) {
-        message.channel.send(matchingReactions[0].reaction)
+      let probabilityReactions = _.filter(matchingReactions, reaction => {
+        let value = _.random(1, true)
+        return (reaction.probability || 0) > value
+      })
+
+      if(probabilityReactions.length > 0) {
+        message.channel.send(_.sample(probabilityReactions).reaction)
       }
-    })  
+    })
   }
 }
