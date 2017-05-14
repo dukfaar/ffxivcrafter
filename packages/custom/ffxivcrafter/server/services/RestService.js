@@ -4,6 +4,8 @@ var mongoose = require('mongoose')
 var Q = require('q')
 var _ = require('lodash')
 
+const log4js = require('log4js')
+
 mongoose.Promise = Q.Promise
 
 module.exports = function () {
@@ -22,11 +24,11 @@ module.exports = function () {
   }
 
   function selectFind (find, req) {
-    return req.query.select?find.select(req.query.select):find
+    return req.query.select ? find.select(req.query.select) : find
   }
 
   function sortFind (find, req) {
-    return req.query.sort?find.sort(req.query.sort):find
+    return req.query.sort ? find.sort(req.query.sort) : find
   }
 
   function doList (find, req) {
@@ -40,7 +42,7 @@ module.exports = function () {
       app.route(apiBase)
       .get(controller.list)
 
-      app.route(apiBase+'/count')
+      app.route(apiBase + '/count')
       .get(controller.count)
 
       app.route(apiBase)
@@ -57,7 +59,7 @@ module.exports = function () {
     }
   }
 
-  function countOperation(Model, query) {
+  function countOperation (Model, query) {
     var findQuery = _.pickBy(query, function (value, key) {
       return key !== 'populate' && key !== 'skip' && key !== 'limit' && key !== 'page' && key !== 'select' && key !== 'sort'
     })
@@ -65,12 +67,13 @@ module.exports = function () {
     return Model.count(findQuery).exec()
   }
 
-  function countAction (Model, req, res) {
+  function countAction (Model, req, res, logger) {
     countOperation(Model, req.query)
     .then((c) => {
       res.send({count: c})
     })
     .catch((err) => {
+      if (logger) logger.error('Error counting %s: %s', Model.modelName, err)
       res.status(500).send(err)
     })
   }
@@ -87,22 +90,25 @@ module.exports = function () {
     return doList(Model.find(findQuery), req)
   }
 
-  function listAction (Model, req, res) {
+  function listAction (Model, req, res, logger) {
     listOperation(Model, req)
     .then(function (result) {
       res.send(result)
     })
     .catch(function (err) {
+      if (logger) logger.error('Error listing %s: %s', Model.modelName, err)
       res.status(500).send(err)
     })
   }
 
   function createRestController (modelName) {
+    const logger = log4js.getLogger('app.restservice.controller.' + modelName)
+
     var Model = mongoose.model(modelName)
 
     var io = null
 
-    function doCreate(req, res) {
+    function doCreate (req, res) {
       var instance = new Model(req.body)
 
       return instance.save()
@@ -111,6 +117,7 @@ module.exports = function () {
         io.emit(modelName + ' created', instance)
       })
       .catch(function (err) {
+        logger.error('Error creating %s: %s', modelName, err)
         res.status(500).send(err)
       })
     }
@@ -122,6 +129,8 @@ module.exports = function () {
         io.emit(modelName + ' updated', instance)
       })
       .catch(function (err) {
+        logger.error('Error updating %s with id=%s: %s', modelName, req.params.id, err)
+        logger.error('body: %s', req.body)
         res.status(500).send(err)
       })
     }
@@ -137,20 +146,22 @@ module.exports = function () {
         })
       })
       .catch(function (err) {
+        logger.error('Error deleting %s with id=%s: %s', modelName, req.params.id, err)
         res.status(500).send(err)
       })
     }
 
     return {
       Model: Model,
+      logger: logger,
       setIo: function (_io) {
         io = _io
       },
       list: function (req, res) {
-        listAction(Model, req, res)
+        listAction(Model, req, res, logger)
       },
       count: function (req, res) {
-        countAction(Model, req, res)
+        countAction(Model, req, res, logger)
       },
       doCreate: doCreate,
       create: function (req, res) {
@@ -162,6 +173,7 @@ module.exports = function () {
           res.send(instance)
         })
         .catch(function (err) {
+          logger.error('Error getting %s with id=%s: %s', modelName, req.params.id, err)
           res.status(500).send(err)
         })
       },

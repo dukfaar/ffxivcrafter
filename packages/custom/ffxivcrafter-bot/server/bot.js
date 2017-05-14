@@ -7,6 +7,8 @@ const Discord = require('discord.js')
 var meanio = require('meanio')
 var config = meanio.getConfig()
 
+var logger = require('log4js').getLogger('app.bot')
+
 const token = config.discord.token
 
 let botDef = {
@@ -21,16 +23,17 @@ botDef.bot.on('ready', () => {
 })
 
 botDef.bot.on('error', error => {
-  console.log('DISCORD ERROR: ' + error)
+  logger.error('discord reports an error: %s', error)
 })
 
 botDef.bot.on('disconnect', event => {
-  console.log('DISCORD-DISCONNECT: ' + event.code)
-  console.log('DISCORD-DISCONNECT: ' + event.reason)
+  logger.info('discord got reconnected')
+  logger.info('code: %s', event.code)
+  logger.info('reason: %s', event.reason)
 })
 
 botDef.bot.on('reconnecting', event => {
-  console.log('DISCORD-RECONNECTING: ' + event)
+  logger.info('reconnecting to discord')
 })
 
 function stubCommand (params, message) {
