@@ -1,10 +1,10 @@
-<md-dialog layout-padding flex="80">
-  <md-dialog-content>
-    <md-tabs layout-fill md-dynamic-height>
+<md-dialog flex="80">
+  <md-tabs layout-fill md-dynamic-height>
+    <md-dialog-content style="overflow: hidden">
       <md-tab label="Editor" layout-fill>
-        <form name="threadForm" layout="column" ng-controller="TextEditorController as editorController">
+        <form name="threadForm" layout="column" ng-controller="TextEditorController as editorController" layout-padding>
           <md-toolbar layout="row">
-            <div class="md-toolbar-tools" ng-include="'/ffxivCrafter_forum/views/editorToolbar.html'">            
+            <div class="md-toolbar-tools" ng-include="'/ffxivCrafter_forum/views/editorToolbar.html'">
             </div>
           </md-toolbar>
           <h2 translate>forum.thread.new</h2>
@@ -15,16 +15,16 @@
 
           <md-input-container flex>
             <label translate>forum.post.text.label</label>
-            <textarea class="editorText" novalidate ng-minlength="10" required rows="10" ng-model="data.post.text" flex></textarea>
+            <textarea class="editorText" novalidate ng-minlength="10" required rows="10" max-rows="15" ng-model="data.post.text" flex></textarea>
           </md-input-container>
         </form>
       </md-tab>
-      <md-tab label="Preview">
+      <md-tab label="Preview" layout-padding>
         <h1>{{data.thread.title}}</h1>
         <div style="white-space:pre-wrap" ng-bind-html="data.post.text|kanbanText"></div>
       </md-tab>
-    </md-tabs>
-  </md-dialog-content>
+    </md-dialog-content>
+  </md-tabs>
 
   <md-dialog-actions>
     <md-button ng-click="save()" ng-disabled="threadForm.$invalid" translate="action.save" class="md-primary md-raised"></md-button>
