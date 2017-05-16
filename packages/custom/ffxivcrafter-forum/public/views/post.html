@@ -1,14 +1,16 @@
 <div layout="row">
-  <div layout-padding layout="column">
-    <a ng-href="/account/profile/{{post.creator._id}}">
-      <span>{{post.creator.name}}</span>
-    </a>
-    <a ng-href="/account/profile/{{post.creator._id}}">
-      <img
-        ng-href="/account/profile/{{post.creator._id}}"
-        ng-if="post.creator.avatarImage && post.creator.avatarImage.length > 0"
-        ng-src="/api/imageThumbnailData/{{post.creator.avatarImage}}"/>
-    </a>
+  <div layout-padding>
+    <div layout-padding layout="column" style="position: sticky; top: 0em;">
+      <a ng-href="/account/profile/{{post.creator._id}}">
+        <span>{{post.creator.name}}</span>
+      </a>
+      <a ng-href="/account/profile/{{post.creator._id}}">
+        <img
+          ng-href="/account/profile/{{post.creator._id}}"
+          ng-if="post.creator.avatarImage && post.creator.avatarImage.length > 0"
+          ng-src="/api/imageThumbnailData/{{post.creator.avatarImage}}"/>
+      </a>
+    </div>
   </div>
   <div layout-padding flex>
     <div style="white-space:pre-wrap;" ng-bind-html="post.text|kanbanText"></div>

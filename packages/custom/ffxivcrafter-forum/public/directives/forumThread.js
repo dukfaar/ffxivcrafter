@@ -9,7 +9,7 @@ angular.module('mean.ffxivCrafter_forum').directive('forumThread', function () {
     controller: function ($scope, Global, $q, _, socket, ForumThread, ForumPost, $mdDialog, MeanUser, $location, Analytics) {
       $scope.user = MeanUser.user
       $scope.allowed = function (perm) {
-        return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) != -1
+        return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) !== -1
       }
 
       function queryPosts () {
@@ -65,13 +65,13 @@ angular.module('mean.ffxivCrafter_forum').directive('forumThread', function () {
           .textContent('Do you really want to delete this thread?')
           .ok('Please do it!')
           .cancel('Hell no!')
-        ).then(function() {
+        ).then(function () {
           Analytics.trackEvent(['forum thread', 'delete thread', 'deleted'])
           ForumThread.delete({id: $scope.threadId}).$promise
           .then(function () {
             $location.path('/forum/category/' + $scope.thread.category)
           })
-        }, function() {
+        }, function () {
           Analytics.trackEvent(['forum thread', 'delete thread', 'canceled'])
         })
       }
@@ -82,13 +82,13 @@ angular.module('mean.ffxivCrafter_forum').directive('forumThread', function () {
           .textContent('Do you really want to delete this post.')
           .ok('Please do it!')
           .cancel('Hell no!')
-        ).then(function() {
+        ).then(function () {
           Analytics.trackEvent(['forum message', 'delete message', 'deleted'])
           ForumPost.delete({id: post._id}).$promise
           .then(function () {
             $scope.posts = ForumPost.query({thread: $scope.threadId, populate: 'creator'})
           })
-        }, function() {
+        }, function () {
           Analytics.trackEvent(['forum message', 'delete message', 'canceled'])
         })
       }
@@ -100,7 +100,7 @@ angular.module('mean.ffxivCrafter_forum').directive('forumThread', function () {
           clickOutsideToClose: true,
           controller: DialogController,
           locals: {
-            data: {text: "Write Some Text!"},
+            data: {text: 'Write Some Text!'},
             edit: false
           }
         }).then(function (data) {
@@ -110,7 +110,7 @@ angular.module('mean.ffxivCrafter_forum').directive('forumThread', function () {
           newPost.creator = MeanUser.user
           newPost.$save().then(function () {
             $scope.thread.lastUpdate = new Date()
-            ForumThread.update({id: $scope.thread._id}, $scope.thread)
+            ForumThread.update({id: $scope.thread._id}, _.omit($scope.thread, 'creator'))
           })
         }, function () {
           Analytics.trackEvent(['forum message', 'create message', 'canceled'])
@@ -124,16 +124,16 @@ angular.module('mean.ffxivCrafter_forum').directive('forumThread', function () {
           clickOutsideToClose: true,
           controller: DialogController,
           locals: {
-            data: _.extend({ text: "" }, post),
+            data: _.extend({ text: '' }, post),
             edit: true
           }
         }).then(function (data) {
           Analytics.trackEvent(['forum message', 'edit message', 'edited'])
           data.lastEdited = new Date()
-          ForumPost.update({id: data._id}, data)
-          
+          ForumPost.update({id: data._id}, _.omit(data, 'creator'))
+
           $scope.thread.lastUpdate = new Date()
-          ForumThread.update({id: $scope.thread._id}, $scope.thread)
+          ForumThread.update({id: $scope.thread._id}, _.omit($scope.thread, 'creator'))
         }, function () {
           Analytics.trackEvent(['forum message', 'edit message', 'canceled'])
         })

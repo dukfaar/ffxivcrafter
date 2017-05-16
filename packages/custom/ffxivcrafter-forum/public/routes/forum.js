@@ -23,7 +23,7 @@ angular.module('mean.ffxivCrafter_forum').config(['$meanStateProvider',
     .state('forum thread', {
       url: '/forum/thread/:id',
       templateProvider: function ($stateParams) {
-        return '<page-base><forum-thread thread-id="\'' + $stateParams.id + '\'"></forum-thread></page-base>'
+        return '<forum-thread thread-id="\'' + $stateParams.id + '\'"></forum-thread>'
       },
       requiredCircles: {
         circles: ['see forum']

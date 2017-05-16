@@ -67,13 +67,15 @@ module.exports = function () {
     return Model.count(findQuery).exec()
   }
 
-  function countAction (Model, req, res, logger) {
+  function countAction (Model, req, res) {
+    const logger = log4js.getLogger('app.restservice.' + Model.modelName)
+
     countOperation(Model, req.query)
     .then((c) => {
       res.send({count: c})
     })
     .catch((err) => {
-      if (logger) logger.error('Error counting %s: %s', Model.modelName, err)
+      logger.error('Error counting %s: %s', Model.modelName, err)
       res.status(500).send(err)
     })
   }
@@ -90,13 +92,15 @@ module.exports = function () {
     return doList(Model.find(findQuery), req)
   }
 
-  function listAction (Model, req, res, logger) {
+  function listAction (Model, req, res) {
+    const logger = log4js.getLogger('app.restservice.' + Model.modelName)
+
     listOperation(Model, req)
     .then(function (result) {
       res.send(result)
     })
     .catch(function (err) {
-      if (logger) logger.error('Error listing %s: %s', Model.modelName, err)
+      logger.error('Error listing %s: %s', Model.modelName, err)
       res.status(500).send(err)
     })
   }
@@ -113,11 +117,13 @@ module.exports = function () {
 
       return instance.save()
       .then(function () {
+        logger.info('New %s created', Model.modelName, req.body)
+        logger.info('body: %s', req.body)
         res.send(instance)
-        io.emit(modelName + ' created', instance)
+        io.emit(Model.modelName + ' created', instance)
       })
       .catch(function (err) {
-        logger.error('Error creating %s: %s', modelName, err)
+        logger.error('Error creating %s: %s', Model.modelName, err)
         res.status(500).send(err)
       })
     }
@@ -125,30 +131,52 @@ module.exports = function () {
     function doUpdate (req, res) {
       return Model.findByIdAndUpdate(req.params.id, req.body, {new: true}).exec()
       .then(function (instance) {
+        logger.info('%s with id=%s updated', Model.modelName, req.params.id)
+        logger.info('body: ', req.body)
         res.send({})
-        io.emit(modelName + ' updated', instance)
+        io.emit(Model.modelName + ' updated', instance)
       })
       .catch(function (err) {
-        logger.error('Error updating %s with id=%s: %s', modelName, req.params.id, err)
+        logger.error('Error updating %s with id=%s: %s', Model.modelName, req.params.id, err)
         logger.error('body: %s', req.body)
+
         res.status(500).send(err)
       })
     }
 
     function doDelete (req, res) {
       return Model.findById({_id: req.params.id}).exec()
-      .then(function (instance) {
-        instance.remove(function (err, result) {
-          if (err) throw err
-
-          res.send({})
-          io.emit(modelName + ' deleted', req.params.id)
-        })
+      .then(instance => {
+        return instance.remove().exec()
       })
-      .catch(function (err) {
-        logger.error('Error deleting %s with id=%s: %s', modelName, req.params.id, err)
+      .then(result => {
+        logger.info('Deleted %s with id=%s', Model.modelName, req.params.id)
+        res.send({})
+        io.emit(Model.modelName + ' deleted', req.params.id)
+      })
+      .catch(err => {
+        logger.error('Error deleting %s with id=%s: %s', Model.modelName, req.params.id, err.message)
         res.status(500).send(err)
       })
+    }
+
+    function doGet (req, res) {
+      selectFind(populateFind(Model.findById(req.params.id), req), req).exec()
+      .then(function (instance) {
+        res.send(instance)
+      })
+      .catch(function (err) {
+        logger.error('Error getting %s with id=%s: %s', modelName, req.params.id, err)
+        res.status(500).send(err)
+      })
+    }
+
+    function doList (req, res) {
+      listAction(Model, req, res)
+    }
+
+    function doCount (req, res) {
+      countAction(Model, req, res)
     }
 
     return {
@@ -157,25 +185,21 @@ module.exports = function () {
       setIo: function (_io) {
         io = _io
       },
+      doList: doList,
       list: function (req, res) {
-        listAction(Model, req, res, logger)
+        doList(req, res)
       },
+      doCount: doCount,
       count: function (req, res) {
-        countAction(Model, req, res, logger)
+        doCount(req, res)
       },
       doCreate: doCreate,
       create: function (req, res) {
         doCreate(req, res)
       },
+      doGet: doGet,
       get: function (req, res) {
-        selectFind(populateFind(Model.findById(req.params.id), req), req).exec()
-        .then(function (instance) {
-          res.send(instance)
-        })
-        .catch(function (err) {
-          logger.error('Error getting %s with id=%s: %s', modelName, req.params.id, err)
-          res.status(500).send(err)
-        })
+        doGet(req, res)
       },
       doUpdate: doUpdate,
       update: function (req, res) {
