@@ -11,6 +11,13 @@
           <input ng-model="reaction.reaction" ng-model-options="{debounce: 300}" ng-change="botReactionManagerController.updateReaction(reaction)"/>
         </md-input-container>
         <md-input-container>
+          <label>Cooldown (seconds)</label>
+          <input type="number" ng-model="reaction.cooldown" ng-model-options="{debounce: 300}" ng-change="botReactionManagerController.updateReaction(reaction)"/>
+        </md-input-container>
+        <div>
+          {{reaction.lastReaction|date:'medium'}}
+        </div>
+        <md-input-container>
           <label>Probability</label>
           <input type="number" ng-model="reaction.probability" ng-model-options="{debounce: 300}" ng-change="botReactionManagerController.updateReaction(reaction)"/>
         </md-input-container>

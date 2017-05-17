@@ -22,6 +22,20 @@ module.exports = function (botDef) {
     })
   }
 
+  function filterByCooldown (reactions) {
+    let now = new Date().getTime()
+
+    return _.filter(reactions, reaction => {
+      if (reaction.lastReaction && reaction.cooldown) {
+        let age = now - reaction.lastReaction.getTime()
+        logger.debug('age: %s', age)
+        return age > (reaction.cooldown * 1000)
+      } else {
+        return true
+      }
+    })
+  }
+
   function filterByProbability (reactions) {
     return _.filter(reactions, reaction => {
       let value = _.random(1, true)
@@ -41,10 +55,14 @@ module.exports = function (botDef) {
   function processMessage (message) {
     reactionHandler.getReactions()
     .then(reactions => filterByTrigger(reactions, message))
+    .then(filterByCooldown)
     .then(filterByProbability)
     .then(getRandomReaction)
     .then(reaction => {
       message.channel.send(reaction.reaction)
+
+      reaction.lastReaction = new Date()
+      reaction.save()
     })
     .catch(err => {
       if (err instanceof NoSuitableReactionsException) {

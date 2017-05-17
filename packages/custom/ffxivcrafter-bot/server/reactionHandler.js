@@ -15,7 +15,6 @@ function fetchReactions () {
   logger.info('fetching BotReactions from Database')
 
   return BotReaction.find()
-  .lean()
   .exec()
   .then(result => {
     logger.info('BotReaction successfully loaded')
