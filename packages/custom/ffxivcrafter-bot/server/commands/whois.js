@@ -6,7 +6,7 @@ var q = require('q')
 
 module.exports = function (botDef) {
   return {
-    name: 'who is',
+    name: /who is/i,
     command: command
   }
 
@@ -25,7 +25,9 @@ module.exports = function (botDef) {
 
     let name = _.join(_.slice(params, 2), ' ')
 
-    User.findOne({ $or: [{name: name}, {username: name}] })
+    let nameRegex = new RegExp('^' + name + '$', 'i')
+
+    User.findOne({ $or: [{ name: { $regex: nameRegex } }, { username: { $regex: nameRegex } }] })
     .lean()
     .exec()
     .then(user => {
