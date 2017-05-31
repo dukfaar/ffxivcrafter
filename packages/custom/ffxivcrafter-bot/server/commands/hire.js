@@ -1,7 +1,6 @@
 'use strict'
 
 let mongoose = require('mongoose')
-let _ = require('lodash')
 let q = require('q')
 let path = require('path')
 mongoose.Promise = q.Promise

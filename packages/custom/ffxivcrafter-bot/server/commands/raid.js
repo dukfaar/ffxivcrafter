@@ -46,6 +46,23 @@ module.exports = function (botDef) {
     })
   }
 
+  function determineStolenGoldAmount (attacker, victim, attackZombies) {
+    logger.info('%s zombies are left for stealing.', attackZombies)
+    let stealAmount = 0
+    stealAmount += attackZombies * config.bot.game.units.zombies.stealAmount
+
+    logger.info('They can steal %s gold from the victim', stealAmount)
+
+    stealAmount = Math.min(victim.gold, stealAmount)
+
+    logger.info('%s from %s gold is now gone.', stealAmount, victim.gold)
+
+    victim.gold -= stealAmount
+    attacker.gold += stealAmount
+
+    return stealAmount
+  }
+
   function command (params, message) {
     User = User || mongoose.model('User')
     UserDiscord = UserDiscord || mongoose.model('UserDiscord')
@@ -77,7 +94,7 @@ module.exports = function (botDef) {
         _.forEach(_.range(attackZombies), i => {
           let killDef = _.random(0, 1, true)
 
-          if (defendZombies > 0 && defendZombies > deadDefendZombies && killDef < config.bot.game.units.zombies.killProbabilities.zombies) deadAttackZombies += 1
+          if (defendZombies > 0 && defendZombies > deadDefendZombies && killDef < config.bot.game.units.zombies.killProbabilities.zombies) deadDefendZombies += 1
         })
 
         defendZombies -= deadDefendZombies
@@ -85,7 +102,7 @@ module.exports = function (botDef) {
         _.forEach(_.range(defendZombies), i => {
           let killAtt = _.random(0, 1, true)
 
-          if (attackZombies > 0 && attackZombies > deadAttackZombies && killAtt < config.bot.game.units.zombies.killProbabilities.zombies) deadDefendZombies += 1
+          if (attackZombies > 0 && attackZombies > deadAttackZombies && killAtt < config.bot.game.units.zombies.killProbabilities.zombies) deadAttackZombies += 1
         })
 
         attackZombies -= deadAttackZombies
@@ -93,16 +110,23 @@ module.exports = function (botDef) {
         attacker.zombies -= deadAttackZombies
         victim.zombies -= deadDefendZombies
 
+        let stealAmount = determineStolenGoldAmount(attacker, victim, attackZombies)
+
         attacker.save()
         victim.save()
 
         message.channel.send('You lost ' + deadAttackZombies + ' while killing ' + deadDefendZombies)
+        if(stealAmount > 0) {
+          message.channel.send('Your hordes managed to steal ' + stealAmount + ' gold from your poor victim.')
+        } else {
+          message.channel.send('You failed at stealing gold. Your zombies died in vain.')
+        }
       } else {
         message.channel.send('You dont have have that many zombies. Maybe you should buy some?')
       }
     })
     .catch(err => {
-      logger.error('Error while handling raid command: %s', err)
+      logger.error('Error while handling raid command: %s', err.toString())
     })
   }
 }
