@@ -31,8 +31,6 @@ module.exports = function (botDef) {
     .then(gamestats => {
       if (gamestats) return gamestats
 
-      logger.info('need to create new gamestat')
-
       let newstats = new GameStats()
       newstats.user = user
       return newstats
@@ -85,7 +83,6 @@ module.exports = function (botDef) {
           gamestats.farmDuration = farmDuration_ms
           logger.info(gamestats)
           gamestats.save()
-          .then(()=> logger.info('gamestats saved'))
           .catch(logger.error)
         })
 
