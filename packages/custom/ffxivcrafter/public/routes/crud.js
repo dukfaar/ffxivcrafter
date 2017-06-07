@@ -10,5 +10,12 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
         circles: ['admin']
       }
     })
+    .state('crud schema', {
+      url: '/crud/schema/:modelName',
+      template: params => '<crud-schema></crud-schema>',
+      requiredCircles: {
+        circles: ['admin']
+      }
+    })
   }
 ])

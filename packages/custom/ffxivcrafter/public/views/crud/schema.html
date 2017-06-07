@@ -1,0 +1,23 @@
+<page-base>
+  <md-card>
+    <md-card-content>
+      <md-list>
+        <md-list-item
+          ng-repeat="column in crudSchemaController.schema"
+          ng-layout="column">
+          <div>
+            <span>{{column.path}}: {{column.instance}}</span>
+            <span ng-if="column.instance === 'ObjectID' && column.options.ref">
+              <span>(</span>
+              <a
+                ng-href="/crud/schema/{{column.options.ref}}">
+                {{column.options.ref}}
+              </a>
+              <span>)</span>
+            </span>
+          </div>
+        </md-list-item>
+      </md-list>
+    </md-card-content>
+  </md-card>
+</page-base>
