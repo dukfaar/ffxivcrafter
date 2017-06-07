@@ -9,7 +9,7 @@
               'scholar', 'whitemage', 'astrologian',
               'paladin', 'warrior', 'darkknight',
               'ninja', 'monk', 'dragoon',
-              'blackmage', 'summoner', 'machinist', 'bard'
+              'blackmage', 'summoner', 'machinist', 'bard', 'redmage', 'samurai'
             ]">
             <div translate="job.{{job}}.label" style="display:table-cell"></div>
             <md-slider
@@ -20,7 +20,7 @@
               ng-disabled="true"
               ng-model="accountProfileController.userCombatClasses[job + 'Level']"
               min="0"
-              max="60"
+              max="70"
               >
             </md-slider>
           </md-slider-container>
@@ -49,7 +49,7 @@
               ng-disabled="true"
               ng-model="accountProfileController.profileUser[job + 'Level']"
               min="0"
-              max="60"
+              max="70"
               >
             </md-slider>
           </md-slider-container>

@@ -298,52 +298,54 @@ function setupMenus () {
 }
 
 function extendUser (database) {
+  let maxLevel = 70
+
   var UserModel = database.connection.model('User')
   UserModel.schema.add({
     avatarImage: { type: Schema.ObjectId, ref: 'Image' },
-    minerLevel: { type: Number, min: 1, max: 60, default: 1 },
+    minerLevel: { type: Number, min: 1, max: maxLevel, default: 1 },
     minerFolklore: {
       coerthas: { type: Boolean, default: false },
       dravania: { type: Boolean, default: false },
       abalathia: { type: Boolean, default: false }
     },
 
-    botanistLevel: { type: Number, min: 1, max: 60, default: 1 },
+    botanistLevel: { type: Number, min: 1, max: maxLevel, default: 1 },
     botanistFolklore: {
       coerthas: { type: Boolean, default: false },
       dravania: { type: Boolean, default: false },
       abalathia: { type: Boolean, default: false }
     },
 
-    weaverLevel: { type: Number, min: 1, max: 60, default: 1 },
+    weaverLevel: { type: Number, min: 1, max: maxLevel, default: 1 },
     weaverSpecialist: { type: Boolean, default: false },
     weaverMaster: [Boolean],
 
-    culinarianLevel: { type: Number, min: 1, max: 60, default: 1 },
+    culinarianLevel: { type: Number, min: 1, max: maxLevel, default: 1 },
     culinarianSpecialist: { type: Boolean, default: false },
     culinarianMaster: [Boolean],
 
-    alchimistLevel: { type: Number, min: 1, max: 60, default: 1 },
+    alchimistLevel: { type: Number, min: 1, max: maxLevel, default: 1 },
     alchimistSpecialist: { type: Boolean, default: false },
     alchimistMaster: [Boolean],
 
-    blacksmithLevel: { type: Number, min: 1, max: 60, default: 1 },
+    blacksmithLevel: { type: Number, min: 1, max: maxLevel, default: 1 },
     blacksmithSpecialist: { type: Boolean, default: false },
     blacksmithMaster: [Boolean],
 
-    carpenterLevel: { type: Number, min: 1, max: 60, default: 1 },
+    carpenterLevel: { type: Number, min: 1, max: maxLevel, default: 1 },
     carpenterSpecialist: { type: Boolean, default: false },
     carpenterMaster: [Boolean],
 
-    armorerLevel: { type: Number, min: 1, max: 60, default: 1 },
+    armorerLevel: { type: Number, min: 1, max: maxLevel, default: 1 },
     armorerSpecialist: { type: Boolean, default: false },
     armorerMaster: [Boolean],
 
-    goldsmithLevel: { type: Number, min: 1, max: 60, default: 1 },
+    goldsmithLevel: { type: Number, min: 1, max: maxLevel, default: 1 },
     goldsmithSpecialist: { type: Boolean, default: false },
     goldsmithMaster: [Boolean],
 
-    leatherworkerLevel: { type: Number, min: 1, max: 60, default: 1 },
+    leatherworkerLevel: { type: Number, min: 1, max: maxLevel, default: 1 },
     leatherworkerSpecialist: { type: Boolean, default: false },
     leatherworkerMaster: [Boolean],
 

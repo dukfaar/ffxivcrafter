@@ -7,7 +7,7 @@
       <div layout="column">
         <md-input-container>
           <label>Botanist Level</label>
-          <input type="number" min="0" novalidate ng-model="accountSettingsController.UserService.user.botanistLevel" ng-model-options="{debounce:300}" ng-change="accountSettingsController.UserService.updateUser()"></input>
+          <input type="number" min="0" max="70" novalidate ng-model="accountSettingsController.UserService.user.botanistLevel" ng-model-options="{debounce:300}" ng-change="accountSettingsController.UserService.updateUser()"></input>
         </md-input-container>
         <md-checkbox ng-model="accountSettingsController.UserService.user.botanistFolklore.coerthas" ng-change="accountSettingsController.UserService.updateUser()">Coerthas Folklore</md-checkbox>
         <md-checkbox ng-model="accountSettingsController.UserService.user.botanistFolklore.dravania" ng-change="accountSettingsController.UserService.updateUser()">Dravania Folklore</md-checkbox>
@@ -17,7 +17,7 @@
       <div layout="column">
         <md-input-container>
           <label>Miner Level</label>
-          <input type="number" min="0" novalidate ng-model="accountSettingsController.UserService.user.minerLevel" ng-model-options="{debounce:300}" ng-change="accountSettingsController.UserService.updateUser()"></input>
+          <input type="number" min="0" max="70" novalidate ng-model="accountSettingsController.UserService.user.minerLevel" ng-model-options="{debounce:300}" ng-change="accountSettingsController.UserService.updateUser()"></input>
         </md-input-container>
         <md-checkbox ng-model="accountSettingsController.UserService.user.minerFolklore.coerthas" ng-change="accountSettingsController.UserService.updateUser()">Coerthas Folklore</md-checkbox>
         <md-checkbox ng-model="accountSettingsController.UserService.user.minerFolklore.dravania" ng-change="accountSettingsController.UserService.updateUser()">Dravania Folklore</md-checkbox>
@@ -39,7 +39,7 @@
         ]">
         <md-input-container>
           <label><span translate="job.{{crafter}}.label"></span> <span>Level</span></label>
-          <input type="number" min="0" novalidate ng-model="accountSettingsController.UserService.user[crafter+'Level']" ng-model-options="{debounce:300}" ng-change="accountSettingsController.UserService.updateUser()"></input>
+          <input type="number" min="0" max="70" novalidate ng-model="accountSettingsController.UserService.user[crafter+'Level']" ng-model-options="{debounce:300}" ng-change="accountSettingsController.UserService.updateUser()"></input>
         </md-input-container>
         <md-checkbox ng-model="accountSettingsController.UserService.user[crafter+'Specialist']" ng-change="accountSettingsController.UserService.updateUser()">Specialist</md-checkbox>
         <md-checkbox ng-model="accountSettingsController.UserService.user[crafter+'Master'][0]" ng-change="accountSettingsController.UserService.updateUser()">Master 1</md-checkbox>

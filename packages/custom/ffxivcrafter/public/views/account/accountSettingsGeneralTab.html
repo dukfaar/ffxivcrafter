@@ -139,10 +139,10 @@
               'scholar', 'whitemage', 'astrologian',
               'paladin', 'warrior', 'darkknight',
               'ninja', 'monk', 'dragoon',
-              'blackmage', 'summoner', 'machinist', 'bard'
+              'blackmage', 'summoner', 'machinist', 'bard', 'redmage', 'samurai'
             ]">
             <label translate="job.{{job}}.label"></label>
-            <input type="number" novalidate min="0" max="60"
+            <input type="number" novalidate min="0" max="70"
               ng-model="accountSettingsController.userCombatClasses[job + 'Level']"
               ng-model-option="{debounce: 300}"
               ng-change="accountSettingsController.updateCombatClasses()"
