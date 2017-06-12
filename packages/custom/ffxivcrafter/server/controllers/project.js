@@ -46,10 +46,10 @@ module.exports = function (io) {
         .exec()
         .then(function (recipes) {
           if (recipes.length === 0) {
-            step.step = step.item.availableFromNpc ? 'Buy' : 'Gather'
+            step.step = item.availableFromNpc ? 'Buy' : 'Gather'
             step.amount = amount
           } else {
-            step.step = step.item.availableFromNpc ? 'Buy' : 'Craft'
+            step.step = item.availableFromNpc ? 'Buy' : 'Craft'
             var recipe = recipes[0]
             step.recipe = recipe._id
             step.amount = Math.ceil(amount / recipe.outputs[0].amount) * recipe.outputs[0].amount
