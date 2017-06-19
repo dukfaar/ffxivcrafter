@@ -35,6 +35,8 @@ module.exports = function () {
         item.save(function (err) {
           if (err) throw err
 
+          log.info('imported item: ' + item)
+
           callback(item)
         })
       })
@@ -59,6 +61,8 @@ module.exports = function () {
                 return item
               })
               .then(() => {
+                log.info('imported item: ' + item)
+                
                 return item
               })
               .catch((err) => {
