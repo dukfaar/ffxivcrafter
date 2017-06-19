@@ -8,6 +8,8 @@ var Item = mongoose.model('Item')
 var Q = require('q')
 mongoose.Promise = Q.Promise
 
+var logger = require('log4js').getLogger('app.item.import')
+
 module.exports = function () {
   var xivdbService = require('../services/xivdbService')()
 
@@ -35,7 +37,7 @@ module.exports = function () {
         item.save(function (err) {
           if (err) throw err
 
-          log.info('imported item: ' + item)
+          logger.info('imported item: ' + item)
 
           callback(item)
         })
@@ -61,8 +63,8 @@ module.exports = function () {
                 return item
               })
               .then(() => {
-                log.info('imported item: ' + item)
-                
+                logger.info('imported item: ' + item)
+
                 return item
               })
               .catch((err) => {
