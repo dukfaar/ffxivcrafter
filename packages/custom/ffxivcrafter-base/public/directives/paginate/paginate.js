@@ -6,7 +6,8 @@ angular.module('mean.ffxivCrafter_base').directive('paginate', function () {
     controllerAs: 'paginateController',
     bindToController: {
       list: '=',
-      limit: '='
+      limit: '=',
+      start: '='
     },
     scope: true
   }
@@ -15,7 +16,7 @@ angular.module('mean.ffxivCrafter_base').directive('paginate', function () {
 PaginateController.$inject = ['_']
 
 function PaginateController (_) {
-  this.currentPage = 0
+  this.currentPage = this.start ? Math.floor(this.start / this.limit) : 0
 
   this.getListLength = function () {
     return (this.list) ? this.list.length : 0

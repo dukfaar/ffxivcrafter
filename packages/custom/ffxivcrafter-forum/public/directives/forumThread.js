@@ -6,11 +6,13 @@ angular.module('mean.ffxivCrafter_forum').directive('forumThread', function () {
     scope: {
       threadId: '=threadId'
     },
-    controller: function ($scope, Global, $q, _, socket, ForumThread, ForumPost, $mdDialog, MeanUser, $location, Analytics) {
+    controller: function ($scope, Global, $q, _, socket, ForumThread, ForumPost, $mdDialog, MeanUser, $location, Analytics, $stateParams) {
       $scope.user = MeanUser.user
       $scope.allowed = function (perm) {
         return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) !== -1
       }
+
+      $scope.startPost = $stateParams.post
 
       function queryPosts () {
         ForumPost.query({thread: $scope.threadId, populate: 'creator'})
@@ -29,15 +31,9 @@ angular.module('mean.ffxivCrafter_forum').directive('forumThread', function () {
         queryPosts()
       }
 
-      socket.on('ForumPost created', creationListener)
-      socket.on('ForumPost updated', creationListener)
-      socket.on('ForumPost deleted', deletionListener)
-
-      $scope.$on('$destroy', function () {
-        socket.off('ForumPost created', creationListener)
-        socket.off('ForumPost updated', creationListener)
-        socket.off('ForumPost deleted', deletionListener)
-      })
+      socket.auto('ForumPost created', creationListener, $scope)
+      socket.auto('ForumPost updated', creationListener, $scope)
+      socket.auto('ForumPost deleted', deletionListener, $scope)
 
       $scope.thread = ForumThread.get({id: $scope.threadId, populate: 'creator'})
       $scope.posts = []

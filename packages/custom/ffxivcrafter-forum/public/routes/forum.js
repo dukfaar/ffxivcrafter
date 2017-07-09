@@ -21,7 +21,7 @@ angular.module('mean.ffxivCrafter_forum').config(['$meanStateProvider',
       }
     })
     .state('forum thread', {
-      url: '/forum/thread/:id',
+      url: '/forum/thread/:id?post',
       templateProvider: function ($stateParams) {
         return '<forum-thread thread-id="\'' + $stateParams.id + '\'"></forum-thread>'
       },
