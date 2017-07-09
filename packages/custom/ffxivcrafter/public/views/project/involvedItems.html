@@ -1,0 +1,30 @@
+<md-card>
+  <md-toolbar class="md-hue-2">
+    <div class="md-toolbar-tools">
+      <span translate>items.involved</span>
+      <span flex></span>
+    </div>
+  </md-toolbar>
+
+  <md-card-content>
+    <md-list>
+      <md-list-item
+      ng-repeat="item in involvedItemsController.itemList"
+      layout="row">
+        <span flex>
+          <span ng-bind="item.name"></span>
+        </span>
+        <md-input-container flex>
+          <label translate>item.price.nq</label>
+          <input type="number" novalidate min="0" ng-model="item.price" />
+        </md-input-container>
+        <md-input-container flex>
+          <label translate>item.price.hq</label>
+          <input type="number" novalidate min="0" ng-model="item.priceHQ" />
+        </md-input-container>
+      </md-list-item>
+    </md-list>
+  </md-card-content>
+
+  <md-button ng-click="involvedItemsController.updateAllPricesInItemList()">Miau</md-button>
+</md-card>
