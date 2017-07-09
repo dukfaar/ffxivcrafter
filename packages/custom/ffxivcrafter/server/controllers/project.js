@@ -356,6 +356,36 @@ module.exports = function (io) {
           res.send({projectId: project._id})
         })
       })
+    },
+    fromTemplate: function (req, res) {
+      try {
+        let data = JSON.parse(req.body.template)
+        Q.all(_.map(data, i => stepForItem(i.item, i.amount, i.hq)))
+        .then(steps => {
+          var metaStep = new ProjectStep()
+          metaStep.item = null
+          metaStep.step = 'Meta'
+          metaStep.inputs = steps
+
+          return metaStep.save()
+        })
+        .then(metaStep => {
+          var project = new CraftingProject()
+          project.creator = req.user._id
+          project.tree = metaStep
+          project.name = 'Created From Template'
+
+          console.log(project)
+
+          return project.save()
+        })
+        .then(project => {
+          io.emit('new project created', {projectId: project._id})
+          res.send({projectId: project._id})
+        })
+      } catch (e) {
+        res.status(500).send('Error creating project')
+      }
     }
   }
 }

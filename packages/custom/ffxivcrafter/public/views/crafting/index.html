@@ -1,5 +1,5 @@
 <main ng-controller="CraftingController" flex style="overflow:auto">
-  <div flex>
+  <div flex layout="column">
     <md-content layout="row" layout-fill>
       <md-card>
         <md-card-content>
@@ -79,10 +79,23 @@
         <md-card-content>
           <md-list>
             <md-list-item ng-repeat="item in craftingData.materialList" layout="row" layout-fill>
-              <div flex>{{item.item.name}}</div><div>{{item.amount}}</span>
+              <div flex>{{item.item.name}}</div><div>{{item.amount}}</div>
             </md-list-item>
           </md-list>
         </md-card-content>
+      </md-card>
+    </md-content>
+    <md-content>
+      <md-card>
+        <md-card-content layout="column" flex>
+          <md-input-container flex>
+            <label>Template</label>
+            <textarea ng-model="template.text" novalidate flex></textarea>
+          </md-input-container>
+        </md-card-content>
+        <md-card-actions>
+          <md-button ng-click="projectFromTemplate(selectedItem)" translate="project.create.from.template"></md-button>
+        </md-card-actions>
       </md-card>
     </md-content>
   </div>

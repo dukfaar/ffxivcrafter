@@ -56,6 +56,24 @@ angular.module('mean.ffxivCrafter').controller('CraftingController',
       })
     }
 
+    $scope.template = {
+      text: ""
+    }
+
+    $scope.projectFromTemplate = function () {
+      $http.post('/api/project/fromTemplate', {template: $scope.template.text})
+      .then(function (result) {
+        $mdToast.show(
+          $mdToast
+            .simple()
+            .textContent('Project has been created.')
+            .position('bottom right')
+            .hideDelay(5000)
+            .highlightClass('md-accent')
+          )
+      })
+    }
+
     $scope.addToProject = function (item, project) {
       if (!project) return
 

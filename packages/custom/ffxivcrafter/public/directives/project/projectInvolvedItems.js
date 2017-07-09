@@ -11,9 +11,9 @@ angular.module('mean.ffxivCrafter').directive('projectInvolvedItems', function (
   }
 })
 
-InvolvedItemsController.$inject = ['$scope', 'ProjectService', '_']
+InvolvedItemsController.$inject = ['$scope', 'ProjectService', '_', '$http']
 
-function InvolvedItemsController ($scope, ProjectService, _) {
+function InvolvedItemsController ($scope, ProjectService, _, $http) {
   let vm = this
   vm.itemList = []
 
@@ -29,7 +29,7 @@ function InvolvedItemsController ($scope, ProjectService, _) {
     let itemDictionary = {}
 
     ProjectService.recurseProjectSteps(project, step => {
-      itemDictionary[step.item._id] = step.item
+      if(step.item) itemDictionary[step.item._id] = step.item
     })
 
     _.forEach(itemDictionary, item => {
@@ -37,7 +37,7 @@ function InvolvedItemsController ($scope, ProjectService, _) {
     })
   }
 
-  function updateAllPricesInItemList() {
+  function updateAllPricesInItemList () {
     _.forEach(vm.itemList, item => {
       $http.put('/api/price/' + item._id + '/' + item.price + '/' + item.priceHQ)
     })

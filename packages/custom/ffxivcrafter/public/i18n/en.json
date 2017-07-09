@@ -164,5 +164,9 @@
   "race.roegadyn": "Roegadyn",
   "race.elezen": "Elezen",
   "account.settings.discord": "Discord ID",
-  "account.settings.discord.description": "Your Discord ID in the form of name#number"
+  "account.settings.discord.description": "Your Discord ID in the form of name#number",
+  "items.involved": "Involved Items",
+  "item.involved.updateall": "Update All Prices",
+  "show.project.template": "Show Project Template",
+  "project.create.from.template": "Create project from template"
 }

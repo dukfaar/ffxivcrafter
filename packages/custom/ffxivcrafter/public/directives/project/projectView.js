@@ -69,6 +69,44 @@ function ProjectViewController (
       })
     }
 
+    function getTemplateObjectForStep (step) {
+      return {item: step.item._id, amount: step.amount, hq: step.hq}
+    }
+
+    function getItemListForMetaStep (step) {
+      let itemList = []
+
+      _.forEach(step.inputs, i => {
+        if(i.step === 'Meta') {
+          itemList = _.concat(itemList, getItemListForMetaStep(i))
+        } else {
+          itemList.push(getTemplateObjectForStep(i))
+        }
+      })
+
+      return itemList
+    }
+
+    $scope.showProjectTemplate = function (project) {
+      let itemList = []
+
+      if(project.tree.step === 'Meta') {
+        itemList = _.concat(itemList, getItemListForMetaStep(project.tree))
+      } else {
+        itemList.push(getTemplateObjectForStep(project.tree))
+      }
+
+      let templateString = JSON.stringify(itemList)
+
+      $mdDialog.show(
+        $mdDialog.alert({
+          title: 'It\'s dangerous to craft alone, take this!',
+          textContent: templateString,
+          ok: 'Got it!'
+        })
+      )
+    }
+
     $scope.hiddenOverviewGetSet = function (value) {
       if (value === undefined) {
           // getter
