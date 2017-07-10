@@ -375,8 +375,6 @@ module.exports = function (io) {
           project.tree = metaStep
           project.name = 'Created From Template'
 
-          console.log(project)
-
           return project.save()
         })
         .then(project => {
