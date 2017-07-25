@@ -1,10 +1,21 @@
-<div ng-controller="CrudController">
-  <table>
-    <tr>
-      <th ng-repeat="column in schema">{{column.path}}</th>
-    </tr>
-    <tr ng-repeat="row in data">
-      <th ng-repeat="column in schema">{{row[column.path]}}</th>
-    </tr>
-  </table>
-</div>
+<page-base>
+  <md-card>
+    <md-card-content >
+      <table ng-controller="CrudController">
+        <tr>
+          <th ng-repeat="column in schema">{{column.path}}</th>
+        </tr>
+        <tr ng-repeat="row in data">
+          <td ng-repeat="column in schema">
+            <span ng-if="!(column.instance === 'ObjectID' && column.options.ref)">{{row[column.path]}}</span>
+            <a
+              ng-href="/crud/view/{{column.options.ref}}/{{row[column.path]}}" 
+              ng-if="column.instance === 'ObjectID' && column.options.ref">
+              {{row[column.path]}}
+            </a>
+          </th>
+        </tr>
+      </table>
+    </md-card-content>
+  </md-card>
+</page-base>

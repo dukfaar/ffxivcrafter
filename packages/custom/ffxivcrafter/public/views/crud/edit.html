@@ -1,0 +1,23 @@
+<page-base>
+  <md-card>
+    <md-card-content layout="column">
+      <div ng-repeat="column in crudEditController.schema">
+        <md-input-container layout-fill>
+          <label>{{column.path}}</label>
+          <input
+            ng-if="column.instance != Number"
+            type="text"
+            no-validate
+            ng-model="crudEditController.data[column.path]"
+            />
+          <input
+            ng-if="column.instance === Number"
+            type="Number"
+            no-validate
+            ng-model="crudEditController.data[column.path]"
+            />
+        </md-input-container>
+      </div>
+    </md-card-content>
+  </md-card>
+</page-base>

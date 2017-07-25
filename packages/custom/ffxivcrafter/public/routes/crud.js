@@ -12,7 +12,21 @@ angular.module('mean.ffxivCrafter').config(['$meanStateProvider',
     })
     .state('crud schema', {
       url: '/crud/schema/:modelName',
-      template: params => '<crud-schema></crud-schema>',
+      template: '<crud-schema></crud-schema>',
+      requiredCircles: {
+        circles: ['admin']
+      }
+    })
+    .state('crud view', {
+      url: '/crud/view/:modelName/:id',
+      template: '<crud-view></crud-view>',
+      requiredCircles: {
+        circles: ['admin']
+      }
+    })
+    .state('crud edit', {
+      url: '/crud/edit/:modelName/:id',
+      template: '<crud-edit></crud-edit>',
       requiredCircles: {
         circles: ['admin']
       }

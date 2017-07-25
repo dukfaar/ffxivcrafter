@@ -7,11 +7,7 @@ function CrudSchemaDirective () {
   return {
     controller: CrudSchemaController,
     controllerAs: 'crudSchemaController',
-    templateUrl: 'ffxivCrafter/views/crud/schema.html',
-    bindToController: {
-      modelName: '='
-    },
-    scope: true
+    templateUrl: 'ffxivCrafter/views/crud/chema.html'
   }
 }
 
@@ -21,8 +17,7 @@ function CrudSchemaController ($http, $stateParams) {
   let vm = this
 
   $http.get('/api/schema/' + $stateParams.modelName)
-  .then(function (response) {
+  .then(response => {
     vm.schema = response.data
-    console.log(vm.schema)
   })
 }

@@ -1,0 +1,22 @@
+<div layout="column">
+  <div layout-padding ng-repeat="fact in uselessfactManagerController.factList track by fact._id">
+    <md-card layout-fill>
+      <md-card-content layout="row" layout-fill>
+        <md-input-container flex>
+          <label>Fact</label>
+          <input ng-model="fact.fact" ng-model-options="{debounce: 300}" ng-change="uselessfactManagerController.updateFact(fact)"/>
+        </md-input-container>
+        <md-input-container>
+          <label>Cooldown (seconds)</label>
+          <input type="number" ng-model="fact.cooldown" ng-model-options="{debounce: 300}" ng-change="uselessfactManagerController.updateFact(fact)"/>
+        </md-input-container>
+        <div>
+          {{fact.lastSaid|date:'medium'}}
+        </div>
+        <md-button class="md-raised md-primary" ng-click="uselessfactManagerController.deleteFact(fact)" translate="bot.fact.delete"></md-button>
+      </md-card-content>
+    </md-card>
+  </div>
+
+  <md-button class="md-raised md-primary" ng-click="uselessfactManagerController.addFact()" translate="bot.fact.add"></md-button>
+</div>

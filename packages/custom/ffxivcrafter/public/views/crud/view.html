@@ -1,0 +1,18 @@
+<page-base>
+  <md-card>
+    <md-card-content layout="column">
+      <div ng-repeat="column in crudViewController.schema">
+        <span>{{column.path}}:</span>
+        <span
+          ng-if="!(column.instance === 'ObjectID' && column.options.ref)">
+          {{crudViewController.data[column.path]}}
+        </span>
+        <a
+          ng-if="column.instance === 'ObjectID' && column.options.ref"
+          ng-href="/crud/view/{{column.options.ref}}/{{crudViewController.data[column.path]}}">
+          {{crudViewController.data[column.path]}}
+        </a>
+      </div>
+    </md-card-content>
+  </md-card>
+</page-base>

@@ -4,7 +4,7 @@
       <md-list>
         <md-list-item
           ng-repeat="column in crudSchemaController.schema"
-          ng-layout="column">
+          layout="column">
           <div>
             <span>{{column.path}}: {{column.instance}}</span>
             <span ng-if="column.instance === 'ObjectID' && column.options.ref">

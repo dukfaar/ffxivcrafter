@@ -9,18 +9,31 @@ var FFXIVCrafterBot = new Module('ffxivCrafter_bot')
 
 function setupCircles (circles) {
   circles.registerCircle('edit botreactions', ['admin'])
+  circles.registerCircle('edit uselessfacts', ['admin'])
 }
 
 function setupMenus () {
   FFXIVCrafterBot.menus.add({
     title: 'Bot',
-    link: 'botreaction index',
-    roles: ['edit botreactions'],
     menu: 'main',
+    roles: ['authenticated'],
     name: 'bot'
   })
-}
 
+  FFXIVCrafterBot.menus.add({
+    title: 'Reactions',
+    link: 'botreaction index',
+    roles: ['edit botreactions'],
+    path: 'main/bot'
+  })
+
+  FFXIVCrafterBot.menus.add({
+    title: 'Useless Facts',
+    link: 'uselessfacts index',
+    roles: ['edit uselessfacts'],
+    menu: 'main/bot'
+  })
+}
 
 /*
  * All MEAN packages require registration

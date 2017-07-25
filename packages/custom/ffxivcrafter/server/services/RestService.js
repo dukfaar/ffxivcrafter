@@ -145,9 +145,9 @@ module.exports = function () {
     }
 
     function doDelete (req, res) {
-      return Model.findById({_id: req.params.id}).exec()
+      return Model.findById(req.params.id).exec()
       .then(instance => {
-        return instance.remove().exec()
+        return instance.remove()
       })
       .then(result => {
         logger.info('Deleted %s with id=%s', Model.modelName, req.params.id)
