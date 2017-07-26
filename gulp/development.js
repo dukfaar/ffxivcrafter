@@ -3,7 +3,6 @@
 /* jshint -W040 */
 
 var gulp = require('gulp');
-var ts = require('gulp-typescript');
 var gulpLoadPlugins = require('gulp-load-plugins');
 var through = require('through');
 var gutil = require('gulp-util');
@@ -28,7 +27,7 @@ var webpackConfig = require('../webpack.config.js');
 var startupTasks = ['devServe'];
 
 gulp.task('development', startupTasks);
-gulp.task('devServe', ['env:development', 'typescript', 'webpack:build-dev', 'jshint', 'csslint', 'watch'], devServeTask);
+gulp.task('devServe', ['env:development', 'webpack:build-dev', 'jshint', 'csslint', 'watch'], devServeTask);
 gulp.task('env:development', envDevelopmentTask);
 gulp.task('webpack:build-dev', ['sass', 'less'], webpackBuild);
 gulp.task('sass', sassTask);
@@ -40,23 +39,10 @@ gulp.task('webpack:rebuild-dev', webpackBuild);
 gulp.task('watch', watchTask);
 gulp.task('livereload', livereloadTask);
 
-gulp.task('typescript', compileTypescript);
-
-function compileTypescript(callback) {
-	return gulp.src('packages/**/*.ts')
-        .pipe(ts({
-            noImplicitAny: true,
-            out: 'typescriptOutput.js'
-        }))
-        .pipe(gulp.dest('built'));
-}
-
 ////////////////////////////////////////////////////////////////////
 
 // modify some webpack config options
 var devConfig = Object.create(webpackConfig);
-devConfig.devtool = 'sourcemap';
-devConfig.debug = true;
 // create a single instance of the compiler to allow caching
 var devCompiler = webpack(devConfig);
 
@@ -108,7 +94,7 @@ function sassTask () {
 function devServeTask () {
   plugins.nodemon({
       script: 'server.js',
-      ext: 'js css',
+      ext: 'js css ts',
       env: {
         'NODE_ENV': 'development'
       },
@@ -137,13 +123,13 @@ function devServeTask () {
           if (path.extname(file) === '.js' && tasks.indexOf('jshint') === -1) {
             tasks.push('jshint');
           }
-          if (path.extname(file) === '.js' || path.extname(file) === '.css' && tasks.indexOf('webpack:rebuild-dev') === -1) {
+          if (path.extname(file) === '.ts' || path.extname(file) === '.js' || path.extname(file) === '.css' && tasks.indexOf('webpack:rebuild-dev') === -1) {
             tasks.push('webpack:rebuild-dev');
           }
         });
         return tasks;
       },
-      nodeArgs: ['--debug'],
+      nodeArgs: ['--inspect'],
       stdout: false
     })
     .on('readable', function () {
@@ -170,7 +156,6 @@ function watchTask (callback) {
   gulp.watch(paths.html, ['livereload']);
   gulp.watch(paths.less, ['less']);
   gulp.watch(paths.sass, ['sass']);
-  gulp.watch(paths.ts, ['typescript'])
   callback();
 }
 

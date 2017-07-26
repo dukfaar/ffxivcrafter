@@ -3,7 +3,6 @@
 /* jshint -W040 */
 
 var gulp = require('gulp');
-var ts = require('gulp-typescript');
 var gulpLoadPlugins = require('gulp-load-plugins');
 var through = require('through');
 var gutil = require('gulp-util');
@@ -28,7 +27,7 @@ var webpackConfig = require('../webpack.config.js');
 var startupTasks = ['intServe'];
 
 gulp.task('integration', startupTasks);
-gulp.task('intServe', ['env:integration', 'typescript', 'webpack:build-int', 'jshint', 'csslint', 'watch'], intServeTask);
+gulp.task('intServe', ['env:integration', 'webpack:build-int', 'jshint', 'csslint', 'watch'], intServeTask);
 gulp.task('env:integration', intDevelopmentTask);
 gulp.task('webpack:build-int', ['sass', 'less'], webpackBuild);
 gulp.task('sass', sassTask);
@@ -40,23 +39,11 @@ gulp.task('webpack:rebuild-int', webpackBuild);
 gulp.task('watch', watchTask);
 gulp.task('livereload', livereloadTask);
 
-gulp.task('typescript', compileTypescript);
-
-function compileTypescript(callback) {
-	return gulp.src('packages/**/*.ts')
-        .pipe(ts({
-            noImplicitAny: true,
-            out: 'typescriptOutput.js'
-        }))
-        .pipe(gulp.dest('built'));
-}
-
 ////////////////////////////////////////////////////////////////////
 
 // modify some webpack config options
 var devConfig = Object.create(webpackConfig);
 devConfig.devtool = 'sourcemap';
-devConfig.debug = true;
 // create a single instance of the compiler to allow caching
 var devCompiler = webpack(devConfig);
 
@@ -170,7 +157,6 @@ function watchTask (callback) {
   gulp.watch(paths.html, ['livereload']);
   gulp.watch(paths.less, ['less']);
   gulp.watch(paths.sass, ['sass']);
-  gulp.watch(paths.ts, ['typescript'])
   callback();
 }
 

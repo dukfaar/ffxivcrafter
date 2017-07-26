@@ -1,12 +1,11 @@
 'use strict'
 
 var path = require('path')
-
-// var ngAnnotatePlugin = require('ng-annotate-webpack-plugin')
+const ngtools = require('@ngtools/webpack')
 
 module.exports = {
   context: __dirname,
-  entry: './app.js',
+  entry: './app.ts',
   output: {
     path: path.join(__dirname, './bundle'),
     publicPath: '/',
@@ -19,19 +18,28 @@ module.exports = {
     }, {
       test: /\.js$/,
       exclude: /(node_modules|bower_components|lib)/,
-      loader: 'babel?presets[]=es2015&presets[]=stage-1'
+      loader: 'babel-loader?presets[]=es2015&presets[]=stage-1'
+    }, {
+      test: /\.ts$/,
+      exclude: /(node_modules|bower_components|lib)/,
+      //loader: '@ngtools/webpack'
+loader: 'awesome-typescript-loader'
     }, {
       test: /(.*)\.(eot|svg|ttf|woff|woff2)$/,
-      loader: 'url-loader'
+      loader: '@ngtools/webpack'
     }]
   },
   resolve: {
-    modulesDirectories: ['bower_components', 'node_modules']
+    modules: ['bower_components', 'node_modules'],
+    extensions: ['.ts', '.js'],
+    alias: {
+      '@angular/upgrade/static': '@angular/upgrade/bundles/upgrade-static.umd.js'
+    }
   },
   plugins: [
-    // new ngAnnotatePlugin({
-    //   add: true,
-    //   // other ng-annotate options here
-    // })
+    new ngtools.AotPlugin({
+      tsConfigPath: './tsconfig.json',
+      "entryModule": "./app.module#AppModule"
+    })
   ]
 }
