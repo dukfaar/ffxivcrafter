@@ -2,6 +2,7 @@
 
 var path = require('path')
 const ngtools = require('@ngtools/webpack')
+const webpack = require('webpack')
 
 module.exports = {
   context: __dirname,
@@ -23,14 +24,14 @@ module.exports = {
       test: /\.ts$/,
       exclude: /(node_modules|bower_components|lib)/,
       //loader: '@ngtools/webpack'
-loader: 'awesome-typescript-loader'
+      loaders: ['awesome-typescript-loader', 'angular2-template-loader']
     }, {
-      test: /(.*)\.(eot|svg|ttf|woff|woff2)$/,
-      loader: '@ngtools/webpack'
+      test: /\.html$/,
+      loader: 'raw-loader'
     }]
   },
   resolve: {
-    modules: ['bower_components', 'node_modules'],
+    modules: ['bower_components', 'node_modules', 'packages/custom/*/public'],
     extensions: ['.ts', '.js'],
     alias: {
       '@angular/upgrade/static': '@angular/upgrade/bundles/upgrade-static.umd.js'
@@ -40,6 +41,12 @@ loader: 'awesome-typescript-loader'
     new ngtools.AotPlugin({
       tsConfigPath: './tsconfig.json',
       "entryModule": "./app.module#AppModule"
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      output: {
+	comments: false
+      },
+      mangle: false
     })
   ]
 }

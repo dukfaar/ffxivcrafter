@@ -123,7 +123,7 @@ function devServeTask () {
           if (path.extname(file) === '.js' && tasks.indexOf('jshint') === -1) {
             tasks.push('jshint');
           }
-          if (path.extname(file) === '.ts' || path.extname(file) === '.js' || path.extname(file) === '.css' && tasks.indexOf('webpack:rebuild-dev') === -1) {
+          if (path.extname(file) === '.html' || path.extname(file) === '.ts' || path.extname(file) === '.js' || path.extname(file) === '.css' && tasks.indexOf('webpack:rebuild-dev') === -1) {
             tasks.push('webpack:rebuild-dev');
           }
         });

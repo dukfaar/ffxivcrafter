@@ -3,7 +3,9 @@
     <md-content layout-wrap layout="row" layout-xs="column" layout-sm="row">
       <div layout="column" flex="60" flex-xs="100" flex-sm="100">
         <event-ticker ng-if="UserService.allowed('see calendar')"></event-ticker>
+        <test-component></test-component>
         <index-news-card></index-news-card>
+        <index-news-card2></index-news-card2>
       </div>
 
       <div layout="column" flex="40" flex-xs="100" flex-sm="100">
