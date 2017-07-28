@@ -227,6 +227,13 @@ function setupMainMenu () {
   })
 
   FFXIVCrafter.menus.add({
+    title: 'Airship',
+    link: 'airship home',
+    roles: ['manage airships'],
+    menu: 'main'
+  })
+
+  FFXIVCrafter.menus.add({
     title: 'Market',
     roles: ['authenticated'],
     path: 'main',

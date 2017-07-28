@@ -107,10 +107,10 @@
                       <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" ng-model="part.name"/></td>
 
                       <td><select ng-model="part.slot" ng-change="updatePart(part)">
-                        <option ng-value="Hull">Hull</option>
-                        <option ng-value="Rigging">Rigging</option>
-                        <option ng-value="Forecastle">Forecastle</option>
-                        <option ng-value="Aftercastle">Aftercastle</option>
+                        <option ng-value="'Hull'">Hull</option>
+                        <option ng-value="'Rigging'">Rigging</option>
+                        <option ng-value="'Forecastle'">Forecastle</option>
+                        <option ng-value="'Aftercastle'">Aftercastle</option>
                       </select></td>
 
                       <td><input ng-change="updatePart(part)" ng-model-options="{debounce:300}" size="3" ng-model="part.rank"/></td>
