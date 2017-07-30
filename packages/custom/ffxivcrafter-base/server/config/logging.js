@@ -1,19 +1,22 @@
 'use strict'
 
-let logLevel = process.env.NODE_ENV === 'development' ? 'TRACE' :'INFO'
+let logLevel = process.env.NODE_ENV === 'development' ? 'TRACE' : 'INFO'
 
 const log4js = require('log4js')
 log4js.configure({
-  appenders: [
-    {
+  appenders: {
+    'default': {
       type: 'dateFile',
       filename: 'logs/app',
       pattern: '-dd.MM.yyyy.log',
       alwaysIncludePattern: true
     }
-  ],
-  levels: {
-    '[all]': logLevel
+  },
+  categories: {
+    'default': {
+      appenders: ['default'],
+      level: logLevel
+    }
   }
 })
 

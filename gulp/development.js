@@ -3,7 +3,6 @@
 /* jshint -W040 */
 
 var gulp = require('gulp');
-var ts = require('gulp-typescript');
 var gulpLoadPlugins = require('gulp-load-plugins');
 var through = require('through');
 var gutil = require('gulp-util');
@@ -28,7 +27,7 @@ var webpackConfig = require('../webpack.config.js');
 var startupTasks = ['devServe'];
 
 gulp.task('development', startupTasks);
-gulp.task('devServe', ['env:development', 'typescript', 'webpack:build-dev', 'jshint', 'csslint', 'watch'], devServeTask);
+gulp.task('devServe', ['env:development', 'webpack:build-dev', 'jshint', 'csslint', 'watch'], devServeTask);
 gulp.task('env:development', envDevelopmentTask);
 gulp.task('webpack:build-dev', ['sass', 'less'], webpackBuild);
 gulp.task('sass', sassTask);
@@ -40,16 +39,6 @@ gulp.task('webpack:rebuild-dev', webpackBuild);
 gulp.task('watch', watchTask);
 gulp.task('livereload', livereloadTask);
 
-gulp.task('typescript', compileTypescript);
-
-function compileTypescript(callback) {
-	return gulp.src('packages/**/*.ts')
-        .pipe(ts({
-            noImplicitAny: true,
-            out: 'typescriptOutput.js'
-        }))
-        .pipe(gulp.dest('built'));
-}
 
 ////////////////////////////////////////////////////////////////////
 
@@ -143,7 +132,7 @@ function devServeTask () {
         });
         return tasks;
       },
-      nodeArgs: ['--debug'],
+      nodeArgs: ['--inspect'],
       stdout: false
     })
     .on('readable', function () {

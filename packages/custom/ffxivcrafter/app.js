@@ -367,6 +367,15 @@ function extendUser (database) {
  * Dependency injection is used to define required modules
  */
 FFXIVCrafter.register(function (app, users, system, admin, database, circles, http, ffxivCrafter_io, ffxivCrafter_forum, ffxivCrafter_calendar, ffxivCrafter_base, ffxivCrafter_gallery, ffxivCrafter_newsletter, ffxivCrafter_bot) {
+  app.use((req, res, next) => {
+    let localhostRegex = /((http|https):\/\/)?localhost(:.*)?/
+
+    if (req.headers.origin.match(localhostRegex))
+      res.setHeader('Access-Control-Allow-Origin', req.headers.origin)
+
+    next()
+  })
+
   // Set views path, template engine and default layout
   app.set('views', __dirname + '/server/views')
 
