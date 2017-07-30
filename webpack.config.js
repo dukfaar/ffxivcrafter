@@ -2,7 +2,7 @@
 
 var path = require('path')
 
-// var ngAnnotatePlugin = require('ng-annotate-webpack-plugin')
+const UglifyJSPlugin = require('webpack').optimize.UglifyJsPlugin
 
 module.exports = {
   context: __dirname,
@@ -29,6 +29,9 @@ module.exports = {
     modulesDirectories: ['bower_components', 'node_modules']
   },
   plugins: [
+  	new UglifyJSPlugin({
+		mangle: false 
+	})
     // new ngAnnotatePlugin({
     //   add: true,
     //   // other ng-annotate options here

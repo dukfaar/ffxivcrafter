@@ -370,8 +370,8 @@ FFXIVCrafter.register(function (app, users, system, admin, database, circles, ht
   app.use((req, res, next) => {
     let localhostRegex = /((http|https):\/\/)?localhost(:.*)?/
 
-    if (req.headers.origin.match(localhostRegex))
-      res.setHeader('Access-Control-Allow-Origin', req.headers.origin)
+    if (req.get('origin') && req.get('origin').match(localhostRegex))
+      res.setHeader('Access-Control-Allow-Origin', req.get('origin'))
 
     next()
   })
