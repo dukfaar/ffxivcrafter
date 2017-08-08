@@ -23,6 +23,8 @@ if ((cluster.isMaster) &&
   (process.env.NODE_ENV !== 'test') && (process.env.NODE_ENV !== 'development') &&
   (process.execArgv.indexOf('--singleProcess') < 0)) {
   // if (cluster.isMaster) {
+  //
+  require('./packages/custom/ffxivcrafter-base/server/config/logging')
 
   debug(`Production Environment`)
   // Count the machine's CPUs
