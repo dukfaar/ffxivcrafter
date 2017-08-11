@@ -66,7 +66,7 @@ module.exports = function (botDef) {
 
       console.log(message)
 
-      botDef.io.to('discordBot').emit('sent reaction', {reaction: reaction, message: message})
+      botDef.io.to('discordBot').emit('sent reaction', {reaction: reaction, message: _.pick(message,['content', 'author.id', 'author.username', 'author.discriminator', 'channel.id'])})
     })
     .catch(err => {
       if (err instanceof NoSuitableReactionsException) {
