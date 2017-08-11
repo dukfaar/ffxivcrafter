@@ -63,12 +63,16 @@ module.exports = function (botDef) {
 
       reaction.lastReaction = new Date()
       reaction.save()
+
+      console.log(message)
+
+      botDef.io.to('discordBot').emit('sent reaction', {reaction: reaction, message: message})
     })
     .catch(err => {
       if (err instanceof NoSuitableReactionsException) {
         // No real error
       } else {
-        logger.error('Error while processing message: %s', err)
+        logger.error('Error while processing message: %s', JSON.stringify(err))
       }
     })
   }

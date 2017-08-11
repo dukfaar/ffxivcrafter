@@ -62,7 +62,7 @@
     "httpreq": "^0.4.24",
     "libsodium-wrappers": "^0.5.2",
     "lodash": "latest",
-    "log4js": "^2.3.2",
+    "log4js": "^2.3.3",
     "meanio": "git://github.com/dukfaar/meanio.git",
     "meanio-admin": "git://github.com/linnovate/meanio-admin.git",
     "meanio-circles": "git://github.com/linnovate/meanio-circles.git",
