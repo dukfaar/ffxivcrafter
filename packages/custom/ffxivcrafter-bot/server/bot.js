@@ -66,8 +66,6 @@ function processCommand (message) {
 botDef.bot.on('message', message => {
   if (message.author.id === botDef.bot.user.id) return {}// nicht auf dich selbst antworten du holzkopf
 
-  console.log(message)
-
   botDef.io.to('discordBot').emit('received message', {message: _.pick(message,['content', 'author.id', 'author.username', 'author.discriminator', 'channel.id'])})
 
   if (_.includes(message.content, botDef.commandTrigger)) {

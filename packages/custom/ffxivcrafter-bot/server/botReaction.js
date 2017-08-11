@@ -64,8 +64,6 @@ module.exports = function (botDef) {
       reaction.lastReaction = new Date()
       reaction.save()
 
-      console.log(message)
-
       botDef.io.to('discordBot').emit('sent reaction', {reaction: reaction, message: _.pick(message,['content', 'author.id', 'author.username', 'author.discriminator', 'channel.id'])})
     })
     .catch(err => {
