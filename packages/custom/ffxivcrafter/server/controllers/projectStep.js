@@ -59,6 +59,7 @@ module.exports = function (io) {
     },
     get: function (req, res) {
       ProjectStep.findById(req.params.id)
+        .disableAutoPopulate()
         .lean()
         .exec(function (err, step) {
           if (err) throw err
