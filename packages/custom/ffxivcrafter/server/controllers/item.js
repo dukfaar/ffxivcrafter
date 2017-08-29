@@ -158,7 +158,7 @@ module.exports = function (io) {
       })
     },
     update: function (req, res) {
-      Item.findByIdAndUpdate(req.params.id, req.body, function (err, item) {
+      Item.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, item) {
         if (err) throw err
 
         clearOldestItems()
