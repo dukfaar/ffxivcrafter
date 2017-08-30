@@ -42,6 +42,8 @@ module.exports = function (io) {
   return {
     list: function (req, res) {
       ProjectStep.find({})
+        .disableAutoPopulate()
+        .lean()
         .exec(function (err, result) {
           if (err) throw err
 

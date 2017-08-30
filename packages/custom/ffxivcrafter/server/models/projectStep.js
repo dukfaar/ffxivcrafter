@@ -15,17 +15,17 @@ var ProjectStepSchema = new Schema({
 })
 
 ProjectStepSchema.query.disableAutoPopulate = function () {
-  this.doAutoPopulate = false
+  this.disableAutoPopulate = true
   return this
 }
 
 ProjectStepSchema.query.enableAutoPopulate = function () {
-  this.doAutoPopulate = true
+  this.disableAutoPopulate = false
   return this
 }
 
 function autoPopulate (next) {
-  if (this.doAutoPopulate !== false) {
+  if (this.disableAutoPopulate !== true) {
     this.populate('inputs')
     this.populate('item')
     this.populate('recipe')
