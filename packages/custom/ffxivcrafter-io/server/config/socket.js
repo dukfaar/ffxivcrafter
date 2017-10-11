@@ -4,9 +4,12 @@ var socketio = require('socket.io')
 
 var io = null
 
-module.exports = function (http) {
+module.exports = function (http, https) {
   if(!io) {
-    io = socketio.listen(http)
+    io = new socketio()
+    
+    if (http) io.attach(http)
+    if (https) io.attach(https)
 
     io.use(function (socket, next) {
       next()

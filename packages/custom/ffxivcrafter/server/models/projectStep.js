@@ -14,11 +14,23 @@ var ProjectStepSchema = new Schema({
   workedOnBy: [{ type: Schema.ObjectId, ref: 'User'}]
 })
 
+ProjectStepSchema.query.disableAutoPopulate = function () {
+  this.disableAutoPopulate = true
+  return this
+}
+
+ProjectStepSchema.query.enableAutoPopulate = function () {
+  this.disableAutoPopulate = false
+  return this
+}
+
 function autoPopulate (next) {
-  this.populate('inputs')
-  this.populate('item')
-  this.populate('recipe')
-  this.populate('workedOnBy')
+  if (this.disableAutoPopulate !== true) {
+    this.populate('inputs')
+    this.populate('item')
+    this.populate('recipe')
+    this.populate('workedOnBy')
+  }
   next()
 }
 

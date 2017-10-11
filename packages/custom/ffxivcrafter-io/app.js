@@ -1,32 +1,42 @@
 'use strict'
 
-/*
- * Defining the Package
- */
 var Module = require('meanio').Module
 
 var FFXIVCrafterIO = new Module('ffxivCrafter_io')
 
+var logger = require('log4js').getLogger('app.io')
 
-/*
- * All MEAN packages require registration
- * Dependency injection is used to define required modules
- */
+const path = require('path')
+
 FFXIVCrafterIO.register(function (app, http, https) {
-  var io = require(__dirname + '/server/config/socket')(https || http)
+  var io = require(path.join(__dirname, '/server/config/socket'))(http, https)
 
   FFXIVCrafterIO.io = io
 
   io.sockets.on('connection', function (socket) {
-    console.log('Client Connected')
+    logger.info('Client Connected')
 
     socket.on('disconnect', function (socket) {
-      console.log('Client Disconnected')
+      logger.info('Client Disconnected')
     })
 
     socket.on('error', function (err) {
-      console.log('Error with socket:')
-      console.log(err)
+      logger.error('Error with socket:')
+      logger.error(err)
+    })
+
+    socket.on('room join', roomName => {
+      socket.join(roomName, err => {
+        if (!err) logger.info('User joined the room ' + roomName + ' and is now in the rooms ' + Object.keys(socket.rooms))
+        else logger.error('User could not join room: ' + err)
+      })
+    })
+
+    socket.on('room leave', roomName => {
+      socket.leave(roomName, err => {
+        if (!err) logger.info('User left the room ' + roomName + ' and is now in the rooms ' + Object.keys(socket.rooms))
+        else logger.error('User could not leave room: ' + err)
+      })
     })
   })
 

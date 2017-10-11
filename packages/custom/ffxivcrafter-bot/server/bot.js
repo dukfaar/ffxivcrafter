@@ -56,6 +56,7 @@ function processCommand (message) {
   let commandExec = commandDef ? (commandDef.command ? commandDef.command : stubCommand) : undefined
   if (commandExec) {
     commandExec(params, message)
+    botDef.io.to('discordBot').emit('executed command', {command: commandDef, message: _.pick(message,['content', 'author.id', 'author.username', 'author.discriminator', 'channel.id'])})
     return true
   } else {
     return false
@@ -64,6 +65,8 @@ function processCommand (message) {
 
 botDef.bot.on('message', message => {
   if (message.author.id === botDef.bot.user.id) return {}// nicht auf dich selbst antworten du holzkopf
+
+  botDef.io.to('discordBot').emit('received message', {message: _.pick(message,['content', 'author.id', 'author.username', 'author.discriminator', 'channel.id'])})
 
   if (_.includes(message.content, botDef.commandTrigger)) {
     if (message.author.bot) {

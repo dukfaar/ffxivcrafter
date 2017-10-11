@@ -20,8 +20,45 @@ var _ = require('lodash')
 var Q = require('q')
 mongoose.Promise = Q.Promise
 
+
+
 module.exports = function (io) {
   var itemService = require('../services/itemService')()
+
+  let getItemForStepForItemCache = {}
+  function getItemForStepForItem (id) {
+    if(getItemForStepForItemCache[id]) {
+      return Q(getItemForStepForItemCache[id])
+    } else {
+      return Item.findById(id)
+      .select('availableFromNpc')
+      .lean()
+      .exec()
+      .then(item => {
+        getItemForStepForItemCache[id] = item
+        setTimeout(() => { getItemForStepForItemCache[id] = undefined }, 30 * 1000)
+        return item
+      })
+    }
+  }
+
+  let getRecipeForStepForItemCache = {}
+  function getRecipeForStepForItem (id) {
+    if(getRecipeForStepForItemCache[id]) {
+      return Q(getRecipeForStepForItemCache[id])
+    } else {
+      return Recipe
+      .find({'outputs.item': id})
+      .select('outputs inputs')
+      .lean()
+      .exec()
+      .then(recipe => {
+        getRecipeForStepForItemCache[id] = recipe
+        setTimeout(() => { getRecipeForStepForItemCache[id] = undefined }, 30 * 1000)
+        return recipe
+      })
+    }
+  }
 
   function updateItem (itemId) {
     return Item.findById(itemId).exec().then(function (item) { return itemService.updateItemAgeMultiplier(item) })
@@ -32,18 +69,12 @@ module.exports = function (io) {
 
     step.inputs = []
 
-    return Item.findById(itemId)
-    .select('availableFromNpc')
-    .lean()
-    .exec()
+    return getItemForStepForItem(itemId)
     .then(function (item) {
       step.item = item
       step.hq = hq ? hq : false
 
-      return Recipe
-        .find({'outputs.item': itemId})
-        .lean()
-        .exec()
+      return getRecipeForStepForItem(itemId)
         .then(function (recipes) {
           if (recipes.length === 0) {
             step.step = item.availableFromNpc ? 'Buy' : 'Gather'
@@ -373,7 +404,7 @@ module.exports = function (io) {
           var project = new CraftingProject()
           project.creator = req.user._id
           project.tree = metaStep
-          project.name = 'Created From Template'
+          project.name = req.body.name ? req.body.name : 'Created From Template'
 
           return project.save()
         })

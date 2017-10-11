@@ -50,25 +50,19 @@ module.exports = function (io) {
         if (splitType[0] !== 'image') throw new Error('Not an Image')
         newImage.filetype = splitType[1]
 
-        file.path = config.imageStorageBase + '/image_upload_' + newImage._id + '.' + newImage.filetype
+        file.path = config.imageStorageBase + '/image_' + newImage._id + '.' + newImage.filetype
       })
 
       form.on('file', function (name, file) {
         Q.all([
           sharp(file.path)
-            .toFile(config.imageStorageBase + '/image_' + newImage._id + '.' + newImage.filetype),
-
-          sharp(file.path)
             .resize(200, 200)
             .max()
             .toFile(config.imageStorageBase + '/image_thumbnail_' + newImage._id + '.' + newImage.filetype)
         ]).then(function () {
-          fs.unlink(file.path, function (err) {
-            if (err) throw err
-            newImage.save()
-            .then(() => {
-              io.emit('image created', newImage)
-            })
+          newImage.save()
+          .then(() => {
+            io.emit('image created', newImage)
           })
         })
         .catch(function (err) {
