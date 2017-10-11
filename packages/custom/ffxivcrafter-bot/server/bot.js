@@ -23,7 +23,7 @@ botDef.bot.on('ready', () => {
 })
 
 botDef.bot.on('error', error => {
-  logger.error('discord reports an error: %s', error)
+  logger.error('discord reports an error: %s', JSON.stringify(error))
 })
 
 botDef.bot.on('disconnect', event => {
