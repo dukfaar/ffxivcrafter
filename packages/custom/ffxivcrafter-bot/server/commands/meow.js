@@ -9,7 +9,7 @@ module.exports = function (botDef) {
   }
 
   function command (params, message) {
-    httpreq.get('http://random.cat/meow', (err, result) => {
+    httpreq.get('http://aws.random.cat/meow', (err, result) => {
       if (err) {
         message.channel.sendMessage('Sorry, i don\'t want to catch any cats right now')
       } else {
