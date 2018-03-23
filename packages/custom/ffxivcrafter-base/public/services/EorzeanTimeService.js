@@ -13,10 +13,10 @@ angular.module('mean.ffxivCrafter_base').factory('EorzeanTimeService', function 
 
   function epochToEorzenTime (epoch) {
     return {
-      ms: parseInt(epoch % 1000) / 100,
-      s: parseInt((epoch / 1000) % 60),
-      m: parseInt((epoch / (1000 * 60)) % 60),
-      h: parseInt((epoch / (1000 * 60 * 60)) % 24)
+      ms: 0,
+      s: parseInt((epoch) % 60),
+      m: parseInt((epoch / (60)) % 60),
+      h: parseInt((epoch / (60 * 60)) % 24)
     }
   }
 
