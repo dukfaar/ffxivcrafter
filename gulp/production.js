@@ -53,6 +53,7 @@ gulp.task('uglify', function () {
 gulp.task('prodServe', ['env:production'], function () {
   plugins.nodemon({
     script: 'server.js',
+    args: ['--singleProcess'],
     ext: 'html js',
     env: {
       'NODE_ENV': 'production'
