@@ -10,14 +10,6 @@ module.exports = {
   http: {
     port: process.env.PORT || 3000
   },
-  https: {
-    port: 3001,
-    ssl: {
-      key: sslBase + 'privkey.pem',
-      cert: sslBase + 'cert.pem',
-      ca: sslBase + 'chain.pem'
-    }
-  }, 
   favicon: rootPath + '/packages/custom/ffxivcrafter/public/assets/img/icons/favicon.ico',
   hostname: process.env.HOST || process.env.HOSTNAME,
   db: process.env.MONGOHQ_URL,
