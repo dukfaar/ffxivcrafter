@@ -381,6 +381,7 @@ FFXIVCrafter.register(function (app, users, system, admin, database, circles, ht
   */
 
   // Set views path, template engine and default layout
+console.log("main reg")
   app.set('views', __dirname + '/server/views')
 
   FFXIVCrafter.routes(app, users, system, ffxivCrafter_io.io)
@@ -399,6 +400,7 @@ FFXIVCrafter.register(function (app, users, system, admin, database, circles, ht
     'dndLists', 'pascalprecht.translate', 'angular-web-notification'
   ])
 
+console.log("testoutput")
   setupCircles(circles)
 
   var glob = require('glob')

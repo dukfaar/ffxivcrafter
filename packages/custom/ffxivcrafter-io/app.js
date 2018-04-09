@@ -8,8 +8,9 @@ var logger = require('log4js').getLogger('app.io')
 
 const path = require('path')
 
-FFXIVCrafterIO.register(function (app, http, https) {
-  var io = require(path.join(__dirname, '/server/config/socket'))(http, https)
+FFXIVCrafterIO.register(function (app, http) {
+console.log("io reg")
+  var io = require(path.join(__dirname, '/server/config/socket'))(http)
 
   FFXIVCrafterIO.io = io
 
