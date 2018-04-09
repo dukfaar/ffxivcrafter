@@ -79,6 +79,6 @@ module.exports = {
   },
   secret: 'SOME_TOKEN_SECRET',
   discord: {
-    token: 'MzA0NTkyMDc1NDM1ODAyNjM2.DJ8HOQ.r6HSjzOusyMfnUQ0m4Vh7X_9k2c'
+    token: process.env.DISCORD_TOKEN || ""
   }
 }

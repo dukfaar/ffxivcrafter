@@ -53,6 +53,6 @@ module.exports = {
   },
   secret: 'SOME_TOKEN_SECRET',
   discord: {
-    token: 'MzA0NTc5NjI4OTc3MDk0NjU4.C9o5ag.CRrbcu8Yg9n9meRn9fE7p0CdiU8'
+    token: process.env.DISCORD_TOKEN
   }
 }
