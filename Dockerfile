@@ -1,5 +1,7 @@
-FROM node:8
-RUN apt-get install git python make g++
+FROM node:8-alpine
+RUN apk add --update git python make g++ fftw fftw-dev
+RUN apk add --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --update vips vips-dev
+RUN rm -rf /var/cache/apk/*
 
 WORKDIR /rc/build
 
@@ -9,8 +11,10 @@ COPY . .
 
 RUN npm run build
 
-FROM node:8
-RUN apt-get install git python make g++
+FROM node:8-alpine
+RUN apk add --update git python make g++ fftw fftw-dev
+RUN apk add --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --update vips vips-dev
+RUN rm -rf /var/cache/apk/*
 
 COPY package.json package.json
 RUN npm install --production
