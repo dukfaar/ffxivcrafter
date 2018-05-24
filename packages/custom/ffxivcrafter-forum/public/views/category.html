@@ -18,24 +18,22 @@
     <md-button
       class="md-icon-button"
       ng-if="allowed('delete categories') && category.parent"
-      ng-click="deleteCategoryDialog()"
-      ga-track-event="['forum category', 'delete', 'dialog open']">
+      ng-click="deleteCategoryDialog()">
       <md-tooltip>Delete Category</md-tooltip>
       <md-icon class="material-icons">delete</md-icon>
     </md-button>
     <md-button
       class="md-icon-button"
       ng-if="allowed('create categories')"
-      ng-click="createSubCategoryDialog()"
-      ga-track-event="['forum category', 'create category', 'dialog open']">
+      ng-click="createSubCategoryDialog()">
+    </md-button>
       <md-tooltip>Create New Category</md-tooltip>
       <md-icon class="material-icons">create_new_folder</md-icon>
     </md-button>
     <md-button
       class="md-icon-button"
       ng-if="allowed('create threads')"
-      ng-click="createThreadDialog()"
-      ga-track-event="['forum category', 'create thread', 'dialog open']">
+      ng-click="createThreadDialog()">
       <md-tooltip>Create New Thread</md-tooltip>
       <md-icon class="material-icons">message</md-icon>
     </md-button>

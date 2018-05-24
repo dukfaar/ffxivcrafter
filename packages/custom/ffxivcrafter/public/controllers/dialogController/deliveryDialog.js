@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('mean.ffxivCrafter').controller('DeliveryDialogController',
-  function ($scope, $mdDialog, item, gathers, MeanUser, Analytics) {
+  function ($scope, $mdDialog, item, gathers, MeanUser) {
     $scope.user = MeanUser
     $scope.allowed = function (perm) {
       return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) !== -1
@@ -15,7 +15,6 @@ angular.module('mean.ffxivCrafter').controller('DeliveryDialogController',
     }
 
     $scope.hide = function () {
-      Analytics.trackEvent(['gatherDialog', 'closed', 'hide'])
       $mdDialog.hide()
     }
     $scope.cancel = function () {

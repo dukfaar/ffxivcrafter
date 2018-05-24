@@ -21,16 +21,14 @@
       <md-button
         class="md-icon-button"
         ng-if="allowed('edit forum posts') && user._id === post.creator._id"
-        ng-click="editPostDialog(post)"
-        ga-track-event="['forum message', 'edit', 'dialog open']">
+        ng-click="editPostDialog(post)">
         <md-tooltip>Edit Post</md-tooltip>
         <md-icon class="material-icons" style="font-size: 16px">edit</md-icon>
       </md-button>
       <md-button
         class="md-icon-button"
         ng-if="allowed('delete forum posts') && user._id === post.creator._id"
-        ng-click="deletePostDialog(post)"
-        ga-track-event="['forum message', 'delete', 'dialog open']">
+        ng-click="deletePostDialog(post)">
         <md-tooltip>Delete Post</md-tooltip>
         <md-icon class="material-icons" style="font-size: 16px">delete</md-icon>
       </md-button>

@@ -8,7 +8,7 @@ require('./server/config/logging')
 
 FFXIVCrafterBase.register(function () {
   FFXIVCrafterBase.angularDependencies([
-    'mean.users', 'ngResource', 'angular-google-analytics', 'ngMaterial', 'ngFileUpload'
+    'mean.users', 'ngResource', 'ngMaterial', 'ngFileUpload'
   ])
 
   return FFXIVCrafterBase

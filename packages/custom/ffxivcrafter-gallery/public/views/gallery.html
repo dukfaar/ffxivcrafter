@@ -10,14 +10,14 @@
       >
       <md-grid-list ng-if="galleryController.$mdMedia('gt-sm')" md-cols="8" md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-gutter="0.5em" md-row-height="1:1">
         <md-grid-tile ng-repeat="image in paginateController.getPage() track by image._id">
-          <img draggable="false" ng-src="/api/imageThumbnailData/{{image._id}}" ga-track-event="['gallery', 'open detail', image._id]" ng-click="galleryController.detailViewImage(image)" style="max-width:100%; max-height:100%;"/>
+          <img draggable="false" ng-src="/api/imageThumbnailData/{{image._id}}" ng-click="galleryController.detailViewImage(image)" style="max-width:100%; max-height:100%;"/>
         </md-grid-tile>
       </md-grid-list>
       <md-list ng-if="!galleryController.$mdMedia('gt-sm')">
         <md-list-item ng-repeat="image in paginateController.getPage() track by image._id">
           <md-card layout-fill>
             <md-card-content>
-              <img draggable="false" ng-src="/api/imageThumbnailData/{{image._id}}" ga-track-event="['gallery', 'open detail', image._id]" ng-click="galleryController.detailViewImage(image)" style="min-width:100%; max-height:100%;"/>
+              <img draggable="false" ng-src="/api/imageThumbnailData/{{image._id}}" ng-click="galleryController.detailViewImage(image)" style="min-width:100%; max-height:100%;"/>
             </md-card-content>
           </md-card>
         </md-list-item>

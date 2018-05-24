@@ -15,7 +15,6 @@
       <md-list-item
       ng-repeat="craftable in craftableList | filter: { step: { item: { name: craftableFilter } } }"
       ng-click="deliveryCraftDialog(project,craftable.step.item,craftable.step,craftable)"
-      ga-track-event="['craftDialog', 'opened', 'from project']"
       layout="row">
         <span flex>
           <span>{{craftable.step.amount}} {{craftable.step.item.name}}</span>

@@ -4,7 +4,7 @@ angular.module('mean.ffxivCrafter').directive('oldPriceList', function () {
   return {
     templateUrl: '/ffxivCrafter/views/system/oldPriceList.html',
     scope: {},
-    controller: function ($scope, $http, $mdDialog, Analytics) {
+    controller: function ($scope, $http, $mdDialog) {
       $scope.oldItems = []
 
       $scope.updateOldList = function () {
@@ -25,7 +25,6 @@ angular.module('mean.ffxivCrafter').directive('oldPriceList', function () {
             priceUpdate: null
           }
         }).then(function () {
-          Analytics.trackEvent(['priceupdatedialog', 'send', 'oldlist'])
           $scope.updateOldList()
         })
       }

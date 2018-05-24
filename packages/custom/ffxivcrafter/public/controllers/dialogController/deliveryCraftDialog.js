@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('mean.ffxivCrafter').controller('DeliveryCraftDialogController',
-  function ($scope, $mdDialog, item, craftable, MeanUser, ItemDatabase, Analytics) {
+  function ($scope, $mdDialog, item, craftable, MeanUser, ItemDatabase) {
     $scope.ItemDatabase = ItemDatabase
     $scope.user = MeanUser
     $scope.allowed = function (perm) {
@@ -17,7 +17,6 @@ angular.module('mean.ffxivCrafter').controller('DeliveryCraftDialogController',
     }
 
     $scope.hide = function () {
-      Analytics.trackEvent(['craftDialog', 'closed', 'hide'])
       $mdDialog.hide()
     }
     $scope.cancel = function () {

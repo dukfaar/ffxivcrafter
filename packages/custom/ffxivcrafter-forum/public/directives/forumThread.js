@@ -6,7 +6,7 @@ angular.module('mean.ffxivCrafter_forum').directive('forumThread', function () {
     scope: {
       threadId: '=threadId'
     },
-    controller: function ($scope, Global, $q, _, socket, ForumThread, ForumPost, $mdDialog, MeanUser, $location, Analytics, $stateParams) {
+    controller: function ($scope, Global, $q, _, socket, ForumThread, ForumPost, $mdDialog, MeanUser, $location, $stateParams) {
       $scope.user = MeanUser.user
       $scope.allowed = function (perm) {
         return MeanUser.acl.allowed && MeanUser.acl.allowed.indexOf(perm) !== -1
@@ -62,13 +62,11 @@ angular.module('mean.ffxivCrafter_forum').directive('forumThread', function () {
           .ok('Please do it!')
           .cancel('Hell no!')
         ).then(function () {
-          Analytics.trackEvent(['forum thread', 'delete thread', 'deleted'])
           ForumThread.delete({id: $scope.threadId}).$promise
           .then(function () {
             $location.path('/forum/category/' + $scope.thread.category)
           })
         }, function () {
-          Analytics.trackEvent(['forum thread', 'delete thread', 'canceled'])
         })
       }
 
@@ -79,13 +77,11 @@ angular.module('mean.ffxivCrafter_forum').directive('forumThread', function () {
           .ok('Please do it!')
           .cancel('Hell no!')
         ).then(function () {
-          Analytics.trackEvent(['forum message', 'delete message', 'deleted'])
           ForumPost.delete({id: post._id}).$promise
           .then(function () {
             $scope.posts = ForumPost.query({thread: $scope.threadId, populate: 'creator'})
           })
         }, function () {
-          Analytics.trackEvent(['forum message', 'delete message', 'canceled'])
         })
       }
 
@@ -100,7 +96,6 @@ angular.module('mean.ffxivCrafter_forum').directive('forumThread', function () {
             edit: false
           }
         }).then(function (data) {
-          Analytics.trackEvent(['forum message', 'create message', 'created'])
           var newPost = new ForumPost(data)
           newPost.thread = $scope.threadId
           newPost.creator = MeanUser.user
@@ -109,7 +104,6 @@ angular.module('mean.ffxivCrafter_forum').directive('forumThread', function () {
             ForumThread.update({id: $scope.thread._id}, _.omit($scope.thread, 'creator'))
           })
         }, function () {
-          Analytics.trackEvent(['forum message', 'create message', 'canceled'])
         })
       }
 
@@ -124,14 +118,12 @@ angular.module('mean.ffxivCrafter_forum').directive('forumThread', function () {
             edit: true
           }
         }).then(function (data) {
-          Analytics.trackEvent(['forum message', 'edit message', 'edited'])
           data.lastEdited = new Date()
           ForumPost.update({id: data._id}, _.omit(data, 'creator'))
 
           $scope.thread.lastUpdate = new Date()
           ForumThread.update({id: $scope.thread._id}, _.omit($scope.thread, 'creator'))
         }, function () {
-          Analytics.trackEvent(['forum message', 'edit message', 'canceled'])
         })
       }
     }

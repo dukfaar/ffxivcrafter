@@ -20,7 +20,6 @@
     "angular-web-notification": "latest",
     "httpreq": "latest",
     "node-schedule": "latest",
-    "angular-google-analytics": "latest",
     "nodemailer-sendmail-transport": "latest"
   },
   "license": "MIT"

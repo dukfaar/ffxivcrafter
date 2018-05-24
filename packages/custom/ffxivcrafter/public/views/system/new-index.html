@@ -59,7 +59,6 @@
                 </div>
                 <md-list-item
                   ng-click="deliveryCraftDialog(project,craftable.step.item,craftable.step,craftable)"
-                  ga-track-event="['craftDialog', 'opened', 'from delivery']"
                   ng-repeat="craftable in getCraftArray(project)" layout="row">
                   <span flex>
                     <span>{{craftable.step.amount|floor}} {{craftable.step.item.name}}</span>
@@ -72,13 +71,13 @@
                     <md-tooltip><span translate translate-value-name="{{craftable.step.step.workedOnBy[0].name}}">step.workedon</span></md-tooltip>
                   </span>
                   <span ng-if="craftable.step.step.workedOnBy && craftable.step.step.workedOnBy.length > 0 && isWorkedByMe(craftable.step.step)">
-                    <md-button class="md-icon-button" ga-track-event="['crafting step paw', 'marked as not worked', 'manual']" ng-click="removeMarkStepAsWorked(craftable.step.step)">
+                    <md-button class="md-icon-button" ng-click="removeMarkStepAsWorked(craftable.step.step)">
                       <md-icon class="material-icon" style="color: green">pets</md-icon>
                     </md-button>
                     <md-tooltip><span translate>step.youworkedon</span></md-tooltip>
                   </span>
                   <span ng-if="!craftable.step.step.workedOnBy || craftable.step.step.workedOnBy.length == 0">
-                    <md-button class="md-icon-button" ga-track-event="['crafting step paw', 'marked as worked', 'manual']" ng-click="markStepAsWorked(craftable.step.step)">
+                    <md-button class="md-icon-button" ng-click="markStepAsWorked(craftable.step.step)">
                       <md-icon class="material-icon" style="color: grey">pets</md-icon>
                     </md-button>
                     <md-tooltip><span translate>step.noneworkedon</span></md-tooltip>
@@ -97,7 +96,6 @@
                 </div>
                 <md-list-item
                   ng-click="deliveryDialog(project,gathers.item,gathers)"
-                  ga-track-event="['gatherDialog', 'opened', 'from delivery']"
                   ng-repeat="gathers in getGatherArray(project) | orderBy:'item.gatheringLevel':true"
                   layout="row">
                   <span flex layout="row">
@@ -114,13 +112,13 @@
                       <md-tooltip><span translate translate-value-name="{{gathers.step.workedOnBy[0].name}}">step.workedon</span></md-tooltip>
                     </span>
                     <span ng-if="gathers.step.workedOnBy && gathers.step.workedOnBy.length > 0 && isWorkedByMe(gathers.step)">
-                      <md-button class="md-icon-button" ga-track-event="['gathering step paw', 'marked as not worked', 'manual']" ng-click="removeMarkStepAsWorked(gathers.step)">
+                      <md-button class="md-icon-button" ng-click="removeMarkStepAsWorked(gathers.step)">
                         <md-icon class="material-icon" style="color: green">pets</md-icon>
                       </md-button>
                       <md-tooltip><span translate>step.youworkedon</span></md-tooltip>
                     </span>
                     <span ng-if="!gathers.step.workedOnBy || gathers.step.workedOnBy.length == 0">
-                      <md-button class="md-icon-button" ga-track-event="['gathering step paw', 'marked as worked', 'manual']" ng-click="markStepAsWorked(gathers.step)">
+                      <md-button class="md-icon-button" ng-click="markStepAsWorked(gathers.step)">
                         <md-icon class="material-icon" style="color: grey">pets</md-icon>
                       </md-button>
                       <md-tooltip><span translate>step.noneworkedon</span></md-tooltip>

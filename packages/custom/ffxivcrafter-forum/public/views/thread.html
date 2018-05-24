@@ -14,16 +14,14 @@
     <md-button
       class="md-icon-button"
       ng-if="allowed('delete threads') && user._id === thread.creator._id"
-      ng-click="deleteThreadDialog()"
-      ga-track-event="['forum thread', 'delete', 'dialog open']">
+      ng-click="deleteThreadDialog()">
       <md-tooltip>Delete Thread</md-tooltip>
       <md-icon class="material-icons">delete</md-icon>
     </md-button>
     <md-button
       class="md-icon-button"
       ng-if="allowed('create forum posts')"
-      ng-click="createPostDialog()"
-      ga-track-event="['forum thread', 'comment', 'dialog open']">
+      ng-click="createPostDialog()">
       <md-tooltip>Add Post</md-tooltip>
       <md-icon class="material-icons">comment</md-icon>
     </md-button>

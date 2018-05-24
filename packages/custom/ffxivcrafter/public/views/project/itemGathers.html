@@ -15,7 +15,6 @@
       <md-list-item
       ng-repeat="gathers in gatherList | filter: { item: { name: gatherFilter } }"
       ng-click="deliveryDialog(project,gathers.item,gathers)"
-      ga-track-event="['craftDialog', 'opened', 'from project']"
       ng-if="gathers.outstanding>0"
       layout="row">
         <span flex>
