@@ -1,6 +1,6 @@
 FROM node:8-alpine
 RUN apk add --update git python make g++ fftw fftw-dev
-RUN apk add --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --update vips vips-dev
+RUN apk add --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --repository http://dl-3.alpinelinux.org/alpine/edge/main --update vips vips-dev
 RUN rm -rf /var/cache/apk/*
 
 WORKDIR /rc/build
@@ -13,7 +13,7 @@ RUN npm run build
 
 FROM node:8-alpine
 RUN apk add --update git python make g++ fftw fftw-dev
-RUN apk add --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --update vips vips-dev
+RUN apk add --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --repository http://dl-3.alpinelinux.org/alpine/edge/main --update vips vips-dev
 RUN rm -rf /var/cache/apk/*
 
 COPY package.json package.json
