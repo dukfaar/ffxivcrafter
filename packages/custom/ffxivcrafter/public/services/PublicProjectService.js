@@ -71,6 +71,10 @@ function PublicProjectService (
 
   function projectStockChangedListener (stockChange) {
     let project = _.find(data.unfilteredProjectList, p => p._id === stockChange.projectId)
+    if(!project) {
+      updateList()
+      return
+    }
     let stockItem = _.find(project.stock, i => { return (i.item._id === stockChange.item && i.hq === stockChange.hq) })
 
     if (stockItem) {
